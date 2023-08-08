@@ -1,3 +1,6 @@
+:root{
+    --color-brown: #44433F;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

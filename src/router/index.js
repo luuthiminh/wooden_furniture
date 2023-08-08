@@ -1,26 +1,30 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/Customer/HomeView.vue";
-
+import Otp from "../views/Auth/OTP.vue";
 const routes = [
   {
     path: "/",
     name: "login",
-    meta: {
-      layout: "authLayout",
-    },
+    // meta: {
+    //   layout: "authLayout",
+    // },
     component: () =>
       import(/* webpackChunkName: "login" */ "../views/Auth/LoginView.vue"),
   },
   {
     path: "/register",
     name: "register",
-    meta: {
-      layout: "authLayout",
-    },
+    // meta: {
+    //   layout: "authLayout",
+    // },
     component: () =>
       import(
         /* webpackChunkName: "register" */ "../views/Auth/RegisterView.vue"
       ),
+  },
+  {
+    path: "/otp",
+    name: "otp",
+    component: Otp,
   },
   {
     path: "/customer",
@@ -28,7 +32,29 @@ const routes = [
     meta: {
       layout: "customerLayout",
     },
-    component: HomeView,
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/HomeView.vue"
+      ),
+  },
+  {
+    path: "/admin",
+    name: "Admin",
+    meta: {
+      layout: "adminLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Admin/indexAdmin.vue"
+      ),
+  },
+  {
+    path: "/customerIndex",
+    name: "Customer",
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/indexCus.vue"
+      ),
   },
   // {
   //   path: "/",

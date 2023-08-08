@@ -1,7 +1,9 @@
 <template>
-  <div class="bg-stone-800">
+  <div class="layout">
     <span class="text-transparent">This is layout Auth</span>
   </div>
   <slot />
 </template>
 <script></script>
+
+<style></style>
