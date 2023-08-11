@@ -10,7 +10,7 @@
           class="border border-indigo-600 bg-white mt-24 mx-44 pl-12 rounded-lg"
         >
           <div class="">
-            <form id="signup-form" @submit.prevent="processForm">
+            <form id="signup-form" @submit.prevent="login">
               <div class="flex justify-center">
                 <h1 class="text-2xl pt-10 pb-11 font-bold">Sign in</h1>
                 <div class="bg-inherit h-px"></div>
@@ -18,9 +18,10 @@
               <div>
                 <div>
                   <label for="exampleInputEmail1" class="text-base form-label"
-                    >Email address</label
+                    >Email</label
                   >
                   <input
+                    v-model="username"
                     type="email"
                     class="form-control"
                     id="exampleInputEmail1"
@@ -33,6 +34,7 @@
                     >Create Password</label
                   >
                   <input
+                    v-model="password"
                     type="password"
                     class="form-control"
                     id="password"
@@ -46,11 +48,15 @@
                 </div>
                 <!-- <div>Sign in using</div> -->
                 <div class="login_text my-8 rounded-md">
-                  <router-link
-                    to="/customerIndex"
-                    class="btn text-white flex justify-center"
+                  <!-- <router-link to="/" class="btn text-white flex justify-center"
                     >Sign In</router-link
+                  > -->
+                  <button
+                    class="btn text-white flex justify-center"
+                    type="submit"
                   >
+                    submit
+                  </button>
                 </div>
                 <div class="flex justify-center">
                   <img class="w-7 h-7" src="@/assets/images/google.png" />
@@ -72,22 +78,41 @@
 </template>
 
 <script>
+import { ref } from "vue";
+import axios from "axios";
+
 export default {
-  data() {
+  setup() {
+    const username = ref("");
+    const password = ref("");
+
+    const login = async () => {
+      try {
+        const response = await axios.post("http://localhost:3000/account", {
+          username: username.value,
+          password: password.value,
+        });
+
+        if (response.status === 200) {
+          console.log(response.data);
+          localStorage.setItem(username, login.username);
+          localStorage.setItem(password, login.password.value);
+        }
+      } catch (error) {
+        console.error("Error logging in:", error);
+      }
+    };
+
     return {
-      username: "",
-      password: "",
-      submitted: false,
+      username,
+      password,
+      login,
     };
   },
 };
 </script>
+
 <style scoped>
-/* .loginn {
-  background-image: url("@/assets/images/login2.png");
-  background-size: cover;
-  margin-top: 0;
-} */
 .border.border-indigo-600 {
   padding-right: 2.375rem;
 }

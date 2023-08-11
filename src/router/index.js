@@ -4,18 +4,12 @@ const routes = [
   {
     path: "/",
     name: "login",
-    // meta: {
-    //   layout: "authLayout",
-    // },
     component: () =>
       import(/* webpackChunkName: "login" */ "../views/Auth/LoginView.vue"),
   },
   {
     path: "/register",
     name: "register",
-    // meta: {
-    //   layout: "authLayout",
-    // },
     component: () =>
       import(
         /* webpackChunkName: "register" */ "../views/Auth/RegisterView.vue"

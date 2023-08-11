@@ -88,7 +88,9 @@
               </div>
               <div class="my-1">
                 <!-- <button type="submit" class="btn my-8">Create</button> -->
-                <router-link to="/otp" class="btn my-8">Create</router-link>
+                <router-link to="/otp" class="btn my-8" @click="btn_create"
+                  >Create</router-link
+                >
               </div>
             </form>
           </div>
@@ -97,7 +99,15 @@
     </div>
   </div>
 </template>
-<script></script>
+<script>
+export default {
+  methods: {
+    btn_create: function () {
+      alert("Please confirm the code in your email!");
+    },
+  },
+};
+</script>
 <style scoped>
 h1 {
   color: #44433f;
