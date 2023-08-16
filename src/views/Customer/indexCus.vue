@@ -1,7 +1,7 @@
 <template>
   <div class="homepage">
     <header>
-      <ul class="flex wrapper text-right header-top first-letter py-4">
+      <ul class="contact_header flex wrapper text-right first-letter py-4">
         <li><i class="fa-solid fa-location-dot"></i>Hung Yen</li>
         <li><i class="fa-solid fa-phone"></i>+84 398677620</li>
         <li><i class="fa-regular fa-envelope"></i>minhltgch202050@gmail.com</li>
@@ -84,7 +84,9 @@
               <li>
                 <a href=""><i class="fa-solid fa-cart-shopping"></i></a>
               </li>
-              <li><i class="fa-solid fa-arrow-right-from-bracket"></i></li>
+              <a href="/">
+                <li><i class="fa-solid fa-arrow-right-from-bracket"></i></li>
+              </a>
             </ul>
           </nav>
         </div>
@@ -99,7 +101,7 @@
       </div>
     </header>
     <content>
-      <div class="mx-52">
+      <div class="mx-72">
         <div
           class="grid grid-cols-3 grid-flow-col gap-4 h-40 shadow-md max-h11"
         >
@@ -235,10 +237,15 @@
             </ul>
           </div>
           <div class="hot_product">
-            <div class="grid grid-cols-5 gap-4">
+            <div class="grid grid-cols-4 gap-4">
               <div class="product rounded-md overflow-hidden relative">
                 <div>
-                  <img src="@/assets/images/category/bed.png" alt="" />
+                  <a href="/furnitureDetail">
+                    <img
+                      src="@/assets/images/product/table_and_chair_set/set1.png"
+                      alt="product1"
+                    />
+                  </a>
                 </div>
                 <div class="info_product hover:mb-8">
                   <h1>Name Product</h1>
@@ -299,23 +306,10 @@
               </div>
               <div class="product rounded-md overflow-hidden">
                 <div>
-                  <img src="@/assets/images/category/bed.png" alt="" />
-                </div>
-                <div class="info_product">
-                  <h1>Name Product</h1>
-                  <span>Price: $1000</span>
-                  <br />
-                  <span>Quantity: 5</span>
-                  <div class="button_card">
-                    <router-link to="" class="btn btn my-8"
-                      >ADD TO CARD</router-link
-                    >
-                  </div>
-                </div>
-              </div>
-              <div class="product">
-                <div>
-                  <img src="@/assets/images/category/bed.png" alt="" />
+                  <img
+                    src="@/assets/images/product/table_and_chair_set/set2.png"
+                    alt="product2"
+                  />
                 </div>
                 <div class="info_product">
                   <h1>Name Product</h1>
@@ -362,23 +356,7 @@
                 </div>
               </div>
             </div>
-            <div class="grid grid-cols-5 gap-4">
-              <div class="product">
-                <div>
-                  <img src="@/assets/images/category/bed.png" alt="" />
-                </div>
-                <div class="info_product">
-                  <h1>Name Product</h1>
-                  <span>Price: $1000</span>
-                  <br />
-                  <span>Quantity: 5</span>
-                  <div class="button_card">
-                    <router-link to="" class="btn btn my-8"
-                      >ADD TO CARD</router-link
-                    >
-                  </div>
-                </div>
-              </div>
+            <div class="grid grid-cols-4 gap-4">
               <div class="product">
                 <div>
                   <img src="@/assets/images/category/bed.png" alt="" />
@@ -494,11 +472,11 @@
                 </div>
               </div>
             </div>
-            <div class="hot_feedback pd-8">
+            <div class="hot_feedback md-8">
               <div class="grid grid-cols-5 my-5">
                 <div class="col-span-2 text-center">
                   <div
-                    class="time border border-gray-600 text-center bg-slate-50 mx-4 w-64 h-40"
+                    class="time border border-gray-600 text-center bg-slate-50 mx-4 w-72 h-40"
                   >
                     <h1 class="text-lg pt-3 font-semibold">Business hours</h1>
                     <br />
@@ -520,17 +498,85 @@
         </div>
       </div>
     </content>
+    <footer>
+      <div class="footer w-full">
+        <div class="background w-full">
+          <div class="grid grid-cols-4 text-center gap-52 pt-3 mx-32">
+            <div>
+              <i class="fa-solid fa-truck-fast text-2xl"></i>
+              <br />
+              <p class="my-1 font-semibold">FreeShip</p>
+              <p class="text-sm">within a radius of 30km</p>
+            </div>
+            <div>
+              <i class="fa-solid fa-headphones text-2xl"></i>
+              <br />
+              <p class="my-1 font-semibold">Delivery</p>
+              <p class="text-sm">within a radius of 30km</p>
+            </div>
+            <div>
+              <i class="fa-solid fa-shield-halved text-2xl"></i>
+              <br />
+              <p class="my-1 font-semibold">Support</p>
+              <p class="text-sm">within a radius of 30km</p>
+            </div>
+            <div>
+              <i class="fa-solid fa-gift text-2xl"></i>
+              <br />
+              <p class="my-1 font-semibold">Gift</p>
+              <p class="text-sm">within a radius of 30km</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2 mt-7">
+            <div id="map">
+              <iframe
+                class="w-11/12 h-80"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7462.013833373825!2d106.19338085869137!3d20.750513747007744!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313595ac6b092eff%3A0x85dd1b5c537027d0!2zUXVhbmcgSMawbmcsIFBow7kgQ-G7qyBEaXN0cmljdCwgSHVuZyBZZW4sIFZpZXRuYW0!5e0!3m2!1sen!2s!4v1692044358229!5m2!1sen!2s"
+                width="600"
+                height="450"
+                style="border: 0"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+            <div class="info_contact leading-10 mt-11">
+              <h1 class="font-semibold text-lg">Shop Information</h1>
+              <span class="font-semibold">Address: </span>
+              <span>Quang Hung-Phu cu-Hung Yen</span>
+              <br />
+              <span class="font-semibold">Tel: </span>
+              <span>0398677620</span>
+              <br />
+              <span class="font-semibold">Email: </span>
+              <span>minhltgch200250@fpt.edu.vn</span>
+              <br />
+              <span class="font-semibold">Facebook: </span>
+              <span>
+                https://www.facebook.com/groups/677935762658362/user/100052778502317/
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 
-<script></script>
+<script>
+export default {
+  // setup() {
+  //   const isShowModal = false;
+  //   showModalProductDetails() {
+  //     this.isShowModal = !this.isShowModal;
+  //   }
+  // },
+};
+</script>
 
-<style>
+<style scoped>
 .logo {
   width: 30%;
-}
-.nav_header {
-  background-color: #dedddb;
 }
 nav {
   width: 80%;
@@ -542,8 +588,7 @@ nav {
   padding-left: 50rem;
 }
 .wrapper li {
-  padding-right: 5px;
-  padding-left: 5px;
+  padding-left: 10%;
   font-size: 15px;
 }
 nav {
@@ -635,7 +680,7 @@ content .col {
   height: 1px;
   right: -9px;
   top: 100%;
-  transform: translateX(-500%);
+  transform: translateX(-430%);
   background-color: #8d7a60;
 }
 .grid.grid-rows-2 {
@@ -867,7 +912,7 @@ content .col {
 }
 .hot_feedback .grid.grid-cols-5::before {
   content: "";
-  height: 25rem;
+  height: 27rem;
   z-index: -1;
   inset: 0;
   background: rgb(215, 212, 212);
@@ -882,5 +927,23 @@ content .col {
 }
 .hot_feedback .col-span-2 {
   transform: translate(20%, -7%);
+}
+
+/* footer */
+.footer {
+  position: relative;
+  color: rgb(220, 210, 210);
+  margin-top: 11rem;
+  background: rgba(0, 0, 0, 0.7);
+}
+.footer::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-image: url("@/assets/images/footer.png");
+  background-size: cover;
+  opacity: 0.3;
+  height: 30rem;
 }
 </style>

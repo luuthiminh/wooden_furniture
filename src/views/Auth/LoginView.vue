@@ -48,15 +48,12 @@
                 </div>
                 <!-- <div>Sign in using</div> -->
                 <div class="login_text my-8 rounded-md">
-                  <!-- <router-link to="/" class="btn text-white flex justify-center"
-                    >Sign In</router-link
-                  > -->
-                  <button
+                  <router-link
+                    to="/customerIndex"
                     class="btn text-white flex justify-center"
-                    type="submit"
+                    >Sign In</router-link
                   >
-                    submit
-                  </button>
+                  <!-- <button class="btn text-white" type="submit">Sign In</button> -->
                 </div>
                 <div class="flex justify-center">
                   <img class="w-7 h-7" src="@/assets/images/google.png" />
@@ -121,5 +118,6 @@ export default {
 }
 .login_text {
   background-color: #44433f;
+  /* padding-left: 120px; */
 }
 </style>

@@ -50,6 +50,17 @@ const routes = [
         /* webpackChunkName: "register" */ "../views/Customer/indexCus.vue"
       ),
   },
+  {
+    path: "/furnitureDetail",
+    name: "FurnitureDetail",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/FurnitureDetail.vue"
+      ),
+  },
   // {
   //   path: "/",
   //   name: "register",
