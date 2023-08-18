@@ -21,12 +21,13 @@
                     >Email</label
                   >
                   <input
-                    v-model="username"
+                    v-model="email"
                     type="email"
                     class="form-control"
-                    id="exampleInputEmail1"
+                    id="email"
                     aria-describedby="emailHelp"
                   />
+                  {{ email }}
                 </div>
                 <br />
                 <div>
@@ -40,18 +41,30 @@
                     id="password"
                     aria-describedby="passwordHelp"
                   />
+                  {{ password }}
                 </div>
-                <div class="text-xs text-slate-400 mt-3">
+                <div class="grid grid-cols-2 text-xs text-slate-400 mt-3">
                   <router-link to="/" class="my-8"
                     >Forgot your password?</router-link
                   >
+                  <div class="form-check mt-7 ml-10">
+                    <input
+                      v-model="rememberMe"
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="rememberMe"
+                    />
+                    {{ rememberMe }}
+                    <label class="form-check-label mt-1" for="flexCheckDefault">
+                      Remember Me
+                    </label>
+                  </div>
                 </div>
+
                 <!-- <div>Sign in using</div> -->
                 <div class="login_text my-8 rounded-md">
-                  <router-link to="" class="btn text-white flex justify-center"
-                    >Sign In</router-link
-                  >
-                  <!-- <button class="btn text-white" type="submit">Sign In</button> -->
+                  <button class="btn text-white" type="submit">Sign In</button>
                 </div>
                 <div class="flex justify-center">
                   <img class="w-7 h-7" src="@/assets/images/google.png" />
@@ -73,39 +86,39 @@
 </template>
 
 <script>
-import { ref } from "vue";
+// import { ref } from "vue";
 import axios from "axios";
 
 export default {
-  setup() {
-    const username = ref("");
-    const password = ref("");
-
-    const login = async () => {
+  data() {
+    return {
+      email: "",
+      password: "",
+      rememberMe: false,
+    };
+  },
+  methods: {
+    async login() {
+      console.log(this.email);
+      console.log(this.password);
       try {
         const response = await axios.post(
-          "https://landlstore.azurewebsites.net/api/customer/login",
+          "http://landlstore.azurewebsites.net/api/Customer/login",
           {
-            username: username.value,
-            password: password.value,
+            email: this.email,
+            password: this.password,
+            rememberMe: this.rememberMe,
           }
         );
-
         if (response.status === 200) {
-          console.log(response.data);
-          localStorage.setItem(username, login.username.value);
-          localStorage.setItem(password, login.password.value);
+          console.log(response.data.email, response.data.password);
+        } else {
+          console.log("Invalid");
         }
       } catch (error) {
         console.error("Error logging in:", error);
       }
-    };
-
-    return {
-      username,
-      password,
-      login,
-    };
+    },
   },
 };
 </script>
