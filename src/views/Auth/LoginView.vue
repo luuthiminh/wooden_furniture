@@ -24,10 +24,9 @@
                     v-model="email"
                     type="email"
                     class="form-control"
-                    id="email"
+                    id="exampleInputEmail1"
                     aria-describedby="emailHelp"
                   />
-                  {{ email }}
                 </div>
                 <br />
                 <div>
@@ -41,7 +40,6 @@
                     id="password"
                     aria-describedby="passwordHelp"
                   />
-                  {{ password }}
                 </div>
                 <div class="grid grid-cols-2 text-xs text-slate-400 mt-3">
                   <router-link to="/" class="my-8"
@@ -61,10 +59,11 @@
                     </label>
                   </div>
                 </div>
-
                 <!-- <div>Sign in using</div> -->
                 <div class="login_text my-8 rounded-md">
-                  <button class="btn text-white" type="submit">Sign In</button>
+                  <button class="btn text-white pl-32" type="submit">
+                    Sign In
+                  </button>
                 </div>
                 <div class="flex justify-center">
                   <img class="w-7 h-7" src="@/assets/images/google.png" />
@@ -90,30 +89,21 @@
 import axios from "axios";
 
 export default {
-  data() {
-    return {
-      email: "",
-      password: "",
-      rememberMe: false,
-    };
-  },
   methods: {
     async login() {
       console.log(this.email);
       console.log(this.password);
       try {
         const response = await axios.post(
-          "http://landlstore.azurewebsites.net/api/Customer/login",
+          "https://landlstore.azurewebsites.net/api/customer/login",
           {
             email: this.email,
             password: this.password,
-            rememberMe: this.rememberMe,
+            rememberMe: true,
           }
         );
         if (response.status === 200) {
-          console.log(response.data.email, response.data.password);
-        } else {
-          console.log("Invalid");
+          console.log("login successfully");
         }
       } catch (error) {
         console.error("Error logging in:", error);

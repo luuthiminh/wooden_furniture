@@ -9,7 +9,8 @@
       <div class="form_register bg-gray-50">
         <div class="my-20 mx-11">
           <div class="bg-white border border-indigo-600 mt-16 px-11 rounded-lg">
-            <form id="signup-form" @submit.prevent="processForm">
+            <form id="signup-form" @submit.prevent="register">
+              <p>{{ message }}</p>
               <div>
                 <h1 class="text-xl my-9 font-bold">Sign up for account</h1>
               </div>
@@ -18,6 +19,7 @@
                   <div>
                     <label for="firstname" class="form-label">First Name</label>
                     <input
+                      v-model="firstName"
                       type="text"
                       class="form-control"
                       id="firstname"
@@ -27,6 +29,7 @@
                   <div>
                     <label for="lastname" class="form-label">Last Name</label>
                     <input
+                      v-model="lastName"
                       type="text"
                       class="form-control"
                       id="lastname"
@@ -37,16 +40,21 @@
                 <div class="grid grid-cols-2 gap-x-6">
                   <div>
                     <label for="gender" class="form-label">Gender</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="gender"
-                      aria-describedby="genderHelp"
-                    />
+                    <select
+                      v-model="gender"
+                      class="form-select pl-3"
+                      aria-label="Default select example"
+                    >
+                      <option value="">--Please choose your gender--</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Other">Other</option>
+                    </select>
                   </div>
                   <div>
                     <label for="dob" class="form-label">Dob</label>
                     <input
+                      v-model="date"
                       type="date"
                       class="form-control"
                       id="dob"
@@ -59,6 +67,7 @@
                     >Email address</label
                   >
                   <input
+                    v-model="email"
                     type="email"
                     class="form-control"
                     id="exampleInputEmail1"
@@ -68,7 +77,8 @@
                 <div>
                   <label for="phone" class="form-label">Phone</label>
                   <input
-                    type="number"
+                    v-model="phone"
+                    type="text"
                     class="form-control"
                     id="phone"
                     aria-describedby="phonelHelp"
@@ -79,6 +89,7 @@
                     >Create Password</label
                   >
                   <input
+                    v-model="password"
                     type="password"
                     class="form-control"
                     id="password"
@@ -87,10 +98,7 @@
                 </div>
               </div>
               <div class="my-1">
-                <!-- <button type="submit" class="btn my-8">Create</button> -->
-                <router-link to="/otp" class="btn my-8" @click="btn_create"
-                  >Create</router-link
-                >
+                <button type="submit" class="btn my-8">Create</button>
               </div>
             </form>
           </div>
@@ -100,10 +108,36 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
+  data() {
+    return {
+      message: "",
+    };
+  },
   methods: {
-    btn_create: function () {
-      alert("Please confirm the code in your email!");
+    async register() {
+      try {
+        const response = await axios.post(
+          "https://landlstore.azurewebsites.net/api/customer/create-account",
+          {
+            firstName: this.firstName,
+            lastName: this.lastName,
+            gender: this.gender,
+            email: this.email,
+            password: this.password,
+            phoneNumbers: this.phone,
+            doB: this.date,
+            username: this.email,
+          }
+        );
+        if (response.status === 201) {
+          alert("Please confirm the code in your email!");
+        }
+      } catch (error) {
+        this.message = error.response.data.message;
+        console.error(error.response.data.message);
+      }
     },
   },
 };

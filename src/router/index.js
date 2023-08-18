@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Otp from "../views/Auth/OTP.vue";
+import NotFound from "../views/About/404PageAbout";
 const routes = [
   {
     path: "/",
@@ -127,6 +128,12 @@ const routes = [
         /* webpackChunkName: "register" */ "../views/Customer/StoreNews.vue"
       ),
   },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "404PageAbout",
+    component: NotFound,
+  },
+
   // {
   //   path: "/logout",
   //   name: "logoutPage",
