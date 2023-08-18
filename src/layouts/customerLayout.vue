@@ -1,25 +1,39 @@
 <template>
-  <header class="shadow-md h-40">
-    <ul class="contact_header flex wrapper text-right first-letter py-4">
-      <li><i class="fa-solid fa-location-dot"></i>Hung Yen</li>
-      <li><i class="fa-solid fa-phone"></i>+84 398677620</li>
-      <li><i class="fa-regular fa-envelope"></i>minhltgch202050@gmail.com</li>
-    </ul>
+  <!-- <header class="header h-36 fixed z-10"> -->
+  <header class="header h-24 fixed z-10 py-3 shadow-sm">
     <div class="nav_header">
       <div class="grid mg-left-0 grid-cols-2">
-        <div class="logo grid__item large--four-twelfths pd-lef0 ml-32">
-          <a href="/customerIndex">
+        <div class="logo grid__item large--four-twelfths ml-28">
+          <router-link to="/customerIndex">
             <img src="@/assets/images/logo.png" alt="logo" />
-          </a>
+          </router-link>
         </div>
         <nav
           class="border-2 border-yellow-700 grid__item large--eight-twelfths text-right clearfix"
         >
-          <ul class="flex gap-x-9 px-1">
-            <li><a href="">Home</a></li>
-            <li><a href="">All Products</a></li>
+          <ul class="flex gap-x-9 pl-2">
+            <router-link to="/customerIndex"></router-link>
+            <li>
+              <router-link to="/customerIndex"> Home</router-link>
+            </li>
+            <li>
+              <div class="dropdown">
+                <div class="dropdown-toggle" data-toggle="dropdown">
+                  <strong class="font-normal">All Product</strong>
+                </div>
+                <div class="dropdown-menu px-3 py-2 mt-1">
+                  <router-link to="/tips" class="font-medium text-base">
+                    Tips</router-link
+                  >
+                  <br />
+                  <router-link to="/news" class="font-medium text-base">
+                    News</router-link
+                  >
+                </div>
+              </div>
+            </li>
             <li><a href="">Category</a></li>
-            <li><a href="">About</a></li>
+            <li><router-link to="/about">About</router-link></li>
             <li><a href="">Contact</a></li>
             <li>
               <div class="search h-5">
@@ -79,19 +93,24 @@
               </div>
             </li>
             <li>
-              <a href=""><i class="fa-solid fa-user"></i></a>
+              <router-link to="/profileCusPage" style="text-decoration: none"
+                ><i class="fa-solid fa-user"></i
+              ></router-link>
             </li>
             <li>
-              <a href=""><i class="fa-solid fa-cart-shopping"></i></a>
+              <router-link to="/zeroOrder" style="text-decoration: none"
+                ><i class="fa-solid fa-cart-shopping"></i
+              ></router-link>
             </li>
-            <a href="/">
+            <router-link to="/">
               <li><i class="fa-solid fa-arrow-right-from-bracket"></i></li>
-            </a>
+            </router-link>
           </ul>
         </nav>
       </div>
     </div>
   </header>
+  <!-- </header> -->
   <slot />
   <footer>
     <div class="footer w-full">
@@ -164,6 +183,9 @@
 // };
 </script>
 <style scoped>
+.header.fixed {
+  background-color: #d9d0c4;
+}
 .logo img {
   width: 30%;
 }

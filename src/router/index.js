@@ -61,6 +61,80 @@ const routes = [
         /* webpackChunkName: "register" */ "../views/Customer/FurnitureDetail.vue"
       ),
   },
+  {
+    path: "/profileCusPage",
+    name: "ProfileCusPage",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/ProfileCusPage.vue"
+      ),
+  },
+  {
+    path: "/zeroOrder",
+    name: "ZeroOrder",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/ZeroOrder.vue"
+      ),
+  },
+  {
+    path: "/eidtInfo",
+    name: "EditInformation",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/EditInformation.vue"
+      ),
+  },
+  {
+    path: "/about",
+    name: "AboutPage",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/AboutPage.vue"
+      ),
+  },
+  {
+    path: "/tips",
+    name: "TipsFurniture",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/TipsFurniture.vue"
+      ),
+  },
+  {
+    path: "/news",
+    name: "StoreNews",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/StoreNews.vue"
+      ),
+  },
+  // {
+  //   path: "/logout",
+  //   name: "logoutPage",
+  //   component: () =>
+  //     import(
+  //       /* webpackChunkName: "register" */ "../views/About/logoutPage.vue"
+  //     ),
+  // },
   // {
   //   path: "/",
   //   name: "register",

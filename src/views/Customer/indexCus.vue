@@ -240,12 +240,12 @@
             <div class="grid grid-cols-4 gap-4">
               <div class="product rounded-md overflow-hidden relative">
                 <div>
-                  <a href="/furnitureDetail">
+                  <router-link to="/furnitureDetail">
                     <img
                       src="@/assets/images/product/table_and_chair_set/set1.png"
                       alt="product1"
                     />
-                  </a>
+                  </router-link>
                 </div>
                 <div class="info_product hover:mb-8">
                   <h1>Name Product</h1>

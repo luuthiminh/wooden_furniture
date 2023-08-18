@@ -48,9 +48,7 @@
                 </div>
                 <!-- <div>Sign in using</div> -->
                 <div class="login_text my-8 rounded-md">
-                  <router-link
-                    to="/customerIndex"
-                    class="btn text-white flex justify-center"
+                  <router-link to="" class="btn text-white flex justify-center"
                     >Sign In</router-link
                   >
                   <!-- <button class="btn text-white" type="submit">Sign In</button> -->
@@ -85,14 +83,17 @@ export default {
 
     const login = async () => {
       try {
-        const response = await axios.post("http://localhost:3000/account", {
-          username: username.value,
-          password: password.value,
-        });
+        const response = await axios.post(
+          "https://landlstore.azurewebsites.net/api/customer/login",
+          {
+            username: username.value,
+            password: password.value,
+          }
+        );
 
         if (response.status === 200) {
           console.log(response.data);
-          localStorage.setItem(username, login.username);
+          localStorage.setItem(username, login.username.value);
           localStorage.setItem(password, login.password.value);
         }
       } catch (error) {
