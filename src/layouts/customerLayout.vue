@@ -22,17 +22,34 @@
                   <strong class="font-normal">All Product</strong>
                 </div>
                 <div class="dropdown-menu px-3 py-2 mt-1">
-                  <router-link to="/tips" class="font-medium text-base">
-                    Tips</router-link
+                  <router-link to="/allproduct" class="font-medium text-base">
+                    Bed</router-link
                   >
                   <br />
-                  <router-link to="/news" class="font-medium text-base">
-                    News</router-link
+                  <router-link to="/allproduct" class="font-medium text-base">
+                    Sofa</router-link
+                  >
+                </div>
+                <div class="dropdown-menu px-3 py-2 mt-1">
+                  <router-link to="/allproduct" class="font-medium text-base">
+                    Bed</router-link
+                  >
+                  <br />
+                  <router-link to="/allproduct" class="font-medium text-base">
+                    Sofa</router-link
+                  >
+                </div>
+                <div class="dropdown-menu px-3 py-2 mt-1">
+                  <router-link to="/allproduct" class="font-medium text-base">
+                    Bed</router-link
+                  >
+                  <br />
+                  <router-link to="/allproduct" class="font-medium text-base">
+                    Sofa</router-link
                   >
                 </div>
               </div>
             </li>
-            <li><a href="">Category</a></li>
             <li><router-link to="/about">About</router-link></li>
             <li><a href="">Contact</a></li>
             <li>
@@ -98,7 +115,10 @@
               ></router-link>
             </li>
             <li>
-              <router-link to="/zeroOrder" style="text-decoration: none"
+              <!-- <router-link to="/zeroOrder" style="text-decoration: none"
+                ><i class="fa-solid fa-cart-shopping"></i
+              ></router-link> -->
+              <router-link to="/TemporaryCart" style="text-decoration: none"
                 ><i class="fa-solid fa-cart-shopping"></i
               ></router-link>
             </li>
@@ -141,10 +161,10 @@
             <p class="text-sm">within a radius of 30km</p>
           </div>
         </div>
-        <div class="grid grid-cols-2 gap-2 mt-11">
+        <div class="grid grid-cols-2 gap-2 mt-7">
           <div id="map">
             <iframe
-              class="w-full h-80"
+              class="w-11/12 h-80"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7462.013833373825!2d106.19338085869137!3d20.750513747007744!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313595ac6b092eff%3A0x85dd1b5c537027d0!2zUXVhbmcgSMawbmcsIFBow7kgQ-G7qyBEaXN0cmljdCwgSHVuZyBZZW4sIFZpZXRuYW0!5e0!3m2!1sen!2s!4v1692044358229!5m2!1sen!2s"
               width="600"
               height="450"
@@ -154,18 +174,18 @@
               referrerpolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>
-          <div class="info_contact leading-10">
-            <h1 class="font-semibold text-lg">Shop Information</h1>
+          <div class="info_contact leading-10 mt-11">
+            <h1 class="font-semibold text-lg text">Shop Information</h1>
             <span class="font-semibold">Address: </span>
             <span>Quang Hung-Phu cu-Hung Yen</span>
             <br />
-            <span class="font-semibold">Tel:</span>
+            <span class="font-semibold">Tel: </span>
             <span>0398677620</span>
             <br />
-            <span class="font-semibold">Email:</span>
+            <span class="font-semibold">Email: </span>
             <span>minhltgch200250@fpt.edu.vn</span>
             <br />
-            <span class="font-semibold">Facebook:</span>
+            <span class="font-semibold">Facebook: </span>
             <span>
               https://www.facebook.com/groups/677935762658362/user/100052778502317/
             </span>
@@ -352,18 +372,24 @@ nav li {
 }
 
 /* footer */
+/* footer */
 .footer {
   position: relative;
+  color: rgb(220, 210, 210);
+  margin-top: 1rem;
+  background: rgba(0, 0, 0, 0.7);
 }
-.background::before {
+.footer h1 {
+  color: rgb(220, 210, 210);
+}
+.footer::before {
   content: "";
   position: absolute;
   z-index: -1;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
   background-image: url("@/assets/images/footer.png");
   background-size: cover;
-  opacity: 0.2;
-  height: 30rem;
+  opacity: 0.3;
+  height: 29rem;
 }
 </style>

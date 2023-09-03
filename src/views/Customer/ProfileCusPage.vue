@@ -110,84 +110,266 @@
                 </div>
               </div>
             </div>
-            <div class="tab-pane">
-              <h2>Information</h2>
-              <p>
-                React makes it painless to create interactive UIs. Design simple
-                views for each state in your application, and React will
-                efficiently update and render just the right components when
-                your data changes.
-              </p>
-            </div>
-            <div class="tab-pane">
-              <div class="grid grid-cols-2">
-                <div
-                  class="nav_bar bg-slate-50 leading-10 w-5/12 px-4 h-48 pt-2 rounded-md"
-                >
-                  <ul>
-                    <li>
-                      <router-link to="/profileCusPage">
-                        All Orders</router-link
-                      >
-                    </li>
-                    <li>
-                      <router-link to="/profileCusPage"> Shipping</router-link>
-                    </li>
-                    <li>
-                      <router-link to="/profileCusPage">
-                        Accomplished</router-link
-                      >
-                    </li>
-                    <li>
-                      <router-link to="/profileCusPage"> Rejected </router-link>
-                    </li>
-                  </ul>
-                </div>
-                <div class="grid grid-cols-2 gap-1">
-                  <img
-                    class="w-6/12"
-                    src="@/assets/images/product/table_and_chair_set/set2.png"
-                    alt="product1"
-                  />
-                  <span>Name Product</span>
-                  <br />
-                  <span>Category: Table</span>
-                  <br />
-                  <span>Quantity: 3</span>
-                </div>
-              </div>
-              <div class="tab-pane">
-                <h2>Wish List</h2>
-                <p>
-                  Vue (pronounced /vjuː/, like view) is a progressive framework
-                  for building user interfaces. Unlike other monolithic
-                  frameworks, Vue is designed from the ground up to be
-                  incrementally adoptable.
-                </p>
-              </div>
-            </div>
           </div>
           <div class="col-span-2">
-            <div class="shadow-md">
-              <div
-                class="border border-slate-600 bg-slate-50 rounded-md px-3 py-4"
-              >
-                <div class="flex flex-cols-2 gap-3">
-                  <h1 class="font-semibold">Name Product</h1>
-                  <p class="category border border-slate-600 px-2 py-1">
-                    Category
-                  </p>
+            <div class="grid grid-cols-2 gap-x-3">
+              <div class="product">
+                <div>
+                  <div class="card rounded-md overflow-hidden relative group">
+                    <router-link to="/furnitureDetail">
+                      <img
+                        src="@/assets/images/category/sofa/sofa_2.png"
+                        alt="bed"
+                        class="w-full transition-all transform group-hover:scale-110"
+                      />
+                    </router-link>
+                    <div
+                      class="group-hover:bottom-0 transition-all absolute -bottom-20 left-0 text-white p-6 z-20"
+                    >
+                      <h4 class="mb-3 text-sm opacity-80">
+                        <a href="#">Sofa</a>
+                      </h4>
+                      <h3 class="mb-3 text-base">
+                        <router-link to="/furnitureDetail">
+                          <h1 class="font-forrmal mb-2">Sofa 1</h1>
+                          <div class="grid grid-cols-2 gap-x-14">
+                            <div class="price_product">
+                              <span class="font-forrmal">Price: </span>
+                              <span class="text-base">$1000</span>
+                            </div>
+                            <div class="status_product pl-12">
+                              <span class="font-forrmal">Sold: </span>
+                              <span class="text-base">12</span>
+                            </div>
+                          </div>
+                        </router-link>
+                      </h3>
+                      <router-link
+                        to=""
+                        class="hover: transition-all text-sm inline-flex rounded-md py-2 text-center border-2 border-yellow-600"
+                        style="text-decoration: none"
+                      >
+                        <button class="CartBtn">
+                          <span class="IconContainer">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              height="1em"
+                              viewBox="0 0 576 512"
+                              fill="rgb(17, 17, 17)"
+                              class="cart"
+                            >
+                              <path
+                                d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"
+                              ></path>
+                            </svg>
+                          </span>
+                          <p class="text">Add to Cart</p>
+                        </button>
+                      </router-link>
+                    </div>
+                    <div
+                      class="z-10 h-2/3 absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent"
+                    ></div>
+                    <a
+                      href="#"
+                      class="absolute z-0 inset-0 bg-yellow-700 opacity-0 group-hover:opacity-80 transition-all"
+                    ></a>
+                  </div>
                 </div>
-                <img
-                  class="w-10/12 pl-32"
-                  src="@/assets/images/product/table_and_chair_set/set1.png"
-                  alt="product"
-                />
-                <span class="font-semibold pb-3">Description: </span>
-                <span>This is....</span>
-                <br />
-                <span class="font-semibold pb-3">Quantity: </span>
-                <span>3</span>
+              </div>
+              <div class="product">
+                <div>
+                  <div class="card rounded-md overflow-hidden relative group">
+                    <router-link to="/furnitureDetail">
+                      <img
+                        src="@/assets/images/category/sofa/sofa_2.png"
+                        alt="bed"
+                        class="w-full transition-all transform group-hover:scale-110"
+                      />
+                    </router-link>
+                    <div
+                      class="group-hover:bottom-0 transition-all absolute -bottom-20 left-0 text-white p-6 z-20"
+                    >
+                      <h4 class="mb-3 text-sm opacity-80">
+                        <a href="#">Sofa</a>
+                      </h4>
+                      <h3 class="mb-3 text-base">
+                        <router-link to="/furnitureDetail">
+                          <h1 class="font-forrmal mb-2">Sofa 1</h1>
+                          <div class="grid grid-cols-2 gap-x-14">
+                            <div class="price_product">
+                              <span class="font-forrmal">Price: </span>
+                              <span class="text-base">$1000</span>
+                            </div>
+                            <div class="status_product pl-12">
+                              <span class="font-forrmal">Sold: </span>
+                              <span class="text-base">12</span>
+                            </div>
+                          </div>
+                        </router-link>
+                      </h3>
+                      <router-link
+                        to=""
+                        class="hover: transition-all text-sm inline-flex rounded-md py-2 text-center border-2 border-yellow-600"
+                        style="text-decoration: none"
+                      >
+                        <button class="CartBtn">
+                          <span class="IconContainer">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              height="1em"
+                              viewBox="0 0 576 512"
+                              fill="rgb(17, 17, 17)"
+                              class="cart"
+                            >
+                              <path
+                                d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"
+                              ></path>
+                            </svg>
+                          </span>
+                          <p class="text">Add to Cart</p>
+                        </button>
+                      </router-link>
+                    </div>
+                    <div
+                      class="z-10 h-2/3 absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent"
+                    ></div>
+                    <a
+                      href="#"
+                      class="absolute z-0 inset-0 bg-yellow-700 opacity-0 group-hover:opacity-80 transition-all"
+                    ></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-x-3">
+              <div class="product">
+                <div>
+                  <div class="card rounded-md overflow-hidden relative group">
+                    <router-link to="/furnitureDetail">
+                      <img
+                        src="@/assets/images/category/sofa/sofa_2.png"
+                        alt="bed"
+                        class="w-full transition-all transform group-hover:scale-110"
+                      />
+                    </router-link>
+                    <div
+                      class="group-hover:bottom-0 transition-all absolute -bottom-20 left-0 text-white p-6 z-20"
+                    >
+                      <h4 class="mb-3 text-sm opacity-80">
+                        <a href="#">Sofa</a>
+                      </h4>
+                      <h3 class="mb-3 text-base">
+                        <router-link to="/furnitureDetail">
+                          <h1 class="font-forrmal mb-2">Sofa 1</h1>
+                          <div class="grid grid-cols-2 gap-x-14">
+                            <div class="price_product">
+                              <span class="font-forrmal">Price: </span>
+                              <span class="text-base">$1000</span>
+                            </div>
+                            <div class="status_product pl-12">
+                              <span class="font-forrmal">Sold: </span>
+                              <span class="text-base">12</span>
+                            </div>
+                          </div>
+                        </router-link>
+                      </h3>
+                      <router-link
+                        to=""
+                        class="hover: transition-all text-sm inline-flex rounded-md py-2 text-center border-2 border-yellow-600"
+                        style="text-decoration: none"
+                      >
+                        <button class="CartBtn">
+                          <span class="IconContainer">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              height="1em"
+                              viewBox="0 0 576 512"
+                              fill="rgb(17, 17, 17)"
+                              class="cart"
+                            >
+                              <path
+                                d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"
+                              ></path>
+                            </svg>
+                          </span>
+                          <p class="text">Add to Cart</p>
+                        </button>
+                      </router-link>
+                    </div>
+                    <div
+                      class="z-10 h-2/3 absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent"
+                    ></div>
+                    <a
+                      href="#"
+                      class="absolute z-0 inset-0 bg-yellow-700 opacity-0 group-hover:opacity-80 transition-all"
+                    ></a>
+                  </div>
+                </div>
+              </div>
+              <div class="product">
+                <div>
+                  <div class="card rounded-md overflow-hidden relative group">
+                    <router-link to="/furnitureDetail">
+                      <img
+                        src="@/assets/images/category/sofa/sofa_2.png"
+                        alt="bed"
+                        class="w-full transition-all transform group-hover:scale-110"
+                      />
+                    </router-link>
+                    <div
+                      class="group-hover:bottom-0 transition-all absolute -bottom-20 left-0 text-white p-6 z-20"
+                    >
+                      <h4 class="mb-3 text-sm opacity-80">
+                        <a href="#">Sofa</a>
+                      </h4>
+                      <h3 class="mb-3 text-base">
+                        <router-link to="/furnitureDetail">
+                          <h1 class="font-forrmal mb-2">Sofa 1</h1>
+                          <div class="grid grid-cols-2 gap-x-14">
+                            <div class="price_product">
+                              <span class="font-forrmal">Price: </span>
+                              <span class="text-base">$1000</span>
+                            </div>
+                            <div class="status_product pl-12">
+                              <span class="font-forrmal">Sold: </span>
+                              <span class="text-base">12</span>
+                            </div>
+                          </div>
+                        </router-link>
+                      </h3>
+                      <router-link
+                        to=""
+                        class="hover: transition-all text-sm inline-flex rounded-md py-2 text-center border-2 border-yellow-600"
+                        style="text-decoration: none"
+                      >
+                        <button class="CartBtn">
+                          <span class="IconContainer">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              height="1em"
+                              viewBox="0 0 576 512"
+                              fill="rgb(17, 17, 17)"
+                              class="cart"
+                            >
+                              <path
+                                d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"
+                              ></path>
+                            </svg>
+                          </span>
+                          <p class="text">Add to Cart</p>
+                        </button>
+                      </router-link>
+                    </div>
+                    <div
+                      class="z-10 h-2/3 absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent"
+                    ></div>
+                    <a
+                      href="#"
+                      class="absolute z-0 inset-0 bg-yellow-700 opacity-0 group-hover:opacity-80 transition-all"
+                    ></a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -544,5 +726,79 @@ nav li {
 .category.border {
   margin-top: -2px;
   margin-bottom: 2em;
+}
+.product {
+  background-color: #dfdedc;
+  /* text-align: center; */
+  margin-bottom: 20px;
+  border: 1px solid rgb(215, 213, 213);
+  border-radius: 5px;
+}
+.product h1 {
+  color: white;
+}
+/* Button Add to cart  */
+.CartBtn {
+  width: 140px;
+  height: 40px;
+  border-radius: 12px;
+  border: none;
+  background-color: rgb(255, 208, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition-duration: 0.5s;
+  overflow: hidden;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.103);
+  position: relative;
+}
+
+.IconContainer {
+  position: absolute;
+  left: -50px;
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 2;
+  transition-duration: 0.5s;
+}
+
+.icon {
+  border-radius: 1px;
+}
+
+.text {
+  height: 100%;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(17, 17, 17);
+  z-index: 1;
+  transition-duration: 0.5s;
+  font-size: 1.04em;
+  font-weight: 600;
+}
+
+.CartBtn:hover .IconContainer {
+  transform: translateX(58px);
+  border-radius: 40px;
+  transition-duration: 0.5s;
+}
+
+.CartBtn:hover .text {
+  transform: translate(10px, 0px);
+  transition-duration: 0.5s;
+}
+
+.CartBtn:active {
+  transform: scale(0.95);
+  transition-duration: 0.5s;
 }
 </style>

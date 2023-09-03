@@ -133,6 +133,50 @@ const routes = [
     name: "404PageAbout",
     component: NotFound,
   },
+  {
+    path: "/allproduct",
+    name: "AllProduct",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/AllProduct.vue"
+      ),
+  },
+  {
+    path: "/cartproduct",
+    name: "cartProduct",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/CartProduct.vue"
+      ),
+  },
+  {
+    path: "/temporarycart",
+    name: "TemporaryCart",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/TemporaryCart.vue"
+      ),
+  },
+  {
+    path: "/orderbill",
+    name: "OrderBill",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/OrderBill.vue"
+      ),
+  },
 
   // {
   //   path: "/logout",

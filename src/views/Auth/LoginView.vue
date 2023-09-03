@@ -15,6 +15,7 @@
                 <h1 class="text-2xl pt-10 pb-11 font-bold">Sign in</h1>
                 <div class="bg-inherit h-px"></div>
               </div>
+              <div class="text-red-600 py-3">{{ message }}</div>
               <div>
                 <div>
                   <label for="exampleInputEmail1" class="text-base form-label"
@@ -53,7 +54,6 @@
                       value=""
                       id="rememberMe"
                     />
-                    {{ rememberMe }}
                     <label class="form-check-label mt-1" for="flexCheckDefault">
                       Remember Me
                     </label>
@@ -89,24 +89,31 @@
 import axios from "axios";
 
 export default {
+  data() {
+    return {
+      rememberMe: false,
+      message: "",
+    };
+  },
   methods: {
     async login() {
-      console.log(this.email);
-      console.log(this.password);
       try {
         const response = await axios.post(
           "https://landlstore.azurewebsites.net/api/customer/login",
           {
             email: this.email,
             password: this.password,
-            rememberMe: true,
+            rememberMe: this.rememberMe,
           }
         );
         if (response.status === 200) {
           console.log("login successfully");
+          this.$router.push({ name: "Customer" });
         }
       } catch (error) {
-        console.error("Error logging in:", error);
+        this.message = error.response.data.title;
+        console.error(error.response.data.title);
+        console.error(error);
       }
     },
   },

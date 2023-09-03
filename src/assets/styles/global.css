@@ -6,6 +6,9 @@
   font-size: 100%;
 }
 
-router-link{
+router-link {
   text-decoration: none;
+}
+html {
+  scroll-behavior: smooth;
 }

@@ -9,8 +9,9 @@
       <div class="form_register bg-gray-50">
         <div class="my-20 mx-11">
           <div class="bg-white border border-indigo-600 mt-16 px-11 rounded-lg">
+            <div class="text-red-600 pt-3">{{ message }}</div>
+            <!-- </div> -->
             <form id="signup-form" @submit.prevent="register">
-              <p>{{ message }}</p>
               <div>
                 <h1 class="text-xl my-9 font-bold">Sign up for account</h1>
               </div>
