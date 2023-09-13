@@ -1,22 +1,26 @@
 <template>
   <div class="homepage">
     <header>
-      <ul class="contact_header flex wrapper text-right first-letter py-4">
+      <ul
+        class="contact_header flex wrapper text-right first-letter py-4 max-sm:hidden"
+      >
         <li><i class="fa-solid fa-location-dot"></i>Hung Yen</li>
         <li><i class="fa-solid fa-phone"></i>+84 398677620</li>
         <li><i class="fa-regular fa-envelope"></i>minhltgch202050@gmail.com</li>
       </ul>
       <div class="nav_header">
         <div class="grid mg-left-0 grid-cols-2">
-          <div class="logo grid__item large--four-twelfths ml-28">
+          <div
+            class="logo grid__item large--four-twelfths ml-28 max-sm:ml-5 max-sm:mt-5"
+          >
             <router-link to="/customerIndex">
               <img src="@/assets/images/logo.png" alt="logo" />
             </router-link>
           </div>
           <nav
-            class="border-2 border-yellow-700 grid__item large--eight-twelfths text-right clearfix"
+            class="border-2 border-yellow-700 grid__item large--eight-twelfths text-right clearfix max-sm:hidden"
           >
-            <ul class="flex gap-x-9 pl-2">
+            <ul class="flex gap-x-8 pl-2 pt-2 max-sm:hidden">
               <router-link to="/customerIndex"></router-link>
               <li>
                 <router-link to="/customerIndex"> Home</router-link>
@@ -26,14 +30,55 @@
                   <div class="dropdown-toggle" data-toggle="dropdown">
                     <strong class="font-normal">All Product</strong>
                   </div>
-                  <div class="dropdown-menu px-3 py-2 mt-1">
-                    <router-link to="/allproduct" class="font-medium text-base">
-                      Bed</router-link
-                    >
-                    <br />
-                    <router-link to="/allproduct" class="font-medium text-base">
-                      Sofa</router-link
-                    >
+                  <div class="dropdown-menu px-3 py-2 mt-1 leading-7">
+                    <li>
+                      <router-link
+                        to="/allproduct"
+                        class="font-medium text-base"
+                      >
+                        Wardrobe</router-link
+                      >
+                    </li>
+                    <li>
+                      <router-link
+                        to="/allproduct"
+                        class="font-medium text-base"
+                      >
+                        Sofa</router-link
+                      >
+                    </li>
+                    <li>
+                      <router-link
+                        to="/allproduct"
+                        class="font-medium text-base"
+                      >
+                        Clock</router-link
+                      >
+                    </li>
+                    <li>
+                      <router-link
+                        to="/allproduct"
+                        class="font-medium text-base"
+                      >
+                        Altar</router-link
+                      >
+                    </li>
+                    <li>
+                      <router-link
+                        to="/allproduct"
+                        class="font-medium text-base"
+                      >
+                        Bed</router-link
+                      >
+                    </li>
+                    <li>
+                      <router-link
+                        to="/allproduct"
+                        class="font-medium text-base"
+                      >
+                        Shelves TV</router-link
+                      >
+                    </li>
                   </div>
                 </div>
               </li>
@@ -41,61 +86,60 @@
               <li><router-link to="/about">About</router-link></li>
               <li><a href="">Contact</a></li>
               <li>
-                <div class="search h-5">
-                  <form class="form">
-                    <label for="search">
-                      <inputF
-                        autocomplete="off"
-                        placeholder="search your chats"
-                        id="search"
-                        type="text"
-                      />
-                      <div class="icon">
-                        <svg
-                          stroke-width="2"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="swap-on"
-                        >
-                          <path
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                            stroke-linejoin="round"
-                            stroke-linecap="round"
-                          ></path>
-                        </svg>
-                        <svg
-                          stroke-width="2"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="swap-off"
-                        >
-                          <path
-                            d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                            stroke-linejoin="round"
-                            stroke-linecap="round"
-                          ></path>
-                        </svg>
-                      </div>
-                      <button type="reset" class="close-btn">
-                        <svg
-                          viewBox="0 0 20 20"
-                          class="h-5 w-5"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            clip-rule="evenodd"
-                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                            fill-rule="evenodd"
-                          ></path>
-                        </svg>
-                      </button>
-                    </label>
-                  </form>
-                </div>
+                <form class="form">
+                  <label for="search">
+                    <input
+                      required=""
+                      autocomplete="off"
+                      placeholder="search your chats"
+                      id="search"
+                      type="text"
+                    />
+                    <div class="icon">
+                      <svg
+                        stroke-width="2"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="swap-on"
+                      >
+                        <path
+                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                          stroke-linejoin="round"
+                          stroke-linecap="round"
+                        ></path>
+                      </svg>
+                      <svg
+                        stroke-width="2"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="swap-off"
+                      >
+                        <path
+                          d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                          stroke-linejoin="round"
+                          stroke-linecap="round"
+                        ></path>
+                      </svg>
+                    </div>
+                    <button type="reset" class="close-btn">
+                      <svg
+                        viewBox="0 0 20 20"
+                        class="h-5 w-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          clip-rule="evenodd"
+                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                          fill-rule="evenodd"
+                        ></path>
+                      </svg>
+                    </button>
+                  </label>
+                </form>
               </li>
               <li>
                 <router-link to="/profileCusPage" style="text-decoration: none"
@@ -115,27 +159,33 @@
         </div>
       </div>
       <div class="text-center mt-5 text-red-950">
-        <span class="font-bold text-2xl">Wooden Home furniture</span>
+        <span class="font-bold text-2xl max-sm:text-base"
+          >Wooden Home furniture</span
+        >
         <br />
-        <span class="text-center">
-          Add a special atmosphere to your home with our stylish and exclusive
-          furniture
-        </span>
+        <div class="max-sm:text-xs">
+          <span class="text-center">
+            Add a special atmosphere to your home with our stylish and exclusive
+            furniture
+          </span>
+        </div>
       </div>
     </header>
     <content class="bg-neutral-50">
-      <div class="mx-64">
-        <div
-          class="grid grid-cols-3 grid-flow-col gap-4 h-40 shadow-md max-h11"
-        >
+      <div class="mx-64 max-sm:mx-1">
+        <div class="grid grid-cols-3 grid-flow-col h-40 shadow-md max-h11">
           <div class="col col_1 border-r-1 border-indigo-600">
             <div class="service-icon">
               <i class="fa-solid fa-shield-halved"></i>
             </div>
-            <div class="service-title text-xl font-semibold text-red-950">
+            <div
+              class="service-title text-xl font-semibold text-red-950 max-md:text-base"
+            >
               <h1>Warranty</h1>
             </div>
-            <div class="service-description text-sm break-words text-gray-900">
+            <div
+              class="service-description text-sm break-words text-gray-900 max-md:text-xs"
+            >
               <span>3-year warranty on all products in store</span>
             </div>
           </div>
@@ -143,10 +193,14 @@
             <div class="service-icon">
               <i class="fa-solid fa-truck-fast"></i>
             </div>
-            <div class="service-title text-xl font-semibold text-red-950">
+            <div
+              class="service-title text-xl font-semibold text-red-950 max-md:text-base"
+            >
               <h1>Delivery</h1>
             </div>
-            <div class="service-description text-sm text-gray-900">
+            <div
+              class="service-description text-sm text-gray-900 max-md:text-xs"
+            >
               <span
                 >We accept transportation from 10km to 30km and free shipping
                 under 20km</span
@@ -157,19 +211,24 @@
             <div class="service-icon">
               <i class="fa-solid fa-headphones"></i>
             </div>
-            <div class="service-title text-xl font-semibold text-red-950">
+            <div
+              class="service-title text-xl font-semibold text-red-950 max-md:text-base"
+            >
               <h1>Support 24/7</h1>
             </div>
-            <div class="service-description text-sm text-gray-900">
-              <span
+            <div
+              class="service-description text-sm text-gray-900 max-md:text-xs"
+            >
+              <span class="max-sm:hidden"
                 >Always ready to help 24/7. For any questions, please contact
                 the hotline: 0398677620</span
               >
+              <span class="hidden max-sm:block">Always ready to help 24/7</span>
             </div>
           </div>
         </div>
         <div class="grid grid-rows-2 justify-center">
-          <div class="category grid grid-cols-6">
+          <div class="category grid grid-cols-6 max-sm:grid max-sm:grid-cols-2">
             <div>
               <router-link to="">
                 <img
@@ -207,7 +266,7 @@
             </div>
           </div>
 
-          <div class="category grid grid-cols-6">
+          <div class="category grid grid-cols-6 max-sm:grid max-sm:grid-cols-2">
             <div class="text-center">
               <h1>BED</h1>
               <div class="button">
@@ -240,7 +299,7 @@
             </div>
           </div>
         </div>
-        <div class="advertisement grid grid-cols-2 gap-5 mt-8">
+        <div class="advertisement grid grid-cols-2 gap-5 mt-8 max-sm:gap-1">
           <div>
             <img
               class="origin-center hover:-rotate-6 transition-full"
@@ -272,253 +331,116 @@
           </div>
           <div class="hot_task">
             <div class="hot_product">
-              <div class="grid grid-cols-3 gap-4">
-                <div class="products_bed">
-                  <div>
-                    <div class="card rounded-md overflow-hidden relative group">
-                      <img
-                        src="@/assets/images/category/sofa/sofa_2.png"
-                        alt="bg"
-                        class="w-full transition-all transform group-hover:scale-110"
-                      />
+              <div v-if="furnitures.length">
+                <div class="grid grid-cols-4 gap-4 max-sm:grid-cols-2">
+                  <div
+                    class="product_bed"
+                    v-for="furniture in furnitures"
+                    :key="furniture.furnitureId"
+                  >
+                    <div>
                       <div
-                        class="group-hover:bottom-0 transition-all absolute -bottom-20 left-0 text-white p-6 z-20"
+                        class="product_bed px-2 py-2 border border-indigo-100 rounded-md"
                       >
-                        <h4 class="mb-2 text-sm opacity-80">
-                          <a href="#">Bed</a>
-                        </h4>
-                        <h3 class="mb-10 text-sm">
-                          <a href="#">
-                            <h1>Name Product</h1>
-                            <span>Price: $1000</span>
-                          </a>
-                        </h3>
-                        <router-link to="">
-                          <button class="CartBtn">
-                            <span class="IconContainer">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                height="1em"
-                                viewBox="0 0 576 512"
-                                fill="rgb(17, 17, 17)"
-                                class="cart"
+                        <div class="image_product">
+                          <router-link
+                            :to="{
+                              name: 'FurnitureDetail',
+                              params: { id: furniture.furnitureId },
+                            }"
+                          >
+                            <img
+                              src="@/assets/images/category/shelves_tv/shelves_11.png"
+                              alt=""
+                            />
+                          </router-link>
+                          <div class="product_label bg-yellow-600">
+                            <span class="text-white">{{
+                              furniture.label
+                            }}</span>
+                          </div>
+                        </div>
+                        <div class="pt-4 px-2">
+                          <div class="text-xs">
+                            <span class="text-gray-800 pr-2">{{
+                              furniture.price
+                            }}</span>
+                            <del class="text-gray-500">$2000</del>
+                          </div>
+                          <div class="pt-2 text-base font-semibold">
+                            <span>{{ furniture.furnitureName }}</span>
+                          </div>
+                          <!-- <div>
+                            <span class="text-gray-600 text-xs"
+                              >Description</span
+                            >
+                          </div> -->
+                          <div>
+                            <span class="text-sm"
+                              >Star: {{ furniture.voteStar
+                              }}<i class="fa-solid fa-star pl-1 text-xs"></i
+                            ></span>
+                          </div>
+                          <div>
+                            <span class="text-sm"
+                              >Quantity: {{ furniture.sold }}</span
+                            >
+                          </div>
+                          <div class="button_buy py-3 px-2">
+                            <router-link to="/orderbill">
+                              <button
+                                class="btn text-sm font-medium border-1 border-slate-800 rounded-xl px-5 py-1 hover:bg-slate-700 hover:text-white"
                               >
-                                <path
-                                  d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"
-                                ></path>
-                              </svg>
-                            </span>
-                            <p class="text">Add to Cart</p>
-                          </button>
-                        </router-link>
+                                Buy now
+                              </button>
+                            </router-link>
+                          </div>
+                          <div class="flex flex-cols-2 gap-x-4 text-xs">
+                            <div @click.prevent="addWishList">
+                              <i class="fa-regular fa-heart cursor-pointer"></i>
+                            </div>
+                            <div @click.prevent="addToCart">
+                              <i
+                                class="fa-solid fa-cart-shopping cursor-pointer"
+                              ></i>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div
-                        class="z-10 h-2/3 absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent"
-                      ></div>
-                      <a
-                        href="#"
-                        class="absolute z-0 inset-0 bg-yellow-700 opacity-0 group-hover:opacity-80 transition-all"
-                      ></a>
-                    </div>
-                  </div>
-                </div>
-                <div class="products_bed">
-                  <div>
-                    <div class="card rounded-md overflow-hidden relative group">
-                      <img
-                        src="@/assets/images/category/shelves_tv/shelves_11.png"
-                        alt="bg"
-                        class="w-full transition-all transform group-hover:scale-110"
-                      />
-                      <div
-                        class="group-hover:bottom-0 transition-all absolute -bottom-20 left-0 text-white p-6 z-20"
-                      >
-                        <h4 class="mb-2 text-sm opacity-80">
-                          <a href="#">Bed</a>
-                        </h4>
-                        <h3 class="mb-10 text-sm">
-                          <a href="#">
-                            <h1>Name Product</h1>
-                            <span>Price: $1000</span>
-                          </a>
-                        </h3>
-                        <a
-                          class="hover:bg-yellow-600 transition-all text-sm inline-flex rounded-md px-4 py-2 text-center border-2 border-yellow-600"
-                          href="#"
-                          >Add to cart</a
-                        >
-                      </div>
-                      <div
-                        class="z-10 h-2/3 absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent"
-                      ></div>
-                      <a
-                        href="#"
-                        class="absolute z-0 inset-0 bg-yellow-700 opacity-0 group-hover:opacity-80 transition-all"
-                      ></a>
-                    </div>
-                  </div>
-                </div>
-                <div class="products_bed">
-                  <div>
-                    <div class="card rounded-md overflow-hidden relative group">
-                      <img
-                        src="@/assets/images/category/bed/bed_2.png"
-                        alt="bg"
-                        class="w-full transition-all transform group-hover:scale-110"
-                      />
-                      <div
-                        class="group-hover:bottom-0 transition-all absolute -bottom-20 left-0 text-white p-6 z-20"
-                      >
-                        <h4 class="mb-2 text-sm opacity-80">
-                          <a href="#">Bed</a>
-                        </h4>
-                        <h3 class="mb-10 text-sm">
-                          <a href="#">
-                            <h1>Name Product</h1>
-                            <span>Price: $1000</span>
-                          </a>
-                        </h3>
-                        <a
-                          class="hover:bg-yellow-600 transition-all text-sm inline-flex rounded-md px-4 py-2 text-center border-2 border-yellow-600"
-                          href="#"
-                          >Add to cart</a
-                        >
-                      </div>
-                      <div
-                        class="z-10 h-2/3 absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent"
-                      ></div>
-                      <a
-                        href="#"
-                        class="absolute z-0 inset-0 bg-yellow-700 opacity-0 group-hover:opacity-80 transition-all"
-                      ></a>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="grid grid-cols-3 gap-4">
-                <div class="products_bed">
-                  <div>
-                    <div class="card rounded-md overflow-hidden relative group">
-                      <img
-                        src="@/assets/images/category/sofa/sofa_2.png"
-                        alt="bg"
-                        class="w-full transition-all transform group-hover:scale-110"
-                      />
-                      <div
-                        class="group-hover:bottom-0 transition-all absolute -bottom-20 left-0 text-white p-6 z-20"
-                      >
-                        <h4 class="mb-2 text-sm opacity-80">
-                          <a href="#">Bed</a>
-                        </h4>
-                        <h3 class="mb-10 text-sm">
-                          <a href="#">
-                            <h1>Name Product</h1>
-                            <span>Price: $1000</span>
-                          </a>
-                        </h3>
-                        <a
-                          class="hover:bg-yellow-600 transition-all text-sm inline-flex rounded-md px-4 py-2 text-center border-2 border-yellow-600"
-                          href="#"
-                          >Add to cart</a
-                        >
-                      </div>
-                      <div
-                        class="z-10 h-2/3 absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent"
-                      ></div>
-                      <a
-                        href="#"
-                        class="absolute z-0 inset-0 bg-yellow-700 opacity-0 group-hover:opacity-80 transition-all"
-                      ></a>
-                    </div>
-                  </div>
-                </div>
-                <div class="products_bed">
-                  <div>
-                    <div class="card rounded-md overflow-hidden relative group">
-                      <img
-                        src="@/assets/images/category/wardrobe/wardrobe_1.png"
-                        alt="bg"
-                        class="w-full transition-all transform group-hover:scale-110"
-                      />
-                      <div
-                        class="group-hover:bottom-0 transition-all absolute -bottom-20 left-0 text-white p-6 z-20"
-                      >
-                        <h4 class="mb-2 text-sm opacity-80">
-                          <a href="#">Bed</a>
-                        </h4>
-                        <h3 class="mb-10 text-sm">
-                          <a href="#">
-                            <h1>Name Product</h1>
-                            <span>Price: $1000</span>
-                          </a>
-                        </h3>
-                        <a
-                          class="hover:bg-yellow-600 transition-all text-sm inline-flex rounded-md px-4 py-2 text-center border-2 border-yellow-600"
-                          href="#"
-                          >Add to cart</a
-                        >
-                      </div>
-                      <div
-                        class="z-10 h-2/3 absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent"
-                      ></div>
-                      <a
-                        href="#"
-                        class="absolute z-0 inset-0 bg-yellow-700 opacity-0 group-hover:opacity-80 transition-all"
-                      ></a>
-                    </div>
-                  </div>
-                </div>
-                <div class="products_bed">
-                  <div>
-                    <div class="card rounded-md overflow-hidden relative group">
-                      <img
-                        src="@/assets/images/category/clock/clock_12.png"
-                        alt="bg"
-                        class="w-full transition-all transform group-hover:scale-110"
-                      />
-                      <div
-                        class="group-hover:bottom-0 transition-all absolute -bottom-20 left-0 text-white p-6 z-20"
-                      >
-                        <h4 class="mb-2 text-sm opacity-80">
-                          <a href="#">Bed</a>
-                        </h4>
-                        <h3 class="mb-10 text-sm">
-                          <a href="#">
-                            <h1>Name Product</h1>
-                            <span>Price: $1000</span>
-                          </a>
-                        </h3>
-                        <a
-                          class="hover: transition-all text-sm inline-flex rounded-md px-4 py-2 text-center"
-                          href="#"
-                          >Add to cart</a
-                        >
-                      </div>
-                      <div
-                        class="z-10 h-2/3 absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent"
-                      ></div>
-                      <a
-                        href="#"
-                        class="absolute z-0 inset-0 bg-yellow-700 opacity-0 group-hover:opacity-80 transition-all"
-                      ></a>
-                    </div>
+              <div v-else>
+                <div class="hourglassBackground">
+                  <div class="hourglassContainer">
+                    <div class="hourglassCurves"></div>
+                    <div class="hourglassCapTop"></div>
+                    <div class="hourglassGlassTop"></div>
+                    <div class="hourglassSand"></div>
+                    <div class="hourglassSandStream"></div>
+                    <div class="hourglassCapBottom"></div>
+                    <div class="hourglassGlass"></div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="customize_furniture">
               <div class="text-center text-2xl font-bold mt-11 mb-4 relative">
-                <h1 class="crossbar">Custoize Furniture</h1>
+                <h1 class="crossbar">Customize Furniture</h1>
               </div>
               <div
-                class="grid grid-cols-2 bg-gray-50 border border-indigo-600 rounded-lg"
+                class="grid grid-cols-2 bg-gray-50 border border-indigo-600 rounded-lg max-sm:block"
               >
-                <div class="img">
+                <div class="img max-sm:hidden">
                   <img src="@/assets/images/customize.png" alt="customize" />
                 </div>
                 <div class="">
                   <div class="">
-                    <form class="px-10 pt-3" @submit.prevent="order">
+                    <form
+                      class="px-10 pt-3 max-sm:px-3"
+                      @submit.prevent="order"
+                    >
                       <div class="form-group">
                         <label for="exampleFormControlInput1"
                           >Furniture Name</label
@@ -651,7 +573,9 @@
               <div class="text-center text-2xl font-bold mt-11 mb-4 relative">
                 <h1 class="crossbar">Hot News</h1>
               </div>
-              <div class="grid grid-cols-3 gap-x-4">
+              <div
+                class="grid grid-cols-3 gap-x-4 max-sm:grid max-sm:grid-cols-1 max-sm:gap-y-4"
+              >
                 <div class="bg-white px-2 py-2 shadow">
                   <div class="border border-indigo-500">
                     <router-link to="">
@@ -712,8 +636,8 @@
               </div>
             </div>
             <div class="hot_feedback">
-              <div class="grid grid-cols-6">
-                <div class="col-span-2">
+              <div class="grid grid-cols-6 max-sm:block">
+                <div class="col-span-2 max-sm:hidden">
                   <div class="time text-center bg-slate-50 mx-3 w-54 h-40">
                     <h1 class="text-lg font-semibold pt-3">Business hours</h1>
                     <br />
@@ -723,11 +647,13 @@
                     <span class="text-sm px-1">Satuday-Sunday: 9AM-20PM</span>
                   </div>
                 </div>
-                <div class="col-span-4 pt-5">
-                  <h1 class="text-white text-2xl font-bold text-center">
+                <div class="col-span-4 pt-5 max-sm:pt-3">
+                  <h1
+                    class="text-white text-2xl font-bold text-center max-sm:text-xl"
+                  >
                     Feedback Customer
                   </h1>
-                  <div class="content_feedback px-2 pt-9">
+                  <div class="content_feedback px-2 pt-9 max-sm:pt-2">
                     <div class="avatar">
                       <img
                         class="rounded-full w-3/12"
@@ -868,15 +794,31 @@
     </footer>
   </div>
 </template>
-
 <script>
+import axios from "axios";
+
 export default {
-  // setup() {
-  //   const isShowModal = false;
-  //   showModalProductDetails() {
-  //     this.isShowModal = !this.isShowModal;
-  //   }
-  // },
+  data() {
+    return {
+      furnitures: [],
+    };
+  },
+
+  async created() {
+    try {
+      const response = await axios.get(
+        "https://landlstore.azurewebsites.net/api/customer/furnitures",
+        {
+          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+        }
+      );
+      this.furnitures = response.data;
+      console.log(response);
+      console.log(this.furnitures);
+    } catch (error) {
+      console.error(error);
+    }
+  },
 };
 </script>
 
@@ -962,9 +904,8 @@ content .col:hover {
   padding-bottom: 10px;
 }
 .service-description {
-  width: 90%;
+  /* width: 90%; */
   text-align: center;
-  padding-top: 20x;
 }
 .text-center h1 {
   color: rgb(79, 40, 40);
@@ -996,7 +937,7 @@ content .col:hover {
   height: 1px;
   right: -9px;
   top: 110%;
-  transform: translateX(-393%);
+  transform: translateX(-463%);
   background-color: #8d7a60;
 }
 .grid.grid-rows-2 {
@@ -1262,70 +1203,7 @@ content .col:hover {
   margin-top: 4rem;
   background: rgba(0, 0, 0, 0.7);
 }
-/* Button Add to cart  */
-.CartBtn {
-  width: 140px;
-  height: 40px;
-  border-radius: 12px;
-  border: none;
-  background-color: rgb(255, 208, 0);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition-duration: 0.5s;
-  overflow: hidden;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.103);
-  position: relative;
-}
-
-.IconContainer {
-  position: absolute;
-  left: -50px;
-  width: 30px;
-  height: 30px;
-  background-color: transparent;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  z-index: 2;
-  transition-duration: 0.5s;
-}
-
-.icon {
-  border-radius: 1px;
-}
-
-.text {
-  height: 100%;
-  width: fit-content;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgb(17, 17, 17);
-  z-index: 1;
-  transition-duration: 0.5s;
-  font-size: 1.04em;
-  font-weight: 600;
-}
-
-.CartBtn:hover .IconContainer {
-  transform: translateX(58px);
-  border-radius: 40px;
-  transition-duration: 0.5s;
-}
-
-.CartBtn:hover .text {
-  transform: translate(10px, 0px);
-  transition-duration: 0.5s;
-}
-
-.CartBtn:active {
-  transform: scale(0.95);
-  transition-duration: 0.5s;
-}
+/* Footer  */
 
 .footer::before {
   content: "";
@@ -1378,5 +1256,564 @@ content .col:hover {
 }
 .warranty button {
   font-size: 90%;
+}
+/* hot product */
+.price li,
+.size li {
+  padding-bottom: 13px;
+}
+.sort i {
+  padding-right: 10px;
+  color: #50443c;
+}
+.product_bed {
+  position: relative;
+}
+.product_label {
+  position: absolute;
+  width: 25%;
+  border-radius: 1rem;
+  text-align: center;
+  font-size: 13px;
+  top: 4%;
+  left: 70%;
+}
+/* loading */
+.hourglassBackground {
+  position: relative;
+  background-color: rgb(71, 60, 60);
+  height: 130px;
+  width: 130px;
+  border-radius: 50%;
+  margin: 30px auto;
+}
+
+.hourglassContainer {
+  position: absolute;
+  top: 30px;
+  left: 40px;
+  width: 50px;
+  height: 70px;
+  -webkit-animation: hourglassRotate 2s ease-in 0s infinite;
+  animation: hourglassRotate 2s ease-in 0s infinite;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.hourglassContainer div,
+.hourglassContainer div:before,
+.hourglassContainer div:after {
+  transform-style: preserve-3d;
+}
+
+@-webkit-keyframes hourglassRotate {
+  0% {
+    transform: rotateX(0deg);
+  }
+
+  50% {
+    transform: rotateX(180deg);
+  }
+
+  100% {
+    transform: rotateX(180deg);
+  }
+}
+
+@keyframes hourglassRotate {
+  0% {
+    transform: rotateX(0deg);
+  }
+
+  50% {
+    transform: rotateX(180deg);
+  }
+
+  100% {
+    transform: rotateX(180deg);
+  }
+}
+
+.hourglassCapTop {
+  top: 0;
+}
+
+.hourglassCapTop:before {
+  top: -25px;
+}
+
+.hourglassCapTop:after {
+  top: -20px;
+}
+
+.hourglassCapBottom {
+  bottom: 0;
+}
+
+.hourglassCapBottom:before {
+  bottom: -25px;
+}
+
+.hourglassCapBottom:after {
+  bottom: -20px;
+}
+
+.hourglassGlassTop {
+  transform: rotateX(90deg);
+  position: absolute;
+  top: -16px;
+  left: 3px;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  background-color: #999999;
+}
+
+.hourglassGlass {
+  perspective: 100px;
+  position: absolute;
+  top: 32px;
+  left: 20px;
+  width: 10px;
+  height: 6px;
+  background-color: #999999;
+  opacity: 0.5;
+}
+
+.hourglassGlass:before,
+.hourglassGlass:after {
+  content: "";
+  display: block;
+  position: absolute;
+  background-color: #999999;
+  left: -17px;
+  width: 44px;
+  height: 28px;
+}
+
+.hourglassGlass:before {
+  top: -27px;
+  border-radius: 0 0 25px 25px;
+}
+
+.hourglassGlass:after {
+  bottom: -27px;
+  border-radius: 25px 25px 0 0;
+}
+
+.hourglassCurves:before,
+.hourglassCurves:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 32px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #333;
+  animation: hideCurves 2s ease-in 0s infinite;
+}
+
+.hourglassCurves:before {
+  left: 15px;
+}
+
+.hourglassCurves:after {
+  left: 29px;
+}
+
+@-webkit-keyframes hideCurves {
+  0% {
+    opacity: 1;
+  }
+
+  25% {
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes hideCurves {
+  0% {
+    opacity: 1;
+  }
+
+  25% {
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.hourglassSandStream:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 24px;
+  width: 3px;
+  background-color: white;
+  -webkit-animation: sandStream1 2s ease-in 0s infinite;
+  animation: sandStream1 2s ease-in 0s infinite;
+}
+
+.hourglassSandStream:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 36px;
+  left: 19px;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #fff;
+  animation: sandStream2 2s ease-in 0s infinite;
+}
+
+@-webkit-keyframes sandStream1 {
+  0% {
+    height: 0;
+    top: 35px;
+  }
+
+  50% {
+    height: 0;
+    top: 45px;
+  }
+
+  60% {
+    height: 35px;
+    top: 8px;
+  }
+
+  85% {
+    height: 35px;
+    top: 8px;
+  }
+
+  100% {
+    height: 0;
+    top: 8px;
+  }
+}
+
+@keyframes sandStream1 {
+  0% {
+    height: 0;
+    top: 35px;
+  }
+
+  50% {
+    height: 0;
+    top: 45px;
+  }
+
+  60% {
+    height: 35px;
+    top: 8px;
+  }
+
+  85% {
+    height: 35px;
+    top: 8px;
+  }
+
+  100% {
+    height: 0;
+    top: 8px;
+  }
+}
+
+@-webkit-keyframes sandStream2 {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  51% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  91% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes sandStream2 {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  51% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  91% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.hourglassSand:before,
+.hourglassSand:after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 6px;
+  background-color: white;
+  perspective: 500px;
+}
+
+.hourglassSand:before {
+  top: 8px;
+  width: 39px;
+  border-radius: 3px 3px 30px 30px;
+  animation: sandFillup 2s ease-in 0s infinite;
+}
+
+.hourglassSand:after {
+  border-radius: 30px 30px 3px 3px;
+  animation: sandDeplete 2s ease-in 0s infinite;
+}
+
+@-webkit-keyframes sandFillup {
+  0% {
+    opacity: 0;
+    height: 0;
+  }
+
+  60% {
+    opacity: 1;
+    height: 0;
+  }
+
+  100% {
+    opacity: 1;
+    height: 17px;
+  }
+}
+
+@keyframes sandFillup {
+  0% {
+    opacity: 0;
+    height: 0;
+  }
+
+  60% {
+    opacity: 1;
+    height: 0;
+  }
+
+  100% {
+    opacity: 1;
+    height: 17px;
+  }
+}
+
+@-webkit-keyframes sandDeplete {
+  0% {
+    opacity: 0;
+    top: 45px;
+    height: 17px;
+    width: 38px;
+    left: 6px;
+  }
+
+  1% {
+    opacity: 1;
+    top: 45px;
+    height: 17px;
+    width: 38px;
+    left: 6px;
+  }
+
+  24% {
+    opacity: 1;
+    top: 45px;
+    height: 17px;
+    width: 38px;
+    left: 6px;
+  }
+
+  25% {
+    opacity: 1;
+    top: 41px;
+    height: 17px;
+    width: 38px;
+    left: 6px;
+  }
+
+  50% {
+    opacity: 1;
+    top: 41px;
+    height: 17px;
+    width: 38px;
+    left: 6px;
+  }
+
+  90% {
+    opacity: 1;
+    top: 41px;
+    height: 0;
+    width: 10px;
+    left: 20px;
+  }
+}
+
+@keyframes sandDeplete {
+  0% {
+    opacity: 0;
+    top: 45px;
+    height: 17px;
+    width: 38px;
+    left: 6px;
+  }
+
+  1% {
+    opacity: 1;
+    top: 45px;
+    height: 17px;
+    width: 38px;
+    left: 6px;
+  }
+
+  24% {
+    opacity: 1;
+    top: 45px;
+    height: 17px;
+    width: 38px;
+    left: 6px;
+  }
+
+  25% {
+    opacity: 1;
+    top: 41px;
+    height: 17px;
+    width: 38px;
+    left: 6px;
+  }
+
+  50% {
+    opacity: 1;
+    top: 41px;
+    height: 17px;
+    width: 38px;
+    left: 6px;
+  }
+
+  90% {
+    opacity: 1;
+    top: 41px;
+    height: 0;
+    width: 10px;
+    left: 20px;
+  }
+}
+/*Mobile: width<780px*/
+@media only screen and (max-width: 46.25em) {
+  .logo {
+    width: 100%;
+  }
+  nav {
+    display: none;
+  }
+  header::before {
+    height: 30em;
+  }
+  .mx-64 {
+    margin-top: -60%;
+  }
+  .service-icon {
+    font-size: 60%;
+  }
+  .service-title h1 {
+    font-size: 80%;
+    width: 109%;
+  }
+  .service-description {
+    width: 100%;
+  }
+  .category.grid.grid-cols-6 .text-center h1 {
+    font-size: 70%;
+  }
+  /* 
+  .category.grid.grid-cols-6 img {
+    width: 80%;
+  } */
+  .flex.flex-1.justify-center.gap-3.font-medium {
+    font-size: 80%;
+  }
+  .button_buy {
+    margin-left: -11%;
+  }
+  .hot_feedback {
+    position: relative;
+    color: rgb(220, 210, 210);
+    background: rgba(0, 0, 0, 0.7);
+    height: 20rem;
+  }
+  .hot_feedback::before {
+    content: "";
+    height: 20rem;
+    z-index: -1;
+    background-image: url("@/assets/images/feedback.png");
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    inset: 0;
+    opacity: 0.9;
+  }
+}
+/*Tablet: width>=740px and width < 1024px*/
+@media only screen and (min-width: 46.25em) and (max-width: 63.9375em) {
+}
+/*laptop*/
+@media only screen and (width: 64em) {
+}
+
+@media only screen and (min-width: 73em) and (max-width: 81.25em) {
+}
+@media only screen and (min-width: 80em) and (max-width: 96em) {
 }
 </style>

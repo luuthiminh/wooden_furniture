@@ -1,19 +1,23 @@
 <template>
   <div class="register">
-    <div class="grid grid-cols-2 ga-x-6">
-      <div>
+    <div class="grid grid-cols-2 max-sm:max-lg:block">
+      <div class="max-sm:hidden">
         <div class="img">
           <img src="@/assets/images/3.png" alt="register information" />
         </div>
       </div>
       <div class="form_register bg-gray-50">
-        <div class="my-20 mx-11">
-          <div class="bg-white border border-indigo-600 mt-16 px-11 rounded-lg">
+        <div class="my-20 mx-11 max-sm:mx-3 max-lg:mx-2">
+          <div
+            class="bg-white border border-indigo-600 mt-16 px-11 rounded-lg max-sm:px-2"
+          >
             <div class="text-red-600 pt-3">{{ message }}</div>
             <!-- </div> -->
             <form id="signup-form" @submit.prevent="register">
               <div>
-                <h1 class="text-xl my-9 font-bold">Sign up for account</h1>
+                <h1 class="text-xl my-9 font-bold max-sm:text-center">
+                  Sign up for account
+                </h1>
               </div>
               <div class="form justify-center">
                 <div class="grid grid-cols-2 gap-x-6">

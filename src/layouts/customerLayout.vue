@@ -1,6 +1,6 @@
 <template>
   <!-- <header class="header h-36 fixed z-10"> -->
-  <header class="header h-24 fixed z-10 py-3 shadow-sm">
+  <header class="header h-24 fixed z-10 py-3 shadow-sm w-full">
     <div class="nav_header">
       <div class="grid mg-left-0 grid-cols-2">
         <div class="logo grid__item large--four-twelfths ml-28">
@@ -11,7 +11,7 @@
         <nav
           class="border-2 border-yellow-700 grid__item large--eight-twelfths text-right clearfix"
         >
-          <ul class="flex gap-x-9 pl-2">
+          <ul class="flex gap-x-9 pt-2">
             <router-link to="/customerIndex"></router-link>
             <li>
               <router-link to="/customerIndex"> Home</router-link>
@@ -21,93 +21,99 @@
                 <div class="dropdown-toggle" data-toggle="dropdown">
                   <strong class="font-normal">All Product</strong>
                 </div>
-                <div class="dropdown-menu px-3 py-2 mt-1">
-                  <router-link to="/allproduct" class="font-medium text-base">
-                    Bed</router-link
-                  >
-                  <br />
-                  <router-link to="/allproduct" class="font-medium text-base">
-                    Sofa</router-link
-                  >
-                </div>
-                <div class="dropdown-menu px-3 py-2 mt-1">
-                  <router-link to="/allproduct" class="font-medium text-base">
-                    Bed</router-link
-                  >
-                  <br />
-                  <router-link to="/allproduct" class="font-medium text-base">
-                    Sofa</router-link
-                  >
-                </div>
-                <div class="dropdown-menu px-3 py-2 mt-1">
-                  <router-link to="/allproduct" class="font-medium text-base">
-                    Bed</router-link
-                  >
-                  <br />
-                  <router-link to="/allproduct" class="font-medium text-base">
-                    Sofa</router-link
-                  >
+                <div class="dropdown-menu px-3 py-2 mt-1 leading-7">
+                  <li>
+                    <router-link to="/allproduct" class="font-medium text-base">
+                      Wardrobe</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link to="/allproduct" class="font-medium text-base">
+                      Sofa</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link to="/allproduct" class="font-medium text-base">
+                      Clock</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link to="/allproduct" class="font-medium text-base">
+                      Altar</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link to="/allproduct" class="font-medium text-base">
+                      Bed</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link to="/allproduct" class="font-medium text-base">
+                      Shelves TV</router-link
+                    >
+                  </li>
                 </div>
               </div>
             </li>
             <li><router-link to="/about">About</router-link></li>
             <li><a href="">Contact</a></li>
             <li>
-              <div class="search h-5">
-                <form class="form">
-                  <label for="search">
-                    <inputF
-                      autocomplete="off"
-                      placeholder="search your chats"
-                      id="search"
-                      type="text"
-                    />
-                    <div class="icon">
-                      <svg
-                        stroke-width="2"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="swap-on"
-                      >
-                        <path
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                          stroke-linejoin="round"
-                          stroke-linecap="round"
-                        ></path>
-                      </svg>
-                      <svg
-                        stroke-width="2"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="swap-off"
-                      >
-                        <path
-                          d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                          stroke-linejoin="round"
-                          stroke-linecap="round"
-                        ></path>
-                      </svg>
-                    </div>
-                    <button type="reset" class="close-btn">
-                      <svg
-                        viewBox="0 0 20 20"
-                        class="h-5 w-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          clip-rule="evenodd"
-                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                          fill-rule="evenodd"
-                        ></path>
-                      </svg>
-                    </button>
-                  </label>
-                </form>
-              </div>
+              <form class="form" @submit.prevent="search">
+                <label for="search">
+                  <input
+                    v-model="keyword"
+                    required=""
+                    autocomplete="off"
+                    placeholder="search your chats"
+                    id="search"
+                    type="text"
+                  />
+                  <div class="icon">
+                    <svg
+                      stroke-width="2"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="swap-on"
+                    >
+                      <path
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                      ></path>
+                    </svg>
+                    <svg
+                      stroke-width="2"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="swap-off"
+                    >
+                      <path
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                      ></path>
+                    </svg>
+                  </div>
+                  <button type="reset" class="close-btn">
+                    <svg
+                      viewBox="0 0 20 20"
+                      class="h-5 w-5"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        fill-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                </label>
+                <!-- <button type="submit">Search</button> -->
+              </form>
             </li>
             <li>
               <router-link to="/profileCusPage" style="text-decoration: none"
@@ -122,9 +128,20 @@
                 ><i class="fa-solid fa-cart-shopping"></i
               ></router-link>
             </li>
-            <router-link to="/">
-              <li><i class="fa-solid fa-arrow-right-from-bracket"></i></li>
-            </router-link>
+            <li>
+              <div for="check" class="fa-solid fa-bell">
+                <!-- <input id="check" hidden type="checkbox" class="input_check" />
+                <label for="check" class="overlay"></label>
+                <div class="bg-white w-40">
+                  <div></div>
+                </div> -->
+              </div>
+            </li>
+            <li>
+              <router-link to="/">
+                <li><i class="fa-solid fa-arrow-right-from-bracket"></i></li>
+              </router-link>
+            </li>
           </ul>
         </nav>
       </div>
@@ -196,11 +213,32 @@
   </footer>
 </template>
 <script>
-// import FooterCus from "@/components/FooterCus.vue";
+import axios from "axios";
 
-// export default {
-//   components: { FooterCus },
-// };
+export default {
+  data() {
+    return {
+      keyword: "",
+      message: "",
+    };
+  },
+  methods: {
+    async search() {
+      try {
+        const response = await axios.post(
+          "https://landlstore.azurewebsites.net/api/customer/search"
+        );
+        if (response.status === 200) {
+          this.resposne = response.data;
+        }
+      } catch (error) {
+        this.message = error.response.data.title;
+        console.error(error.response.data.title);
+        console.error(error);
+      }
+    },
+  },
+};
 </script>
 <style scoped>
 .header.fixed {
@@ -213,7 +251,7 @@
   background-color: #dedddb;
 } */
 nav {
-  width: 80%;
+  width: 62%;
 }
 .nav_header .logo img {
   max-width: 30%;
@@ -376,7 +414,7 @@ nav li {
 .footer {
   position: relative;
   color: rgb(220, 210, 210);
-  margin-top: 1rem;
+  margin-top: 2rem;
   background: rgba(0, 0, 0, 0.7);
 }
 .footer h1 {

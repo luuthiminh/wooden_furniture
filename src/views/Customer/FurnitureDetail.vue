@@ -3,6 +3,7 @@
     <div class="mx-28 h-8 flex items-center text-sm font-medium text-slate-800">
       <p>Homepage/ Detail Page</p>
     </div>
+    <h1>{{ $route.params.id }}</h1>
     <div class="funiture_detail mx-24">
       <div class="flex flex-cols-3">
         <div
@@ -375,7 +376,34 @@
   </div>
 </template>
 
-<script setup></script>
+<script>
+import axios from "axios";
+
+export default {
+  data() {
+    return {
+      furnitures: [],
+    };
+  },
+
+  async created() {
+    try {
+      const response = await axios.get(
+        "https://landlstore.azurewebsites.net/api/customer/furnitures/" +
+          this.$route.params.id,
+        {
+          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+        }
+      );
+      this.furnitures = response.data;
+      console.log(response);
+      console.log(this.furnitures);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+};
+</script>
 
 <style>
 h1 {

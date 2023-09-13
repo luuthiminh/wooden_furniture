@@ -1,122 +1,440 @@
 <template>
-  <div class="bg-neutral-50">
-    <div class="pt-28 px-40">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-neutral-50 text-xs">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item"><a href="#">All Product</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Sofa</li>
-        </ol>
-      </nav>
-      <div>
-        <div class="py-2 text-xl font-semibold">
-          <h4>Shopping Cart</h4>
-        </div>
-        <div class="card">
-          <div class="row grid grid-cols-7 gap-x-4">
-            <div class="col-span-5 cart">
-              <div class="title">
-                <div class="row">
-                  <div class="col align-self-center text-right text-muted">
-                    3 items
+  <div class="bg-neutral-100 text-slate-700">
+    <div class="pt-28 px-36">
+      <div class="bg-white">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-neutral-100 text-xs">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">All Product</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Sofa</li>
+          </ol>
+        </nav>
+      </div>
+      <h1 class="font-semibold pb-3 text-lg">Shopping Cart</h1>
+      <div class="grid grid-cols-7 gap-x-7">
+        <div class="col-span-5 cart">
+          <div class="title">
+            <div class="row">
+              <!-- <div class="col align-self-center text-right text-muted text-sm">
+                3 items
+              </div> -->
+            </div>
+          </div>
+          <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+              <div class="col">
+                <div class="ibox">
+                  <div class="ibox-title">
+                    <span class="pull-right"
+                      >(<strong>5</strong>) products</span
+                    >
+                    <h5>Products in your cart</h5>
+                  </div>
+                  <div class="ibox-content">
+                    <div class="table-responsive">
+                      <table class="table shoping-cart-table">
+                        <tbody>
+                          <tr>
+                            <td width="90">
+                              <div class="cart-product-imitation">
+                                <img
+                                  src="@/assets/images/category/shelves_tv/shelves_11.png"
+                                  alt=""
+                                />
+                              </div>
+                            </td>
+                            <td class="desc">
+                              <h3>
+                                <a href="#" class="text-navy">
+                                  Solid 2m4 red oak wood TV shelf
+                                </a>
+                              </h3>
+                              <p class="small">
+                                It is a long established fact that a reader will
+                                be distracted by the readable content of a page
+                                when looking at its layout. The point of using
+                                Lorem Ipsum is
+                              </p>
+                              <dl class="small m-b-none">
+                                <dt>Description lists</dt>
+                                <dd>
+                                  A description list is perfect for defining
+                                  terms.
+                                </dd>
+                              </dl>
+
+                              <div class="m-t-sm">
+                                <a href="#" class="text-muted"
+                                  ><i class="fa-regular fa-heart"></i> Add Wish
+                                  List</a
+                                >
+                                |
+                                <a href="#" class="text-muted"
+                                  ><i class="fa fa-trash"></i> Remove item</a
+                                >
+                              </div>
+                            </td>
+
+                            <td>
+                              $180,00
+                              <s class="small text-muted">$230,00</s>
+                            </td>
+                            <td width="65">
+                              <input
+                                type="text"
+                                class="form-control"
+                                placeholder="1"
+                              />
+                            </td>
+                            <td>
+                              <h4>$180,00</h4>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="ibox-content">
+                    <div class="table-responsive">
+                      <table class="table shoping-cart-table">
+                        <tbody>
+                          <tr>
+                            <td width="90">
+                              <div class="cart-product-imitation">
+                                <img
+                                  src="@/assets/images/category/shelves_tv/shelves.png"
+                                  alt=""
+                                />
+                              </div>
+                            </td>
+                            <td class="desc">
+                              <h3>
+                                <a href="#" class="text-navy">
+                                  Solid 2m4 red oak wood TV shelf</a
+                                >
+                              </h3>
+                              <p class="small">
+                                There are many variations of passages of Lorem
+                                Ipsum available
+                              </p>
+                              <dl class="small m-b-none">
+                                <dt>Description lists</dt>
+                                <dd>List is perfect for defining terms.</dd>
+                              </dl>
+
+                              <div class="m-t-sm">
+                                <a href="#" class="text-muted"
+                                  ><i class="fa-regular fa-heart"></i> Add Wish
+                                  List</a
+                                >
+                                |
+                                <a href="#" class="text-muted"
+                                  ><i class="fa fa-trash"></i> Remove item</a
+                                >
+                              </div>
+                            </td>
+
+                            <td>
+                              $50,00
+                              <s class="small text-muted">$63,00</s>
+                            </td>
+                            <td width="65">
+                              <input
+                                type="text"
+                                class="form-control"
+                                placeholder="2"
+                              />
+                            </td>
+                            <td>
+                              <h4>$100,00</h4>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="ibox-content">
+                    <div class="table-responsive">
+                      <table class="table shoping-cart-table">
+                        <tbody>
+                          <tr>
+                            <td width="90">
+                              <div class="cart-product-imitation">
+                                <img
+                                  src="@/assets/images/category/shelves_tv/shelves_11.png"
+                                  alt=""
+                                />
+                              </div>
+                            </td>
+                            <td class="desc">
+                              <h3>
+                                <a href="#" class="text-navy">
+                                  Solid 2m4 red oak wood TV shelf</a
+                                >
+                              </h3>
+                              <p class="small">
+                                Distracted by the readable content of a page
+                                when looking at its layout. The point of using
+                                Lorem Ipsum is
+                              </p>
+                              <dl class="small m-b-none">
+                                <dt>Description lists</dt>
+                                <dd>
+                                  A description list is perfect for defining
+                                  terms.
+                                </dd>
+                              </dl>
+
+                              <div class="m-t-sm">
+                                <a href="#" class="text-muted"
+                                  ><i class="fa-regular fa-heart"></i> Add Wish
+                                  List</a
+                                >
+                                |
+                                <a href="#" class="text-muted"
+                                  ><i class="fa fa-trash"></i> Remove item</a
+                                >
+                              </div>
+                            </td>
+
+                            <td>$110,00</td>
+                            <td width="65">
+                              <input
+                                type="text"
+                                class="form-control"
+                                placeholder="1"
+                              />
+                            </td>
+                            <td>
+                              <h4>$110,00</h4>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="ibox-content">
+                    <div class="table-responsive">
+                      <table class="table shoping-cart-table">
+                        <tbody>
+                          <tr>
+                            <td width="90">
+                              <div class="cart-product-imitation">
+                                <img
+                                  src="@/assets/images/category/shelves_tv/shelves_11.png"
+                                  alt=""
+                                />
+                              </div>
+                            </td>
+                            <td class="desc">
+                              <h3>
+                                <a href="#" class="text-navy">
+                                  Solid 2m4 red oak wood TV shelf
+                                </a>
+                              </h3>
+                              <p class="small">
+                                Readable content of a page when looking at its
+                                layout. The point of using Lorem Ipsum is
+                              </p>
+                              <dl class="small m-b-none">
+                                <dt>Description lists</dt>
+                                <dd>
+                                  A description list is perfect for defining
+                                  terms.
+                                </dd>
+                              </dl>
+
+                              <div class="m-t-sm">
+                                <a href="#" class="text-muted"
+                                  ><i class="fa-regular fa-heart"></i> Add Wish
+                                  List</a
+                                >
+                                |
+                                <a href="#" class="text-muted"
+                                  ><i class="fa fa-trash"></i> Remove item</a
+                                >
+                              </div>
+                            </td>
+
+                            <td>$130,00</td>
+                            <td width="65">
+                              <input
+                                type="text"
+                                class="form-control"
+                                placeholder="1"
+                              />
+                            </td>
+                            <td>
+                              <h4>$130,00</h4>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="ibox-content">
+                    <div class="table-responsive">
+                      <table class="table shoping-cart-table">
+                        <tbody>
+                          <tr>
+                            <td width="90">
+                              <div class="cart-product-imitation">
+                                <img
+                                  src="@/assets/images/category/shelves_tv/shelves_11.png"
+                                  alt=""
+                                />
+                              </div>
+                            </td>
+                            <td class="desc">
+                              <h3>
+                                <a href="#" class="text-navy"
+                                  >Solid 2m4 red oak wood TV shelf
+                                </a>
+                              </h3>
+                              <p class="small">
+                                Page when looking at its layout. The point of
+                                using Lorem Ipsum is
+                              </p>
+                              <dl class="small m-b-none">
+                                <dt>Description lists</dt>
+                                <dd>
+                                  A description list is perfect for defining
+                                  terms.
+                                </dd>
+                              </dl>
+                              <div class="m-t-sm">
+                                <a href="#" class="text-muted"
+                                  ><i class="fa fa-gift"></i> Add gift
+                                  package</a
+                                >
+                                |
+                                <a href="#" class="text-muted"
+                                  ><i class="fa fa-trash"></i> Remove item</a
+                                >
+                              </div>
+                            </td>
+                            <td>$700,00</td>
+                            <td width="65">
+                              <input
+                                type="text"
+                                class="form-control"
+                                placeholder="1"
+                              />
+                            </td>
+                            <td>
+                              <h4>$70,00</h4>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="ibox-content">
+                    <router-link to="/customerIndex">
+                      <button class="btn btn-white">
+                        <i class="fa fa-arrow-left"></i> Continue shopping
+                      </button>
+                    </router-link>
                   </div>
                 </div>
-              </div>
-              <div class="row border-top border-bottom">
-                <div class="row main align-items-center">
-                  <div class="col-2">
-                    <img
-                      class="img-fluid"
-                      src="@/assets/images/category/sofa/sofa_1.png"
-                    />
-                  </div>
-                  <div class="col">
-                    <div class="row text-muted">Shirt</div>
-                    <div class="row">Cotton T-shirt</div>
-                  </div>
-                  <div class="col">
-                    <a href="#">-</a><a href="#" class="border">1</a
-                    ><a href="#">+</a>
-                  </div>
-                  <div class="col">
-                    $ 44.00 <span class="close">&#10005;</span>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="row main align-items-center">
-                  <div class="col-2">
-                    <img
-                      class="img-fluid"
-                      src="@/assets/images/category/sofa/sofa_2.png"
-                    />
-                  </div>
-                  <div class="col">
-                    <div class="row text-muted">Shirt</div>
-                    <div class="row">Cotton T-shirt</div>
-                  </div>
-                  <div class="col">
-                    <a href="#">-</a><a href="#" class="border">1</a
-                    ><a href="#">+</a>
-                  </div>
-                  <div class="col">
-                    $ 44.00 <span class="close">&#10005;</span>
-                  </div>
-                </div>
-              </div>
-              <div class="row border-top border-bottom">
-                <div class="row main align-items-center">
-                  <div class="col-2">
-                    <img
-                      class="img-fluid"
-                      src="@/assets/images/category/sofa/sofa_3.png"
-                    />
-                  </div>
-                  <div class="col">
-                    <div class="row text-muted">Shirt</div>
-                    <div class="row">Cotton T-shirt</div>
-                  </div>
-                  <div class="col">
-                    <a href="#">-</a><a href="#" class="border">1</a
-                    ><a href="#">+</a>
-                  </div>
-                  <div class="col">
-                    $ 44.00 <span class="close">&#10005;</span>
-                  </div>
-                </div>
-              </div>
-              <div class="back-to-shop">
-                <a href="#">&leftarrow;</a
-                ><span class="text-muted">Back to shop</span>
               </div>
             </div>
-            <div class="col-span-2 summary border border-1-black">
-              <div>
-                <h5 class="font-semibold text-base">Summary</h5>
+          </div>
+        </div>
+        <div class="col-span-2">
+          <div class="summary">
+            <div>
+              <h5 class="font-semibold text-base">Summary</h5>
+            </div>
+            <hr />
+            <div class="row pt-4">
+              <div class="col" style="padding-left: 0">ITEMS 3</div>
+              <div class="col text-right">$ 132.00</div>
+            </div>
+            <form>
+              <p>SHIPPING</p>
+              <select>
+                <option class="text-muted">Standard-Delivery- $5.00</option>
+              </select>
+              <p>GIVE CODE</p>
+              <input id="code" placeholder="Enter your code" />
+            </form>
+            <div
+              class="row"
+              style="border-top: 1px solid rgba(0, 0, 0, 0.1); padding: 2vh 0"
+            >
+              <div class="col">TOTAL PRICE</div>
+              <div class="col text-right">$ 137.00</div>
+            </div>
+            <router-link to="orderbill">
+              <button class="btn btn_checkout">ORDER</button>
+            </router-link>
+          </div>
+          <div class="ibox mt-3 leading-8">
+            <div class="ibox-title">
+              <h5>Support</h5>
+            </div>
+            <div class="ibox-content text-center">
+              <h3><i class="fa fa-phone"></i> 0398677620</h3>
+              <span class="small">
+                Please contact with us if you have any questions. We are
+                avalible 24h.
+              </span>
+            </div>
+          </div>
+          <div class="pt-4">
+            <div
+              id="carouselExampleControls"
+              class="carousel slide"
+              data-bs-ride="carousel"
+            >
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img
+                    src="@/assets/images/advertisement/customize.png"
+                    class="d-block w-100"
+                    alt="..."
+                  />
+                </div>
+                <div class="carousel-item">
+                  <img
+                    src="@/assets/images/tips/4.png"
+                    class="d-block w-100"
+                    alt="..."
+                  />
+                </div>
+                <div class="carousel-item">
+                  <img
+                    src="@/assets/images/tips/1.png"
+                    class="d-block w-100"
+                    alt="..."
+                  />
+                </div>
               </div>
-              <hr />
-              <div class="row pt-4">
-                <div class="col" style="padding-left: 0">ITEMS 3</div>
-                <div class="col text-right">$ 132.00</div>
-              </div>
-              <form>
-                <p>SHIPPING</p>
-                <select>
-                  <option class="text-muted">Standard-Delivery- $5.00</option>
-                </select>
-                <p>GIVE CODE</p>
-                <input id="code" placeholder="Enter your code" />
-              </form>
-              <div
-                class="row"
-                style="border-top: 1px solid rgba(0, 0, 0, 0.1); padding: 2vh 0"
+              <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carouselExampleControls"
+                data-bs-slide="prev"
               >
-                <div class="col">TOTAL PRICE</div>
-                <div class="col text-right">$ 137.00</div>
-              </div>
-              <router-link to="cartProduct">
-                <button class="btn btn_checkout">ORDER</button>
-              </router-link>
+                <span
+                  class="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#carouselExampleControls"
+                data-bs-slide="next"
+              >
+                <span
+                  class="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Next</span>
+              </button>
             </div>
           </div>
         </div>
@@ -124,51 +442,46 @@
     </div>
   </div>
 </template>
+<script>
+import axios from "axios";
+
+export default {
+  data() {
+    return {
+      furnitures: [],
+    };
+  },
+
+  async created() {
+    try {
+      const response = await axios.get(
+        "https://landlstore.azurewebsites.net/api/customer/cart",
+        {
+          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+        }
+      );
+      this.furnitures = response.data;
+      console.log(response);
+      console.log(this.furnitures);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+};
+</script>
 <style scoped>
-.table .sub {
-  border-right: 1px solid #ccc;
-}
-.table .plus {
-  border-left: 1px solid #ccc;
-}
 body {
   background: #ddd;
   min-height: 100vh;
   vertical-align: middle;
   display: flex;
-  font-family: sans-serif;
   font-size: 0.8rem;
   font-weight: bold;
 }
-.title {
-  margin-bottom: 5vh;
-}
-.card {
-  border-radius: 8px;
-  border: transparent;
-}
-@media (max-width: 767px) {
-  .card {
-    margin: 3vh auto;
-  }
-}
-.cart {
-  background-color: #fff;
-  padding: 4vh 5vh;
-  border-bottom-left-radius: 1rem;
-  border-top-left-radius: 1rem;
-}
-@media (max-width: 767px) {
-  .cart {
-    padding: 4vh;
-    border-bottom-left-radius: unset;
-    border-top-right-radius: 1rem;
-  }
-}
+
 .summary {
-  /* background-color: #ddd; */
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
+  background-color: white;
+  border-radius: 8px;
   padding: 4vh;
   color: rgb(65, 65, 65);
 }
@@ -206,11 +519,11 @@ a {
   margin-left: auto;
   font-size: 0.7rem;
 }
-.col-md-4.summary {
-  font-size: 14px;
+.summary {
+  font-size: 13px;
 }
 .back-to-shop {
-  margin-top: 4.5rem;
+  margin-top: 2.5rem;
 }
 h5 {
   margin-top: 2vh;
@@ -268,15 +581,97 @@ a:hover {
   color: black;
   text-decoration: none;
 }
-#code {
-  background-image: linear-gradient(
-      to left,
-      rgba(255, 255, 255, 0.253),
-      rgba(255, 255, 255, 0.185)
-    ),
-    url("https://img.icons8.com/small/16/000000/long-arrow-right.png");
-  background-repeat: no-repeat;
-  background-position-x: 95%;
-  background-position-y: center;
+
+/* new */
+h3 {
+  font-size: 16px;
+  margin-left: -6px;
+}
+.text-navy {
+  color: #1ab394;
+}
+.cart-product-imitation {
+  text-align: center;
+  padding-top: 30px;
+  height: 80px;
+  width: 80px;
+  background-color: #f8f8f9;
+}
+.product-imitation.xl {
+  padding: 120px 0;
+}
+.product-desc {
+  padding: 20px;
+  position: relative;
+}
+.ecommerce .tag-list {
+  padding: 0;
+}
+.ecommerce .fa-star {
+  color: #d1dade;
+}
+.ecommerce .fa-star.active {
+  color: #f8ac59;
+}
+.ecommerce .note-editor {
+  border: 1px solid #e7eaec;
+}
+table.shoping-cart-table {
+  margin-bottom: 0;
+}
+table.shoping-cart-table tr td {
+  border: none;
+  text-align: right;
+}
+table.shoping-cart-table tr td.desc,
+table.shoping-cart-table tr td:first-child {
+  text-align: left;
+}
+table.shoping-cart-table tr td:last-child {
+  width: 80px;
+}
+.ibox {
+  clear: both;
+  margin-bottom: 25px;
+  margin-top: 0;
+  padding: 0;
+}
+.ibox.collapsed .ibox-content {
+  display: none;
+}
+.ibox:after,
+.ibox:before {
+  display: table;
+}
+.ibox-title {
+  -moz-border-bottom-colors: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  background-color: #ffffff;
+  border-color: #e7eaec;
+  border-image: none;
+  border-style: solid solid none;
+  border-width: 3px 0 0;
+  color: inherit;
+  margin-bottom: 0;
+  padding: 14px 15px 7px;
+  min-height: 48px;
+}
+.ibox-content {
+  background-color: #ffffff;
+  color: inherit;
+  padding: 15px 20px 20px 20px;
+  border-color: #e7eaec;
+  border-image: none;
+  border-style: solid solid none;
+  border-width: 1px 0;
+}
+.ibox-footer {
+  color: inherit;
+  border-top: 1px solid #e7eaec;
+  font-size: 90%;
+  background: #ffffff;
+  padding: 10px 15px;
 }
 </style>

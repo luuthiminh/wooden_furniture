@@ -1,18 +1,22 @@
 <template>
   <div class="loginn">
-    <div class="grid grid-cols-2 ga-x-6 rounded-2xl">
-      <div>
+    <div
+      class="grid grid-cols-2 rounded-2xl max-sm:block md:max-lg:block lg:max-xl:h-full"
+    >
+      <div class="max-sm:hidden max-lg:hidden">
         <img src="@/assets/images/login1.png" alt="register information" />
         <img src="@/assets/images/login2.png" alt="register information" />
       </div>
       <div class="">
         <div
-          class="border border-indigo-600 bg-white mt-24 mx-44 pl-12 rounded-lg"
+          class="border border-indigo-600 bg-white mt-24 mx-44 pl-12 rounded-lg max-sm:mx-4 max-sm:mt-14 md:max-lg:mx-28 lg:max-xl:mx-16 lg:max-xl:mt-1 lg:max-xl:h-1/12"
         >
           <div class="">
             <form id="signup-form" @submit.prevent="login">
               <div class="flex justify-center">
-                <h1 class="text-2xl pt-10 pb-11 font-bold">Sign in</h1>
+                <h1 class="text-2xl pt-10 pb-11 font-bold lg:max-xl:pb-5">
+                  Sign in
+                </h1>
                 <div class="bg-inherit h-px"></div>
               </div>
               <div class="text-red-600 py-3">{{ message }}</div>
@@ -42,11 +46,19 @@
                     aria-describedby="passwordHelp"
                   />
                 </div>
-                <div class="grid grid-cols-2 text-xs text-slate-400 mt-3">
+                <div
+                  class="grid grid-cols-2 text-xs text-slate-400 mt-3 lg:max-xl:mt-px"
+                >
                   <router-link to="/" class="my-8"
                     >Forgot your password?</router-link
                   >
-                  <div class="form-check mt-7 ml-10">
+                  <!-- <a
+                    href="https://landlstore.azurewebsites.net/api/customer/forgot-password"
+                    >Forgot your password?</a
+                  > -->
+                  <div
+                    class="form-check mt-7 ml-10 max-sm:ml-8 md:max-lg:ml-28"
+                  >
                     <input
                       v-model="rememberMe"
                       class="form-check-input"
@@ -61,12 +73,19 @@
                 </div>
                 <!-- <div>Sign in using</div> -->
                 <div class="login_text my-8 rounded-md">
-                  <button class="btn text-white pl-32" type="submit">
+                  <button
+                    class="btn text-white pl-32 md:max-lg:pl-48 lg:max-xl:pl-36"
+                    type="submit"
+                  >
                     Sign In
                   </button>
                 </div>
                 <div class="flex justify-center">
-                  <img class="w-7 h-7" src="@/assets/images/google.png" />
+                  <a
+                    href="https://landlstore.azurewebsites.net/api/customer/signin-google"
+                  >
+                    <img class="w-7 h-7" src="@/assets/images/google.png"
+                  /></a>
                 </div>
                 <br />
                 <div class="flex justify-center text-xs pb-12">
@@ -93,6 +112,7 @@ export default {
     return {
       rememberMe: false,
       message: "",
+      token: null,
     };
   },
   methods: {
@@ -107,15 +127,41 @@ export default {
           }
         );
         if (response.status === 200) {
+          localStorage.setItem("token", response.data.token);
+          console.log(response);
           console.log("login successfully");
           this.$router.push({ name: "Customer" });
         }
+        // const token = localStorage.setItem(this.token, response.data.token);
+        // axios.defaults.headers.common["Authorization"] = token;
       } catch (error) {
         this.message = error.response.data.title;
         console.error(error.response.data.title);
         console.error(error);
       }
     },
+    // async loginWithGoogle() {
+    //   try {
+    //     const response = await axios.post(
+    //       "https://landlstore.azurewebsites.net/api/customer/signin-google",
+    //       {
+    //         email: this.email,
+    //         password: this.password,
+    //         rememberMe: this.rememberMe,
+    //       }
+    //     );
+    //     if (response.status === 200) {
+    //       localStorage.setItem("token", response.data.token);
+    //       console.log(response);
+    //       console.log("login successfully");
+    //       this.$router.push({ name: "Customer" });
+    //     }
+    //   } catch (error) {
+    //     this.message = error.response.data.title;
+    //     console.error(error.response.data.title);
+    //     console.error(error);
+    //   }
+    // },
   },
 };
 </script>

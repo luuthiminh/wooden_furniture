@@ -52,7 +52,7 @@ const routes = [
       ),
   },
   {
-    path: "/furnitureDetail",
+    path: "/furnitureDetail/:id",
     name: "FurnitureDetail",
     meta: {
       layout: "customerLayout",
@@ -145,6 +145,14 @@ const routes = [
       ),
   },
   {
+    path: "/comfirmemail",
+    name: "ComfirmEmail",
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/ComfirmEmail.vue"
+      ),
+  },
+  {
     path: "/cartproduct",
     name: "cartProduct",
     meta: {
@@ -174,7 +182,40 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "register" */ "../views/Customer/OrderBill.vue"
+        /* webpackChunkName: "register" */ "../views/Customer/OrderFurniture.vue"
+      ),
+  },
+  {
+    path: "/orderfurniture",
+    name: "OrderFurniture",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/OrderFurniture.vue"
+      ),
+  },
+  {
+    path: "/orderbilldetail",
+    name: "OrderBillDetail",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/OrderBillDetail.vue"
+      ),
+  },
+  {
+    path: "/orderhistory",
+    name: "OrderHistory",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/OrderHistory.vue"
       ),
   },
 
