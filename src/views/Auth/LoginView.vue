@@ -9,7 +9,7 @@
       </div>
       <div class="">
         <div
-          class="border border-indigo-600 bg-white mt-24 mx-44 pl-12 rounded-lg max-sm:mx-4 max-sm:mt-14 md:max-lg:mx-28 lg:max-xl:mx-16 lg:max-xl:mt-1 lg:max-xl:h-1/12"
+          class="border border-indigo-600 bg-white mt-10 mx-44 pl-12 rounded-lg max-sm:mx-4 max-sm:mt-14 md:max-lg:mx-28 lg:max-xl:mx-16 lg:max-xl:mt-1 lg:max-xl:h-1/12"
         >
           <div class="">
             <form id="signup-form" @submit.prevent="login">
@@ -31,6 +31,7 @@
                     class="form-control"
                     id="exampleInputEmail1"
                     aria-describedby="emailHelp"
+                    required
                   />
                 </div>
                 <br />
@@ -44,18 +45,16 @@
                     class="form-control"
                     id="password"
                     aria-describedby="passwordHelp"
+                    required
                   />
                 </div>
                 <div
                   class="grid grid-cols-2 text-xs text-slate-400 mt-3 lg:max-xl:mt-px"
                 >
-                  <router-link to="/" class="my-8"
+                  <router-link to="/forgotPassword" class="my-8"
                     >Forgot your password?</router-link
                   >
-                  <!-- <a
-                    href="https://landlstore.azurewebsites.net/api/customer/forgot-password"
-                    >Forgot your password?</a
-                  > -->
+
                   <div
                     class="form-check mt-7 ml-10 max-sm:ml-8 md:max-lg:ml-28"
                   >
@@ -104,7 +103,6 @@
 </template>
 
 <script>
-// import { ref } from "vue";
 import axios from "axios";
 
 export default {
@@ -118,50 +116,20 @@ export default {
   methods: {
     async login() {
       try {
-        const response = await axios.post(
-          "https://landlstore.azurewebsites.net/api/customer/login",
-          {
-            email: this.email,
-            password: this.password,
-            rememberMe: this.rememberMe,
-          }
-        );
+        const response = await axios.post("customer/login", {
+          email: this.email,
+          password: this.password,
+          rememberMe: this.rememberMe,
+        });
         if (response.status === 200) {
           localStorage.setItem("token", response.data.token);
-          console.log(response);
-          console.log("login successfully");
           this.$router.push({ name: "Customer" });
         }
-        // const token = localStorage.setItem(this.token, response.data.token);
-        // axios.defaults.headers.common["Authorization"] = token;
       } catch (error) {
-        this.message = error.response.data.title;
-        console.error(error.response.data.title);
+        this.message = "Password or email does not exist!";
         console.error(error);
       }
     },
-    // async loginWithGoogle() {
-    //   try {
-    //     const response = await axios.post(
-    //       "https://landlstore.azurewebsites.net/api/customer/signin-google",
-    //       {
-    //         email: this.email,
-    //         password: this.password,
-    //         rememberMe: this.rememberMe,
-    //       }
-    //     );
-    //     if (response.status === 200) {
-    //       localStorage.setItem("token", response.data.token);
-    //       console.log(response);
-    //       console.log("login successfully");
-    //       this.$router.push({ name: "Customer" });
-    //     }
-    //   } catch (error) {
-    //     this.message = error.response.data.title;
-    //     console.error(error.response.data.title);
-    //     console.error(error);
-    //   }
-    // },
   },
 };
 </script>

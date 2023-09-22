@@ -14,7 +14,7 @@
           <ul class="flex gap-x-9 pt-2">
             <router-link to="/customerIndex"></router-link>
             <li>
-              <router-link to="/customerIndex"> Home</router-link>
+              <router-link to="/customerIndex"> {{ $t("Home") }}</router-link>
             </li>
             <li>
               <div class="dropdown">
@@ -55,65 +55,77 @@
                 </div>
               </div>
             </li>
+            <li>Mix</li>
             <li><router-link to="/about">About</router-link></li>
-            <li><a href="">Contact</a></li>
+            <li><a href="/about">Contact</a></li>
             <li>
-              <form class="form" @submit.prevent="search">
-                <label for="search">
-                  <input
-                    v-model="keyword"
-                    required=""
-                    autocomplete="off"
-                    placeholder="search your chats"
-                    id="search"
-                    type="text"
-                  />
-                  <div class="icon">
-                    <svg
-                      stroke-width="2"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="swap-on"
-                    >
-                      <path
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        stroke-linejoin="round"
-                        stroke-linecap="round"
-                      ></path>
-                    </svg>
-                    <svg
-                      stroke-width="2"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="swap-off"
-                    >
-                      <path
-                        d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                        stroke-linejoin="round"
-                        stroke-linecap="round"
-                      ></path>
-                    </svg>
+              <!-- <form @keyup.enter="search"> -->
+              <div class="flex flex-cols-6 gap-x-3">
+                <div class="col-span-4">
+                  <div class="form">
+                    <label for="search">
+                      <input
+                        required=""
+                        autocomplete="off"
+                        placeholder="search your chats"
+                        id="search"
+                        type="text"
+                        v-model="keyword"
+                        @keyup.enter="search"
+                      />
+                      <div class="icon">
+                        <svg
+                          stroke-width="2"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="swap-on"
+                        >
+                          <path
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                            stroke-linejoin="round"
+                            stroke-linecap="round"
+                          ></path>
+                        </svg>
+                        <svg
+                          stroke-width="2"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="swap-off"
+                        >
+                          <path
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                            stroke-linejoin="round"
+                            stroke-linecap="round"
+                          ></path>
+                        </svg>
+                      </div>
+                      <button @click="clear" type="reset" class="close-btn">
+                        <svg
+                          viewBox="0 0 20 20"
+                          class="h-5 w-5"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            clip-rule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                            fill-rule="evenodd"
+                          ></path>
+                        </svg>
+                      </button>
+                    </label>
                   </div>
-                  <button type="reset" class="close-btn">
-                    <svg
-                      viewBox="0 0 20 20"
-                      class="h-5 w-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        clip-rule="evenodd"
-                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                        fill-rule="evenodd"
-                      ></path>
-                    </svg>
-                  </button>
-                </label>
-                <!-- <button type="submit">Search</button> -->
-              </form>
+                </div>
+                <!-- <div
+                    class="col-span-2 bg-white text-black text-center px-2 py-2 rounded-md w-6/12"
+                  >
+                    <button type="submit" class="text-xs">Search</button>
+                  </div> -->
+              </div>
+              <!-- </form> -->
             </li>
             <li>
               <router-link to="/profileCusPage" style="text-decoration: none"
@@ -128,27 +140,34 @@
                 ><i class="fa-solid fa-cart-shopping"></i
               ></router-link>
             </li>
-            <li>
-              <div for="check" class="fa-solid fa-bell">
-                <!-- <input id="check" hidden type="checkbox" class="input_check" />
-                <label for="check" class="overlay"></label>
-                <div class="bg-white w-40">
-                  <div></div>
-                </div> -->
-              </div>
+            <li @click.prevent="handelBell">
+              <div class="fa-solid fa-bell cursor-pointer"></div>
             </li>
-            <li>
-              <router-link to="/">
-                <li><i class="fa-solid fa-arrow-right-from-bracket"></i></li>
-              </router-link>
+
+            <li @click.prevent="handleLogout">
+              <i
+                class="fa-solid fa-arrow-right-from-bracket cursor-pointer"
+              ></i>
             </li>
           </ul>
         </nav>
       </div>
     </div>
   </header>
+  <!-- <div v-if="!isBell">
+    <div class="w-30 h-80">
+      <span class="text-sm font-semidum">Title</span>
+      <span class="text-sm font-semidum">Content</span>
+      <span class="text-xs font-semidum">Date</span>
+    </div>
+  </div> -->
   <!-- </header> -->
-  <slot />
+  <div v-if="furnitureSearch.length">
+    <search-result :furnitureSearch="furnitureSearch"></search-result>
+  </div>
+  <div v-else>
+    <slot />
+  </div>
   <footer>
     <div class="footer w-full">
       <div class="background w-full">
@@ -214,29 +233,53 @@
 </template>
 <script>
 import axios from "axios";
+import SearchResult from "../views/Customer/searchResult.vue";
 
 export default {
   data() {
+    const lang = localStorage.getItem("lang") || "en";
     return {
       keyword: "",
-      message: "",
+      furnitureSearch: [],
+      lang: lang,
+      isBell: false,
     };
   },
   methods: {
     async search() {
+      console.log(this.keyword);
       try {
-        const response = await axios.post(
-          "https://landlstore.azurewebsites.net/api/customer/search"
+        const response = await axios.get(
+          "customer/furnitures/search?keyword=" + this.keyword
         );
         if (response.status === 200) {
-          this.resposne = response.data;
+          this.furnitureSearch = response.data;
         }
       } catch (error) {
-        this.message = error.response.data.title;
-        console.error(error.response.data.title);
         console.error(error);
+        // alert("Furniture not found!");
       }
     },
+    clear() {
+      this.keyword = "";
+      this.furnitureSearch = "";
+    },
+    handleChange(event) {
+      localStorage.setItem("lang", event.target.value);
+      window.location.reload();
+    },
+  },
+  handleLogout() {
+    this.$router.push({ name: "login" });
+    localStorage.removeItem("token");
+  },
+  handelBell() {
+    console.log(this.isBell);
+    this.isBell = !this.isBell;
+    console.log(this.isBell);
+  },
+  components: {
+    SearchResult,
   },
 };
 </script>
@@ -247,11 +290,8 @@ export default {
 .logo img {
   width: 30%;
 }
-/* .nav_header {
-  background-color: #dedddb;
-} */
 nav {
-  width: 62%;
+  width: 90%;
 }
 .nav_header .logo img {
   max-width: 30%;
@@ -275,7 +315,7 @@ nav {
   border: 1px solid #d3c2ae;
 }
 nav li {
-  padding-left: 2px;
+  padding-left: 1px;
   padding-right: 2px;
 }
 .grid.mg-left-0 {

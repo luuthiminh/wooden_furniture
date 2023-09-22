@@ -30,6 +30,7 @@
         </div>
       </div>
     </div>
+    <h1>{{ $route.params.id }}</h1>
     <div class="bg-white rounded-md px-3 py-2">
       <div>
         <div class="card mb-3">

@@ -1,9 +1,12 @@
 <template>
-  <div class="layout">
-    <span class="text-transparent">This is layout Auth</span>
+  <div class="layout bg-neutral-700">
+    <slot />
   </div>
-  <slot />
 </template>
 <script></script>
 
-<style></style>
+<style>
+.layout {
+  height: 50em;
+}
+</style>

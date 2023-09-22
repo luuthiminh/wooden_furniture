@@ -1,5 +1,6 @@
 <template>
-  <div class="pt-24 px-40">
+  <!-- <div v-if="customer / customer - infor"> -->
+  <div class="pt-24 px-32">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb bg-transparent text-xs pt-3">
         <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -23,7 +24,7 @@
                 alt=""
               />
               <ul class="meta list list-unstyled">
-                <li class="name">Luu Thi Minh</li>
+                <li class="name">{{ info.firtName }} {{ info.lastName }}</li>
                 <li class="activity">Last logged in: Today at 2:18pm</li>
               </ul>
             </div>
@@ -44,18 +45,18 @@
                     aria-controls="settings"
                     role="tab"
                     data-toggle="tab"
-                    ><span class="fa fa-cog"></span> Settings</a
+                    ><span class="fa fa-cog"></span> Setting</a
                   >
                 </li>
-                <!-- <li role="presentation">
+                <li role="presentation">
                   <a
-                    href="#messages"
-                    aria-controls="messages"
+                    href="#phone"
+                    aria-controls="phone"
                     role="tab"
                     data-toggle="tab"
-                    ><span class="fa fa-envelope"></span> Messages</a
+                    ><span class="fa-solid fa-phone"></span> Setting Phone</a
                   >
-                </li> -->
+                </li>
                 <li role="presentation">
                   <a
                     href="#address"
@@ -74,7 +75,7 @@
                     ><span class="fa-solid fa-truck-fast"></span> Order</a
                   >
                 </li>
-                <li>
+                <li role="presentation">
                   <a
                     href="#wishlist"
                     aria-controls="wishlist"
@@ -82,6 +83,15 @@
                     data-toggle="tab"
                     ><span class="fa-solid fa-heart"></span> WishList</a
                   >
+                </li>
+                <li role="presentation">
+                  <a
+                    href="#warranty"
+                    aria-controls="warranty"
+                    role="tab"
+                    data-toggle="tab"
+                    ><span class="fa-solid fa-shield-halved"></span> Warranty
+                  </a>
                 </li>
               </ul>
             </nav>
@@ -179,12 +189,75 @@
                 </div>
               </div>
             </div>
-            <!-- <div role="tabpanel" class="tab-pane active" id="messages">
-              <div class="bg-white">
-                <div></div>
+            <div role="tabpanel" class="tab-pane" id="phone">
+              <div class="bg-white h-12/12">
+                <h1 class="text-lg font-medium pt-7 mb-4 ml-2">
+                  Your number phone
+                </h1>
+                <hr />
+                <div v-if="!isEditPhone">
+                  <div class="grid grid-cols-3 gap-x-1 px-10 py-10 mt-4">
+                    <span class="font-medium">Phone</span>
+
+                    <span>{{ phoneNumber.phoneNumber }}</span>
+                    <div
+                      @click.prevent="editPhone"
+                      class="bg-yellow-950 text-white py-2 px-2 rounded-md w-3/12 cursor-pointer"
+                    >
+                      Change
+                    </div>
+                  </div>
+                </div>
+                <div v-else>
+                  <div class="grid grid-cols-3 gap-x-1 px-10 py-10 mt-4">
+                    <div class="grid grid-cols-2 gap-x-1">
+                      <span class="font-medium">New Phone</span>
+                      <input
+                        v-model="phoneEditting"
+                        type="text"
+                        class="form-control w-11/12 h-10/12"
+                        aria-label="phone"
+                        aria-describedby="basic-addon1"
+                      />
+                    </div>
+                    <div class="grid grid-cols-4">
+                      <span class="font-medium">OTP</span>
+                      <input
+                        v-model="otp"
+                        type="text"
+                        class="form-control h-10/12"
+                        aria-label="phone"
+                        aria-describedby="basic-addon1"
+                      />
+                    </div>
+
+                    <div class="flex gap-x-3">
+                      <div
+                        @click.prevent="savePhoneNumber"
+                        class="bg-yellow-950 text-white py-2 px-2 rounded-md w-3/12 cursor-pointer text-center"
+                      >
+                        Save
+                      </div>
+                      <div
+                        @click.prevent="cancelEditing"
+                        class="bg-yellow-950 text-white py-2 px-2 rounded-md w-3/12 cursor-pointer text-center"
+                      >
+                        Close
+                      </div>
+                      <div v-if="(phoneNumber.confirm = 'false')">
+                        <div
+                          @click.prevent="confirmNumberPhone"
+                          class="bg-yellow-950 text-white py-2 px-2 rounded-md cursor-pointer"
+                        >
+                          Confirm
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div> -->
-            <div role="tabpanel" class="tab-pane active" id="settings">
+            </div>
+            <div role="tabpanel" class="tab-pane" id="settings">
               <form @submit.prevent="updateInfo">
                 <div class="edit_infor bg-gray-50 px-6">
                   <div class="grid grid-cols-3 gap-x-6 px-7">
@@ -291,30 +364,6 @@
                 <h2 class="title pb-2 text-center font-medium">
                   Billing Address
                 </h2>
-                <!-- <div>
-                  <div>
-                    <h2>Search and add a pin</h2>
-                    <label>
-                      <gmap-autocomplete @place_changed="setPlace">
-                      </gmap-autocomplete>
-                      <button @click="addMarker">Add</button>
-                    </label>
-                    <br />
-                  </div>
-                  <br />
-                  <gmap-map
-                    :center="center"
-                    :zoom="12"
-                    style="width: 100%; height: 400px"
-                  >
-                    <gmap-marker
-                      :key="index"
-                      v-for="(m, index) in markers"
-                      :position="m.position"
-                      @click="center = m.position"
-                    ></gmap-marker>
-                  </gmap-map>
-                </div> -->
                 <div
                   class="address bg-white px-4 py-4 rounded-md mx-24 text-sm"
                 >
@@ -338,7 +387,7 @@
                           />
                         </div>
                       </div> -->
-                      <div>
+                      <!-- <div>
                         <div class="relative" v-click-away="hideProvinceList">
                           <input
                             class="p-1 px-2 appearance-none outline-none text-gray-800 border"
@@ -364,6 +413,10 @@
                             </ul>
                           </div>
                         </div>
+                      </div> -->
+                      <div class="grid grid-cols-2 py-3">
+                        <span class="font-medium">Address </span>
+                        <span>{{ address }}</span>
                       </div>
                       <div class="form-group">
                         <label class="font-medium">Stress</label>
@@ -3810,11 +3863,127 @@
                 </div>
               </div>
             </div>
+            <div role="tabpanel" class="tab-pane active" id="warranty">
+              <div class="nav-warranty">
+                <ul
+                  class="nav nav-pills bg-white flex- gap-x-60 pl-20 py-3 text-base font-medium"
+                  role="tablist"
+                >
+                  <li role="presentation" class="active">
+                    <a
+                      href="#alllWarranty"
+                      aria-controls="allWarranty"
+                      role="tab"
+                      data-toggle="tab"
+                      >List Warranty</a
+                    >
+                  </li>
+                  <li role="presentation">
+                    <a
+                      href="#addWarranty"
+                      aria-controls="addWarranty"
+                      role="tab"
+                      data-toggle="tab"
+                      >Create Warranty</a
+                    >
+                  </li>
+                  <li role="presentation">
+                    <a
+                      href="#updateWarranty"
+                      aria-controls="completed"
+                      role="tab"
+                      data-toggle="tab"
+                      >Update Warranty</a
+                    >
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div
+                  role="tabpanel"
+                  class="tab-pane active"
+                  id="alllWarranty"
+                ></div>
+                <div role="tabpanel" class="tab-pane active" id="addWarranty">
+                  <div class="mt-10">
+                    <span class="mx-28 font-medium">Create Warranty</span>
+                  </div>
+                  <hr class="mx-28 w-1/12" />
+                  <div
+                    class="grid grid-cols-2 bg-white drop-shadow rounded-lg mx-28 my-3"
+                  >
+                    <div class="border border-red-100 px-6 py-3 text-sm">
+                      <form>
+                        <div>
+                          <div class="form-group">
+                            <label for="exampleFormControlInput1"
+                              >Order ID</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="exampleFormControlInput1"
+                              placeholder="1.."
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleFormControlInput1"
+                              >Describe the reason</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="exampleFormControlInput1"
+                              placeholder="This is reason..."
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleFormControlInput1"
+                              >Estimated Time</label
+                            >
+                            <input
+                              type="date"
+                              class="form-control"
+                              id="exampleFormControlInput1"
+                            />
+                          </div>
+                        </div>
+                        <div class="button_w float-right rounded-md my-2">
+                          <button type="submit" class="btn text-white">
+                            Register
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="img w-6/12">
+                      <img
+                        src="@/assets/images/guarantee.png"
+                        alt="customize"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  role="tabpanel"
+                  class="tab-pane active"
+                  id="updateWarranty"
+                ></div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
     </div>
   </div>
+  <!-- </div> -->
+  <!-- <div v-if="!customer / customer - infor">
+    <div class="pt-24 px-40">
+      <h1>You are not logged in!</h1>
+      <img src="@/assets/images/error.png" />
+    </div>
+  </div> -->
 </template>
 
 <script>
@@ -3827,91 +3996,132 @@ export default {
       orderAll: [],
       orderPending: [],
       orderDeliveried: [],
+      status: "",
+      phoneNumber: "",
+      isEditPhone: false,
+      otp: "",
+      address: "",
+      wishlist: [],
     };
   },
-  //   async create() {
-  //     try {
-  //       const response = await axios.get(
-  //         "https://landlstore.azurewebsites.net/api/customer/get-order",
-  //         {
-  //           headers: {
-  //             Authorization: "Bearer " + localStorage.getItem("token"),
-  //           },
-  //         }
-  //       );
-  //       if (response.status === "All") {
-  //         this.orderAll = response.data;
-  //       } else if (response.status === "Pending") {
-  //         this.orderPending = response.data;
-  //       } else this.orderDeliveried = response.data;
-  //       console.log("Order", response);
-  //       console.log("Order", this.response);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   },
-  // };
   created() {
-    this.getOrder();
+    this.getOrderAll();
     this.getInfor();
+    this.getInforPhone();
+    this.getAddress();
+    this.getWishList();
+    this.getOrderPending();
+    this.getOrderDeliveried();
   },
   methods: {
-    async getOrder() {
+    async getOrderAll() {
+      try {
+        const response = await axios.get("customer/get-order?status=All");
+        this.orderAll = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getOrderPending() {
+      try {
+        const response = await axios.get("customer/get-order?status=Pending");
+        this.orderPending = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getOrderDeliveried() {
       try {
         const response = await axios.get(
-          "https://landlstore.azurewebsites.net/api/customer/get-order",
-          {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          }
+          "customer/get-order?status=Deliveried"
         );
-        if (response.status === "all") {
-          this.orderAll = response.data;
-        } else if (response.status === "pending") {
-          this.orderPending = response.data;
-        } else if (response.status === "deliveried") {
-          this.orderDeliveried = response.data;
-        }
-        console.log(response);
-        console.log("Order", this.response);
+        this.orderDeliveried = response.data;
       } catch (error) {
         console.error(error);
       }
     },
     async getInfor() {
       try {
-        const response = await axios.get(
-          "https://landlstore.azurewebsites.net/api/customer/customer-infor",
-          {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          }
-        );
+        const response = await axios.get("customer/customer-infor");
         this.info = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getInforPhone() {
+      try {
+        const response = await axios.get(
+          "customer/customer-infor/phone-number"
+        );
+        this.phoneNumber = response.data;
+        // this.phoneNumber.confirm = true;
+        // console.log(this.phoneNumber.confirm);
       } catch (error) {
         console.error(error);
       }
     },
     async updateInfo() {
       try {
-        const response = await axios.put(
-          "https://landlstore.azurewebsites.net/api/customer/update-infor",
+        const response = await axios.put("customer/update-infor", {
+          firtName: this.info.firtName,
+          lastName: this.info.lastName,
+          gender: this.info.gender,
+          avatar: this.info.gender,
+          doB: this.info.doB,
+        });
+        this.info = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    editPhone() {
+      this.isEditPhone = true;
+    },
+    cancelEditing() {
+      this.isEditPhone = false;
+    },
+    async confirmNumberPhone() {
+      try {
+        const response = await axios.get(
+          "customer/customer-infor/phone-number/get-otp",
           {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-            firtName: this.info.firtName,
-            lastName: this.info.lastName,
-            gender: this.info.gender,
-            avatar: this.info.gender,
-            doB: this.info.doB,
+            params: { phoneNums: this.phoneEditting },
           }
         );
-        this.info = response.data;
-        console.log(response);
-        console.log(this.response);
+
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error sending OTP:", error);
+      }
+    },
+    async savePhoneNumber() {
+      try {
+        const response = await axios.put(
+          "customer/customer-infor/phone-number/update",
+          {
+            phoneNumber: this.phoneEditting,
+            otp: this.otp,
+          }
+        );
+        this.phoneNumber = response.data;
+      } catch (error) {
+        console.error(error.response.data.message);
+      }
+    },
+    async getAddress() {
+      try {
+        const response = await axios.get("customer/customer-infor/address");
+        this.address = response.data;
+        console.log(this.address);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getWishList() {
+      try {
+        const response = await axios.get("customer/wishlist");
+        this.wishlist = response.data;
+        console.log(response.data);
       } catch (error) {
         console.error(error);
       }

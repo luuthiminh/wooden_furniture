@@ -63,6 +63,17 @@ const routes = [
       ),
   },
   {
+    path: "/furnitureSpecificationDetail/:id",
+    name: "FurnitureSpecificationDetail",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/FurnitureSpecificationDetail.vue"
+      ),
+  },
+  {
     path: "/profileCusPage",
     name: "ProfileCusPage",
     meta: {
@@ -175,7 +186,7 @@ const routes = [
       ),
   },
   {
-    path: "/orderbill",
+    path: "/orderbill/:id",
     name: "OrderBill",
     meta: {
       layout: "customerLayout",
@@ -218,7 +229,88 @@ const routes = [
         /* webpackChunkName: "register" */ "../views/Customer/OrderHistory.vue"
       ),
   },
-
+  {
+    path: "/searchResult",
+    name: "searchResult",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/searchResult.vue"
+      ),
+  },
+  {
+    path: "/customerLayout",
+    name: "customerLayout",
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../layouts/customerLayout.vue"
+      ),
+  },
+  {
+    path: "/searchResult2",
+    name: "searchResults",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/searchResults.vue"
+      ),
+  },
+  {
+    path: "/furnitureMix",
+    name: "FurnitureMix",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/FurnitureMix.vue"
+      ),
+  },
+  {
+    path: "/newpassword",
+    name: "newPassword",
+    meta: {
+      layout: "authLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Auth/setNewPassword.vue"
+      ),
+  },
+  {
+    path: "/forgotPassword",
+    name: "ForgotPassword",
+    meta: {
+      layout: "authLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Auth/ForgotPassword.vue"
+      ),
+  },
+  {
+    path: "/furnitureModal",
+    name: "AllFurnitureModal",
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/FurnitureModal.vue"
+      ),
+  },
+  {
+    path: "/furnitureManage",
+    name: "furnitureManage",
+    meta: {
+      layout: "assistantLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Assistant/furnitureManage.vue"
+      ),
+  },
   // {
   //   path: "/logout",
   //   name: "logoutPage",
