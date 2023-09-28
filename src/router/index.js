@@ -311,6 +311,28 @@ const routes = [
         /* webpackChunkName: "register" */ "../views/Assistant/furnitureManage.vue"
       ),
   },
+  {
+    path: "/indexAssistant",
+    name: "indexAssistant",
+    meta: {
+      layout: "assistantLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Assistant/indexAssistant.vue"
+      ),
+  },
+  {
+    path: "/newFurniture",
+    name: "newFurniture",
+    meta: {
+      layout: "assistantLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Assistant/newFurniture.vue"
+      ),
+  },
   // {
   //   path: "/logout",
   //   name: "logoutPage",

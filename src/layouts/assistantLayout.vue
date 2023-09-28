@@ -1,135 +1,388 @@
 <template>
   <header>
-    <div class="h-16 bg-slate-400">
-      <div class="flex">
-        <div class="logo w-6/12">
-          <router-link to="/customerIndex">
-            <img src="@/assets/images/logo.png" alt="logo" />
+    <ul class="header">
+      <li class="ml-10 grid grid-cols-3 gap-x-2 w-1/12">
+        <div class="col-span-1">
+          <router-link to="/furnitureManage">
+            <img
+              class="w-10/12"
+              src="@/assets/images/logo_icon.png"
+              alt="logo"
+            />
           </router-link>
         </div>
-        <div><h4 class="font-medium">Stock information</h4></div>
-        <div class="pl-10">Wellcome Minh</div>
-        <div class="avatar w-6/12">
-          <img
-            class="rounded-full w-6/12 ml-10"
-            src="https://ordinaryofficial.vn/wp-content/uploads/2022/12/con-gai-han-quoc.jpg"
-            alt="avatar"
-          />
+        <p class="col-span-2 items-center text-2xl font-medium mt-1">L & L</p>
+      </li>
+      <li class="ml-40">
+        <div class="border border-gray-900 rounded-md">
+          <i
+            class="fa-solid fa-bars text-slate-500 px-1 py-1 cursor-pointer"
+          ></i>
         </div>
-        <div class="logout">
-          <button class="Btn">
-            <div class="sign">
-              <svg viewBox="0 0 512 512">
-                <path
-                  d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"
-                ></path>
-              </svg>
+      </li>
+      <li class="mx-3"><p class="stock">STOCK INFORMATION</p></li>
+      <li>
+        <i class="fa-regular fa-bell"><sup>2</sup></i>
+      </li>
+      <li class="w-1/12">
+        <img
+          class="rounded-full ml-10 w-4/12"
+          src="https://ordinaryofficial.vn/wp-content/uploads/2022/12/con-gai-han-quoc.jpg"
+          alt="avatar"
+        />
+      </li>
+      <li><i class="fa-solid fa-arrow-right-from-bracket"></i></li>
+    </ul>
+  </header>
+  <div class="content pt-16">
+    <div class="flex flex-cols-10">
+      <div class="col-span-3 fixed">
+        <div class="grid grid-cols-2">
+          <nav class="col-span-1 nav">
+            <div class="user">
+              <div class="user-box text-center">
+                <div class="avatar ml-1">
+                  <img
+                    class="img-profile img-circle img-responsive center-block rounded-full"
+                    src="https://ordinaryofficial.vn/wp-content/uploads/2022/12/con-gai-han-quoc.jpg"
+                    alt="avatar"
+                  />
+                </div>
+                <div class="user-info mt-1">
+                  <span class="user_name">Minh</span>
+                  <span class="assistant">Assistant</span>
+                </div>
+                <hr class="user_hr text-slate-500" />
+              </div>
             </div>
 
-            <div class="text">Logout</div>
-          </button>
+            <ul class="bar leading-4 nav nav-stacked" role="tablist">
+              <li role="presentation" class="active pl-3">
+                <a
+                  href="#furniture"
+                  aria-controls="furniture"
+                  role="tab"
+                  data-toggle="tab"
+                >
+                  <i class="fa-solid fa-store"></i>
+                  <p>Furniture</p></a
+                >
+              </li>
+              <li role="presentation" class="pl-3">
+                <a
+                  href="#material"
+                  aria-controls="material"
+                  role="tab"
+                  data-toggle="tab"
+                >
+                  <i class="fa-solid fa-flask"></i>
+                  <p>Material</p></a
+                >
+              </li>
+              <li role="presentation" class="pl-2">
+                <a
+                  href="#feeback"
+                  aria-controls="feedback"
+                  role="tab"
+                  data-toggle="tab"
+                >
+                  <i class="fa-solid fa-comment"></i>
+                  <p>Feedback</p></a
+                >
+              </li>
+              <li role="presentation" class="pl-3">
+                <a
+                  href="#wishlist"
+                  aria-controls="wishlist"
+                  role="tab"
+                  data-toggle="tab"
+                >
+                  <i class="fa-solid fa-heart-circle-check"></i>
+                  <p>Wishlist</p></a
+                >
+              </li>
+              <li role="presentation" class="pl-1">
+                <a
+                  href="#notification"
+                  aria-controls="notification"
+                  role="tab"
+                  data-toggle="tab"
+                >
+                  <i class="fa-solid fa-bell"></i>
+                  <p>Notification</p></a
+                >
+              </li>
+            </ul>
+          </nav>
+          <div class="col-span-2 bar_content pt-2 bg-gray-50">
+            <!-- Tab panes -->
+            <div class="tab-content col-span-5">
+              <div role="tabpanel" class="tab-pane active" id="furniture">
+                <div class="">
+                  <div class="h-12/12 px-2">
+                    <div class="px-2 pt-9 pb-2 mt-9">
+                      <h3 class="text-center font-medium">Manager Furniture</h3>
+                      <hr class="w-12/12 ml-1 mt-9" />
+                      <div class="search mt-4">
+                        <div class="container">
+                          <input
+                            type="text"
+                            name="text"
+                            class="input"
+                            placeholder="Dark Twitch Search"
+                          />
+                          <button class="search__btn">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="22"
+                              height="22"
+                            >
+                              <path
+                                d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"
+                                fill="#efeff1"
+                              ></path>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="px-4 text-sm">
+                      <ul class="furniture leading-10">
+                        <li>
+                          <router-link to="/furnitureManage"
+                            >All Furniture</router-link
+                          >
+                        </li>
+                        <li>
+                          <router-link to="/newFurniture"
+                            >New Furniture</router-link
+                          >
+                        </li>
+                        <li>Export products</li>
+                        <li>Inventory</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div role="tabpanel" class="tab-pane" id="material">
+                <div class="">
+                  <div class="h-12/12 px-2">
+                    <div class="px-2 pt-9 pb-2 mt-9">
+                      <h3 class="text-center font-medium">Manager Material</h3>
+                      <hr class="w-12/12 ml-1 mt-9" />
+                      <div class="search mt-4">
+                        <div class="container">
+                          <input
+                            type="text"
+                            name="text"
+                            class="input"
+                            placeholder="Dark Twitch Search"
+                          />
+                          <button class="search__btn">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="22"
+                              height="22"
+                            >
+                              <path
+                                d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"
+                                fill="#efeff1"
+                              ></path>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="px-4 text-sm">
+                      <ul class="furniture leading-10">
+                        <li>All material</li>
+                        <li>New material</li>
+                        <li>Export material</li>
+                        <li>Inventory material</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div role="tabpanel" class="tab-pane" id="feedback"></div>
+              <div role="tabpanel" class="tab-pane" id="wishlist"></div>
+              <div role="tabpanel" class="tab-pane" id="notification"></div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </header>
-  <div class="grid grid-cols-12">
-    <div class="col-span-2 bg-neutral-50 leading-10">
-      <div class="furniture">
-        <i class="fa-solid fa-store"></i>
-        <span>FURNITURE</span>
-      </div>
-      <div class="furniture">
-        <i class="fa-solid fa-flask"></i>
-        <span>MATERIAL</span>
-      </div>
-      <div class="furniture">
-        <i class="fa-solid fa-comment"></i>
-        <span>FEEDBACK</span>
-      </div>
-      <div class="furniture">
-        <i class="fa-solid fa-heart-circle-check"></i>
-        <span>WISHLIST</span>
-      </div>
-      <div class="furniture">
-        <i class="fa-regular fa-bell"></i>
-        <span>NOTIFICATION</span>
+      <div class="col-span-7">
+        <!-- <div class="px-3">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent text-xs pt-3">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="#">All Product</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Sofa</li>
+            </ol>
+          </nav>
+        </div> -->
+        <slot />
       </div>
     </div>
-    <div class="col-span-10"></div>
   </div>
 </template>
 <style scoped>
-.Btn {
-  --black: #000000;
-  --ch-black: #141414;
-  --eer-black: #1b1b1b;
-  --night-rider: #2e2e2e;
-  --white: #ffffff;
-  --af-white: #f3f3f3;
-  --ch-white: #e1e1e1;
+.header {
+  background-color: #302924;
+  position: fixed;
+  z-index: 99;
+  color: wheat;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  width: 45px;
-  height: 45px;
-  border: none;
-  border-radius: 5px;
+  height: 70px;
+  border: 1px solid #d3c2ae;
+}
+li {
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition-duration: 0.3s;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
-  background-color: var(--af-white);
 }
-
-/* plus sign */
-.sign {
+.user_hr {
+  width: 6em;
+  margin-left: -20px;
+}
+.col-span-2.bar_content {
+  margin-top: -44em;
+  width: 50%;
+  margin-left: 6em;
+  z-index: 10;
+  border-left: 1px solid #d3e0e0;
+}
+.col-span-7 {
+  background-color: #f7f7f7;
+  /* background-color: #f1f1f1; */
+  margin-left: 22em;
   width: 100%;
-  transition-duration: 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
-
-.sign svg {
-  width: 17px;
+nav ul {
+  border-bottom: none;
 }
-
-.sign svg path {
-  fill: var(--night-rider);
+nav li {
+  display: block;
+  float: none;
+  font-size: 14px;
+  border-bottom: 1px solid #dce1e6;
+  margin-right: 0;
+  margin-bottom: 0;
+  color: #616670;
+  padding-top: 14px;
+  padding-bottom: 13px;
+  text-align: center;
 }
-/* text */
-.text {
-  position: absolute;
-  right: 0%;
-  width: 0%;
-  opacity: 0;
-  color: var(--night-rider);
-  font-size: 1.2em;
+nav {
+  display: block;
+  background: white;
+  bottom: 0;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  width: 16em;
+  padding-right: 10em;
+  height: 43em;
+}
+.bar.leading-4 {
+  margin-top: 8em;
+}
+nav i {
+  padding-bottom: 15px;
+}
+.avatar {
+  height: 48px;
+  width: 48px;
+}
+.user_name {
+  color: #343a40;
+  display: block;
   font-weight: 600;
-  transition-duration: 0.3s;
+  font-size: 15px;
 }
-/* hover effect on button width */
-.Btn:hover {
-  width: 125px;
-  border-radius: 5px;
-  transition-duration: 0.3s;
+.assistant {
+  font-size: 13px;
+  color: #98a6ad !important;
+}
+.user-box {
+  min-height: 80px;
+  padding: 20px;
+  position: relative;
+}
+/* search */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 35px;
 }
 
-.Btn:hover .sign {
-  width: 30%;
-  transition-duration: 0.3s;
-  padding-left: 20px;
+.input {
+  max-width: 190px;
+  height: 100%;
+  outline: none;
+  font-size: 12px;
+  font-weight: 500;
+  /* background-color: #66645f; */
+  background-color: #413f3b;
+  caret-color: #f7f7f8;
+  color: #fff;
+  padding: 7px 10px;
+  border: 2px solid transparent;
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+  margin-right: 1px;
+  transition: all 0.2s ease;
 }
-/* hover effect button's text */
-.Btn:hover .text {
-  opacity: 1;
-  width: 70%;
-  transition-duration: 0.3s;
-  padding-right: 10px;
+
+.input:hover {
+  border: 2px solid rgba(255, 255, 255, 0.16);
 }
-/* button click effect*/
-.Btn:active {
-  transform: translate(2px, 2px);
+
+.input:focus {
+  border: 2px solid #a970ff;
+  background-color: #0e0e10;
+}
+
+.search__btn {
+  border: none;
+  cursor: pointer;
+  /* background-color: rgb(51, 51, 62); */
+  background-color: #413f3b;
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
+  height: 100%;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search__btn:hover {
+  background-color: rgba(54, 54, 56, 1);
+}
+.stock {
+  margin-right: 43em;
+}
+
+.bar_content {
+  border-right: 1px solid #d3e0e0;
+}
+.user {
+  height: 0px;
+}
+.fa-regular {
+  font-size: 19px;
+}
+.fa-solid {
+  font-size: 17px;
+}
+.furniture li {
+  color: #616670;
+}
+.user-box,
+.bar.leading-4 {
+  background: #f1f1f1;
 }
 </style>
