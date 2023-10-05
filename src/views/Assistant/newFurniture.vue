@@ -40,40 +40,48 @@
               />
             </div>
           </div>
-          <div>
-            <label for="exampleInputEmail1" class="form-label">Category</label>
-            <input
-              type="text"
-              class="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-              required
-            />
+          <div class="grid grid-cols-2 gap-x-4 mt-3">
+            <div>
+              <label for="exampleInputEmail1" class="form-label"
+                >Collection</label
+              >
+              <select
+                class="form-select text-sm"
+                aria-label="Default select example"
+              >
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+            <div>
+              <label for="exampleInputEmail1" class="form-label">Label</label>
+              <select
+                class="form-select text-sm"
+                aria-label="Default select example"
+              >
+                <option selected>Choose a label</option>
+                <option value="1">New</option>
+                <option value="2">Hot Sale</option>
+              </select>
+            </div>
           </div>
-          <div>
-            <label for="exampleInputEmail1" class="form-label">Quantity</label>
-            <input
-              type="text"
-              class="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-              required
-            />
-          </div>
-          <div>
-            <label for="exampleInputEmail1" class="form-label">Material</label>
-            <input
-              type="text"
-              class="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-              required
-            />
-          </div>
-          <div>
+          <div class="mt-3">
             <label for="exampleInputEmail1" class="form-label"
-              >Description</label
+              >Appropriate Room</label
             >
+            <select
+              class="form-select text-sm"
+              aria-label="Default select example"
+            >
+              <option selected>Choose room</option>
+              <option value="1">Bed Room</option>
+              <option value="2">Hot Sale</option>
+            </select>
+          </div>
+          <div class="mt-3">
+            <label for="exampleInputEmail1" class="form-label">Sold</label>
             <input
               type="text"
               class="form-control"
@@ -82,6 +90,7 @@
               required
             />
           </div>
+
           <div class="flex gap-x-3 mt-3">
             <label for="exampleInputEmail1" class="form-label mt-10"
               >Image</label
@@ -105,7 +114,7 @@
 <script></script>
 <style scoped>
 .btn {
-  background-color: #283542;
+  background-color: #302924;
   /* --input-bg-color: #283542; */
   color: white;
   padding: 0.4rem 1.5rem 0.4rem 1.5rem;

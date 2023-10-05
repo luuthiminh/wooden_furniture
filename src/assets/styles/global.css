@@ -12,3 +12,309 @@ router-link {
 html {
   scroll-behavior: smooth;
 }
+
+/* assistant */
+.fa-solid.fa-info {
+  background-color: transparent;
+  position: relative;
+  border: none;
+}
+.fa-solid.fa-info::after {
+  content: "more";
+  position: absolute;
+  top: -200%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: fit-content;
+  height: fit-content;
+  background: #58b35e;
+  padding: 4px 8px;
+  border-radius: 3px;
+  transition: 0.2s linear;
+  transition-delay: 0.2s;
+  color: white;
+  text-transform: uppercase;
+  font-size: 8px;
+  opacity: 0;
+  visibility: hidden;
+  font-weight: 100;
+  font-family: inherit;
+}
+.fa-solid.fa-info:hover {
+  transform: scale(1.5);
+}
+.fa-solid.fa-info:hover {
+  fill: rgb(168, 7, 7);
+}
+
+.fa-solid.fa-info:hover::after {
+  visibility: visible;
+  opacity: 1;
+  top: -70%;
+}
+/* icon delete */
+.btn_delete {
+  background-color: transparent;
+  position: relative;
+  border: none;
+}
+
+.btn_delete::after {
+  content: "delete";
+  position: absolute;
+  top: -300%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: fit-content;
+  height: fit-content;
+  background-color: rgb(168, 7, 7);
+  padding: 4px 8px;
+  border-radius: 5px;
+  transition: 0.2s linear;
+  transition-delay: 0.2s;
+  color: white;
+  text-transform: uppercase;
+  font-size: 12px;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.icon {
+  transform: scale(1.2);
+  transition: 0.2s linear;
+}
+
+.btn_delete:hover > .icon {
+  transform: scale(1.5);
+}
+
+.btn_delete:hover > .icon path {
+  fill: rgb(168, 7, 7);
+}
+
+.btn_delete:hover::after {
+  visibility: visible;
+  opacity: 1;
+  top: -150%;
+}
+
+/* icon_edit */
+.fa-solid.fa-pen-to-square {
+  background-color: transparent;
+  position: relative;
+  border: none;
+}
+.fa-solid.fa-pen-to-square::after {
+  content: "edit";
+  position: absolute;
+  top: -200%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: fit-content;
+  height: fit-content;
+  background: #d1d110;
+  padding: 4px 8px;
+  border-radius: 3px;
+  transition: 0.2s linear;
+  transition-delay: 0.2s;
+  color: white;
+  text-transform: uppercase;
+  font-size: 8px;
+  opacity: 0;
+  visibility: hidden;
+  font-weight: 100;
+}
+.fa-solid.fa-pen-to-square:hover {
+  transform: scale(1.5);
+}
+
+.fa-solid.fa-pen-to-square:hover {
+  fill: rgb(168, 7, 7);
+}
+
+.fa-solid.fa-pen-to-square:hover::after {
+  visibility: visible;
+  opacity: 1;
+  top: -70%;
+}
+
+/* icon_add, edit, delete */
+.button_add {
+  position: relative;
+  width: 70px;
+  height: 26px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border: 1px solid #34974d;
+  background-color: #3aa856;
+}
+
+.button_add,
+.button__icon,
+.button__text {
+  transition: all 0.3s;
+}
+
+.button_add .button__text {
+  transform: translateX(8px);
+  color: #fff;
+  font-weight: 600;
+}
+
+.button_add .button__icon {
+  position: absolute;
+  transform: translateX(42px);
+  height: 100%;
+  width: 26px;
+  background-color: #34974d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button_add .svg {
+  width: 22px;
+  stroke: #fff;
+}
+
+.button_add:hover {
+  background: #34974d;
+}
+
+.button_add:hover .button__text {
+  color: transparent;
+}
+
+.button_add:hover .button__icon {
+  width: 70px;
+  transform: translateX(0);
+}
+
+.button_add:active .button__icon {
+  background-color: #2e8644;
+}
+
+.button_add:active {
+  border: 1px solid #2e8644;
+}
+
+.button_delete {
+  position: relative;
+  width: 80px;
+  height: 26px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border: 1px solid #cc0000;
+  background-color: #e50000;
+  overflow: hidden;
+}
+
+.button_delete,
+.button__icon,
+.button__text {
+  transition: all 0.3s;
+}
+
+.button_delete .button__text {
+  transform: translateX(8px);
+  color: #fff;
+  font-weight: 600;
+}
+
+.button_delete .button__icon {
+  position: absolute;
+  transform: translateX(53px);
+  height: 100%;
+  width: 26px;
+  background-color: #cc0000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button_delete .svg {
+  width: 17px;
+}
+
+.button_delete:hover {
+  background: #cc0000;
+}
+
+.button_delete:hover .button__text {
+  color: transparent;
+}
+
+.button_delete:hover .button__icon {
+  width: 80px;
+  transform: translateX(0);
+}
+
+.button_delete:active .button__icon {
+  background-color: #b20000;
+}
+
+.button_delete:active {
+  border: 1px solid #b20000;
+}
+.button_edit {
+  position: relative;
+  width: 70px;
+  height: 26px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border: 1px solid #25547f;
+  background-color: #25547f;
+  overflow: hidden;
+}
+
+.button_edit,
+.button__icon,
+.button__text {
+  transition: all 0.3s;
+}
+
+.button_edit .button__text {
+  transform: translateX(8px);
+  color: #fff;
+  font-weight: 600;
+}
+
+.button_edit .button__icon {
+  position: absolute;
+  transform: translateX(42px);
+  height: 100%;
+  width: 26px;
+  background-color: #1d466c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button_edit .svg {
+  width: 19px;
+  fill: #fff;
+}
+
+.button_edit:hover {
+  background: #0078e8;
+}
+
+.button_edit:hover .button__text {
+  color: transparent;
+}
+
+.button_edit:hover .button__icon {
+  width: 70px;
+  transform: translateX(0);
+}
+
+.button_edit:active .button__icon {
+  background-color: #006cd0;
+}
+
+.button_edit:active {
+  border: 1px solid #006cd0;
+}

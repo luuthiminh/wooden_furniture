@@ -1,17 +1,22 @@
 <template>
   <div class="forgot_password">
-    <div class="border border-red-100 px-7 py-7 w-80 rounded-md bg-white">
+    <div class="border border-red-100 px-7 py-7 w-80 rounded-2xl bg-white">
       <div class="logo w-6/12">
         <img src="@/assets/images/logo.png" alt="logo" />
       </div>
-      <hr class="mb-14" />
+
       <form @submit.prevent="forgotPassword">
-        <div class="mb-3">
+        <div class="mb-1">
           <div>
             <label for="exampleInputEmail1" class="form-label"
               >Email address</label
             >
-            <input v-model="email" type="text" class="form-control required" />
+            <input
+              v-model="email"
+              type="text"
+              placeholder="Enter your email"
+              class="form-control required"
+            />
           </div>
         </div>
         <button
@@ -21,6 +26,10 @@
           Send
         </button>
       </form>
+      <p class="signup-link mt-2">
+        Don't have an account?
+        <a href="/register" class="signup-link link"> Sign up now</a>
+      </p>
     </div>
   </div>
 </template>
@@ -52,6 +61,13 @@ export default {
 };
 </script>
 <style scoped>
+.form-label {
+  font-size: 15px;
+}
+.form-control {
+  font-size: 14px;
+}
+
 .forgot_password {
   position: absolute;
   top: 20%;
@@ -64,5 +80,19 @@ export default {
 }
 .logo {
   transform: translateX(50%);
+}
+.signup-link {
+  align-self: center;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.signup-link .link {
+  font-weight: 500;
+  color: #2d79f3;
+}
+
+.link:hover {
+  text-decoration: underline;
 }
 </style>

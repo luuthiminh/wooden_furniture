@@ -2,7 +2,10 @@
   <header>
     <ul class="header">
       <li class="ml-10 grid grid-cols-3 gap-x-2 w-1/12">
-        <div class="col-span-1">
+        <div
+          class="col-span-1"
+          :style="{ display: !isShowTab ? 'none' : 'block' }"
+        >
           <router-link to="/furnitureManage">
             <img
               class="w-10/12"
@@ -11,25 +14,39 @@
             />
           </router-link>
         </div>
-        <p class="col-span-2 items-center text-2xl font-medium mt-1">L & L</p>
+        <p
+          class="col-span-2 items-center text-2xl font-medium mt-1"
+          :style="{ display: !isShowTab ? 'none' : 'block' }"
+        >
+          L & L
+        </p>
       </li>
-      <li class="ml-40">
+
+      <li :style="{ marginLeft: !isShowTab ? '-8em' : '10em' }">
         <div class="border border-gray-900 rounded-md">
           <i
+            @click.prevent="toggleShowTab"
             class="fa-solid fa-bars text-slate-500 px-1 py-1 cursor-pointer"
           ></i>
         </div>
       </li>
-      <li class="mx-3"><p class="stock">STOCK INFORMATION</p></li>
+      <li class="mx-10">
+        <p class="stock" :style="{ marginRight: !isShowTab ? '60em' : '43em' }">
+          STOCK INFORMATION
+        </p>
+      </li>
+      <li><i class="fa-solid fa-expand mr-4"></i></li>
       <li>
         <i class="fa-regular fa-bell"><sup>2</sup></i>
       </li>
       <li class="w-1/12">
-        <img
-          class="rounded-full ml-10 w-4/12"
-          src="https://ordinaryofficial.vn/wp-content/uploads/2022/12/con-gai-han-quoc.jpg"
-          alt="avatar"
-        />
+        <router-link to="/profileAssistant">
+          <img
+            class="rounded-full ml-10 w-4/12 cursor-pointer"
+            src="@/assets/images/avatar.jpg "
+            alt="avatar"
+          />
+        </router-link>
       </li>
       <li><i class="fa-solid fa-arrow-right-from-bracket"></i></li>
     </ul>
@@ -42,11 +59,13 @@
             <div class="user">
               <div class="user-box text-center">
                 <div class="avatar ml-1">
-                  <img
-                    class="img-profile img-circle img-responsive center-block rounded-full"
-                    src="https://ordinaryofficial.vn/wp-content/uploads/2022/12/con-gai-han-quoc.jpg"
-                    alt="avatar"
-                  />
+                  <router-link to="/profileAssistant">
+                    <img
+                      class="img-profile img-circle img-responsive center-block rounded-full cursor-pointer"
+                      src="@/assets/images/avatar.jpg"
+                      alt="avatar"
+                    />
+                  </router-link>
                 </div>
                 <div class="user-info mt-1">
                   <span class="user_name">Minh</span>
@@ -57,18 +76,25 @@
             </div>
 
             <ul class="bar leading-4 nav nav-stacked" role="tablist">
-              <li role="presentation" class="active pl-3">
+              <li>
+                <router-link to="/indexAssistant">
+                  <i class="fa-solid fa-landmark"></i>
+                  <p>Home</p></router-link
+                >
+              </li>
+              <li role="presentation" @click.prevent="isShowTab = true">
                 <a
-                  href="#furniture"
+                  href="#furniture active"
                   aria-controls="furniture"
                   role="tab"
                   data-toggle="tab"
+                  class="active"
                 >
                   <i class="fa-solid fa-store"></i>
                   <p>Furniture</p></a
                 >
               </li>
-              <li role="presentation" class="pl-3">
+              <li role="presentation" @click.prevent="isShowTab = true">
                 <a
                   href="#material"
                   aria-controls="material"
@@ -79,7 +105,7 @@
                   <p>Material</p></a
                 >
               </li>
-              <li role="presentation" class="pl-2">
+              <li role="presentation" @click.prevent="isShowTab = true">
                 <a
                   href="#feeback"
                   aria-controls="feedback"
@@ -90,7 +116,7 @@
                   <p>Feedback</p></a
                 >
               </li>
-              <li role="presentation" class="pl-3">
+              <li role="presentation" @click.prevent="isShowTab = true">
                 <a
                   href="#wishlist"
                   aria-controls="wishlist"
@@ -101,7 +127,7 @@
                   <p>Wishlist</p></a
                 >
               </li>
-              <li role="presentation" class="pl-1">
+              <li role="presentation" @click.prevent="isShowTab = true">
                 <a
                   href="#notification"
                   aria-controls="notification"
@@ -112,9 +138,21 @@
                   <p>Notification</p></a
                 >
               </li>
+
+              <li role="presentation" @click.prevent="isShowTab = true">
+                <a
+                  href="#other"
+                  aria-controls="other"
+                  role="tab"
+                  data-toggle="tab"
+                >
+                  <i class="fa-solid fa-circle-plus"></i>
+                  <p>Other</p></a
+                >
+              </li>
             </ul>
           </nav>
-          <div class="col-span-2 bar_content pt-2 bg-gray-50">
+          <div v-if="isShowTab" class="col-span-2 bar_content pt-2 bg-gray-5">
             <!-- Tab panes -->
             <div class="tab-content col-span-5">
               <div role="tabpanel" class="tab-pane active" id="furniture">
@@ -156,10 +194,10 @@
                         </li>
                         <li>
                           <router-link to="/newFurniture"
-                            >New Furniture</router-link
+                            >Add New Furniture</router-link
                           >
                         </li>
-                        <li>Export products</li>
+                        <li>Exported</li>
                         <li>Inventory</li>
                       </ul>
                     </div>
@@ -198,8 +236,16 @@
                     </div>
                     <div class="px-4 text-sm">
                       <ul class="furniture leading-10">
-                        <li>All material</li>
-                        <li>New material</li>
+                        <li>
+                          <router-link to="/materialManagement"
+                            >All material</router-link
+                          >
+                        </li>
+                        <li>
+                          <router-link to="/materialManagement"
+                            >Add new material</router-link
+                          >
+                        </li>
                         <li>Export material</li>
                         <li>Inventory material</li>
                       </ul>
@@ -210,11 +256,44 @@
               <div role="tabpanel" class="tab-pane" id="feedback"></div>
               <div role="tabpanel" class="tab-pane" id="wishlist"></div>
               <div role="tabpanel" class="tab-pane" id="notification"></div>
+              <div role="tabpanel" class="tab-pane" id="other">
+                <div class="">
+                  <div class="h-12/12 px-2">
+                    <div class="px-2 pt-9 pb-2 mt-9">
+                      <h3 class="text-center font-medium">Manager Other</h3>
+                      <hr class="w-12/12 ml-1 mt-9" />
+                    </div>
+                    <div class="px-4 text-sm">
+                      <ul class="furniture leading-10">
+                        <li>
+                          <router-link to="/categoryManagement"
+                            >Category</router-link
+                          >
+                        </li>
+                        <li>
+                          <router-link to="/woodManagement">Wood</router-link>
+                        </li>
+                        <li>
+                          <router-link to="/labelManagement">Label</router-link>
+                        </li>
+                        <li>
+                          <router-link to="/collectionManagement"
+                            >Collections</router-link
+                          >
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-span-7">
+      <div
+        class="col-span-7"
+        :style="{ marginLeft: !isShowTab ? '8em' : '22em' }"
+      >
         <!-- <div class="px-3">
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent text-xs pt-3">
@@ -225,10 +304,32 @@
           </nav>
         </div> -->
         <slot />
+        <notification-success />
       </div>
     </div>
   </div>
 </template>
+<script>
+import NotificationSuccess from "@/components/NotificationSuccess.vue";
+export default {
+  components: {
+    NotificationSuccess,
+  },
+  data() {
+    return {
+      isShowTab: true,
+    };
+  },
+
+  methods: {
+    toggleShowTab() {
+      console.log("Phương thức toggleShowTab được gọi.");
+      this.isShowTab = !this.isShowTab;
+      console.log(this.isShowTab);
+    },
+  },
+};
+</script>
 <style scoped>
 .header {
   background-color: #302924;
@@ -249,7 +350,7 @@ li {
 }
 .col-span-2.bar_content {
   margin-top: -44em;
-  width: 50%;
+  width: 72%;
   margin-left: 6em;
   z-index: 10;
   border-left: 1px solid #d3e0e0;
@@ -257,7 +358,6 @@ li {
 .col-span-7 {
   background-color: #f7f7f7;
   /* background-color: #f1f1f1; */
-  margin-left: 22em;
   width: 100%;
 }
 nav ul {
@@ -271,9 +371,10 @@ nav li {
   margin-right: 0;
   margin-bottom: 0;
   color: #616670;
-  padding-top: 14px;
+  padding-top: 12px;
   padding-bottom: 13px;
   text-align: center;
+  width: 100%;
 }
 nav {
   display: block;
@@ -281,8 +382,7 @@ nav {
   bottom: 0;
   -webkit-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
-  width: 16em;
-  padding-right: 10em;
+  width: 6em;
   height: 43em;
 }
 .bar.leading-4 {

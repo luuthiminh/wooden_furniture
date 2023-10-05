@@ -189,7 +189,7 @@
                 </div>
               </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="phone">
+            <div role="tabpanel" class="tab-pane active" id="phone">
               <div class="bg-white h-12/12">
                 <h1 class="text-lg font-medium pt-7 mb-4 ml-2">
                   Your number phone
@@ -220,7 +220,7 @@
                         aria-describedby="basic-addon1"
                       />
                     </div>
-                    <div class="grid grid-cols-4">
+                    <!-- <div class="grid grid-cols-4">
                       <span class="font-medium">OTP</span>
                       <input
                         v-model="otp"
@@ -229,7 +229,7 @@
                         aria-label="phone"
                         aria-describedby="basic-addon1"
                       />
-                    </div>
+                    </div> -->
 
                     <div class="flex gap-x-3">
                       <div
@@ -246,11 +246,55 @@
                       </div>
                       <div v-if="(phoneNumber.confirm = 'false')">
                         <div
-                          @click.prevent="confirmNumberPhone"
+                          @click.prevent="isShowModalOtp = true"
+                          data-toggle="modal"
+                          data-target="#exampleModalLong"
                           class="bg-yellow-950 text-white py-2 px-2 rounded-md cursor-pointer"
                         >
                           Confirm
                         </div>
+                        <modal v-if="isShowModalOtp" @close="closeModal">
+                          <template v-slot:title>
+                            <div class="flex items-center text-lg font-medium">
+                              Enter your OTP Code
+                            </div>
+                          </template>
+                          <template v-slot:body>
+                            <div class="inp_otp">
+                              <input
+                                maxlength="1"
+                                class="input"
+                                type="text"
+                                placeholder=""
+                              />
+                              <input
+                                maxlength="1"
+                                class="input"
+                                type="text"
+                                placeholder=""
+                              />
+                              <input
+                                maxlength="1"
+                                class="input"
+                                type="text"
+                                placeholder=""
+                              />
+                              <input
+                                maxlength="1"
+                                class="input"
+                                type="text"
+                                placeholder=""
+                              />
+                            </div>
+                          </template>
+                          <template v-slot:footer>
+                            <div class="button_otp flex justify-between">
+                              <button @click.prevent="confirmNumberPhone">
+                                Verify
+                              </button>
+                            </div>
+                          </template>
+                        </modal>
                       </div>
                     </div>
                   </div>
@@ -266,7 +310,7 @@
                         <div class="avatar">
                           <img
                             class="rounded-full w-6/12 ml-10"
-                            src="https://ordinaryofficial.vn/wp-content/uploads/2022/12/con-gai-han-quoc.jpg"
+                            src="@/assets/images/avatar.jpg"
                             alt="avatar"
                           />
                           <h1 class="font-semibold text-xl pb-2 text-center">
@@ -3863,7 +3907,7 @@
                 </div>
               </div>
             </div>
-            <div role="tabpanel" class="tab-pane active" id="warranty">
+            <div role="tabpanel" class="tab-pane" id="warranty">
               <div class="nav-warranty">
                 <ul
                   class="nav nav-pills bg-white flex- gap-x-60 pl-20 py-3 text-base font-medium"
@@ -3988,11 +4032,16 @@
 
 <script>
 import axios from "axios";
+import modal from "@/components/ModalPage.vue";
 
 export default {
+  components: {
+    modal,
+  },
   data() {
     return {
       info: {},
+      isShowModalOtp: false,
       orderAll: [],
       orderPending: [],
       orderDeliveried: [],
@@ -4936,5 +4985,57 @@ hr .my-4 {
 }
 .address .form-control {
   font-size: 97%;
+}
+
+.inp_otp {
+  margin-left: 147px;
+  margin-right: auto;
+  white-space: 4px;
+}
+
+.inp_otp .input + .input {
+  margin-left: 0.5em;
+}
+
+.inp_otp .input {
+  color: #060606;
+  height: 2em;
+  width: 2em;
+  float: left;
+  text-align: center;
+  background: #00000000;
+  outline: none;
+  border: 1px #060505 solid;
+  border-radius: 5px;
+  transition: all 0.6s ease;
+  font-size: larger;
+}
+
+.inp_otp .input:focus {
+  outline: none;
+  border: 1px rgb(0, 0, 0) bfb solid;
+}
+
+.inp_otp .input:not(:placeholder-shown) {
+  background-color: #fff;
+  width: 1em;
+  height: 1em;
+}
+
+.button_otp {
+  padding-left: 42px;
+  margin-right: auto;
+  background-color: #433b3bf5;
+  color: #fff;
+  width: 8.5em;
+  height: 2.3em;
+  border: #b5b5b5 1px solid;
+  border-radius: 5px;
+  transition: all 0.5s ease;
+}
+
+.button_otp:hover {
+  background-color: #fff;
+  color: #000;
 }
 </style>

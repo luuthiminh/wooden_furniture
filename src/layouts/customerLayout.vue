@@ -137,11 +137,19 @@
                 ><i class="fa-solid fa-cart-shopping"></i
               ></router-link> -->
               <router-link to="/TemporaryCart" style="text-decoration: none"
-                ><i class="fa-solid fa-cart-shopping"></i
-              ></router-link>
+                ><i class="fa-solid fa-cart-shopping"
+                  ><sup class="ml-1 px-2 bg-white rounded-full text-yellow-950"
+                    >2</sup
+                  ></i
+                >
+              </router-link>
             </li>
             <li @click.prevent="handelBell">
-              <div class="fa-solid fa-bell cursor-pointer"></div>
+              <div class="fa-solid fa-bell cursor-pointer">
+                <sup class="ml-1 px-2 bg-white rounded-full text-yellow-950"
+                  >{{ notifications.length }}
+                </sup>
+              </div>
             </li>
 
             <li @click.prevent="handleLogout">
@@ -153,14 +161,65 @@
         </nav>
       </div>
     </div>
-  </header>
-  <!-- <div v-if="!isBell">
-    <div class="w-30 h-80">
-      <span class="text-sm font-semidum">Title</span>
-      <span class="text-sm font-semidum">Content</span>
-      <span class="text-xs font-semidum">Date</span>
+    <div v-if="!isBell">
+      <div v-if="notifications.length">
+        <div
+          v-for="(notification, index) in notifications"
+          :key="index"
+          class="w-80 bg-white float-right z-10 border border-1-black mr-4 rounded-b-md"
+        >
+          <div class="pl-4 font-medium text-lg text-center py-2">
+            Notifications
+          </div>
+          <ul class="message bg-gray-50 mb-px">
+            <li class="card_bell">
+              <hr />
+              <div class="textBox px-4 py-2">
+                <div class="textContent flex py-3">
+                  <p class="font-semibold text-sm pr-24">
+                    {{ notification.title }}
+                  </p>
+                  <span class="text-xs">{{ notification.date }}</span>
+                </div>
+                <p class="text-sm">{{ notification.content }}</p>
+              </div>
+            </li>
+            <li class="card_bell">
+              <hr />
+              <div class="textBox px-4 py-2">
+                <div class="textContent flex py-3">
+                  <p class="font-semibold text-sm pr-24">Clans of Clash</p>
+                  <span class="text-xs">12 min ago</span>
+                </div>
+                <p class="text-sm">Xhattmahs is not attacking your base!</p>
+              </div>
+            </li>
+            <li class="card_bell">
+              <hr />
+              <div class="textBox px-4 py-2">
+                <div class="textContent flex py-3">
+                  <p class="font-semibold text-sm pr-24">Clans of Clash</p>
+                  <span class="text-xs">12 min ago</span>
+                </div>
+                <p class="text-sm">Xhattmahs is not attacking your base!</p>
+              </div>
+            </li>
+            <li class="card_bell">
+              <hr />
+              <div class="textBox px-4 py-2">
+                <div class="textContent flex py-3">
+                  <p class="font-semibold text-sm pr-24">Clans of Clash</p>
+                  <span class="text-xs">12 min ago</span>
+                </div>
+                <p class="text-sm">Xhattmahs is not attacking your base!</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
-  </div> -->
+  </header>
+
   <!-- </header> -->
   <div v-if="furnitureSearch.length">
     <search-result :furnitureSearch="furnitureSearch"></search-result>
@@ -243,11 +302,14 @@ export default {
       furnitureSearch: [],
       lang: lang,
       isBell: false,
+      notifications: [],
     };
+  },
+  created() {
+    this.getAllAnnouncements();
   },
   methods: {
     async search() {
-      console.log(this.keyword);
       try {
         const response = await axios.get(
           "customer/furnitures/search?keyword=" + this.keyword
@@ -268,16 +330,27 @@ export default {
       localStorage.setItem("lang", event.target.value);
       window.location.reload();
     },
+    handleLogout() {
+      localStorage.removeItem("token");
+      this.$router.push({ name: "login" });
+    },
+    handelBell() {
+      this.isBell = !this.isBell;
+    },
+    async getAllAnnouncements() {
+      try {
+        const response = await axios.get("customer/announcements");
+        if (response.status === 200) {
+          this.notifications = response.data;
+          console.log(this.allAnnouncements);
+        }
+      } catch (error) {
+        console.error(error);
+        // alert("Furniture not found!");
+      }
+    },
   },
-  handleLogout() {
-    this.$router.push({ name: "login" });
-    localStorage.removeItem("token");
-  },
-  handelBell() {
-    console.log(this.isBell);
-    this.isBell = !this.isBell;
-    console.log(this.isBell);
-  },
+
   components: {
     SearchResult,
   },
@@ -470,4 +543,8 @@ nav li {
   opacity: 0.3;
   height: 29rem;
 }
+.textContent p {
+  text-align: justify;
+}
+/* message */
 </style>
