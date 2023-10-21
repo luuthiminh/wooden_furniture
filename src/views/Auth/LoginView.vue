@@ -20,33 +20,6 @@
               </div>
               <div class="text-red-600 py-2">{{ message }}</div>
               <div>
-                <!-- <div>
-                  <label for="exampleInputEmail1" class="text-base form-label"
-                    >Email</label
-                  >
-                  <input
-                    v-model="email"
-                    type="email"
-                    class="form-control"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                    required
-                  />
-                </div>
-                <br />
-                <div>
-                  <label for="password" class="text-base form-label"
-                    >Create Password</label
-                  >
-                  <input
-                    v-model="password"
-                    type="password"
-                    class="form-control"
-                    id="password"
-                    aria-describedby="passwordHelp"
-                    required
-                  />
-                </div> -->
                 <div class="flex-column">
                   <label>Email </label>
                 </div>
@@ -132,7 +105,7 @@
                   <a
                     href="https://landlstore.azurewebsites.net/api/customer/signin-google"
                   >
-                    <button class="button_gg">
+                    <div class="button_gg">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         preserveAspectRatio="xMidYMid"
@@ -156,7 +129,7 @@
                         ></path>
                       </svg>
                       Login with Google
-                    </button>
+                    </div>
                   </a>
                 </div>
                 <br />

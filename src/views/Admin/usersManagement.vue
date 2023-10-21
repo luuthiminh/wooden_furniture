@@ -17,7 +17,7 @@
         </div>
 
         <div
-          class="dropdown bg-slate-300 shadow-lg bg-slate-300/100 px-2 py-2 rounded-lg"
+          class="dropdown bg-orange-50 shadow-lg bg-orange-100/100 px-2 py-2 rounded-lg"
         >
           <button
             class="btn_action flex"
@@ -32,7 +32,7 @@
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-4 h-4 text-slate-500 mt-1 mr-1"
+              class="w-4 h-4 text-orange-500 mt-1 mr-1"
             >
               <path
                 stroke-linecap="round"
@@ -41,7 +41,7 @@
               />
             </svg>
 
-            <span class="text-slate-500 font-medium">Filter</span>
+            <span class="text-orange-500 font-medium">Filter</span>
           </button>
           <ul
             class="dropdown-menu text-sm"
@@ -57,7 +57,7 @@
         </div>
       </div>
       <div class="py-4">
-        <table class="table table-borderless text-slate-500 font-medium">
+        <table class="table table-borderless text-yellow-950 font-medium">
           <thead>
             <tr>
               <th>USER</th>
@@ -91,7 +91,7 @@
               <td>Administrator</td>
               <td>22/10/2023 10:10 am</td>
               <td class="td_action w-1/12 text-sm">
-                <div class="dropdown px-2 py-2 bg-slate-100 w-20 rounded-md">
+                <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
                   <button
                     class="btn_action dropdown-toggle"
                     type="button"
@@ -102,17 +102,181 @@
                     Actions
                   </button>
                   <ul
-                    class="dropdown-menu text-sm font-medium"
+                    class="dropdown-menu text-sm font-medium pl-3"
                     aria-labelledby="dropdownMenuButton1"
                   >
-                    <li>
-                      <a class="dropdown-item font-medium" href="#">Edit</a>
+                    <li
+                      class="flex gap-x-4"
+                      data-toggle="modal"
+                      data-target="#exampleModalLong"
+                      data-dismiss="modal"
+                      data-backdrop="false"
+                      @click.prevent="isEditModal = true"
+                    >
+                      <i class="bi bi-pencil"></i>
+                      <span>Edit</span>
                     </li>
-                    <li>
-                      <a class="dropdown-item font-medium" href="#">Delete</a>
+                    <li
+                      class="flex gap-x-4"
+                      data-toggle="modal"
+                      data-target="#exampleModalLong"
+                      data-dismiss="modal"
+                      data-backdrop="false"
+                      @click.prevent="isDeleteModal = true"
+                    >
+                      <i class="bi bi-trash3"></i>
+                      <span>Deltete</span>
                     </li>
                   </ul>
                 </div>
+                <modal
+                  v-if="isEditModal"
+                  @close="isEditModal = false"
+                  data-target="#myModal"
+                >
+                  <template v-slot:title>
+                    <h1 class="flex items-center text-lg font-medium">
+                      Edit Thi Furniture
+                    </h1>
+                  </template>
+                  <template v-slot:body>
+                    <div class="py-1 px-4 text-sm">
+                      <form @submit.prevent="">
+                        <div>
+                          <label
+                            for="exampleInputEmail1"
+                            class="form-label font-medium"
+                            >Name Furniture</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="exampleInpuName1"
+                            aria-describedby="nameHelp"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label
+                            for="exampleInputEmail1"
+                            class="form-label font-medium"
+                            >Price</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label for="exampleInputEmail1" class="form-label"
+                            >Category</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label for="exampleInputEmail1" class="form-label"
+                            >Quantity</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label for="exampleInputEmail1" class="form-label"
+                            >Material</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label for="exampleInputEmail1" class="form-label"
+                            >Description</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            required
+                          />
+                        </div>
+                        <div class="flex gap-x-3 mt-3">
+                          <label
+                            for="exampleInputEmail1"
+                            class="form-label mt-10"
+                            >Image</label
+                          >
+                          <div class="img flex">
+                            <img
+                              class="image_default pr-10"
+                              src="@/assets/images/image_default.jpg"
+                              alt="furniture"
+                            />
+                            <input
+                              type="file"
+                              id="myFile"
+                              class="mt-10"
+                              name="filename"
+                            />
+                          </div>
+                        </div>
+                        <button type="submit" class="btn my-8">Edit</button>
+                      </form>
+                    </div>
+                  </template>
+                  <template v-slot:footer>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      @click.prevent="saveChanges"
+                    >
+                      Save changes
+                    </button>
+                  </template>
+                </modal>
+                <modal
+                  v-if="isDeleteModal"
+                  @close="isDeleteModal = false"
+                  data-target="#myModal"
+                >
+                  <template v-slot:title>
+                    <h1 class="flex items-center text-lg font-medium">
+                      Delete This Furniture
+                    </h1>
+                  </template>
+                  <template v-slot:body>
+                    <div class="py-1 px-4 text-sm">
+                      <h1>Are you sure delete this furniture?</h1>
+                    </div>
+                  </template>
+                  <template v-slot:footer>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      @click.prevent="saveChanges"
+                    >
+                      Yes
+                    </button>
+                  </template>
+                </modal>
               </td>
             </tr>
             <tr>
@@ -139,7 +303,7 @@
               <td>Administrator</td>
               <td>22/10/2023 10:10 am</td>
               <td class="td_action">
-                <div class="dropdown px-2 py-2 bg-slate-100 w-20 rounded-md">
+                <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
                   <button
                     class="btn_action dropdown-toggle"
                     type="button"
@@ -185,7 +349,7 @@
               <td>Administrator</td>
               <td>22/10/2023 10:10 am</td>
               <td class="td_action">
-                <div class="dropdown px-2 py-2 bg-slate-100 w-20 rounded-md">
+                <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
                   <button
                     class="btn_action dropdown-toggle"
                     type="button"
@@ -196,12 +360,30 @@
                     Action
                   </button>
                   <ul
-                    class="dropdown-menu"
+                    class="dropdown-menu text-sm font-medium pl-3"
                     aria-labelledby="dropdownMenuButton1"
                   >
-                    <li><a class="dropdown-item" href="#">Edit</a></li>
-                    <li>
-                      <a class="dropdown-item" href="#">Delete</a>
+                    <li
+                      class="flex gap-x-4"
+                      data-toggle="modal"
+                      data-target="#exampleModalLong"
+                      data-dismiss="modal"
+                      data-backdrop="false"
+                      @click.prevent="isEditModal = true"
+                    >
+                      <i class="bi bi-pencil"></i>
+                      <span>Edit</span>
+                    </li>
+                    <li
+                      class="flex gap-x-4"
+                      data-toggle="modal"
+                      data-target="#exampleModalLong"
+                      data-dismiss="modal"
+                      data-backdrop="false"
+                      @click.prevent="isDeleteModal = true"
+                    >
+                      <i class="bi bi-trash3"></i>
+                      <span>Deltete</span>
                     </li>
                   </ul>
                 </div>
@@ -231,7 +413,7 @@
               <td>Administrator</td>
               <td>22/10/2023 10:10 am</td>
               <td class="td_action w-1/12 text-sm">
-                <div class="dropdown px-2 py-2 bg-slate-100 w-20 rounded-md">
+                <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
                   <button
                     class="btn_action dropdown-toggle"
                     type="button"
@@ -279,7 +461,7 @@
               <td>Administrator</td>
               <td>22/10/2023 10:10 am</td>
               <td class="td_action w-1/12 text-sm">
-                <div class="dropdown px-2 py-2 bg-slate-100 w-20 rounded-md">
+                <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
                   <button
                     class="btn_action dropdown-toggle"
                     type="button"
@@ -327,7 +509,7 @@
               <td>Administrator</td>
               <td>22/10/2023 10:10 am</td>
               <td class="td_action w-1/12 text-sm">
-                <div class="dropdown px-2 py-2 bg-slate-100 w-20 rounded-md">
+                <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
                   <button
                     class="btn_action dropdown-toggle"
                     type="button"
@@ -375,7 +557,7 @@
               <td>Administrator</td>
               <td>22/10/2023 10:10 am</td>
               <td class="td_action w-1/12 text-sm">
-                <div class="dropdown px-2 py-2 bg-slate-100 w-20 rounded-md">
+                <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
                   <button
                     class="btn_action dropdown-toggle"
                     type="button"
@@ -423,7 +605,7 @@
               <td>Administrator</td>
               <td>22/10/2023 10:10 am</td>
               <td class="td_action w-1/12 text-sm">
-                <div class="dropdown px-2 py-2 bg-slate-100 w-20 rounded-md">
+                <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
                   <button
                     class="btn_action dropdown-toggle"
                     type="button"
@@ -471,7 +653,7 @@
               <td>Administrator</td>
               <td>22/10/2023 10:10 am</td>
               <td class="td_action w-1/12 text-sm">
-                <div class="dropdown px-2 py-2 bg-slate-100 w-20 rounded-md">
+                <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
                   <button
                     class="btn_action dropdown-toggle"
                     type="button"
@@ -519,7 +701,7 @@
               <td>Administrator</td>
               <td>22/10/2023 10:10 am</td>
               <td class="td_action w-1/12 text-sm">
-                <div class="dropdown px-2 py-2 bg-slate-100 w-20 rounded-md">
+                <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
                   <button
                     class="btn_action dropdown-toggle"
                     type="button"
@@ -567,7 +749,7 @@
               <td>Administrator</td>
               <td>22/10/2023 10:10 am</td>
               <td class="td_action w-1/12 text-sm">
-                <div class="dropdown px-2 py-2 bg-slate-100 w-20 rounded-md">
+                <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
                   <button
                     class="btn_action dropdown-toggle"
                     type="button"
@@ -615,7 +797,7 @@
               <td>Administrator</td>
               <td>22/10/2023 10:10 am</td>
               <td class="td_action w-1/12 text-sm">
-                <div class="dropdown px-2 py-2 bg-slate-100 w-20 rounded-md">
+                <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
                   <button
                     class="btn_action dropdown-toggle"
                     type="button"
@@ -663,7 +845,7 @@
               <td>Administrator</td>
               <td>22/10/2023 10:10 am</td>
               <td class="td_action w-1/12 text-sm">
-                <div class="dropdown px-2 py-2 bg-slate-100 w-20 rounded-md">
+                <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
                   <button
                     class="btn_action dropdown-toggle"
                     type="button"
@@ -692,7 +874,7 @@
       </div>
     </div>
   </div>
-  <p class="text-sm font-medium mb-5">Total users: 5</p>
+  <p class="text-sm font-medium my-5 ml-2">Total users: 5</p>
 </template>
 <script>
 import HeaderAdmin from "@/components/headerAdmin.vue";
@@ -702,6 +884,8 @@ export default {
   data() {
     return {
       title: "User List",
+      isEditModal: false,
+      isDeleteModal: false,
     };
   },
 };
@@ -781,5 +965,24 @@ td {
   overflow: scroll;
   overflow-x: hidden;
   height: 35em;
+}
+.pt-6.px-6::-webkit-scrollbar-track,
+.table_order::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+.pt-6.px-6::-webkit-scrollbar,
+.table_order::-webkit-scrollbar {
+  width: 6px;
+  background-color: #f5f5f5;
+}
+
+.pt-6.px-6::-webkit-scrollbar-thumb,
+.table_order::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #cdc0aa;
 }
 </style>

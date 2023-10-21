@@ -9,7 +9,7 @@
         </ol>
       </nav>
     </div>
-    <button type="button" class="button float-right text-xs my-3">
+    <button type="button" class="button float-right text-xs my-4">
       <span class="button__text">Add Item</span>
       <span
         class="button__icon"
@@ -161,9 +161,9 @@
         </button>
       </template>
     </modal>
-    <div class="pt-3">
+    <div class="bg-white px-3 py-3 rounded-lg my-7">
       <table
-        class="table table-hover border border-gray-900 text-center text-slate-600 bg-gray-50"
+        class="table table-hover border border-gray-900 text-center text-slate-600"
       >
         <thead>
           <tr class="text-sm text-center">

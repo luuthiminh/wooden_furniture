@@ -3,32 +3,28 @@
     <div>
       <h1 class="font-semibold text-xl">{{ title }}</h1>
       <ul class="bar flex text-sm pt-2">
-        <li class="text-slate-500">
-          <router-link to="/"> User/ </router-link>
+        <li>
+          <router-linsk to="/userManaegment" class="text-decoration-none">
+            User /
+          </router-linsk>
         </li>
-        <li class="text-slate-500">
-          <router-link to="/"> User Management/ </router-link>
+        <li>
+          <router-link to="/adManagement" class="text-decoration-none">
+            Roles /
+          </router-link>
         </li>
         <li class="font-medium">
-          <router-link to="/"> Customer</router-link>
+          <router-link to="/adManagement" class="text-decoration-none">
+            Admin
+          </router-link>
         </li>
       </ul>
     </div>
     <div class="float-right flex">
-      <!-- <div class="avatar w-8/12">
-        <router-link to="/profileAssistant">
-          <img
-            class="rounded-md ml-3 cursor-pointer"
-            src="@/assets/images/avatar.jpg "
-            alt="avatar"
-          />
-        </router-link>
-        <p class="text-xs text-slate-400 font-normal ml-4 mt-2">Admin</p>
-      </div> -->
       <div class="new member">
-        <router-link to="/addnewUser">
+        <router-link to="/addnewUser" class="text-decoration-none">
           <div
-            class="flex text-white bg-gradient-to-r from-slate-600 to-slate-900 hover:from-gray-800 hover:to-blue-800 hitrounded-md px-4 py-2 text-sm font-medium rounded-lg shadow-lg shadow-cyan-500/50"
+            class="new_member flex text-white hitrounded-md px-3 py-2 text-sm font-medium rounded-lg shadow-lg shadow-cyan-500/50"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -44,12 +40,12 @@
                 d="M12 4.5v15m7.5-7.5h-15"
               />
             </svg>
-            <span>New Member</span>
+            <span class="text-white">New Member</span>
           </div>
         </router-link>
       </div>
       <div class="">
-        <button class="Btn bg-slate-800">
+        <button class="Btn">
           <div class="sign">
             <svg viewBox="0 0 512 512">
               <path
@@ -69,12 +65,13 @@ export default {
 </script>
 <style scoped>
 .header_components_admin {
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
   height: 100px;
   transition: left 0.3s ease;
-  padding: 20px 0px;
+  padding: 24px 0px;
+  margin-bottom: 1em;
+}
+.new_member {
+  background-color: #ab7442;
 }
 /* icon_logout */
 .Btn {
@@ -97,6 +94,7 @@ export default {
   transition-duration: 0.3s;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
   margin-left: 27px;
+  background: #ab7442;
 }
 
 /* plus sign */
@@ -119,5 +117,9 @@ export default {
 /* button click effect*/
 .Btn:active {
   transform: translate(2px, 2px);
+}
+h1,
+li {
+  color: rgb(79, 59, 25);
 }
 </style>

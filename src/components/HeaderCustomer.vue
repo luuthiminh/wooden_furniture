@@ -1,106 +1,642 @@
 <template>
-  <header-cus />
-  <header>
-    <ul class="contact_header flex wrapper text-right first-letter py-4">
-      <li><i class="fa-solid fa-location-dot"></i>Hung Yen</li>
-      <li><i class="fa-solid fa-phone"></i>+84 398677620</li>
-      <li><i class="fa-regular fa-envelope"></i>minhltgch202050@gmail.com</li>
-    </ul>
-    <div class="nav_header">
-      <div class="grid mg-left-0 grid-cols-2">
-        <div class="logo grid__item large--four-twelfths pd-lef0 ml-32">
-          <img src="@/assets/images/logo.png" alt="logo" />
-        </div>
-        <nav
-          class="border-2 border-yellow-700 grid__item large--eight-twelfths text-right clearfix"
-        >
-          <ul class="flex gap-x-9 px-1">
-            <li><a href="">Home</a></li>
-            <li><a href="">All Products</a></li>
-            <li><a href="">Category</a></li>
-            <li><a href="">About</a></li>
-            <li><a href="">Contact</a></li>
-            <li>
-              <div class="search h-5">
-                <form class="form">
-                  <label for="search">
-                    <input
-                      required=""
-                      autocomplete="off"
-                      placeholder="search your chats"
-                      id="search"
-                      type="text"
-                    />
-                    <div class="icon">
-                      <svg
-                        stroke-width="2"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="swap-on"
-                      >
-                        <path
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                          stroke-linejoin="round"
-                          stroke-linecap="round"
-                        ></path>
-                      </svg>
-                      <svg
-                        stroke-width="2"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="swap-off"
-                      >
-                        <path
-                          d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                          stroke-linejoin="round"
-                          stroke-linecap="round"
-                        ></path>
-                      </svg>
+  <header class="header h-32 fixed z-10 py-3 w-full">
+    <div>
+      <div class="nav_header">
+        <div class="header_first flex items-center pb-2">
+          <div class="logo flex large--four-twelfths ml-28 max-sm:ml-3">
+            <router-link to="/customerIndex">
+              <img src="@/assets/images/logo.png" alt="logo" />
+            </router-link>
+            <div class="px-3 pt-1">
+              <span>L & L</span>
+              <p>WOOD FURNITURE</p>
+            </div>
+          </div>
+          <nav
+            class="border-2 border-yellow-700 grid__item large--eight-twelfths text-right clearfix"
+          >
+            <div class="flex">
+              <ul class="flex gap-x-9">
+                <router-link
+                  to="/customerIndex"
+                  class="text-decoration-none"
+                ></router-link>
+                <li class="search">
+                  <!-- <form @keyup.enter="search"> -->
+                  <div class="flex flex-cols-6 gap-x-3">
+                    <div class="col-span-4 font-normal">
+                      <div class="form">
+                        <label for="search">
+                          <input
+                            required=""
+                            autocomplete="off"
+                            placeholder="search your chats"
+                            id="search"
+                            type="text"
+                            v-model="keyword"
+                            @keyup.enter="search"
+                          />
+                          <div class="icon">
+                            <svg
+                              stroke-width="2"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="swap-on"
+                            >
+                              <path
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                stroke-linejoin="round"
+                                stroke-linecap="round"
+                              ></path>
+                            </svg>
+                            <svg
+                              stroke-width="2"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="swap-off"
+                            >
+                              <path
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                                stroke-linejoin="round"
+                                stroke-linecap="round"
+                              ></path>
+                            </svg>
+                          </div>
+                          <button @click="clear" type="reset" class="close-btn">
+                            <svg
+                              viewBox="0 0 20 20"
+                              class="h-5 w-5"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                fill-rule="evenodd"
+                              ></path>
+                            </svg>
+                          </button>
+                        </label>
+                      </div>
                     </div>
-                    <button type="reset" class="close-btn">
-                      <svg
-                        viewBox="0 0 20 20"
-                        class="h-5 w-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          clip-rule="evenodd"
-                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                          fill-rule="evenodd"
-                        ></path>
-                      </svg>
-                    </button>
-                  </label>
-                </form>
+                    <!-- <div
+                    class="col-span-2 bg-white text-black text-center px-2 py-2 rounded-md w-6/12"
+                  >
+                    <button type="submit" class="text-xs">Search</button>
+                  </div> -->
+                  </div>
+                  <!-- </form> -->
+                </li>
+              </ul>
+              <ul class="ml-5 flex gap-x-5">
+                <li class="flex gap-2">
+                  <router-link to="/TemporaryCart" style="text-decoration: none"
+                    ><i class="bi bi-cart3 cursor-pointer text-2xl"></i>
+                    <sup class="px-1 bg-red-600 rounded-full text-white"
+                      >2
+                    </sup>
+                  </router-link>
+                  <p class="font-semibold pt-1 text-lg">Cart</p>
+                </li>
+
+                <li class="absolute right-10 flex gap-x-10">
+                  <router-link to="/profileCusPage" class="text-decoration-none"
+                    ><i class="bi bi-person cursor-pointer text-2xl"></i
+                  ></router-link>
+                  <p>Account</p>
+                  <div @click.prevent="handleLogout" class="flex gap-x-2">
+                    <i
+                      class="bi bi-box-arrow-right cursor-pointer text-2xl"
+                    ></i>
+                    <p>Logout</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="flex gap-x-64">
+        <ul class="flex px-28 gap-x-9 py-2 items-center pt-2">
+          <li>
+            <router-link
+              to="/customerIndex"
+              class="font-medium text-decoration-none"
+            >
+              Home</router-link
+            >
+          </li>
+          <li class="font-medium">
+            <router-link to="/StoreIntroduction" class="text-decoration-none"
+              >Introduce</router-link
+            >
+          </li>
+          <li class="font-medium">
+            <router-link to="/CustomizeFurniture" class="text-decoration-none"
+              >Customize Furniture</router-link
+            >
+          </li>
+          <li>
+            <div class="dropdown">
+              <div class="dropdown-toggle" data-toggle="dropdown">
+                <strong class="font-medium">All Product</strong>
+              </div>
+              <div class="dropdown-menu px-3 py-2 mt-1 leading-7">
+                <li>
+                  <router-link to="/allproduct" class="font-medium text-base">
+                    Wardrobe</router-link
+                  >
+                </li>
+                <li>
+                  <router-link to="/allproduct" class="font-medium text-base">
+                    Sofa</router-link
+                  >
+                </li>
+                <li>
+                  <router-link to="/allproduct" class="font-medium text-base">
+                    Clock</router-link
+                  >
+                </li>
+                <li>
+                  <router-link to="/allproduct" class="font-medium text-base">
+                    Altar</router-link
+                  >
+                </li>
+                <li>
+                  <router-link to="/allproduct" class="font-medium text-base">
+                    Bed</router-link
+                  >
+                </li>
+                <li>
+                  <router-link to="/allproduct" class="font-medium text-base">
+                    Shelves TV</router-link
+                  >
+                </li>
+              </div>
+            </div>
+          </li>
+          <li class="font-medium">
+            <router-link to="/furnitureMix" style="text-decoration: none"
+              >Mix
+            </router-link>
+          </li>
+          <li class="font-medium">
+            <router-link to="/about" class="text-decoration-none"
+              >About</router-link
+            >
+          </li>
+          <li class="font-medium">
+            <router-link to="/contactCus" class="text-decoration-none"
+              >Contact</router-link
+            >
+          </li>
+        </ul>
+        <ul class="flex gap-x-10 right-2 items-center">
+          <li @click.prevent="handelBell" class="flex items-center gap-x-1">
+            <div class="bi bi-bell cursor-pointer text-sm flex">
+              <sup v-if="notifications.length"
+                ><span class="relative flex h-2 w-2">
+                  <span
+                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"
+                  ></span>
+                  <span
+                    class="relative inline-flex rounded-full h-2 w-2 bg-sky-500"
+                  ></span>
+                </span>
+              </sup>
+            </div>
+            <small class="text-xs">Notifications</small>
+          </li>
+
+          <div class="mode flex items-center" @click.prevent="toggleDark">
+            <label class="toggle" for="switch">
+              <input id="switch" class="input" type="checkbox" />
+              <div v-if="isDarkMode">
+                <div class="icon icon--moon pt-2">
+                  <svg
+                    height="13"
+                    width="13"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"
+                      fill-rule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+              <div v-else>
+                <div class="icon icon--sun pt-2">
+                  <svg
+                    height="17"
+                    width="17"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+            </label>
+            <small class="text-xs">Theme style</small>
+          </div>
+        </ul>
+      </div>
+    </div>
+
+    <div v-if="isBell">
+      <div v-if="notifications.length">
+        <div
+          v-for="(notification, index) in notifications"
+          :key="index"
+          class="w-80 bg-white float-right z-10 border border-1-black mr-4 rounded-lg"
+        >
+          <div class="pl-4 font-medium text-lg text-center py-2">
+            Notifications ({{ notifications.length }})
+          </div>
+          <ul class="message bg-slate-50 mb-px rounded-b-lg">
+            <li class="card_bell">
+              <hr />
+              <div class="textBox px-4 py-2">
+                <div class="textContent flex py-3">
+                  <p class="font-semibold text-sm pr-24">
+                    {{ notification.title }}
+                  </p>
+                  <span class="text-xs">{{ notification.date }}</span>
+                </div>
+                <p class="text-sm">{{ notification.content }}</p>
               </div>
             </li>
-            <li>
-              <a href=""><i class="fa-solid fa-user"></i></a>
+            <li class="card_bell">
+              <hr />
+              <div class="textBox px-4 py-2">
+                <div class="textContent flex py-3">
+                  <p class="font-semibold text-sm pr-24">Clans of Clash</p>
+                  <span class="text-xs">12 min ago</span>
+                </div>
+                <p class="text-sm">Xhattmahs is not attacking your base!</p>
+              </div>
             </li>
-            <li>
-              <a href=""><i class="fa-solid fa-cart-shopping"></i></a>
+            <li class="card_bell">
+              <hr />
+              <div class="textBox px-4 py-2">
+                <div class="textContent flex py-3">
+                  <p class="font-semibold text-sm pr-24">Clans of Clash</p>
+                  <span class="text-xs">12 min ago</span>
+                </div>
+                <p class="text-sm">Xhattmahs is not attacking your base!</p>
+              </div>
             </li>
-            <a href="/">
-              <li><i class="fa-solid fa-arrow-right-from-bracket"></i></li>
-            </a>
+            <li class="card_bell">
+              <hr />
+              <div class="textBox px-4 py-2">
+                <div class="textContent flex py-3">
+                  <p class="font-semibold text-sm pr-24">Clans of Clash</p>
+                  <span class="text-xs">12 min ago</span>
+                </div>
+                <p class="text-sm">Xhattmahs is not attacking your base!</p>
+              </div>
+            </li>
           </ul>
-        </nav>
+        </div>
       </div>
     </div>
   </header>
-  <slot />
 </template>
 
 <script>
-import HeaderCus from "@/components/HeaderCustomer.vue";
-
+import axios from "axios";
+// import { format, parseISO } from "date-fns";
 export default {
-  components: { HeaderCus },
+  data() {
+    return {
+      keyword: "",
+      furnitureSearch: [],
+      isBell: false,
+      notifications: [],
+      isDarkMode: false,
+      // Date: "",
+    };
+  },
+  created() {
+    this.getAllAnnouncements();
+  },
+  methods: {
+    async search() {
+      try {
+        const response = await axios.get(
+          "customer/furnitures/search?keyword=" + this.keyword
+        );
+        if (response.status === 200) {
+          this.furnitureSearch = response.data;
+        }
+      } catch (error) {
+        console.error(error);
+        // alert("Furniture not found!");
+      }
+    },
+    clear() {
+      this.keyword = "";
+      this.furnitureSearch = "";
+    },
+    handleLogout() {
+      localStorage.removeItem("token");
+      this.$router.push({ name: "login" });
+    },
+    handelBell() {
+      this.isBell = !this.isBell;
+    },
+    async getAllAnnouncements() {
+      try {
+        const response = await axios.get("customer/announcements");
+        if (response.status === 200) {
+          this.notifications = response.data;
+          // const d = parseISO(this.notifications.date);
+          // const DateN = format(d, "dd/MM/yyyy");
+          // this.Date = DateN;
+        }
+      } catch (error) {
+        console.error(error);
+        // alert("Furniture not found!");
+      }
+    },
+    toggleDark() {
+      this.isDarkMode = !this.isDarkMode;
+      if (this.isDarkMode) {
+        localStorage.theme = "dark";
+        this.isDarkMode = true;
+        document.body.classList.remove("sun");
+        document.body.classList.add("moon");
+      } else {
+        localStorage.theme = "light";
+        this.isDarkMode = false;
+        document.body.classList.remove("moon");
+        document.body.classList.add("sun");
+        this.isLight = true;
+      }
+    },
+  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.header {
+  box-shadow: 1px 1px 4px #dcd8d8;
+  /* background-color: white; */
+}
+.logo a {
+  width: 11%;
+}
+.logo span {
+  color: #553b29;
+  font-weight: 700;
+  font-size: 20px;
+}
+.logo p {
+  color: #5a2b00;
+  margin-top: -3px;
+  font-weight: 500;
+  font-size: 13px;
+}
+nav {
+  width: 90%;
+}
+.wrapper {
+  padding-left: 50rem;
+}
+.wrapper li {
+  padding-left: 10%;
+  font-size: 15px;
+}
+nav {
+  position: sticky;
+  z-index: 99;
+  color: #2f220b;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  /* border: 1px solid #d3c2ae; */
+}
+nav li {
+  padding-left: 1px;
+  padding-right: 2px;
+}
+.grid.mg-left-0 {
+  color: wheat;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+
+/* icon search */
+.container-input {
+  position: relative;
+}
+
+.input {
+  width: 124px;
+  padding: 3px 0px 3px 40px;
+  border-radius: 9999px;
+  border: solid 1px #333;
+  transition: all 0.2s ease-in-out;
+  outline: none;
+  opacity: 0.8;
+}
+
+.container-input svg {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translate(0, -50%);
+}
+
+.input:focus {
+  opacity: 1;
+  width: 250px;
+}
+
+/* dark */
+.mode .toggle {
+  background-color: #fff;
+  width: 26px;
+  height: 26px;
+  border-radius: 10%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  /* box-shadow: 0 0 50px 16px rgba(0, 0, 0, 0.1); */
+  line-height: 1;
+}
+.mode .toggle:hover {
+  background-color: #635e5e;
+}
+.mode .toggle svg:hover {
+  color: rgb(251, 251, 251);
+}
+
+.mode .input {
+  display: none;
+}
+
+.mode .icon {
+  grid-column: 1 / 1;
+  grid-row: 1 / 1;
+  transition: transform 500ms;
+}
+/* icon search */
+/* From uiverse.io by @satyamchaudharydev */
+/* this button is inspired by -- whatsapp input */
+/* == type to see fully interactive and click the close buttom to remove the text  == */
+
+.form {
+  margin-top: -3px;
+  --input-bg: #fff;
+  /*  background of input */
+  --padding: 1.5em;
+  --rotate: 80deg;
+  /*  rotation degree of input*/
+  --gap: 2em;
+  /*  gap of items in input */
+  --icon-change-color: #15a986;
+  /*  when rotating changed icon color */
+  --height: 30px;
+  /*  height */
+  width: 400px;
+  padding-inline-end: 1em;
+  /*  change this for padding in the end of input */
+  background: var(--input-bg);
+  position: relative;
+  border-radius: 4px;
+  border: 1px solid gray;
+}
+
+.form label {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: var(--height);
+}
+
+.form input {
+  font-size: 12px;
+  width: 100%;
+  padding-inline-start: calc(var(--padding) + var(--gap));
+  outline: none;
+  background: none;
+  border: 0;
+}
+/* style for both icons -- search,close */
+.form svg {
+  /* display: block; */
+  color: #111;
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: absolute;
+  height: 15px;
+}
+/* search icon */
+.search .icon {
+  position: absolute;
+  left: var(--padding);
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* arrow-icon*/
+.swap-off {
+  transform: rotate(-80deg);
+  opacity: 0;
+  visibility: hidden;
+}
+/* close button */
+.close-btn {
+  /* removing default bg of button */
+  background: none;
+  border: none;
+  right: calc(var(--padding) - var(--gap));
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #111;
+  padding: 0.1em;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  transition: 0.3s;
+  opacity: 0;
+  transform: scale(0);
+  visibility: hidden;
+}
+
+.form input:focus ~ .icon {
+  transform: rotate(var(--rotate)) scale(1.3);
+}
+
+.form input:focus ~ .icon .swap-off {
+  opacity: 1;
+  transform: rotate(-80deg);
+  visibility: visible;
+  color: var(--icon-change-color);
+}
+
+.form input:focus ~ .icon .swap-on {
+  opacity: 0;
+  visibility: visible;
+}
+
+.form input:valid ~ .icon {
+  transform: scale(1.3) rotate(var(--rotate));
+}
+
+.form input:valid ~ .icon .swap-off {
+  opacity: 1;
+  visibility: visible;
+  color: var(--icon-change-color);
+}
+
+.form input:valid ~ .icon .swap-on {
+  opacity: 0;
+  visibility: visible;
+}
+
+.form input:valid ~ .close-btn {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+  transition: 0s;
+}
+.header_first {
+  border-bottom: 1px solid #eeecec;
+}
+/*Mobile & tablet: width<1024px*/
+@media only screen and (max-width: 63.9375em) {
+  nav {
+    display: none;
+  }
+}
+/*Mobile: width<780px*/
+@media only screen and (max-width: 46.25em) {
+}
+/*Tablet: width>=740px and width < 1024px*/
+@media only screen and (min-width: 46.25em) and (max-width: 63.9375em) {
+}
+@media only screen and (width: 64em) {
+}
+/*laptop*/
+@media only screen and (min-width: 73em) and (max-width: 81.25em) {
+}
+</style>

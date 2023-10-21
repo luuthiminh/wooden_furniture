@@ -186,7 +186,7 @@
                 </td>
                 <td>1/9/2023</td>
                 <td class="td_action w-1/12 text-xs">
-                  <div class="button_dl" data-tooltip="Size: 20Mb">
+                  <!-- <div class="button_dl" data-tooltip="Size: 20Mb">
                     <div class="button-wrapper">
                       <div class="text">Download</div>
                       <span class="icon">
@@ -210,6 +210,11 @@
                         </svg>
                       </span>
                     </div>
+                  </div> -->
+                  <div class="button_csv">
+                    <a href="#" class="anchor">
+                      <span>Download CV</span>
+                    </a>
                   </div>
                 </td>
               </tr>
@@ -578,7 +583,6 @@ export default {
 .invoice_table th {
   font-weight: 600;
 }
-border-bottom: 1px solid #ededed;
 .invoice_table .avatar {
   width: 61px;
   margin-top: -8px;
@@ -710,5 +714,43 @@ border-bottom: 1px solid #ededed;
 
 .button_dl:hover:before {
   bottom: calc(var(--height) + var(--gap-between-tooltip-to-button));
+}
+.anchor {
+  text-decoration: none;
+  color: #fff;
+  display: inline-block;
+  font-family: sans-serif;
+  font-weight: 600;
+  border-radius: 7px;
+  border: 2px solid #ed553b;
+  padding: 0px 15px 0px;
+  overflow: hidden;
+  position: relative;
+}
+
+.anchor:hover {
+  color: #4e484a;
+}
+
+.button_csv a::before {
+  position: absolute;
+  content: "";
+  z-index: 0;
+  background-color: #ed553b;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  height: 111%;
+  transition: all 0.3s ease;
+}
+
+.button_csv a:hover::before {
+  height: 11%;
+}
+
+.button_csv span {
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
 }
 </style>

@@ -17,7 +17,7 @@
         </div>
 
         <div
-          class="dropdown bg-slate-300 shadow-lg bg-slate-300/100 px-2 py-2 rounded-lg"
+          class="dropdown bg-orange-50 shadow-lg bg-orange-100/100 px-2 py-2 rounded-lg"
         >
           <button
             class="btn_action flex"
@@ -32,7 +32,7 @@
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-4 h-4 text-slate-500 mt-1 mr-1"
+              class="w-4 h-4 text-orange-500 mt-1 mr-1"
             >
               <path
                 stroke-linecap="round"
@@ -41,7 +41,7 @@
               />
             </svg>
 
-            <span class="text-slate-500 font-medium">Filter</span>
+            <span class="text-orange-500 font-medium">Filter</span>
           </button>
           <ul
             class="dropdown-menu text-sm"
@@ -57,7 +57,7 @@
         </div>
       </div>
       <div class="py-4">
-        <table class="table table-borderless text-slate-500 font-medium">
+        <table class="table table-borderless text-yellow-950 font-medium">
           <thead>
             <tr>
               <th>ID</th>
@@ -101,7 +101,7 @@
               <td>22/10/2023 10:10 am</td>
               <td>23/10/2023 10:10 am</td>
               <td class="td_action w-1/12 text-sm">
-                <div class="dropdown px-2 py-2 bg-slate-100 w-20 rounded-md">
+                <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
                   <button
                     class="btn_action dropdown-toggle"
                     type="button"
@@ -112,22 +112,30 @@
                     Actions
                   </button>
                   <ul
-                    class="dropdown-menu text-sm font-medium"
+                    class="dropdown-menu text-sm font-medium pl-3"
                     aria-labelledby="dropdownMenuButton1"
                   >
-                    <li>
-                      <a
-                        class="dropdown-item font-medium text-slate-500"
-                        href="#"
-                        >Edit</a
-                      >
+                    <li
+                      class="flex gap-x-4"
+                      data-toggle="modal"
+                      data-target="#exampleModalLong"
+                      data-dismiss="modal"
+                      data-backdrop="false"
+                      @click.prevent="isEditModal = true"
+                    >
+                      <i class="bi bi-pencil"></i>
+                      <span>Edit</span>
                     </li>
-                    <li>
-                      <a
-                        class="dropdown-item font-medium text-slate-500"
-                        href="#"
-                        >Delete</a
-                      >
+                    <li
+                      class="flex gap-x-4"
+                      data-toggle="modal"
+                      data-target="#exampleModalLong"
+                      data-dismiss="modal"
+                      data-backdrop="false"
+                      @click.prevent="isDeleteModal = true"
+                    >
+                      <i class="bi bi-trash3"></i>
+                      <span>Deltete</span>
                     </li>
                   </ul>
                 </div>
@@ -148,6 +156,8 @@ export default {
   data() {
     return {
       title: "Assistant Account List",
+      isEditModal: false,
+      isDeleteModal: false,
     };
   },
 };
@@ -226,6 +236,22 @@ td {
 .pt-6.px-6.scroll {
   overflow: scroll;
   overflow-x: hidden;
-  height: 60em;
+  height: 35em;
+}
+.pt-6.px-6.scroll::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+.pt-6.px-6.scroll::-webkit-scrollba {
+  width: 6px;
+  background-color: #f5f5f5;
+}
+
+.pt-6.px-6.scroll:-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #cdc0aa;
 }
 </style>

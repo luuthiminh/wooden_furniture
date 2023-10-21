@@ -17,7 +17,7 @@
         </div>
 
         <div
-          class="dropdown bg-slate-300 shadow-lg bg-slate-300/100 px-2 py-2 rounded-lg"
+          class="dropdown bg-orange-50 shadow-lg bg-orange-100/100 px-2 py-2 rounded-lg"
         >
           <button
             class="btn_action flex"
@@ -32,7 +32,7 @@
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-4 h-4 text-slate-500 mt-1 mr-1"
+              class="w-4 h-4 text-orange-500 mt-1 mr-1"
             >
               <path
                 stroke-linecap="round"
@@ -41,7 +41,7 @@
               />
             </svg>
 
-            <span class="text-slate-500 font-medium">Filter</span>
+            <span class="text-orange-500 font-medium">Filter</span>
           </button>
           <ul
             class="dropdown-menu text-sm"
@@ -57,7 +57,7 @@
         </div>
       </div>
       <div class="py-4">
-        <table class="table table-borderless text-slate-500 font-medium">
+        <table class="table table-borderless text-yellow-950 font-medium">
           <thead>
             <tr>
               <th>ID</th>
@@ -73,11 +73,11 @@
           </thead>
           <tbody>
             <tr>
-              <th>1</th>
+              <td>1</td>
               <td>
                 <div class="user flex gap-x-2">
                   <div class="avatar">
-                    <router-link to="/profileManagement">
+                    <router-link to="/profileAssistant">
                       <img
                         class="rounded-full cursor-pointer"
                         src="@/assets/images/avatar.jpg "
@@ -101,7 +101,7 @@
               <td>22/10/2023 10:10 am</td>
               <td>23/10/2023 10:10 am</td>
               <td class="td_action w-1/12 text-sm">
-                <div class="dropdown px-2 py-2 bg-slate-100 w-20 rounded-md">
+                <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
                   <button
                     class="btn_action dropdown-toggle"
                     type="button"
@@ -112,144 +112,183 @@
                     Actions
                   </button>
                   <ul
-                    class="dropdown-menu text-sm font-medium"
+                    class="dropdown-menu text-sm font-medium pl-3"
                     aria-labelledby="dropdownMenuButton1"
                   >
                     <li
-                      type="button"
-                      class="font-medium text-slate-500 flex ml-4"
+                      class="flex gap-x-4"
                       data-toggle="modal"
                       data-target="#exampleModalLong"
-                      @click.prevent="isShowEditModal = true"
+                      data-dismiss="modal"
+                      data-backdrop="false"
+                      @click.prevent="isEditModal = true"
                     >
-                      <i class="bi bi-pen cursor-pointer pt-1"></i>
-                      <p class="dropdown-item pl-3">Edit</p>
-                      <modal
-                        v-if="isShowEditModal"
-                        @close="isShowEditModal = false"
-                        data-target="#myModal"
-                        class="absolute z-10"
-                      >
-                        <template v-slot:title>
-                          <div class="flex items-center text-lg font-medium">
-                            Edit Information Customer
-                          </div>
-                        </template>
-                        <template v-slot:body>
-                          <div class="py-1 px-4 text-sm">
-                            <form @submit.prevent="">
-                              <!-- <div class="grid grid-cols-2 gap-x-4"> -->
-                              <div>
-                                <label
-                                  for="exampleInputEmail1"
-                                  class="form-label font-medium"
-                                  >First Name</label
-                                >
-                                <input
-                                  v-model="firstname"
-                                  type="text"
-                                  class="form-control"
-                                  id="exampleInpuName1"
-                                  aria-describedby="nameHelp"
-                                  required
-                                />
-                              </div>
-                              <div>
-                                <label
-                                  for="exampleInputEmail1"
-                                  class="form-label font-medium"
-                                  >Last Name</label
-                                >
-                                <input
-                                  v-model="lastname"
-                                  type="text"
-                                  class="form-control"
-                                  id="exampleInputEmail1"
-                                  aria-describedby="emailHelp"
-                                  required
-                                />
-                              </div>
-                              <div>
-                                <label
-                                  for="exampleInputEmail1"
-                                  class="form-label"
-                                  >DoB</label
-                                >
-                                <input
-                                  type="text"
-                                  class="form-control"
-                                  id="exampleInputEmail1"
-                                  aria-describedby="emailHelp"
-                                  required
-                                />
-                              </div>
-                              <div>
-                                <label
-                                  for="exampleInputEmail1"
-                                  class="form-label"
-                                  >Gender</label
-                                >
-                                <input
-                                  type="text"
-                                  class="form-control"
-                                  id="exampleInputEmail1"
-                                  aria-describedby="emailHelp"
-                                  required
-                                />
-                              </div>
-                              <button type="submit" class="btn my-8">
-                                Update
-                              </button>
-                            </form>
-                          </div>
-                        </template>
-                        <template v-slot:footer>
-                          <button
-                            type="button"
-                            class="btn btn-primary"
-                            @click.prevent="saveChanges"
-                          >
-                            Save changes
-                          </button>
-                        </template>
-                      </modal>
+                      <i class="bi bi-pencil"></i>
+                      <span>Edit</span>
                     </li>
-
-                    <!-- <li
-                      class="font-medium text-slate-500 flex ml-4"
+                    <li
+                      class="flex gap-x-4"
                       data-toggle="modal"
                       data-target="#exampleModalLong"
-                      @click.prevent="isShowEditModal = true"
+                      data-dismiss="modal"
+                      data-backdrop="false"
+                      @click.prevent="isDeleteModal = true"
                     >
-                      <i
-                        type="button"
-                        class="bi bi-trash3 cursor-pointer pt-1"
-                      ></i>
-                      <p class="dropdown-item pl-3">Delete</p>
-                      <modal
-                        v-if="isShowEditModal"
-                        @close="isShowEditModal = false"
-                        data-target="#myModal"
-                      >
-                        <template v-slot:title>
-                          <div class="flex items-center text-lg font-medium">
-                            Edit Information Customer
-                          </div>
-                        </template>
-                        <template v-slot:body> </template>
-                        <template v-slot:footer>
-                          <button
-                            type="button"
-                            class="btn btn-primary"
-                            @click.prevent="saveChanges"
-                          >
-                            Save changes
-                          </button>
-                        </template>
-                      </modal>
-                    </li> -->
+                      <i class="bi bi-trash3"></i>
+                      <span>Deltete</span>
+                    </li>
                   </ul>
                 </div>
+                <modal
+                  v-if="isEditModal"
+                  @close="isEditModal = false"
+                  data-target="#myModal"
+                >
+                  <template v-slot:title>
+                    <h1 class="flex items-center text-lg font-medium">
+                      Edit Thi Furniture
+                    </h1>
+                  </template>
+                  <template v-slot:body>
+                    <div class="py-1 px-4 text-sm">
+                      <form @submit.prevent="">
+                        <div>
+                          <label
+                            for="exampleInputEmail1"
+                            class="form-label font-medium"
+                            >Name Furniture</label
+                          >
+                          <input
+                            v-model="furnitureName"
+                            type="text"
+                            class="form-control"
+                            id="exampleInpuName1"
+                            aria-describedby="nameHelp"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label
+                            for="exampleInputEmail1"
+                            class="form-label font-medium"
+                            >Price</label
+                          >
+                          <input
+                            v-model="price"
+                            type="text"
+                            class="form-control"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label for="exampleInputEmail1" class="form-label"
+                            >Category</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label for="exampleInputEmail1" class="form-label"
+                            >Quantity</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label for="exampleInputEmail1" class="form-label"
+                            >Material</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label for="exampleInputEmail1" class="form-label"
+                            >Description</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            required
+                          />
+                        </div>
+                        <div class="flex gap-x-3 mt-3">
+                          <label
+                            for="exampleInputEmail1"
+                            class="form-label mt-10"
+                            >Image</label
+                          >
+                          <div class="img flex">
+                            <img
+                              class="image_default pr-10"
+                              src="@/assets/images/image_default.jpg"
+                              alt="furniture"
+                            />
+                            <input
+                              type="file"
+                              id="myFile"
+                              class="mt-10"
+                              name="filename"
+                            />
+                          </div>
+                        </div>
+                        <button type="submit" class="btn my-8">Edit</button>
+                      </form>
+                    </div>
+                  </template>
+                  <template v-slot:footer>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      @click.prevent="saveChanges"
+                    >
+                      Save changes
+                    </button>
+                  </template>
+                </modal>
+                <modal
+                  v-if="isDeleteModal"
+                  @close="isDeleteModal = false"
+                  data-target="#myModal"
+                >
+                  <template v-slot:title>
+                    <h1 class="flex items-center text-lg font-medium">
+                      Delete This Furniture
+                    </h1>
+                  </template>
+                  <template v-slot:body>
+                    <div class="py-1 px-4 text-sm">
+                      <h1>Are you sure delete this furniture?</h1>
+                    </div>
+                  </template>
+                  <template v-slot:footer>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      @click.prevent="saveChanges"
+                    >
+                      Yes
+                    </button>
+                  </template>
+                </modal>
               </td>
             </tr>
           </tbody>
@@ -257,18 +296,18 @@
       </div>
     </div>
   </div>
-  <p class="text-sm font-medium mb-5">Total users: 1</p>
+  <p class="text-sm font-medium mb-5">Total users: 5</p>
 </template>
 <script>
 import HeaderAdmin from "@/components/headerAdmin.vue";
-import modal from "@/components/ModalPage.vue";
-export default {
-  components: { HeaderAdmin, modal },
 
+export default {
+  components: { HeaderAdmin },
   data() {
     return {
-      isShowEditModal: false,
       title: "Customer Account List",
+      isEditModal: false,
+      isDeleteModal: false,
     };
   },
 };
@@ -347,6 +386,22 @@ td {
 .pt-6.px-6.scroll {
   overflow: scroll;
   overflow-x: hidden;
-  height: 60em;
+  height: 35em;
+}
+.pt-6.px-6.scroll::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+.pt-6.px-6.scroll::-webkit-scrollba {
+  width: 6px;
+  background-color: #f5f5f5;
+}
+
+.pt-6.px-6.scroll:-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #cdc0aa;
 }
 </style>

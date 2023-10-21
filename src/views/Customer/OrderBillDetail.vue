@@ -1,6 +1,6 @@
 <template>
   <div class="bg-black">
-    <div class="container pt-32 mb-5">
+    <div class="container pt-36 mb-5">
       <div class="row d-flex justify-content-center">
         <div class="col-md-8">
           <div class="card">

@@ -14,8 +14,6 @@ export default defineComponent({
       useScope: "local",
     });
 
-    // Something todo ..
-
     return { t };
   },
 });

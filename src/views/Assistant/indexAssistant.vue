@@ -77,12 +77,10 @@ h1:hover span {
 .h3 {
   padding: 0;
   margin: 0;
-  /* background-color: #000; */
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-image: url("@/assets/images/assistant/banner.png");
 }
 h3 {
   position: relative;

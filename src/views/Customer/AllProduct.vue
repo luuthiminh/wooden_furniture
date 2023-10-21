@@ -1,42 +1,48 @@
 <template>
-  <div class="bg-neutral-50">
-    <div class="nav pt-28 pl-32 pb-3 mb-2">
+  <div>
+    <div class="nav pt-36 pb-3 mb-2">
       <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-neutral-50 text-xs">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item"><a href="#">All Product</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Sofa</li>
+        <ol class="flex bg-none text-xs ml-32 max-sm:ml-3">
+          <li class="breadcrumb-item">
+            <router-link to="customerIndex">Home </router-link>
+          </li>
+          <li class="breadcrumb-item">
+            <router-link to="#">All Product</router-link>
+          </li>
         </ol>
       </nav>
     </div>
-    <div class="grid grid-cols-5 gap-x-4 mx-32">
+    <div class="grid grid-cols-5 gap-x-4 mx-32 max-sm:block max-sm:mx-2">
       <div class="col-span-1">
         <div class="nav_bar">
           <!-- <img class="pt-4" src="@/assets/images/advertisement/2.png" alt="" /> -->
-          <div
-            class="menu_category mb-1 bg-white border-solid border-1 border-slate-300"
-          >
-            <div class="header px-2 py-2">
+          <div class="menu_category mb-1 bg-white rounded-md max-sm:hidden">
+            <div class="header px-2 py-2 rounded-t-md">
               <h1 class="font-medium text-sm">ALL PRODUCT</h1>
             </div>
             <ul class="sort px-3 leading-9 text-xs">
-              <li>
-                <!-- <i class="fa-solid fa-hourglass-start"></i> -->
+              <li class="flex">
+                <i class="bi bi-hourglass-top"></i>
                 <router-link to="/customerIndex">
                   Latest Furniture
                 </router-link>
               </li>
-              <li>
-                <!-- <i class="fa-solid fa-hourglass-end"></i> -->
+              <li class="flex">
+                <i class="bi bi-hourglass-bottom"></i>
                 <router-link to="/customerIndex"> Old Furniture </router-link>
               </li>
             </ul>
           </div>
           <br />
           <div
-            class="menu_category bg-white border-solid border-1 border-slate-300"
+            class="menu_category bg-white rounded-md max-sm:hidden"
+            :style="{
+              border: isDark
+                ? '1px solid rgb(166 163 160)'
+                : '1px solid #cbd5e1',
+            }"
           >
-            <div class="header px-2 py-2">
+            <div class="header px-2 py-2 rounded-t-md">
               <h1 class="font-medium text-sm">FILTER</h1>
             </div>
             <div class="price px-3">
@@ -242,13 +248,18 @@
               </div>
             </div>
           </div>
-          <div>
+          <div class="max-sm:hidden">
             <img class="pt-4" src="@/assets/images/tips/1.png" alt="" />
           </div>
         </div>
       </div>
       <div class="col-span-4">
         <all-furniture />
+        <div class="mt-5">
+          <h1 class="font-medium text-center text-lg">BEST FURNITURE</h1>
+          <hr class="w-1/12 mb-4" />
+          <all-furniture />
+        </div>
       </div>
     </div>
   </div>
@@ -296,14 +307,19 @@ export default {
 
 <style scoped>
 .nav {
-  border-bottom: 1px solid #f5f5f5;
   border-top: 1px solid #f5f5f5;
+  border-bottom: 1px solid #f5f5f5;
+  color: #000000;
 }
 .menu_category .header {
   background-color: #302924;
 }
 .menu_category .header h1 {
   color: wheat;
+}
+.menu_category {
+  /* border: "1px solid #cbd5e1"; */
+  border: 1px solid rgb(195 195 195);
 }
 .price li,
 .size li {
@@ -312,5 +328,22 @@ export default {
 .sort i {
   padding-right: 10px;
   color: #50443c;
+}
+hr {
+  margin-left: 46%;
+}
+.moon .nav {
+  border-bottom: 1px solid rgba(241, 235, 228, 0.1);
+  color: #ffffff;
+}
+.moon .menu_category {
+  border: 1px solid #f4f1f1;
+  background-color: #efede9;
+}
+.moon .col-span-4 h1 {
+  color: rgb(229 227 224);
+}
+.moon hr {
+  color: #ffffff;
 }
 </style>

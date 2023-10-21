@@ -1,17 +1,22 @@
 <template>
-  <div class="content_detail bg-neutral-50 pt-28">
-    <div class="mx-24 h-8 flex items-center text-sm font-medium text-slate-800">
-      <p>Homepage/ Detail Page</p>
+  <div class="content_detail pt-36">
+    <div class="nav pl-24 pb-3 mb-2">
+      <nav aria-label="breadcrumb">
+        <ol class="flex bg-none text-xs max-sm:pl-3">
+          <li class="breadcrumb-item">
+            <router-link to="customerIndex">Home</router-link>
+          </li>
+          <li class="breadcrumb-item">
+            <router-link to="#">All Product</router-link>
+          </li>
+        </ol>
+      </nav>
     </div>
-    <div class="funiture_detail mx-24">
-      <!-- <div>
-        <h1 class="font-semibold pt-4 text-xl text-slate-700">
-          Furniture Detail
-        </h1>
-      </div> -->
+    <!-- </div> -->
+    <div class="funiture_detail mx-24 max-sm:mx-3">
       <div class="flex flex-cols-2">
-        <div class="furniture detail mt-3 bg-white rounded-lg">
-          <div class="img grid grid-cols-2 gap-x-4">
+        <div class="furniture detail mt-3 rounded-lg">
+          <div class="img grid grid-cols-2 gap-x-4 max-sm:block">
             <div class="img_product border-4 border-indigo-600 w-10/12">
               <img
                 class="px-3 py-3 pl-3"
@@ -40,6 +45,7 @@
                                   src="@/assets/images/category/shelves_tv/shelves_11.png"
                                   alt=""
                                 />
+                                <!-- {{ furnitureFrist.image }} -->
                               </div>
                             </div>
                           </div>
@@ -50,13 +56,13 @@
                 </div>
               </div>
             </div>
-            <div v-if="!furnitureIndex">
+            <div v-if="!isShow">
               <div class="image_all">
                 <div>
                   <div class="product">
                     <div class="furniture_infor pt-2">
                       <div>
-                        <h1 class="text-lg font-bold">
+                        <h1 class="text-xl font-bold">
                           {{ furnitureFrist.furnitureName }}
                         </h1>
                         <div class="rating">
@@ -113,11 +119,13 @@
                         <span>Table and Chair</span>
                       </div>
                       <div class="my-3">
-                        <div class="w-10/12 bg-slate-200 h-px"></div>
-                        <span class="text-red-700 text-lg font-medium">{{
-                          furnitureFrist.price
-                        }}</span>
-                        <div class="w-10/12 bg-slate-200 h-px"></div>
+                        <!-- <div class="w-10/12 bg-slate-200 h-px"></div> -->
+                        <hr />
+                        <span class="price text-3xl font-medium"
+                          >${{ furnitureFrist.price }}</span
+                        >
+                        <hr />
+                        <!-- <div class="w-10/12 bg-slate-200 h-px"></div> -->
                       </div>
                       <div>
                         <span class="font-semibold">Color: </span>
@@ -125,34 +133,25 @@
                       </div>
                       <div class="mt-3">
                         <span class="font-semibold">Height: </span>
-                        <span
-                          class="border border-1 border-gray-900 px-2 py-1"
-                          >{{ furnitureFrist.height }}</span
-                        >
+                        <span>{{ furnitureFrist.height }}m</span>
                       </div>
                       <div class="mt-3">
                         <span class="font-semibold">Width: </span>
-                        <span
-                          class="border border-1 border-gray-900 px-2 py-1"
-                          >{{ furnitureFrist.width }}</span
-                        >
+                        <span>{{ furnitureFrist.width }}m</span>
                         <div class="mt-3">
                           <span class="font-semibold">Lenght: </span>
-                          <span
-                            class="border border-1 border-gray-900 px-2 py-1"
-                            >{{ furnitureFrist.length }}</span
-                          >
+                          <span>{{ furnitureFrist.length }}m</span>
                         </div>
                       </div>
                       <div></div>
                       <div class="flex flex-cols-2 my-3">
                         <div class="btn add_to_card">
-                          <button class="text-sm btn bg-neutral-700 text-white">
+                          <button class="text-sm btn bg-neutral-700">
                             ADD TO CART
                           </button>
                         </div>
                         <div class="btn order">
-                          <button class="btn text-sm bg-neutral-700 text-white">
+                          <button class="btn text-sm bg-neutral-700">
                             BUY
                           </button>
                         </div>
@@ -335,12 +334,12 @@
                           class="btn add_to_card"
                           @click.prevent="handleAddToCart(furnitureIndex)"
                         >
-                          <button class="text-sm btn bg-neutral-700 text-white">
+                          <button class="text-sm btn bg-neutral-700">
                             ADD TO CART
                           </button>
                         </div>
                         <div class="btn order">
-                          <button class="btn text-sm bg-neutral-700 text-white">
+                          <button class="btn text-sm bg-neutral-700">
                             BUY
                           </button>
                         </div>
@@ -424,7 +423,7 @@
         </div>
 
         <div
-          class="grid grid-rows-4 h-96 w-7/12 bg-zinc-100 text-slate-700 mt-3 ml-3"
+          class="adver grid grid-rows-4 h-96 w-7/12 bg-zinc-100 mt-3 ml-3 max-sm:hidden"
         >
           <div class="flex flex-cols-2 gap-4 items-center px-6">
             <div class="icon text-2xl">
@@ -466,83 +465,84 @@
           </div>
         </div>
       </div>
-
-      <div class="bg-white rounded-md px-3 py-3 mt-5">
-        <div class="description_furniture">
-          <div class="description">
-            <router-link to="" class="text-lg font-medium"
-              >Description</router-link
-            >
-          </div>
-        </div>
-        <div class="h-px w-full bg-slate-200 mt-2"></div>
-        <div class="content mt-3 leading-7 text-sm">
-          <span></span>
-          <span
-            >Be the first to receive this product while we have it in
-            stock.</span
-          >
-          <br />
-          <span
-            >This is a demonstration store. You can buy this product here</span
-          >
-          <br />
-          <span
-            >The round shape and fabric composition make the Casette a unique
-            and versatile bag that zips to keep all the contents safe and
-            secure. There are many sizes and colors.</span
-          >
-          <br />
-          <span>
-            Shipping cost is based on weight. Simply add products to your cart
-            and use the Shipping Calculator to view shipping prices.
-          </span>
-        </div>
-      </div>
-      <div class="bg-white rounded-md px-3 py-3 mt-4">
-        <div class="storage_instructions">
-          <div class="description">
-            <router-link to="" class="text-lg font-medium"
-              >Storage instructions</router-link
-            >
-          </div>
-        </div>
-        <div class="h-px w-full bg-slate-200 mt-2"></div>
-        <div class="content mt-3 leading-8 text-sm">
-          <span
-            >We want you to be 100% satisfied with your purchase. Items can be
-            returned or exchanged within 30 days of delivery.</span
-          >
-          <br />
-          <span
-            >For help, please contact our customer service department at support
-            minhltgch200250@fpt.edu.vn</span
-          >
-        </div>
-      </div>
-      <div class="bg-white rounded-md px-3 py-3 mt-4">
-        <div class="grid grid-cols-2 gap-x-44 w-full">
-          <p class="font-semibold">1 comment</p>
-          <div class="flex flex-cols-2 float-right pl-96">
-            <span class="pr-3">Filters </span>
-            <div class="dropdown">
-              <button
-                class="btn btn-primary dropdown-toggle"
-                type="button"
-                data-toggle="dropdown"
+      <div class="content">
+        <div class="content_item rounded-md px-3 py-3 mt-5">
+          <div class="description_furniture">
+            <div class="description">
+              <router-link to="" class="text-lg font-medium"
+                >Description</router-link
               >
-                <span class="">Filters</span>
-              </button>
-              <ul class="dropdown-menu px-2 py-2 rounded-base">
-                <li><a href="#">Lastest</a></li>
-                <li><a href="#">Oldest</a></li>
-              </ul>
             </div>
           </div>
+          <div class="h-px w-full bg-slate-200 mt-2"></div>
+          <div class="content mt-3 leading-7 text-sm">
+            <span></span>
+            <span
+              >Be the first to receive this product while we have it in
+              stock.</span
+            >
+            <br />
+            <span
+              >This is a demonstration store. You can buy this product
+              here</span
+            >
+            <br />
+            <span
+              >The round shape and fabric composition make the Casette a unique
+              and versatile bag that zips to keep all the contents safe and
+              secure. There are many sizes and colors.</span
+            >
+            <br />
+            <span>
+              Shipping cost is based on weight. Simply add products to your cart
+              and use the Shipping Calculator to view shipping prices.
+            </span>
+          </div>
         </div>
-        <div class="h-px w-full bg-slate-200 mt-2"></div>
-        <div class="grid grid-cols-12 mt-3">
-          <!-- <div class="col-span-1 avatar_feeedback py-4">
+        <div class="content_item rounded-md px-3 py-3 mt-4">
+          <div class="storage_instructions">
+            <div class="description">
+              <router-link to="" class="text-lg font-medium"
+                >Storage instructions</router-link
+              >
+            </div>
+          </div>
+          <div class="h-px w-full bg-slate-200 mt-2"></div>
+          <div class="content mt-3 leading-8 text-sm">
+            <span
+              >We want you to be 100% satisfied with your purchase. Items can be
+              returned or exchanged within 30 days of delivery.</span
+            >
+            <br />
+            <span
+              >For help, please contact our customer service department at
+              support minhltgch200250@fpt.edu.vn</span
+            >
+          </div>
+        </div>
+        <div class="content_item rounded-md px-3 py-3 mt-4">
+          <div class="grid grid-cols-2 gap-x-44 w-full">
+            <p class="font-semibold">1 comment</p>
+            <div class="flex flex-cols-2 float-right pl-96">
+              <span class="pr-3">Filters </span>
+              <div class="dropdown">
+                <button
+                  class="btn btn-primary dropdown-toggle"
+                  type="button"
+                  data-toggle="dropdown"
+                >
+                  <span class="">Filters</span>
+                </button>
+                <ul class="dropdown-menu px-2 py-2 rounded-base">
+                  <li><a href="#">Lastest</a></li>
+                  <li><a href="#">Oldest</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="h-px w-full bg-slate-200 mt-2"></div>
+          <div class="grid grid-cols-12 mt-3">
+            <!-- <div class="col-span-1 avatar_feeedback py-4">
             <router-link to="/profileCusPage" style="text-decoration: none"
               ><img
                 class="rounded-full w-16"
@@ -550,7 +550,7 @@
                 alt="avatar"
             /></router-link>
           </div> -->
-          <!-- <div class="form-group col-span-11 pt-1">
+            <!-- <div class="form-group col-span-11 pt-1">
             <textarea
               style="height: 50%"
               class="form-control mt-4"
@@ -558,34 +558,37 @@
               rows="3"
             ></textarea>
           </div> -->
-        </div>
-        <div class="comment flex flex-cols-2">
-          <div class="avtar">
-            <router-link to="/profileCusPage" style="text-decoration: none"
-              ><img
-                class="rounded-full w-14"
-                src="https://ordinaryofficial.vn/wp-content/uploads/2022/12/con-gai-han-quoc.jpg"
-                alt="avatar"
-            /></router-link>
           </div>
-          <div class="pl-10">
-            <h1 class="font-semibold">Luu Thi Minh</h1>
-            <span class="text-base">Pretty</span>
-            <br />
-            <span class="text-xs">10:10AM</span>
+          <div class="comment flex flex-cols-2">
+            <div class="avtar">
+              <router-link to="/profileCusPage" style="text-decoration: none"
+                ><img
+                  class="rounded-full w-14"
+                  src="https://ordinaryofficial.vn/wp-content/uploads/2022/12/con-gai-han-quoc.jpg"
+                  alt="avatar"
+              /></router-link>
+            </div>
+            <div class="pl-10">
+              <h1 class="font-semibold">Luu Thi Minh</h1>
+              <span class="text-base">Pretty</span>
+              <br />
+              <span class="text-xs">10:10AM</span>
+            </div>
           </div>
+          <div class="h-px w-full bg-slate-200 mt-2"></div>
         </div>
-        <div class="h-px w-full bg-slate-200 mt-2"></div>
       </div>
     </div>
-    <div class="more product mt-14 mx-32">
-      <h1 class="text-center font-semibold text-2xl mb-4">More Product</h1>
+    <div class="more product mt-14 mx-32 max-sm:mx-3">
+      <h1 class="text-center font-semibold text-2xl mb-4 max-sm:text-xl">
+        More Product
+      </h1>
       <hr class="w-1/12 mb-14" />
       <div
         class="scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100 snap-x overflow-y-hidden"
       >
         <div>
-          <all-furniture />
+          <all-furniture class="all-furniture" />
         </div>
       </div>
     </div>
@@ -607,11 +610,11 @@ export default {
       quantities: "",
       moreFurniture: [],
       feedbacks: [],
+      isShow: false,
     };
   },
   created() {
     this.getAllFurnitureDetail();
-    this.getMoreFurniture();
     this.getUserFeedback();
   },
   methods: {
@@ -622,12 +625,14 @@ export default {
         );
         this.furnitures = response.data;
         this.furnitureFrist = this.furnitures[0];
+        this.isShow = false;
       } catch (error) {
         console.error(error);
       }
     },
     async InforFurniture(furniture) {
       this.furnitureIndex = furniture;
+      this.isShow = true;
     },
     async handleAddToCart(furnitureIndex) {
       try {
@@ -657,7 +662,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 h1 {
   color: #212529;
 }
@@ -802,7 +807,9 @@ h1 {
   scroll-snap-align: start;
   flex: 0 0 auto;
 }
-
+.adver {
+  color: rgb(51 65 85);
+}
 /* all product */
 .product {
   position: relative;
@@ -821,5 +828,77 @@ hr {
 }
 .furniture.detail.mt-3 {
   width: 225%;
+}
+.nav {
+  border-bottom: 1px solid #f5f5f5;
+  color: #000000;
+}
+.moon .nav {
+  border-bottom: 1px solid rgba(241, 235, 228, 0.1);
+  color: #ffffff;
+}
+.all-furniture {
+  overflow: scroll;
+  height: 30em;
+}
+.all-furniture .fix_detail {
+  display: flex;
+}
+/* .all-furniture .grid.grid-cols-4.gap-4 {
+
+} */
+.btn.add_to_card .btn,
+.btn.order .btn {
+  color: white;
+}
+.furniture_infor {
+  font-size: 14px;
+}
+.furniture.detail {
+  background-color: white;
+}
+.content_detail {
+  background-color: rgb(250 250 250);
+}
+.all-furniture {
+  overflow: scroll;
+  height: 33em;
+}
+.content_item {
+  background-color: white;
+}
+.product .price {
+  color: rgb(185 28 28);
+}
+.moon .content_item {
+  color: #f1ebe4;
+  background-color: transparent;
+}
+.moon .product {
+  color: #f1ebe4;
+}
+.moon .furniture.detail {
+  background-color: transparent;
+}
+.moon .content_detail {
+  background-color: transparent;
+}
+.moon h1 {
+  color: #f1ebe4;
+}
+.moon .product .price {
+  color: rgb(255 175 175);
+}
+.moon table {
+  color: #f1ebe4;
+}
+.moon .btn.add_to_card .btn,
+.moon .btn.order .btn {
+  background-color: #f1ebe4;
+  color: rgb(66 32 6);
+  font-weight: 600;
+}
+.moon .adver {
+  color: #4e463f;
 }
 </style>

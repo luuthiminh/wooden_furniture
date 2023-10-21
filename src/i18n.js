@@ -1,36 +1,26 @@
-import en from "./lang/en.json";
-import vn from "./lang/vn.json";
+import { createApp } from "vue";
 import { createI18n } from "vue-i18n";
+import ViewUIPlus from "view-ui-plus";
 
-/**
- * Load locale messages
- *
- * The loaded `JSON` locale messages is pre-compiled by `@intlify/vue-i18n-loader`, which is integrated into `vue-cli-plugin-i18n`.
- * See: https://github.com/intlify/vue-i18n-loader#rocket-i18n-resource-pre-compilation
- */
-// function loadLocaleMessages() {
-//   const locales = require.context(
-//     "./locales",
-//     true,
-//     /[A-Za-z0-9-_,\s]+\.json$/i
-//   );
-//   const messages = {};
-//   locales.keys().forEach((key) => {
-//     const matched = key.match(/([A-Za-z0-9-_]+)\./i);
-//     if (matched && matched.length > 1) {
-//       const locale = matched[1];
-//       messages[locale] = locales(key).default;
-//     }
-//   });
-//   return messages;
-// }
+import zh from "view-ui-plus/dist/locale/zh-CN";
+import vn from "view-ui-plus/dist/locale/vi-VN";
 
-export default createI18n({
+const i18n = createI18n({
+  allowComposition: true,
+  globalInjection: true,
   legacy: false,
-  locale: process.env.VUE_APP_I18N_LOCALE || "en",
-  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || "en",
+  locale: "en-US",
   messages: {
-    en: en,
-    vn: vn,
+    "zh-CN": zh,
+    "vi-VN": vn,
   },
+});
+
+const app = createApp({
+  //... options
+});
+
+app.use(i18n);
+app.use(ViewUIPlus, {
+  i18n,
 });

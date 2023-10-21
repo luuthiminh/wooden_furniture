@@ -1,5 +1,5 @@
 <template>
-  <div class="content_detail bg-neutral-50 pt-28">
+  <div class="content_detail bg-neutral-50 pt-36">
     <div class="mx-28 h-8 flex items-center text-sm font-medium text-slate-800">
       <p>Homepage/ Detail Page</p>
     </div>

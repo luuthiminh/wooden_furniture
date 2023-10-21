@@ -1,12 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  // darkMode: ["class", '[data-mode="dark"]'],
   content: [],
   theme: {
     extend: {
-      color: {
+      colors: {
         brown: "var(--color-brown)",
       },
+      // backgroundColor: {
+      //   dark: "#000",
+      // },
     },
   },
-  plugin: [require("tailwind-scrollbar")],
+  plugins: [require("tailwind-scrollbar")],
 };

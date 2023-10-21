@@ -11,7 +11,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLongTitle">
-            <slot name="title">Hi</slot>
+            <slot name="title"></slot>
           </h5>
           <button
             type="button"
@@ -45,6 +45,7 @@ export default {
     closeModal() {
       this.$emit("close");
     },
+    props: ["tyle"],
   },
 };
 </script>

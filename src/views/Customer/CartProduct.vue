@@ -1,6 +1,6 @@
 <template>
   <div class="bg-neutral-50">
-    <div class="mx-32 pt-28">
+    <div class="mx-32 pt-36">
       <div class="nav">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-neutral-50">

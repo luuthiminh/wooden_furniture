@@ -3,46 +3,187 @@
     <search-results :furnitureSearch="furnitureSearch"></search-results>
   </div>
   <div v-else>
-    <div class="homepage">
-      <header>
-        <ul
-          class="contact_header flex wrapper text-right first-letter py-4 max-sm:hidden"
-        >
-          <li><i class="fa-solid fa-location-dot"></i>Hung Yen</li>
-          <li><i class="fa-solid fa-phone"></i>+84 398677620</li>
-          <li>
-            <i class="fa-regular fa-envelope"></i>minhltgch202050@gmail.com
-          </li>
-        </ul>
-        <div class="nav_header">
+    <header>
+      <div class="header_scroll flex text-sm">
+        <div class="container-fluid bg-light p-0">
+          <div class="flex">
+            <div class="col-lg-7 px-5 text-start">
+              <div class="h-100 d-inline-flex align-items-center py-3 me-4">
+                <small class="bi bi-geo-alt text-yellow-950 pr-2"></small>
+                <small> <p>Quang Hung-Phu Cu-Hung Yen</p></small>
+              </div>
+              <div class="h-100 d-inline-flex align-items-center py-3">
+                <small class="bi bi-alarm far me-2"></small>
+                <small>Mon - Fri : 09.00 AM - 09.00 PM</small>
+              </div>
+            </div>
+            <div class="flex col-lg-5 pl-36 text-end gap-x-4">
+              <div class="h-100 d-inline-flex align-items-center py-3 me-4">
+                <small class="fa-solid fa-phone me-2"></small>
+                <small>+84 398677620</small>
+              </div>
+              <div class="flex gap-x-3 items-center">
+                <div class="mode mt-2" @click.prevent="toggleDark">
+                  <label class="toggle" for="switch">
+                    <input id="switch" class="input" type="checkbox" />
+                    <div v-if="isDarkMode">
+                      <div class="icon icon--moon">
+                        <svg
+                          height="13"
+                          width="13"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            clip-rule="evenodd"
+                            d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"
+                            fill-rule="evenodd"
+                          ></path>
+                        </svg>
+                      </div>
+                    </div>
+                    <div v-else>
+                      <div class="icon icon--sun">
+                        <svg
+                          height="17"
+                          width="17"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"
+                          ></path>
+                        </svg>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+                <small>Theme styles</small>
+              </div>
+              <div class="flex gap-x-3 items-center pl-2">
+                <div @click.prevent="handelBell">
+                  <div class="bi bi-bell cursor-pointer text-base">
+                    <sup class="px-1 bg-red-600 rounded-full text-white"
+                      >{{ notifications.length }}
+                    </sup>
+                  </div>
+                </div>
+                <small>Notifications</small>
+              </div>
+
+              <div class="h-100 d-inline-flex align-items-center">
+                <a
+                  href=""
+                  class="btn btn-sm-square bg-white text-yellow-950 me-1"
+                  ><i class="fa-brands fa-facebook-f"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav_header py-3 bg-white">
+        <div class="">
           <div class="grid mg-left-0 grid-cols-2">
-            <div
-              class="logo grid__item large--four-twelfths ml-28 max-sm:ml-5 max-sm:mt-5"
-            >
+            <div class="logo flex mx-5 items-center w-3/12">
               <router-link to="/customerIndex">
                 <img src="@/assets/images/logo.png" alt="logo" />
               </router-link>
+              <div class="px-3">
+                <span>L & L</span>
+                <p>WOOD FURNITURE</p>
+              </div>
             </div>
             <navigation />
           </div>
         </div>
-        <div class="text-center mt-5 text-red-950">
-          <span class="font-bold text-2xl max-sm:text-base"
-            >Wooden Home furniture</span
+      </div>
+      <div v-if="isBell">
+        <div v-if="notifications.length">
+          <div
+            v-for="(notification, index) in notifications"
+            :key="index"
+            class="bell w-80 bg-white absolute right-0 border border-1-black mr-4 rounded-lg"
           >
-          <br />
-          <div class="max-sm:text-xs">
-            <span class="text-center">
-              Add a special atmosphere to your home with our stylish and
-              exclusive furniture
-            </span>
+            <div class="pl-4 font-medium text-lg text-center py-2">
+              Notifications
+            </div>
+            <ul class="message bg-slate-50 mb-px rounded-b-lg">
+              <li class="card_bell">
+                <hr />
+                <div class="textBox px-4 py-2">
+                  <div class="textContent flex py-3">
+                    <p class="font-semibold text-sm pr-24">
+                      {{ notification.title }}
+                    </p>
+                    <span class="text-xs">{{ notification.date }}</span>
+                  </div>
+                  <p class="text-sm">{{ notification.content }}</p>
+                </div>
+              </li>
+              <li class="card_bell">
+                <hr />
+                <div class="textBox px-4 py-2">
+                  <div class="textContent flex py-3">
+                    <p class="font-semibold text-sm pr-24">Clans of Clash</p>
+                    <span class="text-xs">12 min ago</span>
+                  </div>
+                  <p class="text-sm">Xhattmahs is not attacking your base!</p>
+                </div>
+              </li>
+              <li class="card_bell">
+                <hr />
+                <div class="textBox px-4 py-2">
+                  <div class="textContent flex py-3">
+                    <p class="font-semibold text-sm pr-24">Clans of Clash</p>
+                    <span class="text-xs">12 min ago</span>
+                  </div>
+                  <p class="text-sm">Xhattmahs is not attacking your base!</p>
+                </div>
+              </li>
+              <li class="card_bell">
+                <hr />
+                <div class="textBox px-4 py-2">
+                  <div class="textContent flex py-3">
+                    <p class="font-semibold text-sm pr-24">Clans of Clash</p>
+                    <span class="text-xs">12 min ago</span>
+                  </div>
+                  <p class="text-sm">Xhattmahs is not attacking your base!</p>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
-      </header>
-      <content class="bg-neutral-50">
+      </div>
+      <div class="text_header_intro">
+        <div class="text-center mt-4">
+          <h1 class="h1_header font-bold max-sm:text-base">
+            WOODEN HOME FURNITURE
+          </h1>
+          <h3 class="text_intro max-sm:text-xs pt-3">
+            Add a special atmosphere to your home with our stylish and exclusive
+            furniture
+          </h3>
+        </div>
+        <div class="button_shine mt-14 text-center">
+          <router-link to="/allProduct">
+            <button class="shine-button">See Furniture</button>
+          </router-link>
+        </div>
+      </div>
+    </header>
+    <div class="homepage">
+      <content>
         <div class="mx-64 max-sm:mx-1">
-          <div class="grid grid-cols-3 grid-flow-col h-40 shadow-md max-h11">
-            <div class="col col_1 border-r-1 border-indigo-600">
+          <div
+            class="service grid grid-cols-3 grid-flow-col h-40 max-h1 shadow-2xl"
+          >
+            <div
+              class="service_item col col_1 border-r-1 border-indigo-600 text-center"
+            >
               <div class="service-icon">
                 <i class="fa-solid fa-shield-halved"></i>
               </div>
@@ -57,7 +198,7 @@
                 <span>3-year warranty on all products in store</span>
               </div>
             </div>
-            <div class="col col_2">
+            <div class="service_item col col_2 text-center">
               <div class="service-icon">
                 <i class="fa-solid fa-truck-fast"></i>
               </div>
@@ -75,7 +216,7 @@
                 >
               </div>
             </div>
-            <div class="col col_3">
+            <div class="service_item col col_3 text-center">
               <div class="service-icon">
                 <i class="fa-solid fa-headphones"></i>
               </div>
@@ -101,39 +242,53 @@
             <div
               class="category grid grid-cols-6 max-sm:grid max-sm:grid-cols-2"
             >
-              <div>
-                <router-link to="">
+              <div class="">
+                <router-link to="" class="relative text-decoration-none">
                   <img
-                    src="@/assets/images/category/wardrobe/wardrobe_1.png"
+                    src="@/assets/images/category/wardrobe/wardrobe_7.png"
                     alt="bed"
+                    class="overflow-hidden hover:contrast-125"
                   />
                 </router-link>
               </div>
               <div class="text-center">
                 <h1>WARDROBE</h1>
                 <div class="button">
-                  <router-link to="" class="btn my-8">See More</router-link>
+                  <router-link to="" class="btn my-8 text-decoration-none"
+                    >See More</router-link
+                  >
                 </div>
               </div>
-              <div>
-                <img src="@/assets/images/category/sofa/sofa_2.png" alt="" />
+              <div class="relative">
+                <router-link
+                  to=""
+                  class="absolute overflow-hidden hover:contrast-125 text-decoration-none"
+                  ><img src="@/assets/images/category/sofa/sofa_5.png" alt=""
+                /></router-link>
               </div>
               <div class="text-center">
                 <h1 class="text-red-950">SOFA</h1>
                 <div class="button">
-                  <router-link to="" class="btn my-8">See More</router-link>
+                  <router-link to="" class="btn my-8 text-decoration-none"
+                    >See More</router-link
+                  >
                 </div>
               </div>
-              <div>
-                <img
-                  src="@/assets/images/category/clock/clock_12.png"
-                  alt="clock"
-                />
+              <div class="relative">
+                <router-link
+                  to=""
+                  class="absolute overflow-hidden hover:contrast-125 text-decoration-none"
+                  ><img
+                    src="@/assets/images/category/clock/clock_7.png"
+                    alt="clock"
+                /></router-link>
               </div>
               <div class="text-center">
                 <h1>CLOCK</h1>
                 <div class="button">
-                  <router-link to="" class="btn my-8">See More</router-link>
+                  <router-link to="" class="btn my-8 text-decoration-none"
+                    >See More</router-link
+                  >
                 </div>
               </div>
             </div>
@@ -144,57 +299,75 @@
               <div class="text-center">
                 <h1>BED</h1>
                 <div class="button">
-                  <router-link to="" class="btn my-8">See More</router-link>
+                  <router-link to="" class="btn my-8 text-decoration-none"
+                    >See More</router-link
+                  >
                 </div>
               </div>
-              <div>
-                <img src="@/assets/images/category/bed/bed_1.png" alt="bed" />
+              <div class="relative">
+                <router-link
+                  to=""
+                  class="absolute overflow-hidden hover:contrast-125 text-decoration-none"
+                  ><img src="@/assets/images/category/bed/bed_1.png" alt="bed"
+                /></router-link>
               </div>
               <div class="text-center">
                 <h1>Shelves TV</h1>
                 <div class="button">
-                  <router-link to="" class="btn my-8">See More</router-link>
+                  <router-link to="" class="btn my-8 text-decoration-none"
+                    >See More</router-link
+                  >
                 </div>
               </div>
-              <div>
-                <img
-                  src="@/assets/images/category/shelves_tv/shelves.png"
-                  alt="bed"
-                />
+              <div class="relative">
+                <router-link
+                  to=""
+                  class="absolute overflow-hidden hover:contrast-125 text-decoration-none"
+                  ><img
+                    src="@/assets/images/category/shelves_tv/shelves_2.png"
+                    alt="bed"
+                /></router-link>
               </div>
               <div class="text-center">
                 <h1>Altar</h1>
                 <div class="button">
-                  <router-link to="" class="btn btn my-8">See More</router-link>
+                  <router-link to="" class="btn my-8 text-decoration-none"
+                    >See More</router-link
+                  >
                 </div>
               </div>
-              <div>
-                <img
-                  src="@/assets/images/category/altar/altar.png"
-                  alt="Altar"
-                />
+              <div class="relative">
+                <router-link to="" class="text-decoration-none"
+                  ><img
+                    src="@/assets/images/category/altar/altar.png"
+                    alt="Altar"
+                /></router-link>
               </div>
             </div>
           </div>
           <div class="advertisement grid grid-cols-2 gap-5 mt-8 max-sm:gap-1">
-            <div>
-              <img
-                class="origin-center hover:-rotate-6 transition-full"
-                src="@/assets/images/advertisement/1.png"
-                alt="advertisment"
-              />
+            <div class="relative">
+              <router-link to="" class="text-decoration-none"
+                ><img
+                  class="origin-center hover:-rotate-6 transition-full"
+                  src="@/assets/images/advertisement/1.png"
+                  alt="advertisment"
+              /></router-link>
             </div>
-            <div>
-              <img
-                class="origin-center hover:rotate-6 transition-full"
-                src="@/assets/images/advertisement/3.png"
-                alt="advertisment"
-              />
+            <div class="relative">
+              <router-link
+                to=""
+                class="absolute overflow-hidden hover:contrast-125 text-decoration-none"
+                ><img
+                  class="origin-center hover:rotate-6 transition-full"
+                  src="@/assets/images/advertisement/3.png"
+                  alt="advertisment"
+              /></router-link>
             </div>
           </div>
           <div>
             <div class="text-center text-2xl font-bold mt-11 mb-4 relative">
-              <h1 class="crossbar">Hot Product</h1>
+              <h1 class="crossbar max-sm:text-lg">Hot Product</h1>
             </div>
             <div class="category_hot_product mb-4">
               <ul class="flex flex-1 justify-center gap-3 font-medium">
@@ -214,13 +387,19 @@
               </div>
               <div class="customize_furniture">
                 <div class="text-center text-2xl font-bold mt-11 mb-4 relative">
-                  <h1 class="crossbar">Customize Furniture</h1>
+                  <h1 class="crossbar max-sm:text-lg max-sm:w-8/12">
+                    Customize Furniture
+                  </h1>
                 </div>
                 <div
-                  class="grid grid-cols-2 bg-gray-50 border border-indigo-600 rounded-lg max-sm:block"
+                  class="grid grid-cols-2 bg-white border border-indigo-600 rounded-lg max-sm:block max-sm:w-8/12"
                 >
                   <div class="img max-sm:hidden">
-                    <img src="@/assets/images/customize.png" alt="customize" />
+                    <img
+                      src="@/assets/images/customize.jpg"
+                      alt="customize"
+                      class="h-full"
+                    />
                   </div>
                   <div class="">
                     <div class="">
@@ -228,21 +407,17 @@
                         class="px-10 pt-3 max-sm:px-3"
                         @submit.prevent="customizeOrder"
                       >
-                        <!-- <div class="form-group">
-                          <label for="exampleFormControlInput1"
-                            >Customize Furniture ID</label
-                          >
+                        <!-- <div class="flex">
+                          <label for="exampleFormControlInput1">Picture</label>
                           <input
-                            v-model="furnitureId"
-                            type="text"
-                            class="form-control"
-                            id="exampleFormControlInput1"
-                            placeholder="Sofa.."
+                            id="picture"
+                            type="file"
+                            class="flex h-10 w-full rounded-md border border-input bg-white px-3 py-2 text-sm text-gray-400 file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium"
                           />
-                        </div> -->
+                        </div>
                         <div class="form-group">
                           <label for="exampleFormControlInput1"
-                            >Customize furniture name</label
+                            >Furniture name</label
                           >
                           <input
                             v-model="furnitureName"
@@ -250,6 +425,14 @@
                             class="form-control"
                             id="exampleFormControlInput1"
                             placeholder="Sofa.."
+                          />
+                        </div> -->
+                        <div class="w-full items-center gap-x-6 pb-3">
+                          <label for="exampleFormControlInput1">Picture</label>
+                          <input
+                            id="picture"
+                            type="file"
+                            class="flex bg-slate-100 h-10 w-full rounded-md border border-input px-2 py-1 text-sm file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium"
                           />
                         </div>
                         <div class="grid grid-cols-2 gap-x-6">
@@ -286,35 +469,37 @@
                             </select>
                           </div>
                         </div>
-                        <div class="form-group">
-                          <label for="exampleFormControlInput1">Height</label>
-                          <input
-                            v-model="height"
-                            type="text"
-                            class="form-control"
-                            id="exampleFormControlInput1"
-                            placeholder="10m"
-                          />
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleFormControlInput1">Length</label>
-                          <input
-                            v-model="length"
-                            type="text"
-                            class="form-control"
-                            id="exampleFormControlInput1"
-                            placeholder="10m"
-                          />
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleFormControlInput1">Width</label>
-                          <input
-                            v-model="width"
-                            type="text"
-                            class="form-control"
-                            id="exampleFormControlInput1"
-                            placeholder="10m"
-                          />
+                        <div class="flex flex-cols-3 gap-x-4">
+                          <div class="form-group">
+                            <label for="exampleFormControlInput1">Height</label>
+                            <input
+                              v-model="height"
+                              type="text"
+                              class="form-control w-10/12"
+                              id="exampleFormControlInput1"
+                              placeholder="10m"
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleFormControlInput1">Length</label>
+                            <input
+                              v-model="length"
+                              type="text"
+                              class="form-control w-10/12"
+                              id="exampleFormControlInput1"
+                              placeholder="10m"
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleFormControlInput1">Width</label>
+                            <input
+                              v-model="width"
+                              type="text"
+                              class="form-control w-10/12"
+                              id="exampleFormControlInput1"
+                              placeholder="10m"
+                            />
+                          </div>
                         </div>
                         <div class="grid grid-cols-2 gap-x-6">
                           <div class="color form-group">
@@ -365,7 +550,7 @@
                           >
                           <input
                             v-model="completionDate"
-                            type="text"
+                            type="date"
                             class="form-control"
                             id="exampleFormControlInput1"
                             placeholder="name@example.com"
@@ -383,65 +568,71 @@
               </div>
               <div class="hot_news relative">
                 <div class="text-center text-2xl font-bold mt-11 mb-4 relative">
-                  <h1 class="crossbar">Hot News</h1>
-                </div>
-                <div
-                  class="grid grid-cols-3 gap-x-4 max-sm:grid max-sm:grid-cols-1 max-sm:gap-y-4"
-                >
-                  <div class="bg-white px-2 py-2 shadow">
-                    <div class="border border-indigo-500">
-                      <router-link to="">
-                        <img src="@/assets/images/news/4.png" alt="new1" />
-                      </router-link>
-                    </div>
-                    <div class="pt-3">
-                      <span class="text-sm text-center font-medium"
-                        >What's so hot about the sofa? Does anyone know when the
-                        sale will be released?</span
-                      >
-                      <br />
-                      <div class="date">
-                        <span class="text-xs text-center font-medium"
-                          >Date: 8/10/2023</span
+                  <!-- <div @mouseover="onMouseOver"> -->
+                  <h1 class="crossbar max-sm:text-xl max-sm:pl-20">Hot News</h1>
+                  <!-- </div> -->
+                  <div class="grid grid-cols-3 gap-x-4 max-sm:px-3">
+                    <div
+                      class="new_item px-2 py-2 shadow rounded-lg max-sm:mb-4"
+                    >
+                      <div class="border border-indigo-500">
+                        <router-link to="">
+                          <img src="@/assets/images/news/4.png" alt="new1" />
+                        </router-link>
+                      </div>
+                      <div class="pt-3">
+                        <span class="text-sm text-center font-medium"
+                          >What's so hot about the sofa? Does anyone know when
+                          the sale will be released?</span
                         >
+                        <br />
+                        <div class="date">
+                          <span class="text-xs text-center font-medium"
+                            >Date: 8/10/2023</span
+                          >
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="bg-white px-2 py-2 shadow">
-                    <div class="border border-indigo-500">
-                      <router-link to="">
-                        <img src="@/assets/images/news/5.png" alt="news1" />
-                      </router-link>
-                    </div>
-                    <div class="pt-3">
-                      <span class="text-sm text-center font-medium"
-                        >If it's too hard to choose, we're always happy to share
-                        tips with you!</span
-                      >
-                      <br />
-                      <div class="date">
-                        <span class="text-xs text-center font-medium"
-                          >Date: 8/10/2023</span
+                    <div
+                      class="new_item px-2 py-2 shadow rounded-lg max-sm:mb-4"
+                    >
+                      <div class="border border-indigo-500">
+                        <router-link to="">
+                          <img src="@/assets/images/news/5.png" alt="news1" />
+                        </router-link>
+                      </div>
+                      <div class="pt-3">
+                        <span class="text-sm text-center font-medium"
+                          >If it's too hard to choose, we're always happy to
+                          share tips with you!</span
                         >
+                        <br />
+                        <div class="date">
+                          <span class="text-xs text-center font-medium"
+                            >Date: 8/10/2023</span
+                          >
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="bg-white px-2 py-2 shadow">
-                    <div class="border border-indigo-500">
-                      <router-link to="">
-                        <img src="@/assets/images/news/6.png" alt="new1" />
-                      </router-link>
-                    </div>
-                    <div class="pt-3">
-                      <span class="text-sm text-center font-medium"
-                        >This week there are new models that will be updated in
-                        the store. Click here to see details!</span
-                      >
-                      <br />
-                      <div class="date">
-                        <span class="text-xs text-center font-medium"
-                          >Date: 8/10/2023</span
+                    <div
+                      class="new_item px-2 py-2 shadow rounded-lg max-sm:mb-4"
+                    >
+                      <div class="border border-indigo-500">
+                        <router-link to="">
+                          <img src="@/assets/images/news/6.png" alt="new1" />
+                        </router-link>
+                      </div>
+                      <div class="pt-3">
+                        <span class="text-sm text-center font-medium"
+                          >This week there are new models that will be updated
+                          in the store. Click here to see details!</span
                         >
+                        <br />
+                        <div class="date">
+                          <span class="text-xs text-center font-medium"
+                            >Date: 8/10/2023</span
+                          >
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -450,7 +641,9 @@
               <div class="hot_feedback">
                 <div class="grid grid-cols-6 max-sm:block">
                   <div class="col-span-2 max-sm:hidden">
-                    <div class="time text-center bg-slate-50 mx-3 w-54 h-40">
+                    <div
+                      class="time text-center bg-slate-50 mx-3 w-54 h-40 rounded-md"
+                    >
                       <h1 class="text-lg font-semibold pt-3">Business hours</h1>
                       <br />
                       <span class="text-sm px-1">Monday-Friday: 7AM-22PM</span>
@@ -465,24 +658,100 @@
                     >
                       Feedback Customer
                     </h1>
-                    <div class="content_feedback px-2 pt-9 max-sm:pt-2">
-                      <div class="avatar">
-                        <img
-                          class="rounded-full w-3/12"
-                          src="https://ordinaryofficial.vn/wp-content/uploads/2022/12/con-gai-han-quoc.jpg"
-                          alt="avatar"
-                        />
+                    <div
+                      id="carouselExampleControls"
+                      class="carousel slide"
+                      data-bs-ride="carousel"
+                    >
+                      <div class="carousel-inner">
+                        <div class="carousel-item active">
+                          <div class="content_feedback px-2 pt-9 max-sm:pt-2">
+                            <div class="avatar">
+                              <img
+                                class="rounded-full w-3/12 cursor-pointer"
+                                src="@/assets/images/avatar.jpg "
+                                alt="avatar"
+                              />
+                            </div>
+                            <div class="text_feedback text-center px-14 pt-10">
+                              <h1 class="font-semibold text-2xl text-white">
+                                Minh Lưu Thị
+                              </h1>
+                              <span
+                                >When I first came to the store, I found it very
+                                neat, bright, airy and comfortable. Staff speak
+                                softly, politely and respect customers</span
+                              >
+                            </div>
+                          </div>
+                        </div>
+                        <div class="carousel-item">
+                          <div class="content_feedback px-2 pt-9 max-sm:pt-2">
+                            <div class="avatar">
+                              <img
+                                class="rounded-full w-3/12 cursor-pointer"
+                                src="@/assets/images/avatar.jpg "
+                                alt="avatar"
+                              />
+                            </div>
+                            <div class="text_feedback text-center px-14 pt-10">
+                              <h1 class="font-semibold text-2xl text-white">
+                                Minh Lưu Thị
+                              </h1>
+                              <span
+                                >When I first came to the store, I found it very
+                                neat, bright, airy and comfortable. Staff speak
+                                softly, politely and respect customers</span
+                              >
+                            </div>
+                          </div>
+                        </div>
+                        <div class="carousel-item">
+                          <div class="content_feedback px-2 pt-9 max-sm:pt-2">
+                            <div class="avatar">
+                              <img
+                                class="rounded-full w-3/12 cursor-pointer"
+                                src="@/assets/images/avatar.jpg "
+                                alt="avatar"
+                              />
+                            </div>
+                            <div class="text_feedback text-center px-14 pt-10">
+                              <h1 class="font-semibold text-2xl text-white">
+                                Minh Lưu Thị
+                              </h1>
+                              <span
+                                >When I first came to the store, I found it very
+                                neat, bright, airy and comfortable. Staff speak
+                                softly, politely and respect customers</span
+                              >
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div class="text_feedback text-center px-14 pt-10">
-                        <h1 class="font-semibold text-2xl text-white">
-                          Minh Lưu Thị
-                        </h1>
+                      <button
+                        class="carousel-control-prev"
+                        type="button"
+                        data-bs-target="#carouselExampleControls"
+                        data-bs-slide="prev"
+                      >
                         <span
-                          >When I first came to the store, I found it very neat,
-                          bright, airy and comfortable. Staff speak softly,
-                          politely and respect customers</span
-                        >
-                      </div>
+                          class="carousel-control-prev-icon"
+                          aria-hidden="true"
+                        ></span>
+                        <span class="visually-hidden">Previous</span>
+                      </button>
+                      <button
+                        class="carousel-control-next"
+                        type="button"
+                        data-bs-target="#carouselExampleControls"
+                        data-bs-slide="next"
+                      >
+                        <span
+                          class="carousel-control-next-icon"
+                          aria-hidden="true"
+                        ></span>
+                        <span class="visually-hidden">Next</span>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -558,7 +827,7 @@
 </template>
 <script>
 import axios from "axios";
-import Navigation from "@/components/NavAuth.vue";
+import Navigation from "@/components/NavCustomer.vue";
 // import SearchResults from "../views/Customer/searchResults.vue";
 import AllFurniture from "./AllFurniture.vue";
 export default {
@@ -571,14 +840,26 @@ export default {
   },
   data() {
     return {
+      isDark: false,
       furnitures: [],
+      quantities: [],
+      isShow: false,
+      counter: 0,
       keyword: "",
       furnitureSearch: [],
-      quantities: [],
+      isBell: false,
+      notifications: [],
+      isDarkMode: false,
     };
   },
   created() {
     this.getFurnitureAll();
+    this.getAllAnnouncements();
+    // window.addEventListener("scroll", this.onScroll);
+  },
+  unmounted() {
+    // Gỡ bỏ sự kiện cuộn cửa sổ khi component bị hủy
+    window.removeEventListener("scroll", this.onScroll);
   },
   methods: {
     async getFurnitureAll() {
@@ -595,40 +876,58 @@ export default {
         console.error(error);
       }
     },
+
     async search() {
-      console.log(this.keyword);
       try {
         const response = await axios.get(
           "customer/furnitures/search?keyword=" + this.keyword
         );
         if (response.status === 200) {
           this.furnitureSearch = response.data;
-          console.log(this.furnitureSearch);
         }
       } catch (error) {
         console.error(error);
-        alert("Furniture not found!");
+        // alert("Furniture not found!");
       }
     },
     clear() {
       this.keyword = "";
+      this.furnitureSearch = "";
     },
-    async addToCart(furniture) {
+    handleLogout() {
+      localStorage.removeItem("token");
+      this.$router.push({ name: "login" });
+    },
+    handelBell() {
+      this.isBell = !this.isBell;
+    },
+    async getAllAnnouncements() {
       try {
-        const response = await axios.post(
-          "customer/cart/add/" + furniture.furnitureId,
-          { quantity: this.quantities[furniture.furnitureId] }
-        );
-        console.log(furniture.furnitureId);
-        console.log(this.quantity);
-        this.response = response.data;
+        const response = await axios.get("customer/announcements");
         if (response.status === 200) {
-          alert("Add the furniture to cart suuccessfully");
-          console.log(response);
-          console.log(this.response);
+          this.notifications = response.data;
+          // const d = parseISO(this.notifications.date);
+          // const DateN = format(d, "dd/MM/yyyy");
+          // this.Date = DateN;
         }
       } catch (error) {
         console.error(error);
+        // alert("Furniture not found!");
+      }
+    },
+    toggleDark() {
+      this.isDarkMode = !this.isDarkMode;
+      if (this.isDarkMode) {
+        localStorage.theme = "dark";
+        this.isDarkMode = true;
+        document.body.classList.remove("sun");
+        document.body.classList.add("moon");
+      } else {
+        localStorage.theme = "light";
+        this.isDarkMode = false;
+        document.body.classList.remove("moon");
+        document.body.classList.add("sun");
+        this.isLight = true;
       }
     },
     async customizeOrder() {
@@ -652,20 +951,107 @@ export default {
         console.error(error.response.data.message);
       }
     },
+
+    toast(toaster, append = false) {
+      this.counter++;
+      this.$bvToast.toast(`Toast ${this.counter} body content`, {
+        title: `Toaster ${toaster}`,
+        toaster: toaster,
+        solid: true,
+        appendToast: append,
+      });
+    },
+    onMouseOver() {
+      this.isShow = true;
+    },
   },
 };
 </script>
 
 <style scoped>
-.logo {
-  width: 30%;
+.homepage {
+  background-color: #f7f8facf;
 }
-nav {
-  width: 80%;
+.moon .homepage {
+  background-color: transparent transparent;
 }
-.nav_header .logo img {
-  max-width: 30%;
+.fixed_header {
+  position: fixed;
+  z-index: 100;
+  top: 0;
 }
+.nav_header {
+  transition: top 0.3s ease-in-out;
+}
+.logo a {
+  width: 17%;
+}
+.h1_header {
+  color: #eeebe6;
+  font-size: 27px;
+}
+.h3 {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 20px;
+}
+h3 {
+  position: relative;
+  overflow: hidden;
+  border-right: 2px solid hsl(0, 0%, 80%);
+  white-space: nowrap;
+  animation: typewriter 4s steps(44) 1s 1 normal both,
+    blinkTextCursor 500ms infinite;
+  color: #eeebe6;
+}
+
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+@keyframes blinkTextCursor {
+  from {
+    border-right-color: hsl(0, 0%, 80%);
+  }
+  to {
+    border-right-color: transparent;
+  }
+}
+.text_header_intro {
+  animation: intro 5s forwards;
+}
+@keyframes intro {
+  from {
+    margin-top: -15em;
+  }
+  to {
+    margin-top: 12em;
+  }
+}
+
+.category img:hover {
+  transform: scale(1.1);
+  overflow: hidden !important;
+}
+.logo span {
+  color: #553b29;
+  font-weight: 700;
+  font-size: 22px;
+}
+.logo p {
+  color: #5a2b00;
+  margin-top: -3px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
 .wrapper {
   padding-left: 42rem;
 }
@@ -673,24 +1059,35 @@ nav {
   padding-left: 10%;
   font-size: 15px;
 }
-nav {
-  background-color: #302924;
-  position: sticky;
-  z-index: 99;
-  color: wheat;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 60px;
-  border: 1px solid #d3c2ae;
+/* dark */
+.mode .toggle {
+  background-color: #fff;
+  width: 26px;
+  height: 26px;
+  border-radius: 10%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  /* box-shadow: 0 0 50px 16px rgba(0, 0, 0, 0.1); */
+  line-height: 1;
 }
-nav li {
-  padding-left: 6px;
-  padding-right: 6px;
+.mode .toggle:hover {
+  background-color: #635e5e;
 }
-nav li a:hover {
-  color: white;
+.mode .toggle svg:hover {
+  color: rgb(251, 251, 251);
 }
+
+.mode .input {
+  display: none;
+}
+
+.mode .icon {
+  grid-column: 1 / 1;
+  grid-row: 1 / 1;
+  transition: transform 500ms;
+}
+
 .grid.mg-left-0 {
   color: wheat;
   display: flex;
@@ -699,39 +1096,112 @@ nav li a:hover {
   height: 60px;
 }
 header {
-  height: 45em;
+  height: 44em;
   position: relative;
+  background: rgb(25 24 24);
+  opacity: 0.9;
 }
 header::before {
   content: "";
   position: absolute;
   z-index: -1;
   inset: 0;
-  background: rgb(215, 212, 212);
-  opacity: 0.99;
-  background-image: url("@/assets/images/banner.png");
+  background-image: url("@/assets/images/banner3.jpg");
   background-size: cover;
   background-position: center;
+  animation: in 5s ease-in forwards;
+}
+@keyframes in {
+  from {
+    opacity: 0.99;
+  }
+  to {
+    opacity: 0.3;
+  }
+}
+.button_shine {
+  animation: show 5s ease-in forwards;
+  transform: translateY(100%);
+}
+@keyframes show {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0%);
+  }
+}
+.shine-button {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  cursor: pointer;
+  /* background: linear-gradient(to right, #ffaa00, #ff5500); */
+  background: linear-gradient(to right, #a88112, #c34e13);
+  /* background: #b97c4c; */
+  border: none;
+  padding: 10px 20px;
+  color: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  transition: background 0.3s;
+  border-radius: 8px;
+  opacity: 0;
+  animation: showButton 5s forwards;
 }
 
+.shine-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.3s;
+}
+
+.shine-button:hover::before {
+  transform: translateX(100%);
+}
+
+.shine-button:hover {
+  background: linear-gradient(to right, #a88112, #c34e13);
+}
+
+/* Sử dụng keyframes animation để hiện nút sau 10 giây */
+@keyframes showButton {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 .grid.grid-cols-3 {
   position: relative;
   margin-bottom: 40px;
   display: flex;
 }
-
-content .col {
+.service .service_item.col {
   padding-top: 7px;
   font-size: x-large;
   text-align: center;
   border-right: 1px solid rgb(226, 224, 224);
+  color: #302924;
 }
-content .col:hover {
+.service .service_item.col:hover {
   /* background-color: rgb(233, 234, 188); */
   background: #e3e5da;
 }
-.col i {
-  color: #302924;
+.category.grid .text-center {
+  background: #ede9e0;
 }
 .service-title {
   padding-top: 10px;
@@ -740,9 +1210,6 @@ content .col:hover {
 .service-description {
   /* width: 90%; */
   text-align: center;
-}
-.text-center h1 {
-  color: rgb(79, 40, 40);
 }
 .button .my-8,
 .button_card .btn {
@@ -754,9 +1221,6 @@ content .col:hover {
 .button_card .btn {
   font-size: 12px;
 }
-/* .category.grid-cols-6 .text-center {
-  padding-top: 5%;
-} */
 .category.grid-cols-6 .text-center h1 {
   font-weight: 600;
   justify-items: center;
@@ -781,7 +1245,6 @@ content .col:hover {
 }
 .product {
   background-color: #dfdedc;
-  /* text-align: center; */
   margin-bottom: 20px;
   border: 1px solid rgb(215, 213, 213);
   border-radius: 5px;
@@ -876,13 +1339,17 @@ content .col:hover {
     display: none;
   }
 }
+.bell {
+  margin-top: -6em;
+  z-index: 101;
+}
 
 /* icon search */
 /* From uiverse.io by @satyamchaudharydev */
 /* this button is inspired by -- whatsapp input */
 /* == type to see fully interactive and click the close buttom to remove the text  == */
 
-.form {
+.search .form {
   margin-top: -3px;
   --input-bg: #fff;
   /*  background of input */
@@ -895,11 +1362,12 @@ content .col:hover {
   /*  when rotating changed icon color */
   --height: 30px;
   /*  height */
-  width: 200px;
+  width: 400px;
   padding-inline-end: 1em;
   /*  change this for padding in the end of input */
   background: var(--input-bg);
   position: relative;
+  border: 1px solid;
   border-radius: 4px;
 }
 
@@ -927,7 +1395,7 @@ content .col:hover {
   height: 15px;
 }
 /* search icon */
-.icon {
+.search .icon {
   position: absolute;
   left: var(--padding);
   transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -936,13 +1404,13 @@ content .col:hover {
   align-items: center;
 }
 /* arrow-icon*/
-.swap-off {
+.search .swap-off {
   transform: rotate(-80deg);
   opacity: 0;
   visibility: hidden;
 }
 /* close button */
-.close-btn {
+.search .close-btn {
   /* removing default bg of button */
   background: none;
   border: none;
@@ -962,23 +1430,23 @@ content .col:hover {
   visibility: hidden;
 }
 
-.form input:focus ~ .icon {
+.search .form input:focus ~ .icon {
   transform: rotate(var(--rotate)) scale(1.3);
 }
 
-.form input:focus ~ .icon .swap-off {
+.search .form input:focus ~ .icon .swap-off {
   opacity: 1;
   transform: rotate(-80deg);
   visibility: visible;
   color: var(--icon-change-color);
 }
 
-.form input:focus ~ .icon .swap-on {
+.search .form input:focus ~ .icon .swap-on {
   opacity: 0;
   visibility: visible;
 }
 
-.form input:valid ~ .icon {
+.search .form input:valid ~ .icon {
   transform: scale(1.3) rotate(var(--rotate));
 }
 
@@ -1030,6 +1498,103 @@ content .col:hover {
   margin-top: 3em;
   width: 80%;
 }
+/* Toast massage*/
+.notifications-container {
+  width: 320px;
+  height: auto;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+
+.success {
+  padding: 1rem;
+  border-radius: 0.375rem;
+  background-color: rgb(240 253 244);
+}
+
+.succes-svg {
+  color: rgb(74 222 128);
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.success-prompt-wrap {
+  margin-left: 0.75rem;
+}
+
+.success-prompt-heading {
+  font-weight: bold;
+  color: rgb(22 101 52);
+}
+
+.success-prompt-prompt {
+  margin-top: 0.5rem;
+  color: rgb(21 128 61);
+}
+
+.success-button-container {
+  display: flex;
+  margin-top: 0.875rem;
+  margin-bottom: -0.375rem;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+}
+
+.success-button-main {
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  background-color: #ecfdf5;
+  color: rgb(22 101 52);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: bold;
+  border-radius: 0.375rem;
+  border: none;
+}
+
+.success-button-main:hover {
+  background-color: #d1fae5;
+}
+
+.success-button-secondary {
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-left: 0.75rem;
+  background-color: #ecfdf5;
+  color: #065f46;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  border-radius: 0.375rem;
+  border: none;
+}
+/* animation toast */
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter-active {
+  transition: opacity 5s ease-in;
+}
+.fade-leave {
+}
+.fade-leave-active {
+  transition: opacity 10s ease-out;
+  opacity: 0;
+}
 /* footer */
 .footer {
   position: relative;
@@ -1047,7 +1612,11 @@ content .col:hover {
   background-image: url("@/assets/images/footer.png");
   background-size: cover;
   opacity: 0.3;
-  height: 30rem;
+  height: 28rem;
+  padding-bottom: 30px;
+}
+.moon {
+  padding-bottom: 0em;
 }
 .col-span-2 {
   margin-top: 25%;
@@ -1060,6 +1629,8 @@ content .col:hover {
   color: rgb(11, 46, 81);
   font-weight: 400;
   font-size: 15px;
+  width: 151%;
+  margin-left: -17em;
 }
 .customize_furniture input {
   height: 70%;
@@ -1100,17 +1671,17 @@ content .col:hover {
   padding-right: 10px;
   color: #50443c;
 }
-.product_bed {
-  position: relative;
-}
-.product_label {
-  position: absolute;
-  width: 30%;
-  border-radius: 1rem;
-  text-align: center;
-  font-size: 13px;
-  top: 4%;
-  left: 70%;
+/*Mobile & tablet: width<1024px*/
+@media only screen and (max-width: 63.9375em) {
+  .customize_furniture {
+    margin-left: 0px;
+  }
+  .logo {
+    margin-left: 14px;
+  }
+  .logo a {
+    width: 13%;
+  }
 }
 
 /*Mobile: width<780px*/
@@ -1127,7 +1698,7 @@ content .col:hover {
   .mx-64 {
     margin-top: -60%;
   }
-  .service-icon {
+  .service-icon i {
     font-size: 60%;
   }
   .service-title h1 {
@@ -1140,7 +1711,7 @@ content .col:hover {
   .category.grid.grid-cols-6 .text-center h1 {
     font-size: 70%;
   }
-  /* 
+  /*
   .category.grid.grid-cols-6 img {
     width: 80%;
   } */
@@ -1167,6 +1738,9 @@ content .col:hover {
     inset: 0;
     opacity: 0.9;
   }
+  .hot_news .grid.grid-cols-3 {
+    display: block;
+  }
 }
 /*Tablet: width>=740px and width < 1024px*/
 @media only screen and (min-width: 46.25em) and (max-width: 63.9375em) {
@@ -1178,5 +1752,61 @@ content .col:hover {
 @media only screen and (min-width: 73em) and (max-width: 81.25em) {
 }
 @media only screen and (min-width: 80em) and (max-width: 96em) {
+}
+.new_item {
+  background-color: #fff;
+}
+.service {
+  background-color: #fff;
+}
+.category_hot_product li {
+  color: black;
+}
+.form-control {
+  border: none;
+  background-color: rgb(242, 246, 249);
+}
+form label {
+  font-weight: 500;
+  color: #33150a;
+}
+.moon .crossbar {
+  color: #f1ebe4;
+}
+.moon .category_hot_product li {
+  color: #ffeac6e3;
+}
+.moon .crossbar[data-v-c40a2754]::after {
+  background-color: #ede8da;
+}
+.customize_furniture .crossbar[data-v-c40a2754]::after {
+  transform: translateX(-718%);
+}
+.moon .service {
+  background-color: #efede9;
+}
+.moon .new_item {
+  background-color: #efede9;
+}
+.allFurniture {
+  overflow: scroll;
+  overflow-x: hidden;
+  height: 57em;
+}
+.allFurniture::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+.allFurniture::-webkit-scrollbar {
+  width: 6px;
+  background-color: #f5f5f5;
+}
+
+.allFurniture::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #cdc0aa;
 }
 </style>

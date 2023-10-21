@@ -3,7 +3,7 @@
     <div class="grid grid-cols-2 max-sm:max-lg:block">
       <div class="max-sm:hidden">
         <div class="img">
-          <img src="@/assets/images/3.png" alt="register information" />
+          <img src="@/assets/images/banner2.png" alt="register information" />
         </div>
       </div>
       <div class="form_register bg-gray-50">

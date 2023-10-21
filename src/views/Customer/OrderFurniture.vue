@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-24 px-40">
+  <div class="pt-36 px-40">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb bg-transparent text-xs pt-3">
         <li class="breadcrumb-item"><a href="#">Home</a></li>

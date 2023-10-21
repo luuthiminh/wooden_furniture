@@ -5,7 +5,9 @@
   border: 0;
   font-size: 100%;
 }
-
+body {
+  transition: transform 0.3s;
+}
 router-link {
   text-decoration: none;
 }
@@ -317,4 +319,13 @@ html {
 
 .button_edit:active {
   border: 1px solid #006cd0;
+}
+router-link {
+  text-decoration: none;
+}
+.sun {
+  background: #ffffff;
+}
+.moon {
+  background: #574e42cf; 
 }

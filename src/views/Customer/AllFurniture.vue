@@ -1,169 +1,167 @@
 <template>
   <div class="allFurniture">
-    <div>
+    <div v-if="furnitures.length">
       <div>
-        <div v-if="furnitures.length">
-          <div class="grid grid-cols-4 gap-4">
-            <div
-              class="product"
-              v-for="furniture in furnitures"
-              :key="furniture.furnitureId"
-            >
-              <div>
-                <div
-                  class="product_bed px-2 py-2 border border-indigo-100 rounded-md"
-                >
-                  <div class="image_product">
-                    <router-link
-                      :to="{
-                        name: 'FurnitureDetail',
-                        params: { id: furniture.furnitureId },
-                      }"
-                    >
-                      <img
-                        src="@/assets/images/category/shelves_tv/shelves_11.png"
-                        alt=""
-                      />
-                    </router-link>
-                    <div class="furniture_label">
-                      <div v-if="furniture.label === 'New'">
-                        <div
-                          class="product_label bg-yellow-600 px-1 py-1 rounded-md"
-                        >
-                          <span class="text-white">{{ furniture.label }}</span>
-                        </div>
+        <div class="grid grid-cols-4 gap-4 max-sm:grid-cols-2">
+          <div
+            class="product"
+            v-for="furniture in furnitures"
+            :key="furniture.furnitureId"
+          >
+            <div>
+              <div
+                class="furniture_items px-2 py-2 border border-indigo-100 rounded-md"
+              >
+                <div class="image_product">
+                  <router-link
+                    :to="{
+                      name: 'FurnitureDetail',
+                      params: { id: furniture.furnitureId },
+                    }"
+                  >
+                    <img
+                      src="@/assets/images/category/shelves_tv/shelves_11.png"
+                      alt=""
+                    />
+                    <!-- <img :src="getFurnitureImage(furniture)" /> -->
+                  </router-link>
+                  <div class="furniture_label">
+                    <div v-if="furniture.label === 'New'">
+                      <div
+                        class="product_label bg-yellow-600 px-1 py-1 rounded-md"
+                      >
+                        <span class="text-white">{{ furniture.label }}</span>
                       </div>
-                      <div v-if="furniture.label === 'Hot Sale'">
-                        <div
-                          class="product_label bg-red-700 px-1 py-1 rounded-md"
-                        >
-                          <span class="text-white">{{ furniture.label }}</span>
-                        </div>
+                    </div>
+                    <div v-if="furniture.label === 'Hot Sale'">
+                      <div
+                        class="product_label bg-red-700 px-1 py-1 rounded-md"
+                      >
+                        <span class="text-white">{{ furniture.label }}</span>
                       </div>
                     </div>
                   </div>
-                  <div class="pt-4 px-2">
-                    <div class="text-xs">
-                      <span class="text-gray-800 pr-2">{{
-                        furniture.price
-                      }}</span>
-                      <del class="text-gray-500">$2000</del>
-                    </div>
-                    <div class="pt-2 text-base font-semibold">
-                      <span>{{ furniture.furnitureName }}</span>
-                    </div>
-                    <div>
-                      <span class="text-sm"
-                        >Star: {{ furniture.voteStar
-                        }}<i class="fa-solid fa-star pl-1 text-xs"></i
-                      ></span>
-                    </div>
-                    <div>
-                      <span class="text-sm">Sold: {{ furniture.sold }}</span>
-                    </div>
-                    <div class="button_buy py-3 px-2">
-                      <router-link
-                        :to="{
-                          name: 'OrderBill',
-                          params: { id: furniture.furnitureId },
-                        }"
+                </div>
+                <div class="pt-4 px-2">
+                  <div class="text-xs">
+                    <span class="text-gray-800 dark:text-red pr-2">{{
+                      furniture.price
+                    }}</span>
+                    <del class="text-gray-500">$2000</del>
+                  </div>
+                  <div class="pt-2 text-base font-semibold">
+                    <span>{{ furniture.furnitureName }}</span>
+                  </div>
+                  <div>
+                    <span class="text-sm"
+                      >Star: {{ furniture.voteStar
+                      }}<i class="fa-solid fa-star pl-1 text-xs"></i
+                    ></span>
+                  </div>
+                  <div>
+                    <span class="text-sm">Sold: {{ furniture.sold }}</span>
+                  </div>
+                  <div class="button_buy py-3 px-2">
+                    <router-link
+                      :to="{
+                        name: 'OrderBill',
+                        params: { id: furniture.furnitureId },
+                      }"
+                    >
+                      <button
+                        class="btn text-sm font-medium border-1 border-slate-800 rounded-xl px-5 py-1 hover:bg-slate-700 hover:text-white max-sm:px-4"
                       >
-                        <button
-                          class="btn text-sm font-medium border-1 border-slate-800 rounded-xl px-5 py-1 hover:bg-slate-700 hover:text-white"
-                        >
-                          Buy now
-                        </button>
-                      </router-link>
+                        Buy now
+                      </button>
+                    </router-link>
+                  </div>
+                  <div class="grid grid-cols-2 gap-x-4 text-xs">
+                    <div @click.prevent="toggleWishlist(furniture)">
+                      <i class="fa-regular fa-heart cursor-pointer"></i>
+                      Add wish list
                     </div>
-                    <div class="grid grid-cols-2 gap-x-4 text-xs">
-                      <div @click.prevent="toggleWishlist(furniture)">
-                        <i class="fa-regular fa-heart cursor-pointer"></i>
-                        Add wish list
-                      </div>
-                      <div>
-                        <button
-                          @click.prevent="showModal(furniture)"
-                          class=""
-                          data-toggle="modal"
-                          data-target="#exampleModalLong"
-                        >
-                          <i class="fa-solid fa-square-plus cursor-pointer"></i>
-                          More
-                        </button>
-                        <modal>
-                          v-if="isShowModal" @close="closeModal" >
-                          <template v-slot:title>
-                            <div class="flex items-center text-lg font-medium">
-                              ALL Furniture
-                            </div>
-                          </template>
-                          <template v-slot:body>
-                            <div
-                              class="product"
-                              v-for="fur in furnitureModel"
-                              :key="fur.furnitureId"
-                            >
-                              <div class="grid grid-cols-2 gap-x-7">
-                                <div class="image_product">
-                                  <img
-                                    src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                    alt=""
-                                  />
+                    <div>
+                      <button
+                        @click.prevent="showModal(furniture)"
+                        class=""
+                        data-toggle="modal"
+                        data-target="#exampleModalLong"
+                      >
+                        <i class="fa-solid fa-square-plus cursor-pointer"></i>
+                        More
+                      </button>
+                      <modal v-if="isShowModal" @close="closeModal">
+                        <template v-slot:title>
+                          <div class="flex items-center text-lg font-medium">
+                            ALL Furniture
+                          </div>
+                        </template>
+                        <template v-slot:body>
+                          <div
+                            class="product"
+                            v-for="fur in furnitureModel"
+                            :key="fur.furnitureId"
+                          >
+                            <div class="grid grid-cols-2 gap-x-7">
+                              <div class="image_product">
+                                <img
+                                  src="@/assets/images/category/shelves_tv/shelves_11.png"
+                                  alt=""
+                                />
+                              </div>
+                              <div>
+                                <div
+                                  class="name furniture font-semibold pb-3 text-sm"
+                                >
+                                  {{ fur.furnitureName }}
                                 </div>
-                                <div>
-                                  <div
-                                    class="name furniture font-semibold pb-3 text-sm"
-                                  >
-                                    {{ fur.furnitureName }}
-                                  </div>
-                                  <div class="grid grid-cols-2 gap-x-1 text-sm">
-                                    <span>Height</span>
-                                    <span>{{ fur.height }}</span>
-                                  </div>
-                                  <div
-                                    class="grid grid-cols-2 gap-x-1 text-sm pt-1"
-                                  >
-                                    <span>Width:</span>
-                                    <span>{{ fur.width }}</span>
-                                  </div>
-                                  <div
-                                    class="grid grid-cols-2 gap-x-1 text-sm pt-1"
-                                  >
-                                    <span>Lenght:</span>
-                                    <span>{{ fur.length }}</span>
-                                  </div>
-                                  <div class="text-sm">
-                                    <div
-                                      class="grid grid-cols-2 gap-x-1 text-sm pt-1"
-                                    >
-                                      <span>Price:</span>
-                                      <span>{{ fur.price }}</span>
-                                      <!-- <span>$1000</span> -->
-                                      <span class="text-red-500">$2000</span>
-                                    </div>
-                                  </div>
-                                  <div
-                                    class="grid grid-cols-2 gap-x-1 text-sm pt-1"
-                                  >
-                                    <span>Color:</span>
-                                    <span>{{ fur.color }}</span>
-                                  </div>
-                                  <div
-                                    class="grid grid-cols-2 gap-x-1 text-sm pt-1"
-                                  >
-                                    <span>Wood:</span>
-                                    <span>{{ fur.wood }}</span>
-                                  </div>
-                                  <br />
+                                <div class="grid grid-cols-2 gap-x-1 text-sm">
+                                  <span>Height</span>
+                                  <span>{{ fur.height }}</span>
                                 </div>
+                                <div
+                                  class="grid grid-cols-2 gap-x-1 text-sm pt-1"
+                                >
+                                  <span>Width:</span>
+                                  <span>{{ fur.width }}</span>
+                                </div>
+                                <div
+                                  class="grid grid-cols-2 gap-x-1 text-sm pt-1"
+                                >
+                                  <span>Lenght:</span>
+                                  <span>{{ fur.length }}</span>
+                                </div>
+                                <div class="text-sm">
+                                  <div
+                                    class="grid grid-cols-2 gap-x-1 text-sm pt-1"
+                                  >
+                                    <span>Price:</span>
+                                    <span>{{ fur.price }}</span>
+                                    <!-- <span>$1000</span> -->
+                                    <span class="text-red-500">$2000</span>
+                                  </div>
+                                </div>
+                                <div
+                                  class="grid grid-cols-2 gap-x-1 text-sm pt-1"
+                                >
+                                  <span>Color:</span>
+                                  <span>{{ fur.color }}</span>
+                                </div>
+                                <div
+                                  class="grid grid-cols-2 gap-x-1 text-sm pt-1"
+                                >
+                                  <span>Wood:</span>
+                                  <span>{{ fur.wood }}</span>
+                                </div>
+                                <br />
                               </div>
                             </div>
-                          </template>
-                          <template v-slot:footer>
-                            <div class="flex justify-between"></div>
-                          </template>
-                        </modal>
-                      </div>
+                          </div>
+                        </template>
+                        <template v-slot:footer>
+                          <div class="flex justify-between"></div>
+                        </template>
+                      </modal>
                     </div>
                   </div>
                 </div>
@@ -171,18 +169,18 @@
             </div>
           </div>
         </div>
-        <div v-else>
-          <div class="hourglassBackground">
-            <div class="hourglassContainer">
-              <div class="hourglassCurves"></div>
-              <div class="hourglassCapTop"></div>
-              <div class="hourglassGlassTop"></div>
-              <div class="hourglassSand"></div>
-              <div class="hourglassSandStream"></div>
-              <div class="hourglassCapBottom"></div>
-              <div class="hourglassGlass"></div>
-            </div>
-          </div>
+      </div>
+    </div>
+    <div v-else>
+      <div class="hourglassBackground">
+        <div class="hourglassContainer">
+          <div class="hourglassCurves"></div>
+          <div class="hourglassCapTop"></div>
+          <div class="hourglassGlassTop"></div>
+          <div class="hourglassSand"></div>
+          <div class="hourglassSandStream"></div>
+          <div class="hourglassCapBottom"></div>
+          <div class="hourglassGlass"></div>
         </div>
       </div>
     </div>
@@ -243,12 +241,27 @@ export default {
         console.error("Error toggling wishlist:", error);
       }
     },
+    // getFurnitureImage(furniture) {
+    //   return require("@/assets/images/" + furniture.image);
+    // },
   },
 };
 </script>
 <style scoped>
 .product {
   position: relative;
+}
+.produt img {
+  transition: transform 1s;
+}
+.product img:hover {
+  transform: rotateY(180deg);
+}
+.furniture_items {
+  background-color: #fff;
+}
+.moon .furniture_items {
+  background-color: #efede9;
 }
 .furniture_label {
   position: absolute;

@@ -7,11 +7,7 @@
           :style="{ display: !isShowTab ? 'none' : 'block' }"
         >
           <router-link to="/furnitureManage">
-            <img
-              class="w-10/12"
-              src="@/assets/images/logo_icon.png"
-              alt="logo"
-            />
+            <img class="w-12/12" src="@/assets/images/logo.png" alt="logo" />
           </router-link>
         </div>
         <p
@@ -21,7 +17,6 @@
           L & L
         </p>
       </li>
-
       <li :style="{ marginLeft: !isShowTab ? '-8em' : '10em' }">
         <div class="border border-gray-900 rounded-md">
           <i
@@ -30,7 +25,7 @@
           ></i>
         </div>
       </li>
-      <li class="mx-10">
+      <li class="mx-10 font-medium">
         <p class="stock" :style="{ marginRight: !isShowTab ? '60em' : '43em' }">
           STOCK INFORMATION
         </p>
@@ -75,10 +70,10 @@
               </div>
             </div>
 
-            <ul class="bar leading-4 nav nav-stacked" role="tablist">
+            <ul class="bar leading-5 mt-28 nav nav-stacked" role="tablist">
               <li>
                 <router-link to="/indexAssistant">
-                  <i class="fa-solid fa-landmark"></i>
+                  <i class="bi bi-house"></i>
                   <p>Home</p></router-link
                 >
               </li>
@@ -90,7 +85,7 @@
                   data-toggle="tab"
                   class="active"
                 >
-                  <i class="fa-solid fa-store"></i>
+                  <i class="bi bi-house-heart"></i>
                   <p>Furniture</p></a
                 >
               </li>
@@ -101,7 +96,7 @@
                   role="tab"
                   data-toggle="tab"
                 >
-                  <i class="fa-solid fa-flask"></i>
+                  <i class="bi bi-bricks"></i>
                   <p>Material</p></a
                 >
               </li>
@@ -112,7 +107,7 @@
                   role="tab"
                   data-toggle="tab"
                 >
-                  <i class="fa-solid fa-comment"></i>
+                  <i class="bi bi-chat-left-text"></i>
                   <p>Feedback</p></a
                 >
               </li>
@@ -123,7 +118,7 @@
                   role="tab"
                   data-toggle="tab"
                 >
-                  <i class="fa-solid fa-heart-circle-check"></i>
+                  <i class="bi bi-bag-heart"></i>
                   <p>Wishlist</p></a
                 >
               </li>
@@ -134,12 +129,24 @@
                   role="tab"
                   data-toggle="tab"
                 >
-                  <i class="fa-solid fa-bell"></i>
+                  <i class="bi bi-bell"></i>
                   <p>Notification</p></a
                 >
               </li>
-
               <li role="presentation" @click.prevent="isShowTab = true">
+                <router-link to="/labelManagement">
+                  <i class="bi bi-bell"></i>
+                  <p>Label</p>
+                </router-link>
+              </li>
+              <li role="presentation" @click.prevent="isShowTab = true">
+                <router-link to="/woodManagement">
+                  <i class="bi bi-bell"></i>
+                  <p>Wood</p>
+                </router-link>
+              </li>
+
+              <!-- <li role="presentation" @click.prevent="isShowTab = true">
                 <a
                   href="#other"
                   aria-controls="other"
@@ -149,7 +156,7 @@
                   <i class="fa-solid fa-circle-plus"></i>
                   <p>Other</p></a
                 >
-              </li>
+              </li> -->
             </ul>
           </nav>
           <div v-if="isShowTab" class="col-span-2 bar_content pt-2 bg-gray-5">
@@ -241,11 +248,6 @@
                             >All material</router-link
                           >
                         </li>
-                        <li>
-                          <router-link to="/materialManagement"
-                            >Add new material</router-link
-                          >
-                        </li>
                         <li>Export material</li>
                         <li>Inventory material</li>
                       </ul>
@@ -266,20 +268,10 @@
                     <div class="px-4 text-sm">
                       <ul class="furniture leading-10">
                         <li>
-                          <router-link to="/categoryManagement"
-                            >Category</router-link
-                          >
-                        </li>
-                        <li>
                           <router-link to="/woodManagement">Wood</router-link>
                         </li>
                         <li>
                           <router-link to="/labelManagement">Label</router-link>
-                        </li>
-                        <li>
-                          <router-link to="/collectionManagement"
-                            >Collections</router-link
-                          >
                         </li>
                       </ul>
                     </div>
@@ -331,7 +323,7 @@ export default {
 };
 </script>
 <style scoped>
-.header {
+/* .header {
   background-color: #302924;
   position: fixed;
   z-index: 99;
@@ -340,6 +332,17 @@ export default {
   align-items: center;
   height: 70px;
   border: 1px solid #d3c2ae;
+} */
+.header {
+  background-color: #eeeeee;
+  position: fixed;
+  z-index: 99;
+  color: #665e4e;
+  display: flex;
+  align-items: center;
+  height: 70px;
+  border-bottom: 1px solid #afa08c4d;
+  box-shadow: 1px 1px 5px #cecece;
 }
 li {
   cursor: pointer;
@@ -481,8 +484,11 @@ nav i {
 .furniture li {
   color: #616670;
 }
-.user-box,
+/* .user-box,
 .bar.leading-4 {
   background: #f1f1f1;
+} */
+.nav.nav-stacked i {
+  font-size: 17px;
 }
 </style>
