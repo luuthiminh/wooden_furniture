@@ -65,12 +65,25 @@
             <div class="img furniture">
               <div class="overflow-y-scroll snap-x px-4 pb-40">
                 <div v-if="furnitures.length">
-                  <drag v-for="f in furnitures" :key="f" draggable="true">
+                  <drag v-for="f in furnitures" :key="f.id" draggable="true">
                     <div class="scroll-ml-6 snap-start">
-                      <div>
-                        <img :src="f.url" draggable="true" />
-                      </div>
+                      <div
+                        class="target"
+                        style="
+                           {
+                            backgroundimage: `url(
+                                '@/assets/images/category/bed/bed_2.png'
+                              )
+                              `;
+                          }
+                        "
+                        draggable="true"
+                        @dragstart="onDragstart"
+                        @dragleave="onDragleave"
+                        :id="f.id"
+                      ></div>
                     </div>
+
                     <!-- <div class="scroll-ml-6 snap-start ...">
                     <img src="@/assets/images/category/bed/bed_2.png" />
                   </div>
@@ -97,19 +110,59 @@
             <div class="img furniture">
               <div class="overflow-y-scroll snap-x px-4 pb-40">
                 <div class="scroll-ml-6 snap-start ...">
-                  <img src="@/assets/images/category/sofa/sofa_1.png" />
+                  <img
+                    src="@/assets/images/category/sofa/sofa_1.png"
+                    class="target"
+                    draggable="true"
+                    @dragstart="onDragstart"
+                    @dragleave="onDragleave"
+                    @dragenter.prevent="onDragenter"
+                    id="6"
+                  />
                 </div>
                 <div class="scroll-ml-6 snap-start ...">
-                  <img src="@/assets/images/category/sofa/sofa_2.png" />
+                  <img
+                    src="@/assets/images/category/sofa/sofa_2.png"
+                    class="target"
+                    draggable="true"
+                    @dragstart="onDragstart"
+                    @dragleave="onDragleave"
+                    @dragenter.prevent="onDragenter"
+                    id="7"
+                  />
                 </div>
                 <div class="scroll-ml-6 snap-start ...">
-                  <img src="@/assets/images/category/sofa/sofa_3.png" />
+                  <img
+                    src="@/assets/images/category/sofa/sofa_3.png"
+                    class="target"
+                    draggable="true"
+                    @dragstart="onDragstart"
+                    @dragleave="onDragleave"
+                    @dragenter.prevent="onDragenter"
+                    id="8"
+                  />
                 </div>
                 <div class="scroll-ml-6 snap-start ...">
-                  <img src="@/assets/images/category/sofa/sofa_4.png" />
+                  <img
+                    src="@/assets/images/category/sofa/sofa_4.png"
+                    class="target"
+                    draggable="true"
+                    @dragstart="onDragstart"
+                    @dragleave="onDragleave"
+                    @dragenter.prevent="onDragenter"
+                    id="9"
+                  />
                 </div>
                 <div class="scroll-ml-6 snap-start ...">
-                  <img src="@/assets/images/category/sofa/sofa_5.png" />
+                  <img
+                    src="@/assets/images/category/sofa/sofa_5.png"
+                    class="target"
+                    draggable="true"
+                    @dragstart="onDragstart"
+                    @dragleave="onDragleave"
+                    @dragenter.prevent="onDragenter"
+                    id="10"
+                  />
                 </div>
               </div>
             </div>
@@ -202,8 +255,20 @@
             role="tabpanel"
             aria-labelledby="nav-home-tab"
           >
-            <img src="@/assets/images/mix/bg-bedroom.jpg" alt="background" />
+            <!-- <img
+              src="@/assets/images/mix/bg-bedroom.jpg"
+              alt="background"
+              class="box"
+            /> -->
+
+            <div
+              class="box rotate-0"
+              @dragover.prevent="onDragover"
+              @drop="onDrop"
+              @dragleave="onDragleave"
+            ></div>
           </div>
+
           <div
             class="tab-pane fade"
             id="nav-profile"
@@ -238,12 +303,13 @@ export default {
     return {
       furnitures: [
         {
-          url: require("@/assets/images/category/bed/bed_1.png"),
+          id: 1,
+          url: "../assets/images/category/bed/bed_1.png",
         },
-        { url: require("@/assets/images/category/bed/bed_2.png") },
-        { url: require("@/assets/images/category/bed/bed_3.png") },
-        { url: require("@/assets/images/category/bed/bed_4.png") },
-        { url: require("@/assets/images/category/bed/bed_5.png") },
+        { id: 2, url: "../assets/images/category/bed/bed_2.png" },
+        { id: 3, url: "../assets/images/category/bed/bed_3.png" },
+        { id: 4, url: "../assets/images/category/bed/bed_4.png" },
+        { id: 5, url: "../assets/images/category/bed/bed_5.png" },
       ],
       // iShow: false,
       // insideDropped: false,
@@ -261,6 +327,20 @@ export default {
     //   this.outsideDropped = true;
     //   this.urlOutSide = data;
     // },
+    onDragstart(event) {
+      event.dataTransfer.setData("text", event.target.id);
+    },
+    onDrop(event) {
+      const newData = event.dataTransfer.getData("text");
+      console.log(newData);
+      console.log(event.target);
+      if (event.target.classList.contains("target")) {
+        event.target.classList.remove("target");
+        event.target.appendChild(document.getElementById(newData));
+      } else {
+        event.target.appendChild(document.getElementById(newData));
+      }
+    },
   },
 };
 </script>
@@ -361,5 +441,36 @@ export default {
 
 .drop-in {
   box-shadow: 0 0 5px rgba(0, 0, 255, 0.4);
+}
+#nav-home {
+  width: 67em;
+  height: 36em;
+  margin-top: 2em;
+  margin-bottom: 10em;
+  background-image: url("@/assets/images/mix/bg_be2.jpg");
+  background-size: contain;
+  background-repeat: none;
+}
+.box {
+  width: 20em;
+  height: 13em;
+  background: transparent;
+  position: absolute;
+  top: 70%;
+  left: 30%;
+  border: 1px solid white;
+  animation: impess 500ms infinite;
+}
+@keyframes impess {
+  from {
+    border: 1px solid white;
+  }
+  to {
+    border: 1px solid black;
+  }
+}
+.target {
+  margin-top: -22%;
+  width: 90%;
 }
 </style>

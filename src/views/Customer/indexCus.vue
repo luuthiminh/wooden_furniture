@@ -3,7 +3,7 @@
     <search-results :furnitureSearch="furnitureSearch"></search-results>
   </div>
   <div v-else>
-    <header>
+    <header @mouseleave="HandleHeader">
       <div class="header_scroll flex text-sm">
         <div class="container-fluid bg-light p-0">
           <div class="flex">
@@ -86,7 +86,14 @@
       </div>
 
       <div class="nav_header py-3 bg-white">
-        <div class="">
+        <div
+          :style="{
+            'margin-top': !isShowHeader ? '0px' : '-70px',
+            position: !isShowHeader ? 'relative' : 'fixed',
+            background: !isShowHeader ? 'transparent' : 'white',
+            'z-index': !isShowHeader ? '0' : '101',
+          }"
+        >
           <div class="grid mg-left-0 grid-cols-2">
             <div class="logo flex mx-5 items-center w-3/12">
               <router-link to="/customerIndex">
@@ -850,6 +857,7 @@ export default {
       isBell: false,
       notifications: [],
       isDarkMode: false,
+      isShowHeader: false,
     };
   },
   created() {
@@ -964,6 +972,9 @@ export default {
     onMouseOver() {
       this.isShow = true;
     },
+    HandleHeader() {
+      this.isShowHeader = !this.isShowHeader;
+    },
   },
 };
 </script>
@@ -973,7 +984,7 @@ export default {
   background-color: #f7f8facf;
 }
 .moon .homepage {
-  background-color: transparent transparent;
+  background-color: transparent;
 }
 .fixed_header {
   position: fixed;

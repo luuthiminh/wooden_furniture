@@ -98,6 +98,6 @@ export default {
   width: 230px;
   height: 230px;
   margin-top: -10px;
-  margin-left: -16px;
+  margin-left: -40px;
 }
 </style>

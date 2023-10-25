@@ -1,9 +1,9 @@
 <template>
   <!-- <div v-if="customer / customer - infor"> -->
   <div class="profile_customer">
-    <div class="nav pt-36 pl-32 pb-3">
+    <div class="nav pt-36 pb-3">
       <nav aria-label="breadcrumb">
-        <ol class="flex bg-none text-xs">
+        <ol class="flex bg-none text-sm pl-28">
           <li class="breadcrumb-item">
             <router-link to="customerIndex">Home </router-link>
           </li>
@@ -14,28 +14,17 @@
       </nav>
     </div>
     <div class="container px-32">
-      <!-- <div>
-      <h1 class="profile font-semibold pt-4 text-xl text-slate-700">Profile</h1>
-    </div> -->
       <div class="view-account">
         <section class="module">
           <div class="module-inner grid grid-cols-6">
             <div class="side-bar col-span-1">
               <div class="user-info">
-                <!-- <img
-                  class="rounded-md cursor-pointer"
-                  src="@/assets/images/avatar.jpg "
-                  alt="avatar"
-                /> -->
-                <!-- <img
-                  class="rounded-md cursor-pointer"
-                  :src="convertToUrl(avatar)"
-                  alt="avatar"
-                /> -->
-                <img src="avatar" alt="avatar" />
-                <!-- <b-img
-                  :src="require('../Assets/Images/User/picture.jpg')"
-                ></b-img> -->
+                <!-- <img :src="avatar" alt="avatar" /> -->
+                <img
+                  class="rounded-md"
+                  src="@/assets/images/avatar.jpg"
+                  alt=""
+                />
                 <ul class="meta list list-unstyled">
                   <li class="name">{{ info.firtName }} {{ info.lastName }}</li>
                   <li class="activity text-sm">
@@ -101,7 +90,7 @@
                   </li>
                 </ul>
               </nav>
-              <div class="pt-4">
+              <div class="">
                 <div
                   id="carouselExampleControls"
                   class="carousel slide"
@@ -158,241 +147,327 @@
               </div>
             </div>
             <!-- Tab panes -->
-            <div class="tab-content col-span-5 bg-white">
+            <div class="tab-content col-span-5 ml-10">
               <div role="tabpanel" class="tab-pane" id="profile">
-                <h1 class="py-3 font-medium text-lg pl-6 text-yellow-950">
-                  Information
-                </h1>
-                <!-- <hr class="w-full text-yellow-900" /> -->
-                <div class="infor py-6 px-6">
-                  <div class="row mb-4 flex">
-                    <label class="col-lg-4 font-medium text-sm text-slate-500"
-                      >First Name</label
-                    >
-                    <label
-                      class="col-lg-8 font-semibold text-sm text-yellow-950"
-                      >{{ info.firtName }}</label
-                    >
-                  </div>
-                  <div class="row mb-4 flex">
-                    <label class="col-lg-4 font-medium text-sm text-slate-500"
-                      >Full Name</label
-                    >
-                    <label
-                      class="col-lg-8 font-semibold text-sm text-yellow-950"
-                      >{{ info.lastName }}</label
-                    >
-                  </div>
-                  <div class="row mb-4 flex">
-                    <label class="col-lg-4 font-medium text-sm text-slate-500"
-                      >Gender</label
-                    >
-                    <label
-                      class="col-lg-8 font-semibold text-sm text-yellow-950"
-                      >{{ info.gender }}</label
-                    >
-                  </div>
-                  <div class="row mb-4 flex">
-                    <label class="col-lg-4 font-medium text-sm text-slate-500"
-                      >DoB</label
-                    >
-                    <label
-                      class="col-lg-8 font-semibold text-sm text-yellow-950"
-                      >{{ DoB }}</label
-                    >
-                  </div>
+                <div class="bg-white form">
+                  <h1
+                    class="py-3 font-semibold text-base pl-10 text-yellow-950"
+                  >
+                    Information
+                  </h1>
+                  <div
+                    class="border-dotted border-1 border-indigo-gray opacity-20"
+                  ></div>
+                  <div class="infor py-6 px-10">
+                    <div class="row mb-4 flex">
+                      <label class="col-lg-4 font-medium text-sm text-slate-600"
+                        >First Name</label
+                      >
+                      <label
+                        class="col-lg-8 font-semibold text-sm text-yellow-950"
+                        >{{ info.firtName }}</label
+                      >
+                    </div>
+                    <div class="row mb-4 flex">
+                      <label class="col-lg-4 font-medium text-sm text-slate-600"
+                        >Full Name</label
+                      >
+                      <label
+                        class="col-lg-8 font-semibold text-sm text-yellow-950"
+                        >{{ info.lastName }}</label
+                      >
+                    </div>
+                    <div class="row mb-4 flex">
+                      <label class="col-lg-4 font-medium text-sm text-slate-600"
+                        >Gender</label
+                      >
+                      <label
+                        class="col-lg-8 font-semibold text-sm text-yellow-950"
+                        >{{ info.gender }}</label
+                      >
+                    </div>
+                    <div class="row mb-4 flex">
+                      <label class="col-lg-4 font-medium text-sm text-slate-600"
+                        >DoB</label
+                      >
+                      <label
+                        class="col-lg-8 font-semibold text-sm text-yellow-950"
+                        >{{ DoB }}</label
+                      >
+                    </div>
 
-                  <div class="row mb-4 flex">
-                    <label class="col-lg-4 font-medium text-sm text-slate-500"
-                      >Spent</label
-                    >
-                    <label
-                      class="col-lg-8 font-semibold text-sm text-yellow-950"
-                      >{{ info.spent }}</label
-                    >
-                  </div>
-                  <div class="row mb-4 flex">
-                    <label class="col-lg-4 font-medium text-sm text-slate-500"
-                      >Debit</label
-                    >
-                    <label
-                      class="col-lg-8 font-semibold text-sm text-yellow-950"
-                      >{{ info.debit }}</label
-                    >
-                  </div>
-                  <div class="row mb-4 flex">
-                    <label class="col-lg-4 font-medium text-sm text-slate-500"
-                      >Phone</label
-                    >
-                    <div class="col-lg-8 font-semibold text-sm flex gap-x-5">
-                      <label class="text-yellow-950" for="">{{
-                        phoneNumber.phoneNumber
-                      }}</label>
-                      <div v-if="phoneNumber.confirm === 'true'">
-                        <button
-                          class="bg-slate-600 text-white px-1 py-1 rounded-md ml-2 text-xs"
-                        >
-                          Verified
-                        </button>
-                      </div>
-                      <div v-else>
+                    <div class="row mb-4 flex">
+                      <label class="col-lg-4 font-medium text-sm text-slate-600"
+                        >Spent</label
+                      >
+                      <label
+                        class="col-lg-8 font-semibold text-sm text-yellow-950"
+                        >{{ info.spent }}</label
+                      >
+                    </div>
+                    <div class="row mb-4 flex">
+                      <label class="col-lg-4 font-medium text-sm text-slate-600"
+                        >Debit</label
+                      >
+                      <label
+                        class="col-lg-8 font-semibold text-sm text-yellow-950"
+                        >{{ info.debit }}</label
+                      >
+                    </div>
+                    <div class="row mb-4 flex">
+                      <label class="col-lg-4 font-medium text-sm text-slate-600"
+                        >Phone</label
+                      >
+                      <div class="col-lg-8 font-semibold text-sm flex gap-x-5">
+                        <label class="text-yellow-950" for="">{{
+                          phoneNumber.phoneNumber
+                        }}</label>
+                        <div v-if="phoneNumber.confirm === 'true'">
+                          <button
+                            class="bg-slate-600 text-white px-1 py-1 rounded-md ml-2 text-xs"
+                          >
+                            Verified
+                          </button>
+                        </div>
+                        <div v-else>
+                          <div
+                            @click.prevent="isShowModalOtp = true"
+                            data-toggle="modal"
+                            data-target="#exampleModalLong"
+                            class="btn bg-yellow-950 text-white py-1 px-2 rounded-md cursor-pointer"
+                          >
+                            Confirm
+                          </div>
+                          <modal v-if="isShowModalOtp" @close="closeModal">
+                            <template v-slot:title>
+                              <div
+                                class="flex items-center text-lg font-medium"
+                              >
+                                Enter your OTP Code
+                              </div>
+                            </template>
+                            <template v-slot:body>
+                              <div class="inp_otp">
+                                <input
+                                  maxlength="1"
+                                  class="input"
+                                  type="text"
+                                  placeholder=""
+                                />
+                                <input
+                                  maxlength="1"
+                                  class="input"
+                                  type="text"
+                                  placeholder=""
+                                />
+                                <input
+                                  maxlength="1"
+                                  class="input"
+                                  type="text"
+                                  placeholder=""
+                                />
+                                <input
+                                  maxlength="1"
+                                  class="input"
+                                  type="text"
+                                  placeholder=""
+                                />
+                              </div>
+                            </template>
+                            <template v-slot:footer>
+                              <div class="button_otp flex justify-between">
+                                <button @click.prevent="confirmNumberPhone">
+                                  Verify
+                                </button>
+                              </div>
+                            </template>
+                          </modal>
+                        </div>
                         <div
-                          @click.prevent="isShowModalOtp = true"
-                          data-toggle="modal"
-                          data-target="#exampleModalLong"
                           class="btn bg-yellow-950 text-white py-1 px-2 rounded-md cursor-pointer"
                         >
-                          Confirm
-                        </div>
-                        <modal v-if="isShowModalOtp" @close="closeModal">
-                          <template v-slot:title>
-                            <div class="flex items-center text-lg font-medium">
-                              Enter your OTP Code
-                            </div>
-                          </template>
-                          <template v-slot:body>
-                            <div class="inp_otp">
-                              <input
-                                maxlength="1"
-                                class="input"
-                                type="text"
-                                placeholder=""
-                              />
-                              <input
-                                maxlength="1"
-                                class="input"
-                                type="text"
-                                placeholder=""
-                              />
-                              <input
-                                maxlength="1"
-                                class="input"
-                                type="text"
-                                placeholder=""
-                              />
-                              <input
-                                maxlength="1"
-                                class="input"
-                                type="text"
-                                placeholder=""
-                              />
-                            </div>
-                          </template>
-                          <template v-slot:footer>
-                            <div class="button_otp flex justify-between">
-                              <button @click.prevent="confirmNumberPhone">
-                                Verify
+                          <div
+                            @click.prevent="isEditPhone = true"
+                            data-toggle="modal"
+                          >
+                            Change
+                          </div>
+                          <modal
+                            v-if="isEditPhone"
+                            @close="closeModal"
+                            data-target="#myModal"
+                          >
+                            <template v-slot:title>
+                              <h1 class="flex items-center text-lg font-medium">
+                                Edit Number Phone
+                              </h1>
+                            </template>
+                            <template v-slot:body>
+                              <div class="py-1 px-4 text-sm">
+                                <form @submit.prevent="">
+                                  <div>
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label font-medium"
+                                      >New Phone</label
+                                    >
+                                    <input
+                                      v-model="phoneNumber.phoneNumber"
+                                      type="text"
+                                      class="form-control"
+                                      id="exampleInpuName1"
+                                      aria-describedby="nameHelp"
+                                      required
+                                    />
+                                  </div>
+                                </form>
+                              </div>
+                            </template>
+                            <template v-slot:footer>
+                              <button
+                                type="button"
+                                class="btn btn-primary"
+                                @click.prevent="savePhoneNumber"
+                              >
+                                Save changes
                               </button>
-                            </div>
-                          </template>
-                        </modal>
-                      </div>
-                      <div
-                        class="btn bg-yellow-950 text-white py-1 px-2 rounded-md cursor-pointer"
-                      >
-                        <div
-                          @click.prevent="isEditPhone = true"
-                          data-toggle="modal"
-                        >
-                          Change
+                            </template>
+                          </modal>
                         </div>
-                        <modal
-                          v-if="isEditPhone"
-                          @close="closeModal"
-                          data-target="#myModal"
-                        >
-                          <template v-slot:title>
-                            <h1 class="flex items-center text-lg font-medium">
-                              Edit Number Phone
-                            </h1>
-                          </template>
-                          <template v-slot:body>
-                            <div class="py-1 px-4 text-sm">
-                              <form @submit.prevent="">
-                                <div>
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label font-medium"
-                                    >New Phone</label
-                                  >
-                                  <input
-                                    v-model="phoneNumber.phoneNumber"
-                                    type="text"
-                                    class="form-control"
-                                    id="exampleInpuName1"
-                                    aria-describedby="nameHelp"
-                                    required
-                                  />
-                                </div>
-                              </form>
-                            </div>
-                          </template>
-                          <template v-slot:footer>
-                            <button
-                              type="button"
-                              class="btn btn-primary"
-                              @click.prevent="savePhoneNumber"
-                            >
-                              Save changes
-                            </button>
-                          </template>
-                        </modal>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div role="tabpanel" class="tab-pane active" id="settings">
-                <h1 class="py-3 font-medium text-lg pl-6 text-yellow-950">
-                  Edit Information
-                </h1>
-                <div class="form p-9">
-                  <form @submit.prevent="updateInfor">
-                    <div class="row mb-6">
-                      <label class="col-lg-4 col-form-label fw-semibold"
-                        >Avatar</label
-                      >
-                      <div class="col-lg-8">
-                        <div class="flex">
-                          <div class="avatar_upload">
-                            <img v-if="url" :src="url" alt="Avatar" />
-                            <img
-                              v-else
-                              src="@/assets/images/avatar_default.jpg"
-                              alt="Avatar"
-                            />
-                          </div>
-                          <div class="avatar_edit">
-                            <div class="hidden">
-                              <input
-                                type="file"
-                                name="avatar"
-                                id="imageUpload"
-                                accept=".png, .jpg, .jpeg"
-                                :maxFileSize="1000000"
-                                ref="file"
-                                @change="onFileChange"
+              <div role="tabpanel" class="tab-pane" id="settings">
+                <div class="form bg-white">
+                  <h1
+                    class="py-3 font-semibold text-base pl-10 text-yellow-950"
+                  >
+                    Edit Information
+                  </h1>
+                  <div
+                    class="border-dotted border-1 border-indigo-gray opacity-20"
+                  ></div>
+                  <div class="mx-10 my-10">
+                    <form @submit.prevent="updateInfor">
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >Avatar</label
+                        >
+                        <div class="col-lg-8">
+                          <div class="flex">
+                            <div class="avatar_upload">
+                              <img v-if="url" :src="url" alt="Avatar" />
+                              <img
+                                v-else
+                                src="@/assets/images/avatar_default.jpg"
+                                alt="Avatar"
                               />
                             </div>
-                            <label
-                              class="bi bi-pencil text-xs"
-                              for="imageUpload"
-                            ></label>
+                            <div class="avatar_edit">
+                              <div class="hidden">
+                                <input
+                                  type="file"
+                                  name="avatar"
+                                  id="imageUpload"
+                                  accept=".png, .jpg, .jpeg"
+                                  :maxFileSize="1000000"
+                                  ref="file"
+                                  @change="onFileChange"
+                                />
+                              </div>
+                              <label
+                                class="bi bi-pencil text-xs"
+                                for="imageUpload"
+                              ></label>
+                            </div>
                           </div>
-                        </div>
-                        <!-- <div class="avatar_upload">
+                          <!-- <div class="avatar_upload">
                           <img v-if="url" :src="url" alt="Avatar" />
                         </div> -->
-                        <!-- <img :src="getPostAvatar(info)" /> -->
+                          <!-- <img :src="getPostAvatar(info)" /> -->
+                        </div>
                       </div>
-                    </div>
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >First Name</label
+                        >
+                        <div class="col-lg-8">
+                          <input
+                            v-model="info.firtName"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                          />
+                        </div>
+                      </div>
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >Last Name</label
+                        >
+                        <div class="col-lg-8">
+                          <input
+                            v-model="info.lastName"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                          />
+                        </div>
+                      </div>
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >Gender</label
+                        >
+                        <div class="col-lg-8">
+                          <input
+                            v-model="info.gender"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                          />
+                        </div>
+                      </div>
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >DoB</label
+                        >
+                        <div class="col-lg-8">
+                          <input
+                            v-model="DoB"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                          />
+                        </div>
+                      </div>
+                      <div class="my-1 pb-16">
+                        <button type="submit" class="btn my-2 float-right">
+                          Update
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="form bg-white card mb-5 mb-xl-10 mt-10">
+                  <p class="py-3 font-semibold text-base pl-10 text-yellow-950">
+                    Change Password
+                  </p>
+                  <div
+                    class="border-dotted border-1 border-indigo-gray opacity-20"
+                  ></div>
+                  <div class="mx-10 my-6">
                     <div class="row mb-6">
-                      <label class="col-lg-4 col-form-label fw-semibold"
-                        >First Name</label
+                      <label class="col-lg-4 col-form-label fw-medium"
+                        >New Password</label
                       >
                       <div class="col-lg-8">
                         <input
-                          v-model="info.firtName"
+                          v-model="password"
                           type="text"
                           class="form-control border-none bg-neutral-100"
                           id="firstname"
@@ -401,12 +476,12 @@
                       </div>
                     </div>
                     <div class="row mb-6">
-                      <label class="col-lg-4 col-form-label fw-semibold"
-                        >Last Name</label
+                      <label class="col-lg-4 col-form-label fw-medium"
+                        >Comfirm Password</label
                       >
                       <div class="col-lg-8">
                         <input
-                          v-model="info.lastName"
+                          v-model="comfirmPassword"
                           type="text"
                           class="form-control border-none bg-neutral-100"
                           id="firstname"
@@ -414,177 +489,134 @@
                         />
                       </div>
                     </div>
-                    <div class="row mb-6">
-                      <label class="col-lg-4 col-form-label fw-semibold"
-                        >Gender</label
+                    <div class="my-1 pb-4">
+                      <button
+                        @click="UpdatePasssword"
+                        type="submit"
+                        class="btn my-2 float-right"
                       >
-                      <div class="col-lg-8">
-                        <input
-                          v-model="info.gender"
-                          type="text"
-                          class="form-control border-none bg-neutral-100"
-                          id="firstname"
-                          aria-describedby="firstnameHelp"
-                        />
-                      </div>
-                    </div>
-                    <div class="row mb-6">
-                      <label class="col-lg-4 col-form-label fw-semibold"
-                        >DoB</label
-                      >
-                      <div class="col-lg-8">
-                        <input
-                          v-model="DoB"
-                          type="text"
-                          class="form-control border-none bg-neutral-100"
-                          id="firstname"
-                          aria-describedby="firstnameHelp"
-                        />
-                      </div>
-                    </div>
-                    <div class="my-1">
-                      <button type="submit" class="btn my-8 float-right">
                         Update
                       </button>
                     </div>
-                  </form>
+                  </div>
                 </div>
               </div>
-              <div role="tabpanel" class="tab-pane" id="address">
-                <h1 class="py-3 font-medium text-lg pl-6 text-yellow-950">
-                  Billing Address
-                </h1>
-                <form>
-                  <div class="row mb-6">
-                    <label class="col-lg-4 col-form-label fw-semibold"
-                      >Stress</label
-                    >
-                    <div class="col-lg-8">
-                      <input
-                        v-model="Stress"
-                        type="text"
-                        class="form-control border-none bg-neutral-100"
-                        id="firstname"
-                        aria-describedby="firstnameHelp"
-                      />
-                    </div>
-                  </div>
-                  <div class="row mb-6">
-                    <label class="col-lg-4 col-form-label fw-semibold"
-                      >Last Name</label
-                    >
-                    <div class="col-lg-8">
-                      <input
-                        v-model="info.lastName"
-                        type="text"
-                        class="form-control border-none bg-neutral-100"
-                        id="firstname"
-                        aria-describedby="firstnameHelp"
-                      />
-                    </div>
-                  </div>
-                  <div class="row mb-6">
-                    <label class="col-lg-4 col-form-label fw-semibold"
-                      >Gender</label
-                    >
-                    <div class="col-lg-8">
-                      <input
-                        v-model="info.gender"
-                        type="text"
-                        class="form-control border-none bg-neutral-100"
-                        id="firstname"
-                        aria-describedby="firstnameHelp"
-                      />
-                    </div>
-                  </div>
-                  <div class="row mb-6">
-                    <label class="col-lg-4 col-form-label fw-semibold"
-                      >DoB</label
-                    >
-                    <div class="col-lg-8">
-                      <input
-                        v-model="DoB"
-                        type="text"
-                        class="form-control border-none bg-neutral-100"
-                        id="firstname"
-                        aria-describedby="firstnameHelp"
-                      />
-                    </div>
-                  </div>
-                </form>
-                <!-- <div class="address bg-white px-4 py-4 rounded-md text-sm">
-                  <form
-                    id="address"
-                    class="form-horizontal"
-                    method="post"
-                    action="#"
-                    role="form"
+              <div role="tabpanel" class="tab-pane active" id="address">
+                <div class="form bg-white">
+                  <h1
+                    class="py-3 font-semibold text-base pl-10 text-yellow-950"
                   >
-                    <div class="address">
-                      <div class="grid grid-cols-2 py-3">
-                        <span class="font-medium">Address </span>
-                        <span>{{ address }}</span>
+                    Billing Address
+                  </h1>
+                  <div
+                    class="border-dotted border-1 border-indigo-gray opacity-20"
+                  ></div>
+                  <div class="px-4 py-5">
+                    <h2 class="py-3 px-3 font-medium text-yellow-950">
+                      Address 1
+                    </h2>
+                    <div class="flex gap-x-10">
+                      <span></span>
+                      <div class="flex gap-x-5">
+                        <!-- <button
+                          class="px-2 py-1 text-white ring-offset-2 ring-2 bg-yellow-700 ring-yellow-200"
+                        >
+                          Edit
+                        </button> -->
+                        <button
+                          class="px-2 py-1 text-white ring-offset-2 ring-2 bg-slate-600"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          class="px-2 py-1 text-white ring-offset-2 ring-2 bg-red-600 ring-red-200"
+                        >
+                          Delete
+                        </button>
                       </div>
-                      <div class="form-group">
-                        <label class="font-medium">Stress</label>
-                        <div class="">
+                    </div>
+                  </div>
+                </div>
+                <div class="form bg-white mt-10">
+                  <h1
+                    class="py-3 font-semibold text-base pl-10 text-yellow-950"
+                  >
+                    Add Address
+                  </h1>
+                  <div
+                    class="border-dotted border-1 border-indigo-gray opacity-20"
+                  ></div>
+                  <div class="mx-10 my-10">
+                    <form @submit.prevent="updateInfor">
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >Stress</label
+                        >
+                        <div class="col-lg-8">
                           <input
+                            v-model="stress"
                             type="text"
-                            class="form-control"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
                             placeholder="Me Tri"
                           />
                         </div>
-                        <div class="grid grid-cols-2 gap-x-2">
-                          <div class="form-group">
-                            <label class="font-medium">Commune</label>
-                            <div class="">
-                              <input
-                                type="text"
-                                class="form-control"
-                                placeholder="Nam Tu Liem"
-                              />
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <label class="font-medium">District</label>
-                            <div class="">
-                              <input
-                                type="text"
-                                class="form-control"
-                                placeholder="Me Tri"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="font-medium">Province</label>
-                          <div class="">
-                            <input
-                              type="text"
-                              class="form-control"
-                              placeholder="Ha Noi"
-                            />
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="font-medium">Address Owner</label>
-                          <div class="">
-                            <input
-                              type="text"
-                              class="form-control"
-                              placeholder="Minh"
-                            />
-                          </div>
-                        </div>
                       </div>
-                      <div class="text-center my-4">
-                        <router-link to="/otp" class="btn_add my-8"
-                          >Add</router-link
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >Ward</label
                         >
+                        <div class="col-lg-8">
+                          <input
+                            v-model="ward"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                            placeholder="Nam Tu Liem"
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </form>
-                </div> -->
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >District</label
+                        >
+                        <div class="col-lg-8">
+                          <input
+                            v-model="info.lastName"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                            placeholder="Me Tri"
+                          />
+                        </div>
+                      </div>
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >Province</label
+                        >
+                        <div class="col-lg-8">
+                          <input
+                            v-model="info.gender"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                            placeholder="Ha Noi"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="my-1 pb-16">
+                        <button type="submit" class="btn my-2 float-right">
+                          Update
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
               </div>
               <div role="tabpanel" class="tab-pane order" id="order">
                 <div class="">
@@ -4159,9 +4191,6 @@ export default {
       file: "",
       DoB: "",
       statusOrder: "",
-      // avatarUrl:
-      //   "C:\\home\\site\\wwwroot\\Assets\\Images\\User\\ban thiet ke.jpg",
-      // urlA: "",
       avatar: "",
     };
   },
@@ -4171,7 +4200,6 @@ export default {
     this.getInforPhone();
     this.getAddress();
     this.getWishList();
-    // this.getAvatar();
   },
   methods: {
     async getOrder() {
@@ -4196,10 +4224,9 @@ export default {
         this.info = response.data;
         const dob = new Date(this.info.doB);
         this.DoB = dob.toISOString().split("T")[0];
-        // const blob = new Blob(this.info.avatar);
-        // this.avatar = URL.createObjectURL(blob);
-        // this.avatar = URL.createObjectURL(this.file);
-        // this.avatar = this.info.avatar;
+        const a = this.info.avatar;
+        const url = a.replace(/\\/g, "/");
+        this.avatar = url;
       } catch (error) {
         console.error(error);
       }
@@ -4260,7 +4287,6 @@ export default {
       try {
         const response = await axios.get("customer/wishlist");
         this.wishlist = response.data;
-        console.log(response.data);
       } catch (error) {
         console.error(error);
       }
@@ -4282,18 +4308,14 @@ export default {
       formData.append("Gender", this.info.gender);
       formData.append("DoB", this.DoB);
       try {
-        const response = await axios.put(
-          "customer/customer-infor/update",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        if (response.status === 200) {
-          this.avatar = URL.createObjectURL(this.file);
-        }
+        await axios.put("customer/customer-infor/update", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        // if (response.status === 200) {
+        //   this.avatar = URL.createObjectURL(this.file);
+        // }
         console.log(this.avatar);
       } catch (error) {
         console.error(error);
@@ -4302,22 +4324,42 @@ export default {
     // convertToUrl(path) {
     //   return path.replace(/\\/g, "/");
     // },
+    async UpdatePasssword() {
+      console.log(this.email);
+      try {
+        const response = await axios.post(
+          "customer/forgot-password?email=" + this.email
+        );
+        if (response.status === 200) {
+          localStorage.setItem("token", response.data.token);
+          alert("Please confirm the link in your email!");
+          this.$router.push({ name: "newPassword" });
+        }
+      } catch (error) {
+        console.error("Error sending link your email:", error);
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
-body {
+/* body {
   background: #f9f9fb;
+} */
+.profile_customer {
+  background: #eaedf330;
 }
 .view-account {
   margin-top: 17px;
-  background-color: #ffffff; /* margin-top: 20px; */
   margin-bottom: 2em;
-  border: 1px solid rgb(240 239 239);
+  /* border: 1px solid rgb(240 239 239); */
 }
-h1 {
+/* h1 {
   border-bottom: 1px solid rgb(236 234 234);
+} */
+.side-bar {
+  box-shadow: 1px 1px 3px #ccc7c7;
 }
 .tab-content.col-span-5 .tab-pane.order,
 .tab-content.col-span-5 .tab-pane.wishlist {
@@ -4355,9 +4397,9 @@ h1 {
   font-weight: 500;
   color: rgb(66 32 6);
 }
-.profile_customer {
+/* .profile_customer {
   background-color: rgb(250 250 250);
-}
+} */
 .side-bar.col-span-1 {
   background: #ffffff;
 }
@@ -4968,13 +5010,13 @@ h1 {
     display: block;
     float: none;
     font-size: 14px;
-    border-bottom: 1px solid #f3f3f7;
+    /* border-bottom: 1px solid #f3f3f7; */
     margin-right: 0;
     margin-bottom: 0;
   }
   .view-account .side-bar .side-menu .nav > li > a {
     display: block;
-    color: #9499a3;
+    color: #6b6f77;
     padding: 10px 15px;
     padding-left: 30px;
   }
@@ -5010,7 +5052,7 @@ h1 {
 .row.mb-6 input {
   color: rgb(66 32 6);
 }
-.my-1 .btn.my-8 {
+.my-1 .btn {
   background-color: #4f4c3d;
   color: white;
   font-size: 95%;
@@ -5162,6 +5204,10 @@ hr .my-4 {
 .address .form-control {
   font-size: 97%;
 }
+.form-control {
+  background-color: #e8eef387;
+  border: none;
+}
 
 .inp_otp {
   margin-left: 147px;
@@ -5214,9 +5260,9 @@ hr .my-4 {
   background-color: #fff;
   color: #000;
 }
-.container {
+/* .container {
   background-color: rgb(250 250 250);
-}
+} */
 .moon .container {
   background-color: transparent;
 }
@@ -5234,7 +5280,8 @@ hr .my-4 {
   background-color: #f2f1f0;
 }
 .side-bar {
-  border-right: 1px solid rgb(236 234 234);
+  /* border: 1px solid rgb(236 234 234); */
+  border-radius: 7px;
 }
 .nav {
   border-top: 1px solid #f5f5f5;
@@ -5293,4 +5340,12 @@ hr .my-4 {
   box-shadow: 0 0.5rem 1.5rem 0.5rem rgba(0, 0, 0, 0.075);
   width: 6em;
 }
+.form {
+  /* background: #eaedf330; */
+  border-radius: 7px;
+  box-shadow: 1px 1px 3px #c0c0c0;
+}
+/* .tab-content.col-span-5.ml-10 {
+  box-shadow: 1px 1px 3px #c0c0c0;
+} */
 </style>

@@ -34,11 +34,33 @@ const routes = [
       ),
   },
   {
+    path: "/categoryFurniture",
+    name: "CategoryFurniture",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/CategoryFurniture.vue"
+      ),
+  },
+  {
     path: "/customerIndex",
     name: "Customer",
     component: () =>
       import(
         /* webpackChunkName: "register" */ "../views/Customer/indexCus.vue"
+      ),
+  },
+  {
+    path: "/testMix",
+    name: "testMix",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/testMix.vue"
       ),
   },
   {
@@ -399,6 +421,17 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "register" */ "../views/Assistant/materialManagement.vue"
+      ),
+  },
+  {
+    path: "/importMaterial",
+    name: "ImportMaterial",
+    meta: {
+      layout: "assistantLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Assistant/importMaterial.vue"
       ),
   },
   {

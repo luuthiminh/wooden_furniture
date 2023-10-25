@@ -1,16 +1,20 @@
 <template>
   <div class="home">
-    <div class="h1">
-      <h1><span>Welcome</span> <span>Assistant!!</span></h1>
+    <div class="text-5xl font-semibold">
+      <span
+        class="bg-clip-text text-transparent absolute top-2/4 left-1/4 bg-gradient-to-r from-yellow-600 to-red-600 hover:box-decoration-slice"
+      >
+        Hello Assistant Administrator
+      </span>
     </div>
-    <div class="h3">
-      <h3>Wish you have a happy working day...</h3>
+    <div class="h3 pt-2">
+      <h3>Wish you have a happy working day 😄</h3>
     </div>
   </div>
 </template>
 <script></script>
 <style scoped>
-.home {
+/* .home {
   position: relative;
   color: rgb(220, 210, 210);
   margin-top: 2rem;
@@ -25,7 +29,7 @@
   background-size: cover;
   opacity: 0.7;
   height: 38.2rem;
-}
+} */
 
 /* Base */
 /* .h1 {
@@ -100,7 +104,7 @@ h3 {
     width: 0;
   }
   to {
-    width: 710px;
+    width: 70%;
   }
 }
 @keyframes blinkTextCursor {

@@ -68,14 +68,19 @@
                         params: { id: furniture.furnitureId },
                       }"
                     >
-                      <button
+                      <!-- <button
                         class="btn text-sm font-medium border-1 border-slate-800 rounded-xl px-5 py-1 hover:bg-slate-700 hover:text-white max-sm:px-4"
+                      >
+                        Buy now
+                      </button> -->
+                      <button
+                        class="px-5 py-1 text-white ring-offset-2 ring-2 bg-slate-600 hover:ring-slate-400 ml-2 my-2 rounded-md"
                       >
                         Buy now
                       </button>
                     </router-link>
                   </div>
-                  <div class="grid grid-cols-2 gap-x-4 text-xs">
+                  <div class="grid grid-cols-2 gap-x-4 text-xs my-3">
                     <div @click.prevent="toggleWishlist(furniture)">
                       <i class="fa-regular fa-heart cursor-pointer"></i>
                       Add wish list

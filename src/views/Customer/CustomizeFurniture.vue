@@ -2,7 +2,7 @@
   <div>
     <div class="nav pt-36 pb-3 mb-2">
       <nav aria-label="breadcrumb">
-        <ol class="flex bg-none text-xs ml-32 max-sm:ml-3">
+        <ol class="flex bg-none text-sm ml-32 max-sm:ml-3">
           <li class="breadcrumb-item">
             <router-link to="customerIndex">Home </router-link>
           </li>
@@ -14,32 +14,40 @@
     </div>
     <div class="mx-32">
       <h1 class="font-bold text-lg">Customize Furniture</h1>
-      <span
-        >Luan Len Furniture specializes in designing and processing wooden
-        furniture products according to the requirements of all customers. With
-        more than 12 years of experience in the field of manufacturing wooden
-        furniture products. We are proud to be one of the stores with many years
-        of experience in the wood product manufacturing industry. We always meet
-        all customer requirements and always satisfy the most demanding
-        customers nationwide.</span
+      <span>
+        <router-link
+          to="/StoreIntroduction"
+          class="text-blue-600 after:content-['_↗'] ..."
+          target="_blank"
+          >Luan Len Furniture</router-link
+        >
+        specializes in designing and processing wooden furniture products
+        according to the requirements of all customers. With more than 12 years
+        of experience in the field of manufacturing wooden furniture products.
+        We are proud to be one of the stores with many years of experience in
+        the wood product manufacturing industry. We always meet all customer
+        requirements and always satisfy the most demanding customers
+        nationwide.</span
       >
       <h1 class="font-bold text-center text-lg text-red-500 py-3">
         Reasons you should choose our store for your home?
       </h1>
-      <span
-        >- We are a direct factory so products always have better prices than
-        the market</span
-      >
-      <span
-        >- We have 12 years of experience in the profession and always receive
-        satisfaction from customers</span
-      >
-      <span
-        >- Products always meet the most stringent requirements. Guaranteed the
-        output will be 99.99% similar to the design you provide.</span
-      >
-      <span>- Our staff is always ready to serve you 24/7</span>
-      <span>- Hotline: 0398677620. Contact now for free consultation</span>
+      <ul class="list-decimal leading-10 ml-3">
+        <li>
+          We are a direct factory so products always have better prices than the
+          market
+        </li>
+        <li>
+          We have 12 years of experience in the profession and always receive
+          satisfaction from customers
+        </li>
+        <li>
+          Products always meet the most stringent requirements. Guaranteed the
+          output will be 99.99% similar to the design you provide.
+        </li>
+        <li>Our staff is always ready to serve you 24/7</li>
+        <li>Hotline: 0398677620. Contact now for free consultation</li>
+      </ul>
       <div class="pt-5">
         <h1 class="text-center font-semibold text-lg">
           REGISTRATION FORM DESIGNED ACCORDING TO REQUEST
@@ -220,6 +228,9 @@ span {
   font-weight: 500;
   font-size: 15px;
   line-height: 28px;
+}
+li {
+  font-weight: 500;
 }
 form {
   border: 1px solid #e5e4e4;

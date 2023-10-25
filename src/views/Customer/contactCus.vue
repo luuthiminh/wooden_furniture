@@ -61,4 +61,9 @@ p {
 p {
   margin-left: 15px;
 }
+.moon span,
+.moon h1,
+.moon p {
+  color: #f1ebe4;
+}
 </style>

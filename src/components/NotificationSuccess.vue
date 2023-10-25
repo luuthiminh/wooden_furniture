@@ -1,12 +1,5 @@
 <template>
-  <div
-    class="modal fade"
-    id="exampleModalLong"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="exampleModalLongTitle"
-    aria-hidden="true"
-  >
+  <div>
     <div class="card">
       <button type="button" class="dismiss">×</button>
       <div class="header">
@@ -34,7 +27,7 @@
           </svg>
         </div>
         <div class="content">
-          <span class="title"> <slot name="title">Hi</slot></span>
+          <span class="title"> <slot name="title"></slot></span>
           <p class="message">
             <slot name="body"></slot>
           </p>

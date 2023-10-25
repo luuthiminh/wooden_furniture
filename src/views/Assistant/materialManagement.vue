@@ -1,198 +1,474 @@
 <template>
-  <div class="px-3">
-    <div>
+  <div class="">
+    <div class="nav">
       <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-transparent text-sm pt-4">
-          <li class="breadcrumb-item text-gray-500">
-            <a href="#">Material</a>
+        <ol class="breadcrumb bg-transparent text-sm pt-4 px-5 font-medium">
+          <li class="breadcrumb-item text-base">
+            <router-link to="/indexAssistant">Home</router-link>
           </li>
-          <li class="breadcrumb-item"><a href="#">All Material</a></li>
+          <li class="breadcrumb-item text-base active" aria-current="page">
+            Managemnet Material
+          </li>
         </ol>
       </nav>
     </div>
-    <div class="bg-white px-3 py-3 rounded-lg my-7">
-      <table
-        class="table table-hover border border-gray-900 text-center text-slate-600"
-      >
-        <thead>
-          <tr class="text-sm text-center">
-            <th scope="col">Id</th>
-            <th scope="col">Name</th>
-            <th scope="col">Price</th>
-            <th scope="col">Description</th>
-            <th scope="col">SuperlierId</th>
-            <th scope="col">RepositoryId</th>
-            <th scope="col">Image</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody v-if="materials.length">
-          <tr class="text-sm" v-for="ma in materials" :key="ma.materialId">
-            <th scope="row">{{ ma.materialId }}</th>
-            <th>{{ ma.materialName }}</th>
-            <td>{{ ma.materialPrice }}</td>
-            <td>{{ ma.description }}</td>
-            <td>{{ ma.defaultSuplierId }}</td>
-            <td>{{ ma.available[0].repositoryId }}</td>
-            <td>{{ ma.materialImage }}</td>
-            <td class="flex gap-x-4">
-              <!-- Modal Edit -->
-              <i
-                type="button"
-                class="fa-solid fa-pen-to-square cursor-pointer pt-1"
-                data-toggle="modal"
-                data-target="#exampleModalLong"
-                @click.prevent="isEditModal = true"
-              >
-              </i>
-
+    <div class="content_table pt-14 px-10 scroll">
+      <div class="flex mb-4">
+        <div class="flex items-center gap-x-4 text-sm">
+          <p class="font-semibold">Total Woods:</p>
+          {{ materials.length }}
+        </div>
+        <div class="absolute right-10">
+          <button
+            class="transition ease-in-out delay-150 px-2 py-1 text-white ring-offset-2 ring-2 bg-lime-700 ring-lime-300 hover:ring-lime-600 text-sm rounded-md"
+            data-toggle="modal"
+            data-target="#exampleModalLong"
+            data-dismiss="modal"
+            data-backdrop="false"
+            @click="opentModal('add', 'null')"
+          >
+            <i class="bi bi-plus-circle pr-1"></i>
+            New Material
+          </button>
+        </div>
+      </div>
+      <div class="py-4">
+        <table
+          class="table table-borderless text-yellow-950 font-medium bg-white round-md"
+        >
+          <thead class="table-light">
+            <tr class="text-sm">
+              <th scope="col">Material</th>
+              <th></th>
+              <th scope="col">Price</th>
+              <th scope="col">Description</th>
+              <th scope="col">SuperlierId</th>
+              <th scope="col">RepositoryId</th>
+              <th scope="col">Edit</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody v-if="materials.length">
+            <tr class="text-sm" v-for="ma in materials" :key="ma.materialId">
+              <td class="img">
+                <img
+                  src="@/assets/images/category/shelves_tv/shelves_10.png"
+                  alt="furniture"
+                  class="w-20"
+                />
+              </td>
+              <!-- <td>{{ ma.materialImage }}</td> -->
+              <td class="text-start">
+                <span class="font-semibold block">{{ ma.materialName }}</span>
+                <span class="text-xs">{{ ma.materialId }}</span>
+              </td>
+              <td>${{ ma.materialPrice }}</td>
+              <td>{{ ma.description }}</td>
+              <td>{{ ma.defaultSuplierId }}</td>
+              <td>{{ ma.available[0].repositoryId }}</td>
+              <td>
+                <button
+                  class="button_edit"
+                  type="button"
+                  data-toggle="modal"
+                  data-target="#exampleModalLong"
+                  data-dismiss="modal"
+                  data-backdrop="false"
+                  @click="opentModal('edit', ma)"
+                >
+                  <span class="button__text text-xs">Edit</span>
+                  <span class="button__icon bi bi-pencil text-white"></span>
+                </button>
+              </td>
+              <td>
+                <button
+                  class="button_delete"
+                  type="button"
+                  data-toggle="modal"
+                  data-target="#exampleModalLong"
+                  data-dismiss="modal"
+                  data-backdrop="false"
+                  @click="opentModal('delete', ma)"
+                >
+                  <span class="button__text text-xs">Delete</span>
+                  <span class="button__icon"
+                    ><svg
+                      class="svg"
+                      height="512"
+                      viewBox="0 0 512 512"
+                      width="512"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <title></title>
+                      <path
+                        d="M112,112l20,320c.95,18.49,14.4,32,32,32H348c17.67,0,30.87-13.51,32-32l20-320"
+                        style="
+                          fill: none;
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-linejoin: round;
+                          stroke-width: 32px;
+                        "
+                      ></path>
+                      <line
+                        style="
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-miterlimit: 10;
+                          stroke-width: 32px;
+                        "
+                        x1="80"
+                        x2="432"
+                        y1="112"
+                        y2="112"
+                      ></line>
+                      <path
+                        d="M192,112V72h0a23.93,23.93,0,0,1,24-24h80a23.93,23.93,0,0,1,24,24h0v40"
+                        style="
+                          fill: none;
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-linejoin: round;
+                          stroke-width: 32px;
+                        "
+                      ></path>
+                      <line
+                        style="
+                          fill: none;
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-linejoin: round;
+                          stroke-width: 32px;
+                        "
+                        x1="256"
+                        x2="256"
+                        y1="176"
+                        y2="400"
+                      ></line>
+                      <line
+                        style="
+                          fill: none;
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-linejoin: round;
+                          stroke-width: 32px;
+                        "
+                        x1="184"
+                        x2="192"
+                        y1="176"
+                        y2="400"
+                      ></line>
+                      <line
+                        style="
+                          fill: none;
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-linejoin: round;
+                          stroke-width: 32px;
+                        "
+                        x1="328"
+                        x2="320"
+                        y1="176"
+                        y2="400"
+                      ></line></svg
+                  ></span>
+                </button>
+              </td>
               <modal
-                v-if="isEditModal"
-                @close="isEditModal = false"
+                v-if="modalType == 'add'"
+                @close="modalType == null"
+                data-target="#myModal"
+              >
+                <template v-slot:title>
+                  <div
+                    class="flex items-center text-base font-semibold text-yellow-950"
+                  >
+                    Add New Material
+                  </div>
+                </template>
+                <template v-slot:body>
+                  <div class="text-sm">
+                    <div class="mx-10 my-10">
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >Image</label
+                        >
+                        <div class="col-lg-8">
+                          <div class="flex">
+                            <div class="avatar_upload">
+                              <img v-if="url" :src="url" alt="Avatar" />
+                              <img
+                                v-else
+                                src="@/assets/images/assistant/image_default.jpeg"
+                                alt="Avatar"
+                              />
+                            </div>
+                            <div class="avatar_edit">
+                              <div class="hidden">
+                                <input
+                                  type="file"
+                                  name="avatar"
+                                  id="imageUpload"
+                                  accept=".png, .jpg, .jpeg"
+                                  :maxFileSize="1000000"
+                                  ref="file"
+                                  @change="onFileChange"
+                                />
+                              </div>
+                              <label
+                                class="bi bi-pencil text-xs"
+                                for="imageUpload"
+                              ></label>
+                            </div>
+                          </div>
+                          <!-- <div class="avatar_upload">
+                          <img v-if="url" :src="url" alt="Avatar" />
+                        </div> -->
+                          <!-- <img :src="getPostAvatar(info)" /> -->
+                        </div>
+                      </div>
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >Name</label
+                        >
+                        <div class="col-lg-8">
+                          <input
+                            v-model="materialName"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                          />
+                        </div>
+                      </div>
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >Price</label
+                        >
+                        <div class="col-lg-8">
+                          <input
+                            v-model="materialPrice"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                          />
+                        </div>
+                      </div>
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >Description</label
+                        >
+                        <div class="col-lg-8">
+                          <input
+                            v-model="materialDescription"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                          />
+                        </div>
+                      </div>
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >DefaultSuplier</label
+                        >
+                        <div class="col-lg-8">
+                          <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            v-model="materialSuplier"
+                          >
+                            <option selected>Open this select menu</option>
+                            <option value="1">Hung</option>
+                            <option value="2">Loan</option>
+                            <option value="3">Van</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+                <template v-slot:footer>
+                  <div class="bg-yellow-900 rounded-md">
+                    <span
+                      type="button"
+                      class="btn text-white"
+                      @click.prevent="AddMaterial"
+                    >
+                      Add
+                    </span>
+                  </div>
+                </template>
+              </modal>
+              <modal
+                v-if="modalType == 'edit'"
+                @close="modalType == null"
+                data-target="#myModal"
+              >
+                <template v-slot:title>
+                  <div
+                    class="flex items-center text-base font-semibold text-yellow-950"
+                  >
+                    Edit Material
+                  </div>
+                </template>
+                <template v-slot:body>
+                  <div class="text-sm">
+                    <div class="mx-10 my-10">
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >Image</label
+                        >
+                        <div class="col-lg-8">
+                          <div class="flex">
+                            <div class="avatar_upload">
+                              <img v-if="url" :src="url" alt="Avatar" />
+                              <img
+                                v-else
+                                src="@/assets/images/assistant/image_default.jpeg"
+                                alt="Avatar"
+                              />
+                            </div>
+                            <div class="avatar_edit">
+                              <div class="hidden">
+                                <input
+                                  type="file"
+                                  name="avatar"
+                                  id="imageUpload"
+                                  accept=".png, .jpg, .jpeg"
+                                  :maxFileSize="1000000"
+                                  ref="file"
+                                  @change="onFileChange"
+                                />
+                              </div>
+                              <label
+                                class="bi bi-pencil text-xs"
+                                for="imageUpload"
+                              ></label>
+                            </div>
+                          </div>
+                          <!-- <div class="avatar_upload">
+                          <img v-if="url" :src="url" alt="Avatar" />
+                        </div> -->
+                          <!-- <img :src="getPostAvatar(info)" /> -->
+                        </div>
+                      </div>
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >Name</label
+                        >
+                        <div class="col-lg-8">
+                          <input
+                            v-model="materialNameModal"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                          />
+                        </div>
+                      </div>
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >Price</label
+                        >
+                        <div class="col-lg-8">
+                          <input
+                            v-model="materialPriceModal"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                          />
+                        </div>
+                      </div>
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >Description</label
+                        >
+                        <div class="col-lg-8">
+                          <input
+                            v-model="materialDescriptionModal"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                          />
+                        </div>
+                      </div>
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >DefaultSuplier</label
+                        >
+                        <div class="col-lg-8">
+                          <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            v-model="materialSuplierModal"
+                          >
+                            <option selected>Open this select menu</option>
+                            <option value="1">Hung</option>
+                            <option value="2">Loan</option>
+                            <option value="3">Van</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+                <template v-slot:footer>
+                  <div class="bg-yellow-900 rounded-md">
+                    <span
+                      type="button"
+                      class="btn text-white"
+                      @click.prevent="updateMaterial"
+                    >
+                      Update
+                    </span>
+                  </div>
+                </template>
+              </modal>
+              <modal
+                v-if="modalType == 'delete'"
+                @close="modalType == null"
                 data-target="#myModal"
               >
                 <template v-slot:title>
                   <div class="flex items-center text-lg font-medium">
-                    Edit Furniture
+                    Delete
                   </div>
                 </template>
                 <template v-slot:body>
-                  <div class="py-1 px-4 text-sm">
-                    <form @submit.prevent="">
-                      <!-- <div class="grid grid-cols-2 gap-x-4"> -->
-                      <!-- <div>
-                        <label
-                          for="exampleInputEmail1"
-                          class="form-label font-medium"
-                          >Name Furniture</label
-                        >
-                        <input
-                          v-model="furniture.furnitureName"
-                          type="text"
-                          class="form-control"
-                          id="exampleInpuName1"
-                          aria-describedby="nameHelp"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label
-                          for="exampleInputEmail1"
-                          class="form-label font-medium"
-                          >Price</label
-                        >
-                        <input
-                          v-model="furniture.price"
-                          type="text"
-                          class="form-control"
-                          id="exampleInputEmail1"
-                          aria-describedby="emailHelp"
-                          required
-                        />
-                      </div> -->
-                      <!-- </div> -->
-                      <!-- <div>
-                        <label for="exampleInputEmail1" class="form-label"
-                          >Category</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="exampleInputEmail1"
-                          aria-describedby="emailHelp"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label for="exampleInputEmail1" class="form-label"
-                          >Quantity</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="exampleInputEmail1"
-                          aria-describedby="emailHelp"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label for="exampleInputEmail1" class="form-label"
-                          >Material</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="exampleInputEmail1"
-                          aria-describedby="emailHelp"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label for="exampleInputEmail1" class="form-label"
-                          >Description</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="exampleInputEmail1"
-                          aria-describedby="emailHelp"
-                          required
-                        />
-                      </div>
-                      <div class="flex gap-x-3 mt-3">
-                        <label for="exampleInputEmail1" class="form-label mt-10"
-                          >Image</label
-                        >
-                        <div class="img flex">
-                          <img
-                            class="image_default pr-10"
-                            src="@/assets/images/image_default.jpg"
-                            alt="furniture"
-                          />
-                          <input
-                            type="file"
-                            id="myFile"
-                            class="mt-10"
-                            name="filename"
-                          /> -->
-                      <!-- <input type="submit" /> -->
-                      <!-- </div>
-                      </div> -->
-                      <button type="submit" class="btn my-8">Add</button>
-                    </form>
-                  </div>
+                  <p>Are you sure detete {{ nameWoodModal }} category</p>
                 </template>
                 <template v-slot:footer>
                   <button
                     type="button"
-                    class="btn btn-primary"
-                    @click.prevent="saveChanges"
+                    class="btn btn-primary my-8"
+                    data-bs-target="#exampleModalToggle2"
+                    data-bs-toggle="modal"
+                    data-bs-dismiss="modal"
+                    @click.prevent="HandleDelete"
                   >
-                    Save changes
+                    Yes
                   </button>
+                  <!-- <button
+                      type="button"
+                      class="btn btn-primary my-8"
+                      data-bs-target="#exampleModalToggle2"
+                      data-bs-toggle="modal"
+                      data-bs-dismiss="modal"
+                      @click="opentModal('notification', w)"
+                      @click.prevent="HandleDelete"
+                    >
+                      Yes
+                    </button> -->
                 </template>
               </modal>
-              <!-- delete -->
-              <button class="btn_delete">
-                <svg
-                  viewBox="0 0 15 17.5"
-                  height="12.5"
-                  width="15"
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="icon"
-                >
-                  <path
-                    transform="translate(-2.5 -1.25)"
-                    d="M15,18.75H5A1.251,1.251,0,0,1,3.75,17.5V5H2.5V3.75h15V5H16.25V17.5A1.251,1.251,0,0,1,15,18.75ZM5,5V17.5H15V5Zm7.5,10H11.25V7.5H12.5V15ZM8.75,15H7.5V7.5H8.75V15ZM12.5,2.5h-5V1.25h5V2.5Z"
-                    id="Fill"
-                  ></path>
-                </svg>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <p class="px-1 text-sm pb-10">Total furniture: {{ materials.length }}</p>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <!-- </div> -->
@@ -207,9 +483,14 @@ export default {
   data() {
     return {
       materials: [],
-      isEditModal: false,
-      furnitureModel: [],
-      isAddFurniture: false,
+      modalType: null,
+      isAllModal: false,
+      url: "",
+      materialIdModal: null,
+      materialNameModal: null,
+      materialPriceModal: null,
+      materialDescriptionModal: null,
+      materialSuplierModal: null,
     };
   },
   created() {
@@ -218,20 +499,117 @@ export default {
   methods: {
     async getMaterial() {
       try {
-        const response = await axios.get("/Assistant/shop-data/materials");
+        const response = await axios.get("Assistant/shop-data/materials");
         this.materials = response.data;
       } catch (error) {
         console.error(error);
       }
     },
-    closeModal() {
-      this.isShowFurnitureSpecification = false;
-      this.isEditModal = false;
-      this.isAddFurniture = false;
+    async opentModal(type, ma) {
+      this.modalType = type;
+      this.materialIdModal = ma.materialId;
+      this.materialNameModal = ma.materialName;
+      this.materialPriceModal = ma.materialPrice;
+      this.materialDescriptionModal = ma.description;
+      this.materialSuplierModal = ma.defaultSuplierId;
     },
-    saveChanges() {
-      // Xử lý khi nhấn nút "Lưu thay đổi" trong modal
-      this.closeModal(); // Đóng modal sau khi lưu thay đổi (có thể sửa đổi thành xử lý lưu thay đổi thực tế)
+    closeModal() {
+      this.modalType = null;
+    },
+    async HandleAdd() {
+      try {
+        const response = await axios.post(
+          "assistant/shop-data/materials/add/?woodType=" + this.categoryName
+        );
+        if (response.status === 201) {
+          this.modalType = null;
+        }
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    onFileChange(event) {
+      this.file = event.target.files[0];
+      if (this.file) {
+        // this.nameFile = this.file.name;
+        this.url = URL.createObjectURL(this.file);
+        // this.url = imageUrl;
+      }
+      console.log(event);
+    },
+
+    async AddMaterial() {
+      const formData = new FormData();
+      formData.append("MaterialName", this.materialName);
+      formData.append("MaterialPrice", this.materialPrice);
+      formData.append("Description", this.materialDescription);
+      formData.append("DefaultSuplierId", this.materialSuplier);
+      formData.append("materialImage", this.file);
+      try {
+        const response = await axios.post(
+          "assistant/shop-data/materials/add",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        if (response.status === 201) {
+          this.modalType = null;
+        }
+        console.log(this.avatar);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async updateMaterial() {
+      const formData = new FormData();
+      formData.append("MaterialId", this.materialIdModal);
+      formData.append("MaterialName", this.materialNameModal);
+      formData.append("MaterialPrice", this.materialPriceModal);
+      formData.append("Description", this.materialDescriptionModal);
+      formData.append("DefaultSuplierId", this.materialSuplierModal);
+      formData.append("materialImage", this.file);
+      try {
+        const response = await axios.put(
+          "customer/customer-infor/update",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        if (response.status === 200) {
+          this.modalType = null;
+        }
+        // if (response.status === 200) {
+        //   this.avatar = URL.createObjectURL(this.file);
+        // }
+        console.log(this.avatar);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async HandleDelete() {
+      try {
+        const response = await axios.delete(
+          "assistant/shop-data/woods/remove/" + this.materialIdModal
+        );
+        if (response.status === 204) {
+          this.modalType = null;
+          this.isSuccess = true;
+          setTimeout(() => {
+            this.isSuccess = false;
+          }, 3000);
+        } else {
+          this.isSuccess = false;
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };
@@ -390,5 +768,58 @@ export default {
 
 .modal_uploadfile .file-uploaded:hover::before {
   background-color: rgba(233, 40, 6, 0.664);
+}
+
+/* table */
+tr {
+  border-bottom: 1px solid #ededed;
+}
+.table {
+  font-size: 0.9rem !important;
+}
+th {
+  font-weight: 600;
+}
+.avatar {
+  width: 61px;
+  margin-top: -8px;
+}
+td {
+  padding-top: 3em;
+  padding-bottom: 1em;
+}
+.user {
+  margin-top: -10px;
+}
+.td_action {
+  padding-top: 2.2em;
+}
+.pt-6.px-6.scroll {
+  overflow: scroll;
+  height: 35em;
+  overflow-x: hidden;
+}
+.pt-6.px-6.scroll::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+.pt-6.px-6.scroll::-webkit-scrollbar {
+  width: 6px;
+  background-color: #f5f5f5;
+}
+
+.pt-6.px-6.scroll::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #cdc0aa;
+}
+td img {
+  margin-top: -18px;
+}
+.form-control,
+.form-select {
+  border: none;
+  background-color: #dde4e794;
 }
 </style>

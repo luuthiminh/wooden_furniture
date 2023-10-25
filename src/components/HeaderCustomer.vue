@@ -22,73 +22,77 @@
                   class="text-decoration-none"
                 ></router-link>
                 <li class="search">
-                  <!-- <form @keyup.enter="search"> -->
-                  <div class="flex flex-cols-6 gap-x-3">
-                    <div class="col-span-4 font-normal">
-                      <div class="form">
-                        <label for="search">
-                          <input
-                            required=""
-                            autocomplete="off"
-                            placeholder="search your chats"
-                            id="search"
-                            type="text"
-                            v-model="keyword"
-                            @keyup.enter="search"
-                          />
-                          <div class="icon">
-                            <svg
-                              stroke-width="2"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="swap-on"
+                  <form @keyup.enter="search">
+                    <div class="flex flex-cols-6 gap-x-3">
+                      <div class="col-span-4 font-normal">
+                        <div class="form">
+                          <label for="search">
+                            <input
+                              required=""
+                              autocomplete="off"
+                              placeholder="search your chats"
+                              id="search"
+                              type="text"
+                              v-model="keyword"
+                              @keyup.enter="search"
+                            />
+                            <div class="icon">
+                              <svg
+                                stroke-width="2"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="swap-on"
+                              >
+                                <path
+                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                  stroke-linejoin="round"
+                                  stroke-linecap="round"
+                                ></path>
+                              </svg>
+                              <svg
+                                stroke-width="2"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="swap-off"
+                              >
+                                <path
+                                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                                  stroke-linejoin="round"
+                                  stroke-linecap="round"
+                                ></path>
+                              </svg>
+                            </div>
+                            <button
+                              @click="clear"
+                              type="reset"
+                              class="close-btn"
                             >
-                              <path
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                                stroke-linejoin="round"
-                                stroke-linecap="round"
-                              ></path>
-                            </svg>
-                            <svg
-                              stroke-width="2"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="swap-off"
-                            >
-                              <path
-                                d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                                stroke-linejoin="round"
-                                stroke-linecap="round"
-                              ></path>
-                            </svg>
-                          </div>
-                          <button @click="clear" type="reset" class="close-btn">
-                            <svg
-                              viewBox="0 0 20 20"
-                              class="h-5 w-5"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                clip-rule="evenodd"
-                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                fill-rule="evenodd"
-                              ></path>
-                            </svg>
-                          </button>
-                        </label>
+                              <svg
+                                viewBox="0 0 20 20"
+                                class="h-5 w-5"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  clip-rule="evenodd"
+                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                  fill-rule="evenodd"
+                                ></path>
+                              </svg>
+                            </button>
+                          </label>
+                        </div>
                       </div>
-                    </div>
-                    <!-- <div
+                      <!-- <div
                     class="col-span-2 bg-white text-black text-center px-2 py-2 rounded-md w-6/12"
                   >
                     <button type="submit" class="text-xs">Search</button>
                   </div> -->
-                  </div>
-                  <!-- </form> -->
+                    </div>
+                  </form>
                 </li>
               </ul>
               <ul class="ml-5 flex gap-x-5">
@@ -102,16 +106,65 @@
                   <p class="font-semibold pt-1 text-lg">Cart</p>
                 </li>
 
-                <li class="absolute right-10 flex gap-x-10">
-                  <router-link to="/profileCusPage" class="text-decoration-none"
-                    ><i class="bi bi-person cursor-pointer text-2xl"></i
-                  ></router-link>
-                  <p>Account</p>
-                  <div @click.prevent="handleLogout" class="flex gap-x-2">
-                    <i
-                      class="bi bi-box-arrow-right cursor-pointer text-2xl"
-                    ></i>
-                    <p>Logout</p>
+                <li
+                  @click.prevent="handelBell"
+                  class="flex items-center gap-x-1 ml-3"
+                >
+                  <div class="bi bi-bell cursor-pointer text-sm flex">
+                    <sup v-if="notifications.length"
+                      ><span class="relative flex h-2 w-2">
+                        <span
+                          class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"
+                        ></span>
+                        <span
+                          class="relative inline-flex rounded-full h-2 w-2 bg-sky-500"
+                        ></span>
+                      </span>
+                    </sup>
+                  </div>
+                  <small class="text-xs">Notifications</small>
+                </li>
+                <li>
+                  <div
+                    class="mode flex items-center"
+                    @click.prevent="toggleDark"
+                  >
+                    <label class="toggle" for="switch">
+                      <input id="switch" class="input" type="checkbox" />
+                      <div v-if="isDarkMode">
+                        <div class="icon icon--moon pt-2">
+                          <svg
+                            height="13"
+                            width="13"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"
+                              fill-rule="evenodd"
+                            ></path>
+                          </svg>
+                        </div>
+                      </div>
+                      <div v-else>
+                        <div class="icon icon--sun pt-2">
+                          <svg
+                            height="17"
+                            width="17"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"
+                            ></path>
+                          </svg>
+                        </div>
+                      </div>
+                    </label>
+                    <small class="text-xs">Theme style</small>
                   </div>
                 </li>
               </ul>
@@ -126,18 +179,22 @@
           <li>
             <router-link
               to="/customerIndex"
-              class="font-medium text-decoration-none"
+              class="font-medium text-decoration-none hover:underline"
             >
               Home</router-link
             >
           </li>
           <li class="font-medium">
-            <router-link to="/StoreIntroduction" class="text-decoration-none"
+            <router-link
+              to="/StoreIntroduction"
+              class="text-decoration-none hover:underline"
               >Introduce</router-link
             >
           </li>
           <li class="font-medium">
-            <router-link to="/CustomizeFurniture" class="text-decoration-none"
+            <router-link
+              to="/CustomizeFurniture"
+              class="text-decoration-none hover:underline"
               >Customize Furniture</router-link
             >
           </li>
@@ -148,109 +205,98 @@
               </div>
               <div class="dropdown-menu px-3 py-2 mt-1 leading-7">
                 <li>
-                  <router-link to="/allproduct" class="font-medium text-base">
+                  <router-link
+                    to="/categoryFurniture"
+                    class="font-medium text-base"
+                  >
                     Wardrobe</router-link
                   >
                 </li>
                 <li>
-                  <router-link to="/allproduct" class="font-medium text-base">
+                  <router-link
+                    to="/categoryFurniture"
+                    class="font-medium text-base"
+                  >
                     Sofa</router-link
                   >
                 </li>
                 <li>
-                  <router-link to="/allproduct" class="font-medium text-base">
+                  <router-link
+                    to="/categoryFurniture"
+                    class="font-medium text-base"
+                  >
                     Clock</router-link
                   >
                 </li>
                 <li>
-                  <router-link to="/allproduct" class="font-medium text-base">
+                  <router-link
+                    to="/categoryFurniture"
+                    class="font-medium text-base"
+                  >
                     Altar</router-link
                   >
                 </li>
                 <li>
-                  <router-link to="/allproduct" class="font-medium text-base">
+                  <router-link
+                    to="/categoryFurniture"
+                    class="font-medium text-base"
+                  >
                     Bed</router-link
                   >
                 </li>
                 <li>
-                  <router-link to="/allproduct" class="font-medium text-base">
+                  <router-link
+                    to="/categoryFurniture"
+                    class="font-medium text-base"
+                  >
                     Shelves TV</router-link
                   >
                 </li>
               </div>
             </div>
           </li>
-          <li class="font-medium">
-            <router-link to="/furnitureMix" style="text-decoration: none"
+          <li class="font-medium hover:underline">
+            <router-link to="/furnitureMix" class="text-decoration-none"
               >Mix
             </router-link>
           </li>
           <li class="font-medium">
-            <router-link to="/about" class="text-decoration-none"
+            <router-link to="/about" class="no-underline hover:underline"
               >About</router-link
             >
           </li>
           <li class="font-medium">
-            <router-link to="/contactCus" class="text-decoration-none"
-              >Contact</router-link
-            >
+            <router-link to="/contactCus" class="">Contact</router-link>
           </li>
         </ul>
-        <ul class="flex gap-x-10 right-2 items-center">
-          <li @click.prevent="handelBell" class="flex items-center gap-x-1">
-            <div class="bi bi-bell cursor-pointer text-sm flex">
-              <sup v-if="notifications.length"
-                ><span class="relative flex h-2 w-2">
-                  <span
-                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"
-                  ></span>
-                  <span
-                    class="relative inline-flex rounded-full h-2 w-2 bg-sky-500"
-                  ></span>
-                </span>
-              </sup>
+        <ul v-show="isLogin" class="flex gap-x-10 right-2 items-center">
+          <li
+            class="absolute right-28 flex gap-x-10 items-center font-semibold"
+          >
+            <div class="flex gap-x-2">
+              <router-link to="/profileCusPage" class="text-decoration-none"
+                ><i class="bi bi-person cursor-pointer text-xl"></i
+              ></router-link>
+              <p class="text-sm font-medium pt-1">Account</p>
             </div>
-            <small class="text-xs">Notifications</small>
-          </li>
 
-          <div class="mode flex items-center" @click.prevent="toggleDark">
-            <label class="toggle" for="switch">
-              <input id="switch" class="input" type="checkbox" />
-              <div v-if="isDarkMode">
-                <div class="icon icon--moon pt-2">
-                  <svg
-                    height="13"
-                    width="13"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      clip-rule="evenodd"
-                      d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"
-                      fill-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-              <div v-else>
-                <div class="icon icon--sun pt-2">
-                  <svg
-                    height="17"
-                    width="17"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-            </label>
-            <small class="text-xs">Theme style</small>
-          </div>
+            <div @click.prevent="handleLogout" class="flex gap-x-2">
+              <i
+                class="bi bi-arrow-right-circle cursor-pointer text-lg pt-px"
+              ></i>
+              <p class="text-sm font-medium pt-1">Logout</p>
+            </div>
+          </li>
+        </ul>
+        <ul v-show="!isLogin" class="flex items-center">
+          <li class="absolute right-28 flex gap-x-2 items-center">
+            <router-link to="/">
+              <span class="font-medium text-sm">Login/ </span>
+            </router-link>
+            <router-link to="/">
+              <span class="font-medium text-sm">Register </span>
+            </router-link>
+          </li>
         </ul>
       </div>
     </div>
@@ -326,11 +372,13 @@ export default {
       isBell: false,
       notifications: [],
       isDarkMode: false,
+      isLogin: false,
       // Date: "",
     };
   },
   created() {
     this.getAllAnnouncements();
+    this.checkLogin();
   },
   methods: {
     async search() {
@@ -384,6 +432,13 @@ export default {
         document.body.classList.remove("moon");
         document.body.classList.add("sun");
         this.isLight = true;
+      }
+    },
+    checkLogin() {
+      if (localStorage.getItem("token") !== "") {
+        this.isLogin = true;
+      } else {
+        this.isLogin = false;
       }
     },
   },
@@ -470,7 +525,7 @@ nav li {
 
 /* dark */
 .mode .toggle {
-  background-color: #fff;
+  /* background-color: #fff; */
   width: 26px;
   height: 26px;
   border-radius: 10%;
@@ -480,11 +535,8 @@ nav li {
   /* box-shadow: 0 0 50px 16px rgba(0, 0, 0, 0.1); */
   line-height: 1;
 }
-.mode .toggle:hover {
-  background-color: #635e5e;
-}
 .mode .toggle svg:hover {
-  color: rgb(251, 251, 251);
+  color: gray;
 }
 
 .mode .input {
@@ -512,7 +564,7 @@ nav li {
   /*  gap of items in input */
   --icon-change-color: #15a986;
   /*  when rotating changed icon color */
-  --height: 30px;
+  --height: 25px;
   /*  height */
   width: 400px;
   padding-inline-end: 1em;
@@ -528,6 +580,7 @@ nav li {
   align-items: center;
   width: 100%;
   height: var(--height);
+  margin-top: 4px;
 }
 
 .form input {

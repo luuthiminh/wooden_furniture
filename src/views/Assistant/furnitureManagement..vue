@@ -1,434 +1,77 @@
 <template>
-  <div class="px-3">
-    <div>
+  <div class="">
+    <div class="nav">
       <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-transparent text-sm pt-4">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item"><a href="#">All Product</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Sofa</li>
+        <ol class="breadcrumb bg-transparent text-sm pt-4 px-5 font-medium">
+          <li class="breadcrumb-item text-base">
+            <router-link to="/indexAssistant">Home</router-link>
+          </li>
+          <li class="breadcrumb-item text-base active" aria-current="page">
+            Furniture Manager
+          </li>
         </ol>
       </nav>
     </div>
-    <button type="button" class="button float-right text-xs my-4">
-      <span class="button__text">Add Item</span>
-      <span
-        class="button__icon"
-        data-toggle="modal"
-        data-target="#exampleModalLong"
-        @click.prevent="isAddFurniture = true"
-        ><svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          viewBox="0 0 24 24"
-          stroke-width="2"
-          stroke-linejoin="round"
-          stroke-linecap="round"
-          stroke="currentColor"
-          height="24"
-          fill="none"
-          class="svg"
+    <div class="content_table pt-6 px-6 scroll">
+      <div class="py-4">
+        <table
+          class="table table-borderless text-yellow-950 font-medium text-center"
         >
-          <line y2="19" y1="5" x2="12" x1="12"></line>
-          <line y2="12" y1="12" x2="19" x1="5"></line></svg
-      ></span>
-    </button>
-    <modal @close="closeModal">
-      <template v-slot:title>
-        <div class="flex items-center text-lg font-medium">
-          Add New Furniture
-        </div>
-      </template>
-      <template v-slot:body>
-        <div class="py-3 px-4 text-sm">
-          <form @submit.prevent="" class="">
-            <div class="addFurniture grid grid-cols-2 gap-x-4">
-              <div>
-                <label for="exampleInputEmail1" class="form-label font-medium"
-                  >Name Furniture</label
-                >
-                <input
-                  type="email"
-                  class="form-control"
-                  id="exampleInputEmail1"
-                  aria-describedby="emailHelp"
-                  required
+          <thead class="table-light">
+            <tr class="text-sm text-center">
+              <th scope="col">Furniture</th>
+              <th></th>
+              <th scope="col">Collection ID</th>
+              <th scope="col">Label</th>
+              <th scope="col">Sold</th>
+              <th scope="col">Appropriate Room</th>
+              <th scope="col">Vote Star</th>
+              <th scope="col">Avaliable</th>
+              <th scope="col">Price</th>
+              <th scope="col">Detail</th>
+            </tr>
+          </thead>
+          <tbody v-if="furnitures.length">
+            <tr
+              class="text-sm"
+              v-for="furniture in furnitures"
+              :key="furniture.furnitureId"
+            >
+              <td class="img">
+                <img
+                  src="@/assets/images/category/shelves_tv/shelves_11.png"
+                  alt="furniture"
+                  class="w-20"
                 />
-              </div>
-              <div>
-                <label for="exampleInputEmail1" class="form-label font-medium"
-                  >Price</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="exampleInputEmail1"
-                  aria-describedby="emailHelp"
-                  required
-                />
-              </div>
-            </div>
-            <div class="grid grid-cols-2 gap-x-4 mt-3">
-              <div>
-                <label for="exampleInputEmail1" class="form-label font-medium"
-                  >Collection</label
-                >
-                <select
-                  class="form-select text-sm"
-                  aria-label="Default select example"
-                >
-                  <option selected>Choose a collection</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                </select>
-              </div>
-              <div>
-                <label for="exampleInputEmail1" class="form-label font-medium"
-                  >Label</label
-                >
-                <select
-                  class="form-select text-sm"
-                  aria-label="Default select example"
-                >
-                  <option selected>Choose a label</option>
-                  <option value="1">New</option>
-                  <option value="2">Hot Sale</option>
-                </select>
-              </div>
-            </div>
-            <div class="mt-3">
-              <label for="exampleInputEmail1" class="form-label font-medium"
-                >Appropriate Room</label
-              >
-              <select
-                class="form-select text-sm"
-                aria-label="Default select example"
-              >
-                <option selected>Choose room</option>
-                <option value="1">Bed Room</option>
-                <option value="2">Hot Sale</option>
-              </select>
-            </div>
-            <div class="mt-3">
-              <label for="exampleInputEmail1" class="form-label font-medium"
-                >Sold</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                required
-              />
-            </div>
-
-            <div class="flex gap-x-3 mt-3">
-              <label
-                for="exampleInputEmail1"
-                class="form-label font-medium mt-24"
-                >Image</label
-              >
-              <form class="modal_uploadfile">
-                <div class="content">
-                  <span class="title">Upload a File</span>
-                  <p class="message">
-                    Select a file to upload from your computer or device.
-                  </p>
-
-                  <div class="actions">
-                    <label for="file" class="button upload-btn"
-                      >Choose File
-                      <input hidden="" type="file" id="file" />
-                    </label>
-                  </div>
-                  <div class="result">
-                    <div class="file-uploaded"><p>profile_pic.png</p></div>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </form>
-        </div>
-      </template>
-      <template v-slot:footer>
-        <button
-          data-dismiss="modal"
-          @click.prevent="HandleAddFurniture"
-          type="button"
-          class="button_addfurniture text-white bg-black hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-black dark:hover:bg-gray-600 dark:focus:ring-gray-600"
-        >
-          Add
-        </button>
-      </template>
-    </modal>
-    <div class="bg-white px-3 py-3 rounded-lg my-7">
-      <table
-        class="table table-hover border border-gray-900 text-center text-slate-600"
-      >
-        <thead>
-          <tr class="text-sm text-center">
-            <th scope="col">Id</th>
-            <th scope="col">Name</th>
-            <th scope="col">Collection ID</th>
-            <th scope="col">Label ID</th>
-            <th scope="col">Sold</th>
-            <th scope="col">Appropriate Room</th>
-            <th scope="col">Vote Star</th>
-            <th scope="col">Avaliable</th>
-            <th scope="col">Price</th>
-            <th scope="col">Image</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody v-if="furnitures.length">
-          <tr
-            class="text-sm"
-            v-for="furniture in furnitures"
-            :key="furniture.furnitureId"
-          >
-            <th scope="row">{{ furniture.furnitureId }}</th>
-            <td>{{ furniture.furnitureName }}</td>
-            <td>{{ furniture.collectionId }}</td>
-            <td>{{ furniture.label }}</td>
-            <td>{{ furniture.sold }}</td>
-            <td>{{ furniture.appropriateRoom }}</td>
-            <td>{{ furniture.voteStar }}</td>
-            <td>{{ furniture.available }}</td>
-            <td>{{ furniture.price }}</td>
-            <td>{{ furniture.image }}</td>
-            <td class="flex gap-x-4">
-              <i
-                class="fa-solid fa-info px-1 py-1 cursor-pointer"
-                data-toggle="modal"
-                data-target="#exampleModalLong"
-                @click.prevent="showModal(furniture)"
-              ></i>
-
-              <modal v-if="isShowFurnitureSpecification" @close="closeModal">
-                <template v-slot:title>
-                  <div class="flex items-center text-lg font-medium">
-                    ALL Furniture
-                  </div>
-                </template>
-                <template v-slot:body>
-                  <div
-                    class="product"
-                    v-for="fur in furnitureModel"
-                    :key="fur.furnitureId"
-                  >
-                    <div class="grid grid-cols-2 gap-x-7">
-                      <div class="image_product">
-                        <img
-                          src="@/assets/images/category/shelves_tv/shelves_11.png"
-                          alt=""
-                        />
-                      </div>
-                      <div>
-                        <div class="name furniture font-semibold pb-3 text-sm">
-                          {{ fur.furnitureName }}
-                        </div>
-                        <div class="grid grid-cols-2 gap-x-1 text-sm">
-                          <span>Height</span>
-                          <span>{{ fur.height }}</span>
-                        </div>
-                        <div class="grid grid-cols-2 gap-x-1 text-sm pt-1">
-                          <span>Width:</span>
-                          <span>{{ fur.width }}</span>
-                        </div>
-                        <div class="grid grid-cols-2 gap-x-1 text-sm pt-1">
-                          <span>Lenght:</span>
-                          <span>{{ fur.length }}</span>
-                        </div>
-                        <div class="text-sm">
-                          <div class="grid grid-cols-2 gap-x-1 text-sm pt-1">
-                            <span>Price:</span>
-                            <span>{{ fur.price }}</span>
-                            <!-- <span>$1000</span> -->
-                            <span class="text-red-500">$2000</span>
-                          </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-x-1 text-sm pt-1">
-                          <span>Color:</span>
-                          <span>{{ fur.color }}</span>
-                        </div>
-                        <div class="grid grid-cols-2 gap-x-1 text-sm pt-1">
-                          <span>Wood:</span>
-                          <span>{{ fur.wood }}</span>
-                        </div>
-                        <br />
-                      </div>
-                    </div>
-                  </div>
-                </template>
-                <template v-slot:footer></template>
-              </modal>
-              <!-- Modal Edit -->
-              <i
-                type="button"
-                class="fa-solid fa-pen-to-square cursor-pointer pt-1"
-                data-toggle="modal"
-                data-target="#exampleModalLong"
-                @click.prevent="isEditModal = true"
-              >
-              </i>
-
-              <modal
-                v-if="isEditModal"
-                @close="isEditModal = false"
-                data-target="#myModal"
-              >
-                <template v-slot:title>
-                  <div class="flex items-center text-lg font-medium">
-                    Edit Furniture
-                  </div>
-                </template>
-                <template v-slot:body>
-                  <div class="py-1 px-4 text-sm">
-                    <form @submit.prevent="">
-                      <!-- <div class="grid grid-cols-2 gap-x-4"> -->
-                      <div>
-                        <label
-                          for="exampleInputEmail1"
-                          class="form-label font-medium"
-                          >Name Furniture</label
-                        >
-                        <input
-                          v-model="furniture.furnitureName"
-                          type="text"
-                          class="form-control"
-                          id="exampleInpuName1"
-                          aria-describedby="nameHelp"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label
-                          for="exampleInputEmail1"
-                          class="form-label font-medium"
-                          >Price</label
-                        >
-                        <input
-                          v-model="furniture.price"
-                          type="text"
-                          class="form-control"
-                          id="exampleInputEmail1"
-                          aria-describedby="emailHelp"
-                          required
-                        />
-                      </div>
-                      <!-- </div> -->
-                      <div>
-                        <label for="exampleInputEmail1" class="form-label"
-                          >Category</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="exampleInputEmail1"
-                          aria-describedby="emailHelp"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label for="exampleInputEmail1" class="form-label"
-                          >Quantity</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="exampleInputEmail1"
-                          aria-describedby="emailHelp"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label for="exampleInputEmail1" class="form-label"
-                          >Material</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="exampleInputEmail1"
-                          aria-describedby="emailHelp"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label for="exampleInputEmail1" class="form-label"
-                          >Description</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="exampleInputEmail1"
-                          aria-describedby="emailHelp"
-                          required
-                        />
-                      </div>
-                      <div class="flex gap-x-3 mt-3">
-                        <label for="exampleInputEmail1" class="form-label mt-10"
-                          >Image</label
-                        >
-                        <div class="img flex">
-                          <img
-                            class="image_default pr-10"
-                            src="@/assets/images/image_default.jpg"
-                            alt="furniture"
-                          />
-                          <input
-                            type="file"
-                            id="myFile"
-                            class="mt-10"
-                            name="filename"
-                          />
-                          <!-- <input type="submit" /> -->
-                        </div>
-                      </div>
-                      <button type="submit" class="btn my-8">Add</button>
-                    </form>
-                  </div>
-                </template>
-                <template v-slot:footer>
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    @click.prevent="saveChanges"
-                  >
-                    Save changes
-                  </button>
-                </template>
-              </modal>
-              <!-- delete -->
-              <button class="btn_delete">
-                <svg
-                  viewBox="0 0 15 17.5"
-                  height="12.5"
-                  width="15"
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="icon"
-                >
-                  <path
-                    transform="translate(-2.5 -1.25)"
-                    d="M15,18.75H5A1.251,1.251,0,0,1,3.75,17.5V5H2.5V3.75h15V5H16.25V17.5A1.251,1.251,0,0,1,15,18.75ZM5,5V17.5H15V5Zm7.5,10H11.25V7.5H12.5V15ZM8.75,15H7.5V7.5H8.75V15ZM12.5,2.5h-5V1.25h5V2.5Z"
-                    id="Fill"
-                  ></path>
-                </svg>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <p class="px-1 text-sm pb-10">Total furniture: {{ furnitures.length }}</p>
+              </td>
+              <td class="text-start">
+                <span class="font-semibold block">{{
+                  furniture.furnitureName
+                }}</span>
+                <span class="text-xs">{{ furniture.furnitureId }}</span>
+              </td>
+              <td>{{ furniture.collectionId }}</td>
+              <td>{{ furniture.label }}</td>
+              <td>{{ furniture.sold }}</td>
+              <td>{{ furniture.appropriateRoom }}</td>
+              <td>{{ furniture.voteStar }}</td>
+              <td>{{ furniture.available }}</td>
+              <td>{{ furniture.price }}</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <!-- </div> -->
 </template>
 <script>
 import axios from "axios";
-import modal from "@/components/ModalPage.vue";
+// import modal from "@/components/ModalPage.vue";
 export default {
   components: {
-    modal,
+    // modal,
   },
   data() {
     return {
@@ -629,5 +272,53 @@ export default {
 
 .modal_uploadfile .file-uploaded:hover::before {
   background-color: rgba(233, 40, 6, 0.664);
+}
+
+/* table */
+tr {
+  border-bottom: 1px solid #ededed;
+}
+.table {
+  font-size: 0.9rem !important;
+}
+th {
+  font-weight: 600;
+}
+.avatar {
+  width: 61px;
+  margin-top: -8px;
+}
+td {
+  padding-top: 3em;
+  padding-bottom: 1em;
+}
+.user {
+  margin-top: -10px;
+}
+.td_action {
+  padding-top: 2.2em;
+}
+.pt-6.px-6.scroll {
+  overflow: scroll;
+  height: 35em;
+  overflow-x: hidden;
+}
+.pt-6.px-6.scroll::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+.pt-6.px-6.scroll::-webkit-scrollbar {
+  width: 6px;
+  background-color: #f5f5f5;
+}
+
+.pt-6.px-6.scroll::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #cdc0aa;
+}
+td img {
+  margin-top: -18px;
 }
 </style>
