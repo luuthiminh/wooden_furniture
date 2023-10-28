@@ -1,9 +1,9 @@
 <template>
   <!-- <div v-if="customer / customer - infor"> -->
   <div class="profile_customer">
-    <div class="nav pt-36 pb-3">
+    <div class="nav pt-36 pb-3 mb-2 max-md:pt-24">
       <nav aria-label="breadcrumb">
-        <ol class="flex bg-none text-sm pl-28">
+        <ol class="flex bg-none ml-28 max-sm:ml-3 max-md:ml-4">
           <li class="breadcrumb-item">
             <router-link to="customerIndex">Home </router-link>
           </li>
@@ -13,10 +13,10 @@
         </ol>
       </nav>
     </div>
-    <div class="container px-32">
+    <div class="mx-28 max-md:mx-4">
       <div class="view-account">
         <section class="module">
-          <div class="module-inner grid grid-cols-6">
+          <div class="module-inner grid grid-cols-6 max-md:grid-cols-4">
             <div class="side-bar col-span-1">
               <div class="user-info">
                 <!-- <img :src="avatar" alt="avatar" /> -->
@@ -32,7 +32,7 @@
                   </li>
                 </ul>
               </div>
-              <nav class="side-menu">
+              <nav class="side-menu max-md:mx-6">
                 <ul class="nav nav-stacked" role="tablist">
                   <li role="presentation" class="active">
                     <a
@@ -147,7 +147,7 @@
               </div>
             </div>
             <!-- Tab panes -->
-            <div class="tab-content col-span-5 ml-10">
+            <div class="tab-content col-span-5 ml-10 max-md:col-span-3">
               <div role="tabpanel" class="tab-pane" id="profile">
                 <div class="bg-white form">
                   <h1
@@ -4089,7 +4089,7 @@
                     </div>
                     <hr class="mx-28 w-1/12" />
                     <div
-                      class="grid grid-cols-2 bg-white drop-shadow rounded-lg mx-28 my-3"
+                      class="grid grid-cols-2 bg-white drop-shadow rounded-lg mx-28 my-3 max-md:mx-4"
                     >
                       <div class="border border-red-100 px-6 py-3 text-sm">
                         <form>

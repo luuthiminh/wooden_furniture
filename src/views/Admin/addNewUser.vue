@@ -1,6 +1,6 @@
 <template>
   <header-admin :title="title" />
-  <div class="tab_content bg-white mb-5 mb-xl-10 rounded-lg">
+  <div class="tab_content bg-white mb-5 mb-xl-10 rounded-lg mt-32">
     <div class="flex">
       <div></div>
       <div class="card-title cursor-pointer">

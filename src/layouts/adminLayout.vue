@@ -1,6 +1,8 @@
 <template>
   <div class="layout flex">
-    <nav class="nav__layout_header flex-none w-24 bg-white fixed z-1">
+    <nav
+      class="nav__layout_header flex-none w-24 bg-white fixed z-1 max-sm:hidden max-md:hidden"
+    >
       <ul class="nav leading-10 text-center nav nav-stacked" role="tablist">
         <li role="presentation" class="logo pb-3 mt-6 cursor-poniter">
           <a
@@ -122,9 +124,9 @@
       </div>
     </nav>
     <nav
-      class="nav__layout__content flex-none w-80 bg-white fixed px-5 pt-4 z-1"
+      class="nav__layout__content flex-none w-80 bg-white fixed px-5 pt-4 z-1 max-sm:hidden max-md:hidden"
     >
-      <div class="tab-content col-span-5">
+      <div class="tab-content col-span-5 max-sm:hidden max-md:hidden">
         <div role="tabpanel" class="tab-pane" id="users">
           <h1 class="font-semibold mb-6 mt-2 text-lg">Management Users</h1>
           <div>
@@ -312,6 +314,9 @@ export default {
 .layout i {
   font-style: normal;
 }
+/* .layout {
+  overflow: hidden;
+} */
 .layout li {
   cursor: pointer;
 }
@@ -367,5 +372,22 @@ i {
 .layout i,
 .layout h1 {
   color: rgb(83, 61, 22);
+}
+/*Mobile & tablet: width<1024px*/
+@media only screen and (max-width: 63.9375em) {
+  .content {
+    margin-left: 0em;
+  }
+}
+/*Mobile: width<780px*/
+@media only screen and (max-width: 46.25em) {
+}
+/*Tablet: width>=740px and width < 1024px*/
+@media only screen and (min-width: 46.25em) and (max-width: 63.9375em) {
+}
+@media only screen and (width: 64em) {
+}
+/*laptop*/
+@media only screen and (min-width: 73em) and (max-width: 81.25em) {
 }
 </style>

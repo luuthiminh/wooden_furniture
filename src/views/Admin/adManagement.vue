@@ -1,6 +1,6 @@
 <template>
   <header-admin :title="title" />
-  <div class="bg-white mb-2 rounded-xl">
+  <div class="bg-white mb-2 rounded-xl mt-32">
     <div class="pt-6 px-6 scroll">
       <div class="flex items-center justify-between">
         <div class="">

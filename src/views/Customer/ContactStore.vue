@@ -1,19 +1,19 @@
 <template>
   <div class="contact">
-    <div class="nav pt-36 pb-3 mb-2">
+    <div class="nav pt-36 pb-3 mb-2 max-md:pt-24">
       <nav aria-label="breadcrumb">
-        <ol class="flex bg-none text-sm ml-32 max-sm:ml-3">
+        <ol class="flex bg-none ml-28 max-sm:ml-3 max-md:ml-4">
           <li class="breadcrumb-item">
             <router-link to="customerIndex">Home </router-link>
           </li>
           <li class="breadcrumb-item">
-            <router-link to="#">All Product</router-link>
+            <router-link to="#">Contact Store</router-link>
           </li>
         </ol>
       </nav>
     </div>
-    <div class="mx-32">
-      <h1 class="font-semibold text-2xl py-4">
+    <div class="mx-28 max-md:mx-4">
+      <h1 class="font-semibold text-2xl pt-2 pb-4">
         Welcome to Luan Len Furniture Store
       </h1>
       <span
@@ -53,14 +53,21 @@
   border-bottom: 1px solid #f5f5f5;
   color: #000000;
 }
-span,
+span {
+  line-height: 27px;
+  display: block;
+  font-weight: 500;
+  font-size: 15px;
+  text-align: justify;
+  word-wrap: break-word;
+}
+
 p {
+  margin-left: 15px;
   font-weight: 500;
   font-size: 15px;
 }
-p {
-  margin-left: 15px;
-}
+
 .moon span,
 .moon h1,
 .moon p {

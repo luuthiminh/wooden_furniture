@@ -79,76 +79,81 @@
         >
       </li>
       <li>
-        <!-- <form @keyup.enter="search"> -->
-        <div class="flex flex-cols-6 gap-x-3">
-          <div class="col-span-4 font-normal">
-            <div class="form">
-              <label for="search">
-                <input
-                  required=""
-                  autocomplete="off"
-                  placeholder="search your chats"
-                  id="search"
-                  type="text"
-                  v-model="keyword"
-                  @keyup.enter="search"
-                />
-                <div class="icon">
-                  <svg
-                    stroke-width="2"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="swap-on"
-                  >
-                    <path
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                      stroke-linejoin="round"
-                      stroke-linecap="round"
-                    ></path>
-                  </svg>
-                  <svg
-                    stroke-width="2"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="swap-off"
-                  >
-                    <path
-                      d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                      stroke-linejoin="round"
-                      stroke-linecap="round"
-                    ></path>
-                  </svg>
-                </div>
-                <button @click="clear" type="reset" class="close-btn">
-                  <svg
-                    viewBox="0 0 20 20"
-                    class="h-5 w-5"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      clip-rule="evenodd"
-                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                      fill-rule="evenodd"
-                    ></path>
-                  </svg>
-                </button>
-              </label>
+        <form @keyup.enter="search">
+          <div class="flex flex-cols-6 gap-x-3">
+            <div class="col-span-4 font-normal">
+              <div class="form">
+                <label for="search">
+                  <input
+                    required=""
+                    class="mt-1 text-sm ml-1 w-10/12"
+                    autocomplete="off"
+                    placeholder="search your chats"
+                    id="search"
+                    type="text"
+                    v-model="keyword"
+                    @keyup.enter="search"
+                  />
+                  <div class="icon">
+                    <svg
+                      stroke-width="2"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="swap-on mt-2"
+                    >
+                      <path
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                      ></path>
+                    </svg>
+                    <svg
+                      stroke-width="2"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="swap-off mt-2"
+                    >
+                      <path
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                      ></path>
+                    </svg>
+                  </div>
+                  <button @click="clear" type="reset" class="close-btn">
+                    <svg
+                      viewBox="0 0 20 20"
+                      class="h-5 w-5"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        fill-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                </label>
+              </div>
             </div>
-          </div>
-          <!-- <div
+
+            <!-- <div
                     class="col-span-2 bg-white text-black text-center px-2 py-2 rounded-md w-6/12"
                   >
                     <button type="submit" class="text-xs">Search</button>
                   </div> -->
-        </div>
-        <!-- </form> -->
+          </div>
+        </form>
       </li>
       <ul class="flex gap-x-4">
-        <li class="cursor-pointer" @click.prevent="HandleMouseOver">
+        <li
+          class="transition ease-in-out delay-150 cursor-pointer"
+          @click="HandleMouseOver"
+        >
           <i class="bi bi-person-fill text-2xl"></i>
         </li>
         <!-- <li>
@@ -183,65 +188,48 @@
         </select>
       </li> -->
     </ul>
-    <div class="bg-white" v-if="isShowAccount">
-      <ul v-if="isLogin">
-        <li>
-          <router-link to="/profileCusPage" style="text-decoration: none"
-            ><i class="bi bi-person-fill cursor-pointer text-2xl"></i
-            >Profile</router-link
-          >
-        </li>
-        <li>
-          <div @click.prevent="handelLogout">
-            <i class="bi bi-box-arrow-right cursor-pointer">Logout</i>
-          </div>
-        </li>
-      </ul>
-      <ul v-else>
-        <li>
-          <router-link to="/" style="text-decoration: none"
-            ><i class="bi bi-person-fill cursor-pointer text-2xl"></i
-            >Login</router-link
-          >
-        </li>
-        <li>
-          <router-link to="/register" style="text-decoration: none"
-            ><i class="bi bi-person-fill cursor-pointer text-2xl"></i
-            >Register</router-link
-          >
-        </li>
-      </ul>
-    </div>
   </nav>
-  <!-- <div class="bg-white" v-if="isShowAccount">
-    <ul v-if="isLogin">
-      <li>
-        <router-link to="/profileCusPage" style="text-decoration: none"
-          ><i class="bi bi-person-fill cursor-pointer text-2xl"></i
+  <div v-if="isShowAccount" class="mt-40">
+    <ul
+      v-if="isLogin"
+      class="hover_account rounded divide-y divide-solid divide-slate-200"
+    >
+      <li class="px-3 pb-2 pt-2">
+        <router-link
+          to="/profileCusPage"
+          style="text-decoration: none"
+          class="flex gap-x-4 items-center font-medium"
           >Profile</router-link
         >
       </li>
-      <li>
-        <div @click.prevent="handelLogout">
-          <i class="bi bi-box-arrow-right cursor-pointer">Logout</i>
+      <li class="px-3 py-2">
+        <div @click.prevent="handelLogout" class="items-center">
+          <span class="font-medium">Logout</span>
         </div>
       </li>
     </ul>
-    <ul v-else>
-      <li>
-        <router-link to="/" style="text-decoration: none"
-          ><i class="bi bi-person-fill cursor-pointer text-2xl"></i
+    <ul
+      v-else
+      class="hover_account rounded-sm divide-y divide-solid divide-slate-300"
+    >
+      <li class="px-3 pb-2 pt-4">
+        <router-link
+          to="/"
+          style="text-decoration: none"
+          class="flex gap-x-4 items-center font-medium px-3 py-3"
           >Login</router-link
         >
       </li>
-      <li>
-        <router-link to="/register" style="text-decoration: none"
-          ><i class="bi bi-person-fill cursor-pointer text-2xl"></i
+      <li class="px-3 py-2">
+        <router-link
+          to="/register"
+          style="text-decoration: none"
+          class="flex gap-x-4 items-center font-medium px-3 py-3s"
           >Register</router-link
         >
       </li>
     </ul>
-  </div> -->
+  </div>
 </template>
 <script>
 import axios from "axios";
@@ -587,4 +575,19 @@ li:hover {
     transform: rotateX(0deg);
   }
 } */
+.hover_account {
+  width: 8em;
+  margin-left: -11em;
+  /* background: #f4f4f4; */
+  background-color: white;
+  color: #4d4848;
+  box-shadow: 1px 1px 5px gray;
+}
+/* Moon  */
+.moon nav {
+  background-color: transparent;
+  /* text-shadow: 0 0 1px #181412, 0 0 2px #000000;
+  color: #fffaf0; */
+  color: #fffcef;
+}
 </style>

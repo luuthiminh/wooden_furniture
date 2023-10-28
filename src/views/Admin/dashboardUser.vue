@@ -1,6 +1,6 @@
 <template>
   <header-admin :title="title" />
-  <div class="grid grid-cols-2 gap-x-8">
+  <div class="grid grid-cols-2 gap-x-8 max-md:block mt-32">
     <div class="grid grid-cols-2 gap-x-8">
       <div>
         <div

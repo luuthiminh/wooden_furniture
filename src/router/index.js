@@ -131,6 +131,17 @@ const routes = [
       ),
   },
   {
+    path: "/shoppingGuide",
+    name: "ShoppingGuide",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/ShoppingGuide.vue"
+      ),
+  },
+  {
     path: "/news",
     name: "StoreNews",
     meta: {
@@ -139,6 +150,17 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "register" */ "../views/Customer/StoreNews.vue"
+      ),
+  },
+  {
+    path: "/helpPage",
+    name: "HelpPage",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Customer/helpPage.vue"
       ),
   },
   {
@@ -228,7 +250,7 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "register" */ "../views/Customer/contactCus.vue"
+        /* webpackChunkName: "register" */ "../views/Customer/ContactStore.vue"
       ),
   },
   {

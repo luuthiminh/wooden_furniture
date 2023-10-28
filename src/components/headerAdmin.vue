@@ -4,9 +4,9 @@
       <h1 class="font-semibold text-xl">{{ title }}</h1>
       <ul class="bar flex text-sm pt-2">
         <li>
-          <router-linsk to="/userManaegment" class="text-decoration-none">
+          <router-link to="/userManaegment" class="text-decoration-none">
             User /
-          </router-linsk>
+          </router-link>
         </li>
         <li>
           <router-link to="/adManagement" class="text-decoration-none">
@@ -20,7 +20,15 @@
         </li>
       </ul>
     </div>
-    <div class="float-right flex">
+    <div class="absolute right-3 flex items-center top-5 my-2">
+      <div
+        @click="OpenNavBar"
+        class="hidden border border-1 border-solid-yellow-950 rounded-md hover:bg-slate-200 cursor-pointer ring-1 ring-yellow-600 max-sm:block max-md:block bg-yellow-900 opacity-70"
+      >
+        <i class="bi bi-list px-2 text-white hover:text-yellow-950"></i>
+      </div>
+    </div>
+    <div class="float-right flex max-sm:hidden max-md:hidden">
       <div class="new member">
         <router-link to="/addnewUser" class="text-decoration-none">
           <div
@@ -57,18 +65,70 @@
       </div>
     </div>
   </header>
+  <div v-show="!isNavBar">
+    <div class="overlay">
+      <div class="nav_bar">
+        <div class="logo border-1 border-bottom boder-slate-300">
+          <div class="flex px-5 py-3">
+            <img
+              class="w-2/12 ml-3"
+              src="@/assets/images/logo.png"
+              alt="logo"
+            />
+            <span class="font-bold text-2xl items-center">L&L</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 export default {
   props: ["title"],
+  data() {
+    return {
+      isNavBar: false,
+    };
+  },
+  methods: {
+    OpenNavBar() {
+      this.isNavBar = !this.isNavBar;
+    },
+    closeNavBar() {
+      this.isNavBar = !this.isNavBar;
+    },
+  },
 };
 </script>
 <style scoped>
 .header_components_admin {
   height: 100px;
   transition: left 0.3s ease;
-  padding: 24px 0px;
   margin-bottom: 1em;
+  position: fixed;
+  background: white;
+  z-index: 10;
+  width: 69em;
+  max-width: 100%;
+  margin-left: -2em;
+  padding-right: 2em;
+  padding-left: 2em;
+}
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(29, 29, 29, 0.3);
+  animation: fadeIn linear 0.2s;
+  z-index: 100;
+  margin-left: -2em;
+}
+.nav_bar {
+  width: 15.4em;
+  height: 100%;
+  background: rgb(251, 250, 250);
+  /* background: black; */
+  box-shadow: 10px 0 5px -2px #b6b2b2;
 }
 .new_member {
   background-color: #ab7442;

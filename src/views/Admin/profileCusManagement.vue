@@ -1,6 +1,6 @@
 <template>
   <header-admin :title="title" />
-  <div class="bg-white px-6 py-6 rounded-lg mb-5 mb-xl-10">
+  <div class="bg-white px-6 py-6 rounded-lg mb-5 mb-xl-10 mt-32">
     <div class="flex">
       <div class="avatar">
         <router-link to="/profileAssistant">

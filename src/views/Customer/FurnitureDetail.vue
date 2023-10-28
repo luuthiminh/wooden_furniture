@@ -1,8 +1,8 @@
 <template>
   <div class="content_detail pt-36">
-    <div class="nav pl-24 pb-3 mb-2">
+    <div class="nav pb-3 mb-2">
       <nav aria-label="breadcrumb">
-        <ol class="flex bg-none text-xs max-sm:pl-3">
+        <ol class="flex bg-none text-xs max-sm:pl-3 pl-28">
           <li class="breadcrumb-item">
             <router-link to="customerIndex">Home</router-link>
           </li>
@@ -13,7 +13,7 @@
       </nav>
     </div>
     <!-- </div> -->
-    <div class="funiture_detail mx-24 max-sm:mx-3">
+    <div class="funiture_detail mx-28 max-sm:mx-3">
       <div class="flex flex-cols-2">
         <div class="furniture detail mt-3 rounded-lg">
           <div class="img grid grid-cols-2 gap-x-4 max-sm:block">
@@ -334,13 +334,23 @@
                           class="btn add_to_card"
                           @click.prevent="handleAddToCart(furnitureIndex)"
                         >
-                          <button class="text-sm btn bg-neutral-700">
+                          <!-- <button class="text-sm btn bg-neutral-700">
+                            ADD TO CART
+                          </button> -->
+                          <button
+                            class="px-2 py-1 text-black ring-offset-2 ring-2 bg-slate-600"
+                          >
                             ADD TO CART
                           </button>
                         </div>
                         <div class="btn order">
-                          <button class="btn text-sm bg-neutral-700">
+                          <!-- <button class="btn text-sm bg-neutral-700">
                             BUY
+                          </button> -->
+                          <button
+                            class="px-2 py-1 text-white ring-offset-2 ring-2 bg-slate-600"
+                          >
+                            BUY NOW
                           </button>
                         </div>
                         <div class="icon_heart pl-3 pt-2">
@@ -889,9 +899,10 @@ hr {
 .moon .product .price {
   color: rgb(255 175 175);
 }
-.moon table {
+/* .moon table {
   color: #f1ebe4;
-}
+  background-color: transparent;
+} */
 .moon .btn.add_to_card .btn,
 .moon .btn.order .btn {
   background-color: #f1ebe4;
@@ -900,5 +911,15 @@ hr {
 }
 .moon .adver {
   color: #4e463f;
+  background-color: #3e3d3d;
+  border: 1px solid white;
+}
+.moon img {
+  background-color: white;
+}
+.moon span,
+.moon p,
+.moon i {
+  color: #f9f1e4;
 }
 </style>

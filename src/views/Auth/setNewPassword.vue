@@ -122,10 +122,12 @@ export default {
   left: 38%;
 }
 .btn_send {
-  background-color: #302924;
+  /* background-color: #302924; */
+  background-color: #ffffff;
   margin-bottom: 16px;
   width: 100%;
   border-radius: 4px;
+  border: 1px solid gray;
 }
 .logo {
   transform: translateX(50%);

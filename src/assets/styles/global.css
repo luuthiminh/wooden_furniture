@@ -328,7 +328,8 @@ router-link {
   background: #ffffff;
 }
 .moon {
-  background: #574e42cf;
+  background: #303030;
+  color: #f9f1e4;
 }
 
 .nav {
@@ -338,4 +339,13 @@ router-link {
 .moon .nav {
   border-bottom: 1px solid rgba(241, 235, 228, 0.1);
   color: #ffffff;
+}
+.moon nav {
+  color: #ffffff;
+}
+.moon .nav.pt-36.pb-3.mb-2 {
+  border-bottom: 1px solid #403b3b;
+}
+ol li {
+  font-size: 0.8125rem;
 }

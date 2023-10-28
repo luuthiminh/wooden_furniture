@@ -5,7 +5,7 @@
   <div v-else>
     <header @mouseleave="HandleHeader">
       <div class="header_scroll flex text-sm">
-        <div class="container-fluid bg-light p-0">
+        <div class="container-fluid p-0">
           <div class="flex">
             <div class="col-lg-7 px-5 text-start">
               <div class="h-100 d-inline-flex align-items-center py-3 me-4">
@@ -17,10 +17,16 @@
                 <small>Mon - Fri : 09.00 AM - 09.00 PM</small>
               </div>
             </div>
-            <div class="flex col-lg-5 pl-36 text-end gap-x-4">
+            <div class="flex col-lg-5 pl-14 text-end gap-x-4">
               <div class="h-100 d-inline-flex align-items-center py-3 me-4">
                 <small class="fa-solid fa-phone me-2"></small>
-                <small>+84 398677620</small>
+                <small>
+                  <a
+                    class="underline decoration-1 underline-offset-2 decoration-gray-400 decoration-dashed"
+                    href="tel:0398677620"
+                    >+84 398677620</a
+                  >
+                </small>
               </div>
               <div class="flex gap-x-3 items-center">
                 <div class="mode mt-2" @click.prevent="toggleDark">
@@ -74,10 +80,15 @@
               </div>
 
               <div class="h-100 d-inline-flex align-items-center">
+                <a href="" class="btn btn-sm-square"
+                  ><i class="fa-brands fa-facebook-f px-px"></i
+                ></a>
+              </div>
+              <div class="h-100 d-inline-flex align-items-center">
                 <a
-                  href=""
-                  class="btn btn-sm-square bg-white text-yellow-950 me-1"
-                  ><i class="fa-brands fa-facebook-f"></i
+                  href="mailto:someone@example.com"
+                  class="btn btn-sm-square me-1"
+                  ><i class="bi bi-envelope-arrow-up"></i
                 ></a>
               </div>
             </div>
@@ -85,29 +96,29 @@
         </div>
       </div>
 
-      <div class="nav_header py-3 bg-white">
-        <div
+      <div class="nav_header py-3">
+        <!-- <div
           :style="{
             'margin-top': !isShowHeader ? '0px' : '-70px',
             position: !isShowHeader ? 'relative' : 'fixed',
             background: !isShowHeader ? 'transparent' : 'white',
             'z-index': !isShowHeader ? '0' : '101',
           }"
-        >
-          <div class="grid mg-left-0 grid-cols-2">
-            <div class="logo flex mx-5 items-center w-3/12">
-              <router-link to="/customerIndex">
-                <img src="@/assets/images/logo.png" alt="logo" />
-              </router-link>
-              <div class="px-3">
-                <span>L & L</span>
-                <p>WOOD FURNITURE</p>
-              </div>
+        > -->
+        <div class="grid mg-left-0 grid-cols-2">
+          <div class="logo flex mx-5 items-center w-3/12">
+            <router-link to="/customerIndex">
+              <img src="@/assets/images/logo.png" alt="logo" />
+            </router-link>
+            <div class="px-3">
+              <span>L & L</span>
+              <p>WOOD FURNITURE</p>
             </div>
-            <navigation />
           </div>
+          <navigation />
         </div>
       </div>
+      <!-- </div> -->
       <div v-if="isBell">
         <div v-if="notifications.length">
           <div
@@ -980,12 +991,14 @@ export default {
 </script>
 
 <style scoped>
+/* header */
+.container-fluid {
+  background-color: #f9fafa;
+}
 .homepage {
   background-color: #f7f8facf;
 }
-.moon .homepage {
-  background-color: transparent;
-}
+
 .fixed_header {
   position: fixed;
   z-index: 100;
@@ -993,10 +1006,12 @@ export default {
 }
 .nav_header {
   transition: top 0.3s ease-in-out;
+  background-color: white;
 }
 .logo a {
   width: 17%;
 }
+
 .h1_header {
   color: #eeebe6;
   font-size: 27px;
@@ -1626,9 +1641,7 @@ header::before {
   height: 28rem;
   padding-bottom: 30px;
 }
-.moon {
-  padding-bottom: 0em;
-}
+
 .col-span-2 {
   margin-top: 25%;
   margin-left: 10%;
@@ -1781,24 +1794,6 @@ form label {
   font-weight: 500;
   color: #33150a;
 }
-.moon .crossbar {
-  color: #f1ebe4;
-}
-.moon .category_hot_product li {
-  color: #ffeac6e3;
-}
-.moon .crossbar[data-v-c40a2754]::after {
-  background-color: #ede8da;
-}
-.customize_furniture .crossbar[data-v-c40a2754]::after {
-  transform: translateX(-718%);
-}
-.moon .service {
-  background-color: #efede9;
-}
-.moon .new_item {
-  background-color: #efede9;
-}
 .allFurniture {
   overflow: scroll;
   overflow-x: hidden;
@@ -1819,5 +1814,58 @@ form label {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: #cdc0aa;
+}
+/* Moon */
+.moon {
+  padding-bottom: 0em;
+}
+.moon .container-fluid,
+.moon .nav_header,
+.moon .homepage {
+  background-color: transparent;
+}
+
+.moon .crossbar {
+  color: #f1ebe4;
+}
+
+.moon .category_hot_product li {
+  color: #ffeac6e3;
+}
+
+.moon .crossbar[data-v-c40a2754]::after {
+  background-color: #ede8da;
+}
+
+.customize_furniture .crossbar[data-v-c40a2754]::after {
+  transform: translateX(-718%);
+}
+
+.moon .service,
+.moon .new_item,
+.moon .logo img {
+  background-color: #efede9;
+}
+
+.moon small {
+  color: #efede9;
+}
+.moon .icon.icon--moon,
+.moon .icon.icon--sun {
+  color: #fffdfa;
+}
+.moon .logo span {
+  color: #fff3ea;
+}
+.moon .logo p {
+  color: #dfd8d2;
+}
+.moon .mode .toggle,
+.moon .btn.btn-sm-square {
+  background-color: #656464d6;
+  color: #fffdfa;
+}
+.btn.btn-sm-square {
+  background-color: white;
 }
 </style>

@@ -1,5 +1,8 @@
 <template>
-  <header-cus class="bg-white" />
+  <header-cus class="" />
+  <div v-show="isNavBar">
+    <div class="bg-black h-96 w-32"></div>
+  </div>
   <div v-if="furnitureSearch.length">
     <search-result :furnitureSearch="furnitureSearch"></search-result>
   </div>
@@ -9,7 +12,9 @@
   <footer>
     <div class="footer w-full">
       <div class="background w-full">
-        <div class="grid grid-cols-4 text-center gap-52 pt-3 mx-32">
+        <div
+          class="grid grid-cols-4 text-center gap-52 pt-3 mx-32 max-sm:grid max-sm:grid-cols-2 max-sm:gap-10 max-sm:mx-3 max-md:gap-10 max-md:mx-3"
+        >
           <div>
             <i class="fa-solid fa-truck-fast text-2xl"></i>
             <br />
@@ -35,7 +40,9 @@
             <p class="text-sm">within a radius of 30km</p>
           </div>
         </div>
-        <div class="grid grid-cols-2 gap-2">
+        <div
+          class="grid grid-cols-2 gap-2 max-sm:block max-sm:px-5 max-sm:mt-10 max-md:mt-10"
+        >
           <div id="map">
             <iframe
               class="w-11/12 h-80"
@@ -145,6 +152,13 @@ export default {
 };
 </script>
 <style scoped>
+.header {
+  background-color: white;
+}
+.moon .header {
+  background-color: #3e3d3d;
+  /* background-color: #3b3a3a; */
+}
 .footer {
   position: relative;
   color: rgb(220, 210, 210);

@@ -2,7 +2,9 @@
   <div class="allFurniture">
     <div v-if="furnitures.length">
       <div>
-        <div class="grid grid-cols-4 gap-4 max-sm:grid-cols-2">
+        <div
+          class="grid grid-cols-4 gap-4 max-sm:grid-cols-2 max-md:grid-cols-2"
+        >
           <div
             class="product"
             v-for="furniture in furnitures"
@@ -44,10 +46,10 @@
                 </div>
                 <div class="pt-4 px-2">
                   <div class="text-xs">
-                    <span class="text-gray-800 dark:text-red pr-2">{{
+                    <span class="text_price dark:text-red pr-2">{{
                       furniture.price
                     }}</span>
-                    <del class="text-gray-500">$2000</del>
+                    <!-- <del class="text-gray-500">$2000</del> -->
                   </div>
                   <div class="pt-2 text-base font-semibold">
                     <span>{{ furniture.furnitureName }}</span>
@@ -259,14 +261,20 @@ export default {
 .produt img {
   transition: transform 1s;
 }
+.moon img {
+  background: #ffffff26;
+}
 .product img:hover {
   transform: rotateY(180deg);
 }
 .furniture_items {
   background-color: #fff;
 }
-.moon .furniture_items {
+/* .moon .furniture_items {
   background-color: #efede9;
+} */
+.moon .furniture_items {
+  background-color: transparent !important;
 }
 .furniture_label {
   position: absolute;
@@ -748,5 +756,8 @@ export default {
     width: 10px;
     left: 20px;
   }
+}
+.text_price {
+  color: rgb(31 41 55);
 }
 </style>

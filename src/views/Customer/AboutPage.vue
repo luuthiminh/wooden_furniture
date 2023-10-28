@@ -1,5 +1,5 @@
 <template>
-  <div class="all py-36 bg-neutral-50">
+  <div class="all py-36">
     <div class="grid grid-cols-4 mx-40">
       <div class="menu_about">
         <div class="col-span-1">

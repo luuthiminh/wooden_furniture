@@ -1,6 +1,21 @@
 <template>
-  <div class="all py-36 bg-neutral-50">
-    <div class="grid grid-cols-4 mx-40">
+  <div class="all py-36">
+    <div class="nav pb-3 mb-2">
+      <nav aria-label="breadcrumb">
+        <ol class="flex bg-none ml-28 max-sm:ml-3">
+          <li class="breadcrumb-item">
+            <router-link to="customerIndex">Home</router-link>
+          </li>
+          <li class="breadcrumb-item">
+            <router-link to="#">About</router-link>
+          </li>
+          <li class="breadcrumb-item">
+            <router-link to="#">News</router-link>
+          </li>
+        </ol>
+      </nav>
+    </div>
+    <div class="grid grid-cols-4 mx-28 pt-2">
       <div class="menu_about">
         <div class="col-span-1">
           <div class="border border-gray-600 leading-10 w-10/12 mb-4">
@@ -28,7 +43,7 @@
       </div>
       <div class="some_post col-span-3 rounded-md px-6">
         <h1 class="font-semibold text-xl pb-3 text-slate-800">Tips</h1>
-        <div class="post bg-white rounded-md py-2 px-4">
+        <div class="post bg-white rounded-md py-2">
           <div>
             <h1 class="text-lg font-semibold">
               FINDING MULTI-FUNCTIONAL WOODEN CLOTHING CAN BE COMBINED WITH MANY
@@ -111,5 +126,11 @@ h2 {
 img {
   padding-top: 10px;
   padding-bottom: 10px;
+}
+.post {
+  background-color: white;
+}
+.moon .post {
+  background: transparent;
 }
 </style>

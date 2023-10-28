@@ -7,7 +7,11 @@
           :style="{ display: !isShowTab ? 'none' : 'block' }"
         >
           <router-link to="/furnitureManage">
-            <img class="w-4/12" src="@/assets/images/logo.png" alt="logo" />
+            <img
+              class="w-4/12 max-md:w-10/12"
+              src="@/assets/images/logo.png"
+              alt="logo"
+            />
           </router-link>
         </div>
         <!-- <span class="font-semibold">L & L</span> -->
@@ -15,10 +19,10 @@
       <li :style="{ marginLeft: !isShowTab ? '1em' : '10em' }">
         <i
           @click.prevent="toggleShowTab"
-          class="fa-solid fa-bars text-amber-950 px-1 py-1 cursor-pointer"
+          class="fa-solid fa-bars text-amber-950 px-1 py-1 cursor-pointer max-sm:hidden max-md:hidden"
         ></i>
       </li>
-      <li class="mx-10 font-medium">
+      <li class="mx-10 font-medium max-sm:hidden max-md:hidden">
         <p
           class="stock text-amber-900 font-semibold w-10/12 opacity-80"
           :style="{ marginRight: !isShowTab ? '53em' : '32em' }"
@@ -60,7 +64,7 @@
         ></i>
         <p class="text-sm flex items-center text-amber-950">Logout</p>
       </li>
-      <li v-if="isLogin" class="ml-10">
+      <li v-if="isLogin" class="ml-10 max-sm:hidden max-md:hidden">
         <router-link to="/">
           <!-- <button
             class="ring-2 ring-yellow-700 ring-offset-4 ring-offset-slate-50 rounded-sm px-2 hover:ring-yellow-500 ring-opacity-50 text-amber-950 text-sm"
@@ -74,7 +78,7 @@
           </button>
         </router-link>
       </li>
-      <li v-if="isLogin" class="mx-10">
+      <li v-if="isLogin" class="mx-10 max-sm:hidden max-md:hidden">
         <router-link to="/register">
           <!-- <button
             class="ring-2 ring-yellow-700 ring-offset-4 ring-offset-slate-50 rounded-sm px-2 hover:ring-yellow-500 ring-opacity-50 text-amber-950 text-sm"
@@ -89,10 +93,189 @@
         </router-link>
       </li>
     </ul>
+
+    <div
+      @click.prevent="OpenNavBar(nav)"
+      class="absolute items-center top-5 my-2 right-3 hidden border border-1 border-solid-yellow-950 rounded-md hover:bg-slate-200 cursor-pointer ring-1 ring-yellow-600 max-sm:block max-md:block bg-yellow-900 text-white opacity-90 z-10"
+    >
+      <i class="bi bi-list px-1 hover:text-yellow-950"></i>
+    </div>
+
+    <div v-if="(type = nav)">
+      <!-- <div class="overlay">
+        <div class="nav_bar">
+          <div
+            class="icon_cancle flex items-center px-3 border-1 border-bottom border-solid-yellow-600 opacity-90"
+          >
+            <div>
+              <i
+                @click.prevent="closeNavBar"
+                class="bi bi-x-square pl-48 py-3 text-xl flex items-center cursor-pointer"
+              ></i>
+            </div>
+          </div>
+          <div class="search mt-4">
+            <div class="container">
+              <input
+                type="text"
+                name="text"
+                class="input"
+                placeholder="Dark Twitch Search"
+              />
+              <button
+                class="search__btn bg-gradient-to-r from-yellow-700 to-orange-800 opacity-90"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="22"
+                  height="22"
+                >
+                  <path
+                    d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"
+                    fill="#efeff1"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <ul v-show="isLogin" class="flex gap-x-10 right-2 items-center">
+            <li class="items-center px-3" @click.prevent="closeNavBar">
+              <div class="flex gap-x-4 font-medium">
+                <router-link to="/profileCusPage" class="text-decoration-none"
+                  ><i class="bi bi-person cursor-pointer"></i
+                ></router-link>
+                <p class="">Account</p>
+              </div>
+
+              <div
+                @click.prevent="handleLogout"
+                class="flex gap-x-4 font-medium"
+              >
+                <i class="bi bi-arrow-right-circle cursor-pointer"></i>
+                <p>Logout</p>
+              </div>
+            </li>
+          </ul>
+          <ul v-show="!isLogin" class="flex items-center">
+            <li class="items-center px-3">
+              <router-link to="/">
+                <span class="font-medium text-sm">Login/ </span>
+              </router-link>
+              <router-link to="/">
+                <span class="font-medium text-sm">Register </span>
+              </router-link>
+            </li>
+          </ul>
+          <div
+            class="line border-1 border-bottom border-solid-slate-200 opacity-90"
+          ></div>
+          <ul class="items-center px-3">
+            <li class="font-medium" @click.prevent="closeNavBar">
+              <router-link to="/indexAssistant" class="flex gap-x-4">
+                <i
+                  class="bi bi-house-check-fill bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
+                ></i>
+                <p>Home</p></router-link
+              >
+            </li>
+            <li class="font-medium" @click.prevent="closeNavBar">
+              <a
+                href="#furniture active"
+                aria-controls="furniture"
+                role="tab"
+                data-toggle="tab"
+                class="active flex gap-x-4"
+              >
+                <i
+                  class="bi bi-house-heart-fill bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
+                ></i>
+                <p>Furniture</p></a
+              >
+            </li>
+            <li class="font-medium" @click.prevent="closeNavBar">
+              <a
+                href="#material"
+                aria-controls="material"
+                role="tab"
+                data-toggle="tab"
+                class="flex gap-x-4"
+              >
+                <i
+                  class="bi bi-bricks bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
+                ></i>
+                <p>Material</p></a
+              >
+            </li>
+            <li class="font-medium" @click.prevent="closeNavBar">
+              <a
+                href="/feedback"
+                aria-controls="feedback"
+                role="tab"
+                data-toggle="tab"
+                class="flex gap-x-4"
+              >
+                <i
+                  class="bi bi-chat-square-dots-fill bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
+                ></i>
+                <p>Feedback</p></a
+              >
+            </li>
+            <li class="font-medium" @click.prevent="closeNavBar">
+              <a
+                href="#wishlist"
+                aria-controls="wishlist"
+                role="tab"
+                data-toggle="tab"
+                class="flex gap-x-4"
+              >
+                <i
+                  class="bi bi-bag-heart-fill bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
+                ></i>
+                <p>Wishlist</p></a
+              >
+            </li>
+            <li class="font-medium" @click.prevent="closeNavBar">
+              <a
+                href="#notification"
+                aria-controls="notification"
+                role="tab"
+                data-toggle="tab"
+                class="flex gap-x-4"
+              >
+                <i
+                  class="bi bi-bell-fill bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
+                ></i>
+                <p class="text-amber-950 text-sm flex items-center">
+                  Notification
+                </p></a
+              >
+            </li>
+            <li class="font-medium" @click.prevent="closeNavBar">
+              <router-link to="/labelManagement" class="flex gap-x-4">
+                <i
+                  class="bi bi-bookmark-check-fill bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
+                ></i>
+                <p>Label</p>
+              </router-link>
+            </li>
+            <li class="font-medium" @click.prevent="closeNavBar">
+              <router-link to="/woodManagement" class="flex gap-x-4">
+                <i
+                  class="bi bi-tree-fill bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
+                ></i>
+                <p>Wood</p>
+              </router-link>
+            </li>
+          </ul>
+        </div> -->
+      <!-- </div> -->
+      <span>Hi</span>
+    </div>
   </header>
   <div class="content">
     <div class="flex flex-cols-10">
-      <div class="col-span-3 fixed">
+      <div class="col-span-3 fixed max-sm:hidden max-md:hidden">
         <div class="flex flex-cols-2">
           <nav class="col-span-1 nav shadow-md">
             <div class="user">
@@ -352,7 +535,10 @@
       </div>
       <div
         class="grow z-0"
-        :style="{ marginLeft: !isShowTab ? '8em' : '22em' }"
+        :style="{
+          marginLeft: !isShowTab ? '8em' : '22em',
+          marginLeft: (isNavBar = '0em'),
+        }"
       >
         <!-- <div class="px-3">
           <nav aria-label="breadcrumb">
@@ -379,6 +565,7 @@ export default {
     return {
       isShowTab: true,
       isLogin: false,
+      type: null,
     };
   },
   created() {
@@ -401,6 +588,12 @@ export default {
         this.isLogin = false;
       }
     },
+    OpenNavBar(nav) {
+      this.type = nav;
+    },
+    closeNavBar() {
+      this.isNavBar = !this.isNavBar;
+    },
   },
 };
 </script>
@@ -416,12 +609,9 @@ export default {
   border: 1px solid #d3c2ae;
 } */
 
-i {
-  opacity: 0.5;
-}
 .header {
   background-color: #ffffff;
-  position: fixed;
+  /* position: fixed; */
   z-index: 99;
   color: #665e4e;
   display: flex;
@@ -439,6 +629,14 @@ i {
 
 li {
   cursor: pointer;
+}
+
+i {
+  opacity: 0.9;
+}
+
+.nav_bar li {
+  line-height: 58px;
 }
 .user_hr {
   width: 6em;
@@ -491,6 +689,7 @@ nav {
 nav i {
   padding-bottom: 15px;
 }
+
 .avatar {
   height: 48px;
   width: 48px;
@@ -626,5 +825,41 @@ table {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: #cdc0aa;
+}
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(28, 27, 27, 0.3);
+  animation: fadeIn linear 0.2s;
+  z-index: 100;
+}
+.nav_bar {
+  width: 15.4em;
+  height: 100%;
+  background: rgb(251, 250, 250);
+  box-shadow: 10px 0 5px -2px #b6b2b2;
+  z-index: 100;
+}
+.icon_cancle {
+  background-color: rgb(185 189 206 / 17%);
+  box-shadow: 0 4px 13px -6px #a5a7ac;
+}
+/*Mobile & tablet: width<1024px*/
+@media only screen and (max-width: 63.9375em) {
+  .grow.z-0 {
+    margin-left: 2em;
+  }
+}
+/*Mobile: width<780px*/
+@media only screen and (max-width: 46.25em) {
+}
+/*Tablet: width>=740px and width < 1024px*/
+@media only screen and (min-width: 46.25em) and (max-width: 63.9375em) {
+}
+@media only screen and (width: 64em) {
+}
+/*laptop*/
+@media only screen and (min-width: 73em) and (max-width: 81.25em) {
 }
 </style>

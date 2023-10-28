@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="nav pt-36 pb-3 mb-2">
+    <div class="nav pt-36 pb-3 mb-2 max-md:pt-24">
       <nav aria-label="breadcrumb">
-        <ol class="flex bg-none text-xs ml-32 max-sm:ml-3">
+        <ol class="flex bg-none ml-28 max-sm:ml-3 max-md:ml-4">
           <li class="breadcrumb-item">
             <router-link to="customerIndex">Home </router-link>
           </li>
@@ -15,11 +15,13 @@
         </ol>
       </nav>
     </div>
-    <div class="grid grid-cols-5 gap-x-4 mx-32 max-sm:block max-sm:mx-2">
-      <div class="col-span-1">
+    <div
+      class="grid grid-cols-5 gap-x-4 pt-3 mx-28 max-sm:block max-sm:mx-2 max-md:mx-4 max-md:grid-cols-6 max-md:gap-x-6"
+    >
+      <div class="col-span-1 max-md:col-span-2">
         <div class="nav_bar">
           <!-- <img class="pt-4" src="@/assets/images/advertisement/2.png" alt="" /> -->
-          <div class="menu_category mb-1 bg-white rounded-md max-sm:hidden">
+          <div class="menu_category mb-1 rounded-md max-sm:hidden">
             <div class="header px-2 py-2 rounded-t-md">
               <h1 class="font-medium text-sm">ALL PRODUCT</h1>
             </div>
@@ -38,7 +40,7 @@
           </div>
           <br />
           <div
-            class="menu_category bg-white rounded-md max-sm:hidden"
+            class="menu_category rounded-md max-sm:hidden"
             :style="{
               border: isDark
                 ? '1px solid rgb(166 163 160)'
@@ -321,6 +323,7 @@ export default {
   color: wheat;
 }
 .menu_category {
+  background: white;
   /* border: "1px solid #cbd5e1"; */
   border: 1px solid rgb(195 195 195);
 }
@@ -341,12 +344,18 @@ hr {
 }
 .moon .menu_category {
   border: 1px solid #f4f1f1;
-  background-color: #efede9;
+  /* background-color: #efede9; */
+  background-color: transparent;
+}
+.moon .menu_category .header {
+  background-color: #3e3d3d;
 }
 .moon .col-span-4 h1 {
   color: rgb(229 227 224);
 }
-.moon hr {
+.moon hr,
+.moon .bi.bi-hourglass-top,
+.moon .bi-hourglass-bottom {
   color: #ffffff;
 }
 </style>

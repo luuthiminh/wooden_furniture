@@ -1,5 +1,5 @@
 <template>
-  <div class="layout bg-neutral-700">
+  <div class="layout">
     <slot />
   </div>
 </template>
@@ -8,5 +8,6 @@
 <style>
 .layout {
   height: 50em;
+  background-color: #efefef;
 }
 </style>
