@@ -23,46 +23,86 @@
           >Customize Furniture</router-link
         >
       </li>
-      <li>All Product</li>
-      <!-- <li>
+      <li>
         <div class="dropdown">
           <div class="dropdown-toggle" data-toggle="dropdown">
-            <div>All Product</div>
+            <router-link to="/allproduct">All Product</router-link>
           </div>
           <div class="dropdown-menu px-3 py-2 mt-1 leading-7">
-            <li>
-              <router-link to="/allproduct" class="font-medium text-base">
-                Wardrobe</router-link
+            <div v-if="categories.length">
+              <ul
+                v-for="ca in categories"
+                :key="ca.categoryId"
+                class="flex flex-cols-4 gap-x-10"
               >
-            </li>
-            <li>
-              <router-link to="/allproduct" class="font-medium text-base">
-                Sofa</router-link
-              >
-            </li>
-            <li>
-              <router-link to="/allproduct" class="font-medium text-base">
-                Clock</router-link
-              >
-            </li>
-            <li>
-              <router-link to="/allproduct" class="font-medium text-base">
-                Altar</router-link
-              >
-            </li>
-            <li>
-              <router-link to="/allproduct" class="font-medium text-base">
-                Bed</router-link
-              >
-            </li>
-            <li>
-              <router-link to="/allproduct" class="font-medium text-base">
-                Shelves TV</router-link
-              >
-            </li>
+                <li>
+                  <span @clik="HandleCategoryDetail">{{
+                    ca.categoryName
+                  }}</span>
+                  <ul class="block list-outside list-disc leading-10 ml-3">
+                    <li>
+                      <!-- <router-link
+                        to="/allproduct"
+                        class="font-medium text-base"
+                      >
+                        Shelves TV</router-link
+                      > -->
+                      <!-- <span @clik="HandleCategoryDetail">{{
+                        ca.categoryName
+                      }}</span> -->
+                    </li>
+                    <!-- <li>
+                      <router-link
+                        to="/allproduct"
+                        class="font-medium text-base"
+                      >
+                        Clock</router-link
+                      >
+                    </li>
+                    <li>
+                      <router-link
+                        to="/allproduct"
+                        class="font-medium text-base"
+                      >
+                        Shelves TV</router-link
+                      >
+                    </li>
+                    <li>
+                      <router-link
+                        to="/allproduct"
+                        class="font-medium text-base"
+                      >
+                        Shelves TV</router-link
+                      >
+                    </li> -->
+                  </ul>
+                </li>
+
+                <!-- <li>
+                <router-link to="/allproduct" class="font-medium text-base">
+                  Bedroom Furniture</router-link
+                >
+                <ul>
+                  <router-link to="/allproduct" class="font-medium text-base">
+                    Bed</router-link
+                  >
+                </ul>
+              </li>
+              <li>
+                <router-link to="/allproduct" class="font-medium text-base">
+                  Kitchen Furniture</router-link
+                >
+              </li>
+              <li>
+                <router-link to="/allproduct" class="font-medium text-base">
+                  Worship Room Furniture</router-link
+                >
+              </li> -->
+              </ul>
+            </div>
           </div>
         </div>
-      </li> -->
+      </li>
       <li>
         <router-link to="/furnitureMix" style="text-decoration: none"
           >Mix
@@ -156,11 +196,6 @@
         >
           <i class="bi bi-person-fill text-2xl"></i>
         </li>
-        <!-- <li>
-          <div @click.prevent="handelLogout">
-            <i class="bi bi-box-arrow-right cursor-pointer"></i>
-          </div>
-        </li> -->
       </ul>
       <div>
         <router-link to="/TemporaryCart" style="text-decoration: none"
@@ -204,7 +239,7 @@
       </li>
       <li class="px-3 py-2">
         <div @click.prevent="handelLogout" class="items-center">
-          <span class="font-medium">Logout</span>
+          <span class="font-medium cursor-pointer">Logout</span>
         </div>
       </li>
     </ul>
@@ -240,6 +275,7 @@ export default {
       isDarkMode: false,
       keyword: "",
       furnitureSearch: [],
+      categories: [],
       notifications: [],
       isLogin: false,
       isShowAccount: false,
@@ -248,6 +284,7 @@ export default {
   created() {
     // this.getLang();
     this.checkLogin();
+    this.getAllCategory();
   },
   methods: {
     async search() {
@@ -263,11 +300,21 @@ export default {
         // alert("Furniture not found!");
       }
     },
+    async getAllCategory() {
+      try {
+        const response = await axios.get("ShopOwner/shop-data/categories");
+        this.categories = response.data;
+        console.log(response);
+        console.log(this.furnitures);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     clear() {
       this.keyword = "";
       this.furnitureSearch = "";
     },
-    handleLogout() {
+    handelLogout() {
       localStorage.removeItem("token");
       this.$router.push({ name: "login" });
     },
@@ -320,13 +367,6 @@ nav {
 .nav_header .logo img {
   max-width: 30%;
 }
-/* .wrapper {
-  padding-left: 50rem;
-}
-.wrapper li {
-  padding-left: 10%;
-  font-size: 15px;
-} */
 nav {
   background-color: white;
   position: sticky;
@@ -339,10 +379,6 @@ nav {
   /* border: 1px solid #d3c2ae; */
   border-radius: 7px;
 }
-/* nav li {
-  padding-left: 1px;
-  padding-right: 2px;
-} */
 nav > li.active {
   color: blue;
 }
@@ -516,7 +552,22 @@ li:hover {
 .icon--sun {
   transform: scale(0);
 }
+.dropdown.dropdown-menu:hover {
+  display: block;
+  cursor: pointer;
+}
+.dropdown:hover {
+  cursor: pointer;
+}
+.dropdown-menu {
+  animation: growDown 300ms ease-in forwards;
+  width: 53em;
+  margin-left: -29em;
+}
 
+/* .dropdown.dropdown-menu {
+  top: 0;
+} */
 /* #switch:checked + .icon--moon {
   transform: rotate(360deg) scale(0);
 }
@@ -543,38 +594,6 @@ li:hover {
 /*laptop*/
 @media only screen and (min-width: 73em) and (max-width: 81.25em) {
 }
-.dropdown:hover {
-  cursor: pointer;
-}
-.dropdown.dropdown-menu:hover {
-  display: block;
-  cursor: pointer;
-}
-.dropdown-menu {
-  animation: growDown 300ms ease-in forwards;
-}
-@keyframes growDown {
-  0% {
-    transform: scaleY(0);
-  }
-  80% {
-    transform: scaleY(1.1);
-  }
-  100% {
-    transform: scaleY(1);
-  }
-}
-/* @keyframes rotateMenu {
-  0% {
-    transform: rotateX(-90deg);
-  }
-  70% {
-    transform: rotateX(20deg);
-  }
-  100% {
-    transform: rotateX(0deg);
-  }
-} */
 .hover_account {
   width: 8em;
   margin-left: -11em;

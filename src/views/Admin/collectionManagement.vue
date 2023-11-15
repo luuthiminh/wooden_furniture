@@ -2,10 +2,35 @@
   <header-admin :title="title" />
   <div class="bg-white mb-2 rounded-xl mt-32">
     <div class="header pt-6 px-6">
+      <div class="absolute right-10">
+        <alert-Error v-if="isAlertError">
+          <template v-slot:message>{{ messageError }}</template></alert-Error
+        >
+        <alert-success v-if="isAlertSuccess">
+          <template v-slot:message>{{ messageSuccess }}</template>
+        </alert-success>
+      </div>
       <div class="flex items-center justify-between">
-        <search-admin />
+        <div class="search_admin">
+          <div class="group">
+            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+              <g>
+                <path
+                  d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
+                ></path>
+              </g>
+            </svg>
+            <input
+              placeholder="Search"
+              type="search"
+              class="input"
+              v-model="keyword"
+              @input="searchCollection"
+            />
+          </div>
+        </div>
         <div class="flex flex-cols-2 gap-x-3">
-          <div
+          <!-- <div
             class="dropdown bg-orange-50 shadow-lg bg-orange-100/50 px-2 py-2 rounded-lg"
           >
             <button
@@ -43,73 +68,72 @@
                 <a class="dropdown-item font-medium" href="#">Old User</a>
               </li>
             </ul>
-          </div>
-          <div class="new member">
-            <div
-              class="dropdown bg-orange-50 shadow-lg bg-orange-100/50 px-2 py-2 rounded-lg"
+          </div> -->
+          <div class="">
+            <button
+              type="button"
+              class="button_add"
+              data-toggle="modal"
+              data-target="#exampleModalLong"
+              data-dismiss="modal"
+              data-backdrop="false"
+              @click="opentModal('add', 'null')"
             >
-              <button
-                class="flex"
-                data-toggle="modal"
-                data-target="#exampleModalLong"
-                data-dismiss="modal"
-                data-backdrop="false"
-                @click.prevent="isAddFurniture = true"
-              >
-                <svg
+              <span class="button__text text-sm">Add</span>
+              <span class="button__icon"
+                ><svg
                   xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
+                  width="24"
                   viewBox="0 0 24 24"
-                  stroke-width="2.5"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                  stroke-linecap="round"
                   stroke="currentColor"
-                  class="w-5 h-1/6 mr-2 text-orange-500"
+                  height="24"
+                  fill="none"
+                  class="svg"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M12 4.5v15m7.5-7.5h-15"
-                  />
-                </svg>
-                <span class="text-orange-500 font-medium">New Furniture</span>
-              </button>
-            </div>
+                  <line y2="19" y1="5" x2="12" x1="12"></line>
+                  <line y2="12" y1="12" x2="19" x1="5"></line></svg
+              ></span>
+            </button>
           </div>
-          <modal @close="closeModal">
+          <modal
+            v-if="modalType == 'add'"
+            @close="isShowAddModal = false"
+            data-target="#myModal"
+          >
             <template v-slot:title>
-              <h1 class="flex items-center text-lg font-medium">
-                Add New Collection
-              </h1>
+              <div
+                class="flex items-center text-base font-semibold text-yellow-950"
+              >
+                Add New Color
+              </div>
             </template>
             <template v-slot:body>
-              <div class="py-3 px-4 text-sm">
-                <form @submit.prevent="" class="">
-                  <div class="flex gap-x-5">
-                    <label
-                      for="exampleInputEmail1"
-                      class="form-label font-medium pt-2"
-                      >Name Collection</label
-                    >
-                    <input
-                      type="email"
-                      class="form-control w-6/12 border-none bg-gray-100"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      required
-                    />
-                  </div>
-                </form>
+              <div class="py-3 pr-36 text-sm">
+                <div class="grid grid-cols-12 gap-x-10">
+                  <label
+                    for="exampleInputEmail1"
+                    class="col-span-5 form-label text-semibold text-base pt-2 border-none"
+                    >Name Collection</label
+                  >
+                  <input
+                    v-model="colName"
+                    type="text"
+                    class="col-span-7 form-control"
+                    id="exampleInpuName1"
+                    aria-describedby="nameHelp"
+                    required
+                  />
+                </div>
               </div>
             </template>
             <template v-slot:footer>
-              <div class="bg_button rounded-md">
-                <button
-                  data-dismiss="modal"
-                  @click.prevent="HandleAddFurniture"
-                  type="button"
-                  class="button_addfurniture text-white px-4 py-2"
-                >
+              <div class="bg-yellow-900 rounded-md">
+                <span type="button" class="btn text-white" @click="HandleAdd">
                   Add
-                </button>
+                </span>
               </div>
             </template>
           </modal>
@@ -118,97 +142,32 @@
     </div>
     <div class="content_table pt-6 px-6 scroll">
       <div class="py-4">
-        <table class="table table-borderless text-yellow-950 font-medium">
+        <table
+          v-if="searchResults.length"
+          class="table table-borderless text-yellow-950 font-medium text-center"
+        >
           <thead>
-            <tr class="text-sm">
+            <tr class="text-sm text-center">
               <th scope="col">ID</th>
-              <th scope="col">NAME COLLECTION</th>
+              <th scope="col">Collection Name</th>
               <th></th>
               <th></th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="img">1</td>
-              <td class="text-start">Collection 1</td>
-              <td>
-                <button
-                  type="button"
-                  class="button_add"
-                  data-toggle="modal"
-                  data-target="#exampleModalLong"
-                  data-dismiss="modal"
-                  data-backdrop="false"
-                  @click="isShowAddModal = true"
-                >
-                  <span class="button__text text-xs">Add</span>
-                  <span class="button__icon"
-                    ><svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      viewBox="0 0 24 24"
-                      stroke-width="2"
-                      stroke-linejoin="round"
-                      stroke-linecap="round"
-                      stroke="currentColor"
-                      height="24"
-                      fill="none"
-                      class="svg"
-                    >
-                      <line y2="19" y1="5" x2="12" x1="12"></line>
-                      <line y2="12" y1="12" x2="19" x1="5"></line></svg
-                  ></span>
-                </button>
-                <modal
-                  v-if="isShowAddModal"
-                  @close="isShowAddModal = false"
-                  data-target="#myModal"
-                >
-                  <template v-slot:title>
-                    <div class="flex items-center text-lg font-medium">
-                      Add New Collection
-                    </div>
-                  </template>
-                  <template v-slot:body>
-                    <div class="py-3 px-4 text-sm">
-                      <form @submit.prevent="Add">
-                        <div>
-                          <label for="exampleInputEmail1" class="form-label"
-                            >Nam Collecttion</label
-                          >
-                          <input
-                            v-model="categoryName"
-                            type="text"
-                            class="form-control"
-                            id="exampleInpuName1"
-                            aria-describedby="nameHelp"
-                            required
-                          />
-                        </div>
-                      </form>
-                    </div>
-                  </template>
-                  <template v-slot:footer>
-                    <button
-                      type="button"
-                      class="btn btn-primary my-8"
-                      @click.prevent="HandleAdd"
-                    >
-                      Save changes
-                    </button>
-                  </template>
-                </modal>
-              </td>
+            <tr v-for="s in searchResults" :key="s.collectionId">
+              <th scope="row">{{ s.collectionId }}</th>
+              <td>{{ s.collectionName }}</td>
               <td>
                 <button
                   class="button_edit"
-                  type="button "
+                  type="button"
                   data-toggle="modal"
                   data-target="#exampleModalLong"
                   data-dismiss="modal"
                   data-backdrop="false"
-                  @click="isShowEditModal = true"
+                  @click="opentModal('edit', s)"
                 >
                   <span class="button__text text-xs">Edit</span>
                   <span class="button__icon"
@@ -224,10 +183,91 @@
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
-                      />
-                    </svg>
-                  </span>
+                      /></svg
+                  ></span>
                 </button>
+                <modal
+                  v-if="modalType == 'edit'"
+                  @close="modalType == null"
+                  data-target="#myModal"
+                >
+                  <template v-slot:title>
+                    <div
+                      class="flex items-center text-base font-semibold text-yellow-950"
+                    >
+                      Edit This Collection
+                    </div>
+                  </template>
+                  <template v-slot:body>
+                    <div class="py-3 pr-36 text-sm">
+                      <div class="grid grid-cols-12 gap-x-10">
+                        <label
+                          for="exampleInputEmail1"
+                          class="col-span-5 form-label text-semibold text-base pt-2 border-none"
+                          >Name Collection</label
+                        >
+                        <input
+                          v-model="nameCollectionModal"
+                          type="text"
+                          class="col-span-7 form-control"
+                          id="exampleInpuName1"
+                          aria-describedby="nameHelp"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </template>
+                  <template v-slot:footer>
+                    <div class="bg-yellow-900 rounded-md">
+                      <span
+                        type="button"
+                        class="btn text-white"
+                        @click.prevent="HandleUpdate"
+                      >
+                        Update
+                      </span>
+                    </div>
+                  </template>
+                </modal>
+                <modal
+                  v-if="modalType == 'delete'"
+                  @close="modalType == null"
+                  data-target="#myModal"
+                >
+                  <template v-slot:title>
+                    <div class="flex items-center text-lg font-semibold">
+                      Delete
+                    </div>
+                  </template>
+                  <template v-slot:body>
+                    <p class="text-base py-3">
+                      Are you sure detete <b> {{ nameCollectionModal }}</b
+                      >?
+                    </p>
+                  </template>
+                  <template v-slot:footer>
+                    <div class="bg-red-900 rounded-md">
+                      <span
+                        type="button"
+                        class="btn text-white"
+                        @click="HandleDelete"
+                      >
+                        Delete
+                      </span>
+                    </div>
+                    <!-- <button
+                        type="button"
+                        class="btn btn-primary my-8"
+                        data-bs-target="#exampleModalToggle2"
+                        data-bs-toggle="modal"
+                        data-bs-dismiss="modal"
+                        @click="opentModal('notification', w)"
+                        @click.prevent="HandleDelete"
+                      >
+                        Yes
+                      </button> -->
+                  </template>
+                </modal>
               </td>
               <td>
                 <button
@@ -237,7 +277,7 @@
                   data-target="#exampleModalLong"
                   data-dismiss="modal"
                   data-backdrop="false"
-                  @click.prevent="isShowDeleteModal = true"
+                  @click="opentModal('delete', 'null')"
                 >
                   <span class="button__text text-xs">Delete</span>
                   <span class="button__icon"
@@ -322,137 +362,381 @@
                       ></line></svg
                   ></span>
                 </button>
+                <modal
+                  v-if="isShowDeleteModal"
+                  @close="isShowDeleteModal = false"
+                  data-target="#myModal"
+                >
+                  <template v-slot:title>
+                    <div class="flex items-center text-lg font-medium">
+                      Delete
+                    </div>
+                  </template>
+                  <template v-slot:body>
+                    <p>Are you sure detete this category</p>
+                  </template>
+                  <template v-slot:footer>
+                    <button
+                      type="button"
+                      class="btn btn-primary my-8"
+                      @click.prevent="HandleDelete(ca)"
+                    >
+                      Yes
+                    </button>
+                  </template>
+                </modal>
               </td>
-              <modal
-                v-if="isShowEditModal"
-                @close="isShowEditModal = false"
-                data-target="#myModal"
-              >
-                <template v-slot:title>
-                  <h1 class="flex items-center text-lg font-medium">
-                    Edit Thi Furniture
-                  </h1>
-                </template>
-                <template v-slot:body>
-                  <div class="py-1 px-4 text-sm">
-                    <form @submit.prevent="">
-                      <div>
-                        <label
-                          for="exampleInputEmail1"
-                          class="form-label font-medium"
-                          >Name Collection</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="exampleInpuName1"
-                          aria-describedby="nameHelp"
-                          required
-                        />
-                      </div>
-                      <button type="submit" class="btn my-8">Edit</button>
-                    </form>
-                  </div>
-                </template>
-                <template v-slot:footer>
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    @click.prevent="saveChanges"
-                  >
-                    Save changes
-                  </button>
-                </template>
-              </modal>
-              <modal
-                v-if="isShowDeleteModal"
-                @close="isShowDeleteModal = false"
-                data-target="#myModal"
-              >
-                <template v-slot:title>
-                  <h1 class="flex items-center text-lg font-medium">
-                    Delete This Collection
-                  </h1>
-                </template>
-                <template v-slot:body>
-                  <div class="py-1 px-4 text-sm">
-                    <h1>Are you sure delete this furniture?</h1>
-                  </div>
-                </template>
-                <template v-slot:footer>
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    @click.prevent="saveChanges"
-                  >
-                    Yes
-                  </button>
-                </template>
-              </modal>
             </tr>
           </tbody>
         </table>
+        <table
+          v-else
+          class="table table-borderless text-yellow-950 font-medium text-center"
+        >
+          <thead>
+            <tr class="text-sm text-center">
+              <th scope="col">ID</th>
+              <th scope="col">Collection Name</th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="ca in collections" :key="ca.collectionId">
+              <th scope="row">{{ ca.collectionId }}</th>
+              <td>{{ ca.collectionName }}</td>
+              <td>
+                <button
+                  class="button_edit"
+                  type="button"
+                  data-toggle="modal"
+                  data-target="#exampleModalLong"
+                  data-dismiss="modal"
+                  data-backdrop="false"
+                  @click="opentModal('edit', ca)"
+                >
+                  <span class="button__text text-xs">Edit</span>
+                  <span class="button__icon bi bi-pencil text-white"></span>
+                </button>
+              </td>
+              <modal
+                v-if="modalType == 'edit'"
+                @close="modalType == null"
+                data-target="#myModal"
+              >
+                <template v-slot:title>
+                  <div
+                    class="flex items-center text-base font-semibold text-yellow-950"
+                  >
+                    Edit This Category
+                  </div>
+                </template>
+                <template v-slot:body>
+                  <div class="py-3 pr-36 text-sm">
+                    <div class="grid grid-cols-12 gap-x-10">
+                      <label
+                        for="exampleInputEmail1"
+                        class="col-span-5 form-label text-semibold text-base pt-2 border-none"
+                        >Name Category</label
+                      >
+                      <input
+                        v-model="nameCollectionModal"
+                        type="text"
+                        class="col-span-7 form-control"
+                        id="exampleInpuName1"
+                        aria-describedby="nameHelp"
+                        required
+                      />
+                    </div>
+                  </div>
+                </template>
+                <template v-slot:footer>
+                  <div class="bg-yellow-900 rounded-md">
+                    <span
+                      type="button"
+                      class="btn text-white"
+                      @click.prevent="HandleUpdate"
+                    >
+                      Update
+                    </span>
+                  </div>
+                </template>
+              </modal>
+              <td>
+                <button
+                  class="button_delete"
+                  type="button"
+                  data-toggle="modal"
+                  data-target="#exampleModalLong"
+                  data-dismiss="modal"
+                  data-backdrop="false"
+                  @click="opentModal('delete', ca)"
+                >
+                  <span class="button__text text-xs">Delete</span>
+                  <span class="button__icon"
+                    ><svg
+                      class="svg"
+                      height="512"
+                      viewBox="0 0 512 512"
+                      width="512"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <title></title>
+                      <path
+                        d="M112,112l20,320c.95,18.49,14.4,32,32,32H348c17.67,0,30.87-13.51,32-32l20-320"
+                        style="
+                          fill: none;
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-linejoin: round;
+                          stroke-width: 32px;
+                        "
+                      ></path>
+                      <line
+                        style="
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-miterlimit: 10;
+                          stroke-width: 32px;
+                        "
+                        x1="80"
+                        x2="432"
+                        y1="112"
+                        y2="112"
+                      ></line>
+                      <path
+                        d="M192,112V72h0a23.93,23.93,0,0,1,24-24h80a23.93,23.93,0,0,1,24,24h0v40"
+                        style="
+                          fill: none;
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-linejoin: round;
+                          stroke-width: 32px;
+                        "
+                      ></path>
+                      <line
+                        style="
+                          fill: none;
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-linejoin: round;
+                          stroke-width: 32px;
+                        "
+                        x1="256"
+                        x2="256"
+                        y1="176"
+                        y2="400"
+                      ></line>
+                      <line
+                        style="
+                          fill: none;
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-linejoin: round;
+                          stroke-width: 32px;
+                        "
+                        x1="184"
+                        x2="192"
+                        y1="176"
+                        y2="400"
+                      ></line>
+                      <line
+                        style="
+                          fill: none;
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-linejoin: round;
+                          stroke-width: 32px;
+                        "
+                        x1="328"
+                        x2="320"
+                        y1="176"
+                        y2="400"
+                      ></line></svg
+                  ></span>
+                </button>
+                <modal
+                  v-if="modalType == 'delete'"
+                  @close="modalType == null"
+                  data-target="#myModal"
+                >
+                  <template v-slot:title>
+                    <div class="flex items-center text-lg font-semibold">
+                      Delete
+                    </div>
+                  </template>
+                  <template v-slot:body>
+                    <p class="text-base py-3">
+                      Are you sure detete <b> {{ nameCollectionModal }}</b
+                      >?
+                    </p>
+                  </template>
+                  <template v-slot:footer>
+                    <div class="bg-red-900 rounded-md">
+                      <span
+                        type="button"
+                        class="btn text-white"
+                        @click="HandleDelete"
+                      >
+                        Delete
+                      </span>
+                    </div>
+                    <!-- <button
+                        type="button"
+                        class="btn btn-primary my-8"
+                        data-bs-target="#exampleModalToggle2"
+                        data-bs-toggle="modal"
+                        data-bs-dismiss="modal"
+                        @click="opentModal('notification', w)"
+                        @click.prevent="HandleDelete"
+                      >
+                        Yes
+                      </button> -->
+                  </template>
+                </modal>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- <div v-else class="loader"></div> -->
       </div>
     </div>
   </div>
   <p class="text-sm font-medium mb-5">Total users: 5</p>
-
-  <div class="loader"></div>
 </template>
 <script>
 import axios from "axios";
 import HeaderAdmin from "@/components/headerAdmin.vue";
 import modal from "@/components/ModalPage.vue";
-import SearchAdmin from "@/components/searchAdmin.vue";
+import alertError from "@/components/AlertError.vue";
+import alertSuccess from "@/components/AlertSuccess.vue";
 export default {
   components: {
     HeaderAdmin,
     modal,
-    SearchAdmin,
+    alertError,
+    alertSuccess,
   },
   data() {
     return {
-      isShowFurnitureSpecification: false,
-      furnitures: [],
-      isShowAddModal: false,
-      isShowEditModal: false,
-      isShowDeleteModal: false,
-      furnitureModel: [],
-      title: "All Collection",
+      collections: [],
+      searchResults: [],
+      nameCollectionModal: null,
+      idColModal: null,
+      modalType: null,
+      title: "All Collections",
     };
   },
   created() {
-    this.getFurnitures();
+    this.getAllCollections();
   },
   methods: {
-    async getFurnitures() {
+    async getAllCollections() {
       try {
-        const response = await axios.get("/customer/furnitures");
-        this.furnitures = response.data;
+        const response = await axios.get("shopOwner/shop-data/collections");
+        this.collections = response.data;
+        console.log(response.data);
       } catch (error) {
         console.error(error);
       }
     },
-    closeModal() {
-      this.isShowAddModal = false;
-      this.isShowEditdModal = false;
-      this.isShowDeleteModal = false;
-    },
-    async showModal(furniture) {
-      this.isShowFurnitureSpecification = true;
+    async searchCollection() {
       try {
         const response = await axios.get(
-          "customer/furnitures/" + furniture.furnitureId
+          "shopOwner/shop-data/collections/search?searchString=" + this.keyword
         );
-        this.furnitureModel = response.data;
-        console.log(furniture);
+        this.searchResults = response.data;
       } catch (error) {
+        this.isAlertWanning = true;
+        this.messageWanning = this.keyword + " not found";
+        setTimeout(() => {
+          this.isAlertWanning = false;
+        }, 5000);
+      }
+    },
+    async opentModal(type, ca) {
+      this.modalType = type;
+      this.nameCollectionModal = ca.collectionName;
+      this.idColModal = ca.collectionId;
+    },
+    closeModal() {
+      this.modalType = null;
+    },
+    async HandleAdd() {
+      try {
+        const response = await axios.post(
+          "shopOwner/shop-data/collections/add?collectionName=" + this.colName
+        );
+        if (response.status === 201) {
+          this.modalType = null;
+          this.isAlertSuccess = true;
+          this.messageSuccess = "Add new category successfully";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 5000);
+          this.getAllCollections();
+        }
+      } catch (error) {
+        this.isAlertError = true;
+        this.messageError = error.response.data.message;
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 5000);
         console.error(error);
       }
     },
-    saveChanges() {
-      // Xử lý khi nhấn nút "Lưu thay đổi" trong modal
-      this.closeModal(); // Đóng modal sau khi lưu thay đổi (có thể sửa đổi thành xử lý lưu thay đổi thực tế)
+    async HandleUpdate() {
+      try {
+        const response = await axios.put(
+          "shopOwner/shop-data/collections/update?collectionId=" +
+            this.idColModal +
+            "&collectionName=" +
+            this.nameCollectionModal
+        );
+        if (response.status === 200) {
+          this.modalType = null;
+          this.isAlertSuccess = true;
+          this.messageSuccess =
+            "Update " + this.nameCollectionModal + " successful!";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 5000);
+          this.getAllCollections();
+        }
+      } catch (error) {
+        this.isAlertError = true;
+        this.messageError = error.response.data.message;
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 5000);
+        console.error(error);
+      }
+    },
+    async HandleDelete() {
+      try {
+        const response = await axios.delete(
+          "shopOwner/shop-data/collections/remove/" + this.idColModal
+        );
+        if (response.status === 204) {
+          this.modalType = null;
+          this.isSuccess = true;
+          this.isAlertSuccess = true;
+          this.messageSuccess =
+            "Delete " + this.nameCollectionModal + " successful!";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 5000);
+          this.getAllCollections();
+        }
+      } catch (error) {
+        this.isAlertError = true;
+        this.messagerError = error.response.data.message;
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 5000);
+        console.error(error);
+      }
     },
   },
 };
@@ -506,9 +790,6 @@ td {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: #cdc0aa;
-}
-td img {
-  margin-top: -18px;
 }
 .form-control {
   border: none !important;
@@ -670,8 +951,5 @@ form h1 {
   position: absolute;
   top: calc(50% - 1.25em);
   left: calc(50% - 1.25em);
-}
-.bg_button {
-  background-color: #ab7442;
 }
 </style>

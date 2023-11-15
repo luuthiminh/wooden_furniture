@@ -9,12 +9,6 @@
       <hr class="mb-4" />
       <form @submit.prevent="setNewPassword">
         <div class="mb-3">
-          <div>
-            <label for="exampleInputEmail1" class="form-label"
-              >Email address</label
-            >
-            <input v-model="email" type="text" class="form-control" required />
-          </div>
           <div class="pt-1">
             <label for="exampleInputEmail1" class="form-label">Password</label>
             <input
@@ -47,22 +41,20 @@
               confirmPasswordSuccess
             }}</span>
           </div>
-          <div class="pt-1">
-            <label for="exampleInputEmail1" class="form-label">Token</label>
-            <input v-model="token" type="text" class="form-control" required />
-          </div>
         </div>
-        <button
-          type="submit"
-          class="btn_send text-white cursor-pointer mt-4 px-1 py-1"
-        >
-          Send
-        </button>
       </form>
+      <button
+        @click.prevent="setNewPassword"
+        class="btn btn_save text-white pl-32 md:max-lg:pl-48 lg:max-xl:pl-36 font-medium"
+        type="submit"
+      >
+        Save Change
+      </button>
     </div>
   </div>
 </template>
 <script>
+import * as signalR from "@microsoft/signalr";
 import axios from "axios";
 export default {
   data() {
@@ -75,12 +67,38 @@ export default {
       passwordSuccess: "",
       confirmPasswordError: "",
       confirmPasswordSuccess: "",
+      tokent: "",
     };
   },
+  create() {
+    this.handleToken();
+  },
   methods: {
+    mounted() {
+      this.connection = new signalR.HubConnectionBuilder()
+        .configureLogging(signalR.LogLevel.Debug)
+        .withUrl("https://landlstore.azurewebsites.net/signalHub", {
+          skipNegotiation: true,
+          transport: signalR.HttpTransportType.WebSockets,
+        })
+        .build();
+
+      this.connection
+        .start()
+        .then(() => {
+          console.log("Connected to hub");
+          // Đăng ký sự kiện "ReceiveJWTToken"
+          this.connection.on("ReceiveResetPassword", (model) => {
+            console.log("Received message from hub:", model);
+            this.email = model.email;
+            this.token = model.token;
+          });
+        })
+        .catch((err) => console.error(err));
+    },
     async setNewPassword() {
       try {
-        const response = await axios.post("customer/reset-password", {
+        const response = await axios.post("authentication/reset-password", {
           email: this.email,
           token: this.token,
           password: this.password,
@@ -88,7 +106,8 @@ export default {
         });
         if (response.status === 200) {
           alert("Password has changed successfully!");
-          this.$router.push({ name: "login" });
+          // this.$router.push({ name: "login" });
+          this.$router.push({ name: "Customer" });
         }
       } catch (error) {
         this.message = error.response.data.message;
@@ -121,13 +140,10 @@ export default {
   top: 5%;
   left: 38%;
 }
-.btn_send {
-  /* background-color: #302924; */
-  background-color: #ffffff;
-  margin-bottom: 16px;
+.btn_save {
+  background-color: #302924;
   width: 100%;
   border-radius: 4px;
-  border: 1px solid gray;
 }
 .logo {
   transform: translateX(50%);

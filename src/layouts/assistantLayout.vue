@@ -24,13 +24,12 @@
       </li>
       <li class="mx-10 font-medium max-sm:hidden max-md:hidden">
         <p
-          class="stock text-amber-900 font-semibold w-10/12 opacity-80"
+          class="stock text-amber-900 font-semibold w-10/12"
           :style="{ marginRight: !isShowTab ? '53em' : '32em' }"
         >
           STOCK INFORMATION
         </p>
       </li>
-
       <li v-if="!isLogin" class="flex mr-4">
         <div class="user-info mt-1">
           <span class="user_name text-amber-900 opacity-80">Minh</span>
@@ -53,7 +52,6 @@
         </router-link>
         <p class="text-sm flex items-center text-amber-950">Notifications</p>
       </li>
-
       <li
         class="flex gap-x-2 items-center"
         @click.prevent="handleLogout"
@@ -66,27 +64,17 @@
       </li>
       <li v-if="isLogin" class="ml-10 max-sm:hidden max-md:hidden">
         <router-link to="/">
-          <!-- <button
-            class="ring-2 ring-yellow-700 ring-offset-4 ring-offset-slate-50 rounded-sm px-2 hover:ring-yellow-500 ring-opacity-50 text-amber-950 text-sm"
-          >
-            Login
-          </button> -->
           <button
-            class="transition ease-in-out delay-150 px-2 py-1 text-white ring-offset-2 ring-2 bg-yellow-700 ring-yellow-400 hover:ring-yellow-600 text-sm rounded-md flex"
+            class="transition ease-in-out delay-150 px-2 py-1 font-medium text-white hover:ring-offset-2 hover:ring-2 bg-yellow-700 hover:ring-yellow-600 text-sm rounded-md flex"
           >
             Login
           </button>
         </router-link>
       </li>
-      <li v-if="isLogin" class="mx-10 max-sm:hidden max-md:hidden">
+      <li v-if="isLogin" class="ml-3 mr-10 max-sm:hidden max-md:hidden">
         <router-link to="/register">
-          <!-- <button
-            class="ring-2 ring-yellow-700 ring-offset-4 ring-offset-slate-50 rounded-sm px-2 hover:ring-yellow-500 ring-opacity-50 text-amber-950 text-sm"
-          >
-            Register
-          </button> -->
           <button
-            class="transition ease-in-out delay-150 px-2 py-1 text-white ring-offset-2 ring-2 bg-yellow-700 ring-yellow-300 hover:ring-yellow-600 text-sm rounded-md flex"
+            class="transition ease-in-out delay-150 px-2 py-1 font-medium text-white hover:ring-offset-2 hover:ring-2 bg-yellow-700 hover:ring-yellow-600 text-sm rounded-md flex"
           >
             Register
           </button>
@@ -94,15 +82,15 @@
       </li>
     </ul>
 
-    <div
+    <!-- <div
       @click.prevent="OpenNavBar(nav)"
       class="absolute items-center top-5 my-2 right-3 hidden border border-1 border-solid-yellow-950 rounded-md hover:bg-slate-200 cursor-pointer ring-1 ring-yellow-600 max-sm:block max-md:block bg-yellow-900 text-white opacity-90 z-10"
     >
       <i class="bi bi-list px-1 hover:text-yellow-950"></i>
-    </div>
+    </div> -->
 
-    <div v-if="(type = nav)">
-      <!-- <div class="overlay">
+    <!-- <div v-if="(type = nav)"> -->
+    <!-- <div class="overlay">
         <div class="nav_bar">
           <div
             class="icon_cancle flex items-center px-3 border-1 border-bottom border-solid-yellow-600 opacity-90"
@@ -269,9 +257,9 @@
             </li>
           </ul>
         </div> -->
-      <!-- </div> -->
-      <span>Hi</span>
-    </div>
+    <!-- </div> -->
+    <!-- <span>Hi</span>
+    </div> -->
   </header>
   <div class="content">
     <div class="flex flex-cols-10">
@@ -298,13 +286,14 @@
             </div>
 
             <ul class="bar nav nav-stacked" role="tablist">
-              <li @click.prevent="isShowTab = false">
-                <router-link to="/indexAssistant">
-                  <i
-                    class="bi bi-house-check-fill bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
-                  ></i>
-                  <p>Home</p></router-link
-                >
+              <li @click.prevent="handleHome">
+                <!-- <router-link to="/indexAssistant"> -->
+                <i
+                  class="bi bi-house-check-fill bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
+                ></i>
+                <p>Home</p>
+                <!-- </router-link
+                > -->
               </li>
               <li role="presentation" @click.prevent="isShowTab = true">
                 <a
@@ -317,7 +306,9 @@
                   <i
                     class="bi bi-house-heart-fill bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
                   ></i>
-                  <p>Furniture</p></a
+                  <router-link to="/furnitureManage">
+                    <p>Furniture</p>
+                  </router-link></a
                 >
               </li>
               <li role="presentation" @click.prevent="isShowTab = true">
@@ -330,51 +321,46 @@
                   <i
                     class="bi bi-bricks bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
                   ></i>
-                  <p>Material</p></a
+                  <router-link to="/materialManagement">
+                    <p>Material</p>
+                  </router-link></a
                 >
               </li>
+
               <li role="presentation" @click.prevent="isShowTab = false">
-                <a
-                  href="/feedback"
-                  aria-controls="feedback"
-                  role="tab"
-                  data-toggle="tab"
-                >
+                <router-link to="/repositoriesManagement">
+                  <i
+                    class="bi bi-database-fill bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
+                  ></i>
+                  <p>Repositories</p>
+                </router-link>
+              </li>
+              <li role="presentation" @click.prevent="isShowTab = false">
+                <router-link to="/orderRequestManage">
+                  <i
+                    class="bi bi-cart-check-fill bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
+                  ></i>
+                  <p>Order</p>
+                </router-link>
+              </li>
+              <li role="presentation" @click.prevent="isShowTab = false">
+                <router-link to="/feedbackManagement">
                   <i
                     class="bi bi-chat-square-dots-fill bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
                   ></i>
-                  <p>Feedback</p></a
-                >
+                  <p>Feedback</p>
+                </router-link>
               </li>
-              <li role="presentation" @click.prevent="isShowTab = false">
-                <a
-                  href="#wishlist"
-                  aria-controls="wishlist"
-                  role="tab"
-                  data-toggle="tab"
-                >
-                  <i
-                    class="bi bi-bag-heart-fill bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
-                  ></i>
-                  <p>Wishlist</p></a
-                >
-              </li>
-              <li role="presentation" @click.prevent="isShowTab = true">
-                <a
-                  href="#notification"
-                  aria-controls="notification"
-                  role="tab"
-                  data-toggle="tab"
-                >
+
+              <li role="presentation" @click.prevent="isShowTab = flase">
+                <router-link to="/notiManagement">
                   <i
                     class="bi bi-bell-fill bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
                   ></i>
-                  <p class="text-amber-950 text-sm flex items-center">
-                    Notification
-                  </p></a
-                >
+                  <p>Notification</p>
+                </router-link>
               </li>
-              <li role="presentation" @click.prevent="isShowTab = true">
+              <li role="presentation" @click.prevent="isShowTab = flase">
                 <router-link to="/labelManagement">
                   <i
                     class="bi bi-bookmark-check-fill bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
@@ -382,12 +368,28 @@
                   <p>Label</p>
                 </router-link>
               </li>
-              <li role="presentation" @click.prevent="isShowTab = true">
+              <li role="presentation" @click.prevent="isShowTab = false">
                 <router-link to="/woodManagement">
                   <i
                     class="bi bi-tree-fill bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
                   ></i>
                   <p>Wood</p>
+                </router-link>
+              </li>
+              <li role="presentation" @click.prevent="isShowTab = false">
+                <router-link to="/colorManagement">
+                  <i
+                    class="bi bi-palette-fill bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
+                  ></i>
+                  <p>Color</p>
+                </router-link>
+              </li>
+              <li role="presentation" @click.prevent="isShowTab = false">
+                <router-link to="/postManagement">
+                  <i
+                    class="bi bi-file-post bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
+                  ></i>
+                  <p>Post</p>
                 </router-link>
               </li>
 
@@ -411,7 +413,9 @@
                 <div class="">
                   <div class="h-12/12 px-2">
                     <div class="px-2 pt-9 pb-2 mb-4">
-                      <h3 class="text-center font-medium">Manager Furniture</h3>
+                      <h3 class="text-center font-medium">
+                        Management Furniture
+                      </h3>
 
                       <div class="search mt-4">
                         <div class="container">
@@ -446,13 +450,12 @@
                             >All Furniture</router-link
                           >
                         </li>
+
                         <li>
-                          <router-link to="/newFurniture"
-                            >Add New Furniture</router-link
+                          <router-link to="/historyFurRepo"
+                            >History repositories furniture</router-link
                           >
                         </li>
-                        <li>Exported</li>
-                        <li>Inventory</li>
                       </ul>
                     </div>
                   </div>
@@ -462,7 +465,9 @@
                 <div class="">
                   <div class="h-12/12 px-2">
                     <div class="px-2 pt-9 pb-2 mb-4">
-                      <h3 class="text-center font-medium">Manager Material</h3>
+                      <h3 class="text-center font-medium">
+                        Management Material
+                      </h3>
 
                       <div class="search mt-4">
                         <div class="container">
@@ -472,7 +477,9 @@
                             class="input"
                             placeholder="Dark Twitch Search"
                           />
-                          <button class="search__btn">
+                          <button
+                            class="search__btn bg-gradient-to-r from-yellow-700 to-orange-800 opacity-90"
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 24 24"
@@ -500,29 +507,15 @@
                             >Import material</router-link
                           >
                         </li>
-                        <li>Export material</li>
-                        <li>Inventory material</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- <div role="tabpanel" class="tab-pane" id="feedback"></div>
-              <div role="tabpanel" class="tab-pane" id="wishlist"></div>
-              <div role="tabpanel" class="tab-pane" id="notification"></div> -->
-              <div role="tabpanel" class="tab-pane" id="other">
-                <div class="">
-                  <div class="h-12/12 px-2">
-                    <div class="px-2 pt-9 pb-2 mb-4">
-                      <h3 class="text-center font-medium">Manager Other</h3>
-                    </div>
-                    <div class="px-4 text-sm">
-                      <ul class="furniture leading-10">
                         <li>
-                          <router-link to="/woodManagement">Wood</router-link>
+                          <router-link to="/importMaterial"
+                            >Export material</router-link
+                          >
                         </li>
                         <li>
-                          <router-link to="/labelManagement">Label</router-link>
+                          <router-link to="/historyMaterialRepo"
+                            >History repositories material</router-link
+                          >
                         </li>
                       </ul>
                     </div>
@@ -534,10 +527,9 @@
         </div>
       </div>
       <div
-        class="grow z-0"
+        class="grow z-0 px-6"
         :style="{
-          marginLeft: !isShowTab ? '8em' : '22em',
-          marginLeft: (isNavBar = '0em'),
+          marginLeft: !isShowTab ? '5em' : '22em',
         }"
       >
         <!-- <div class="px-3">
@@ -556,6 +548,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 // import NotificationSuccess from "@/components/NotificationSuccess.vue";
 export default {
   components: {
@@ -566,10 +559,12 @@ export default {
       isShowTab: true,
       isLogin: false,
       type: null,
+      announcements: [],
     };
   },
   created() {
     this.checkLogin();
+    this.getAnnouncements();
   },
   methods: {
     toggleShowTab() {
@@ -594,6 +589,21 @@ export default {
     closeNavBar() {
       this.isNavBar = !this.isNavBar;
     },
+    handleHome() {
+      this.isShowTab = false;
+      this.$router.push("indexAssistant");
+      setTimeout(() => {
+        this.$router.push("dashboardAssistant");
+      }, 7000);
+    },
+    async getAnnouncements() {
+      try {
+        const response = await axios.get("assistant/announcements");
+        this.announcements = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
   },
 };
 </script>
@@ -611,22 +621,27 @@ export default {
 
 .header {
   background-color: #ffffff;
-  /* position: fixed; */
-  z-index: 99;
+  position: fixed;
+  /* z-index: 99; */
+  z-index: 1;
   color: #665e4e;
   display: flex;
   align-items: center;
   height: 70px;
   border-bottom: 1px solid #d5d3d14d;
-  background: linear-gradient(
+  /* background: linear-gradient(
     to right,
     #f1e4cc40,
     #e8d5cd66,
     #f1e4cc2b,
     #e8d5cd66
-  );
+  ); */
+  /* background: linear-gradient(to right, #f1e4cc, #e8d5cd, #f1e4cc, #e8d5cd); */
+  background: linear-gradient(to right, #f5ebda, #ffece4, #f5ebda, #ffece4);
 }
-
+.col-span-3 {
+  background: #f9fafb;
+}
 li {
   cursor: pointer;
 }
@@ -648,9 +663,6 @@ i {
   margin-left: 6em;
   z-index: 10;
   /* border-left: 1px solid #e4eaea87; */
-}
-.content {
-  padding-top: 70px;
 }
 .col-span-7 {
   background-color: #f0f2f5;
@@ -717,8 +729,8 @@ nav i {
   height: 35px;
 }
 
-.input {
-  max-width: 190px;
+.input[data-v-10ef1898] {
+  max-width: 230px;
   height: 100%;
   outline: none;
   font-size: 12px;
@@ -727,14 +739,13 @@ nav i {
   background-color: #ffffff;
   caret-color: #f7f7f8;
   color: #fff;
-  padding: 7px 10px;
+  padding: 7px 40px;
   border: 1px solid #928c8ca1;
   border-top-left-radius: 7px;
   border-bottom-left-radius: 7px;
   margin-right: 1px;
   transition: all 0.2s ease;
 }
-
 .input:hover {
   border: 2px solid rgba(255, 255, 255, 0.16);
 }
@@ -808,6 +819,9 @@ table {
   margin-top: 7.5rem; */
   line-height: 26px;
   margin-top: 10px;
+  overflow: scroll;
+  overflow-x: hidden;
+  height: 38em;
 }
 .bar.nav::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
@@ -826,6 +840,10 @@ table {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: #cdc0aa;
 }
+.content {
+  padding-top: 70px;
+}
+/*
 .overlay {
   position: fixed;
   width: 100%;
@@ -841,14 +859,73 @@ table {
   box-shadow: 10px 0 5px -2px #b6b2b2;
   z-index: 100;
 }
+*/
+sup {
+  margin-left: -0.6em;
+}
 .icon_cancle {
   background-color: rgb(185 189 206 / 17%);
   box-shadow: 0 4px 13px -6px #a5a7ac;
+}
+/* search */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 35px;
+}
+
+.input {
+  max-width: 190px;
+  height: 100%;
+  outline: none;
+  font-size: 12px;
+  font-weight: 500;
+  /* background-color: #66645f; */
+  background-color: #ffffff;
+  caret-color: #f7f7f8;
+  color: #fff;
+  padding: 7px 10px;
+  border: 1px solid #928c8ca1;
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+  margin-right: 1px;
+  transition: all 0.2s ease;
+}
+
+.input:hover {
+  border: 2px solid rgba(255, 255, 255, 0.16);
+}
+
+.input:focus {
+  border: 2px solid #a970ff;
+  background-color: #0e0e10;
+}
+
+.search__btn {
+  border: none;
+  cursor: pointer;
+  /* background-color: rgb(51, 51, 62); */
+  /* background-color: #89693a; */
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
+  height: 100%;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search__btn:hover {
+  background-color: rgba(54, 54, 56, 1);
 }
 /*Mobile & tablet: width<1024px*/
 @media only screen and (max-width: 63.9375em) {
   .grow.z-0 {
     margin-left: 2em;
+  }
+  .content {
+    padding-top: 70px;
   }
 }
 /*Mobile: width<780px*/

@@ -56,6 +56,175 @@
           PLEASE COMPLETE ALL INFORMATION
         </h2>
         <div class="form_register px-6 py-6 mb-10 relative">
+          <form class="px-10 pt-3 max-sm:px-3" @submit.prevent="customizeOrder">
+            <div class="w-full items-center gap-x-6 pb-3">
+              <label for="exampleFormControlInput1">Picture</label>
+              <input
+                id="picture"
+                type="file"
+                accept=".png, .jpg, .jpeg"
+                :maxFileSize="1000000"
+                ref="file"
+                multiple
+                @change="onFile"
+                class="bg-slate-100 h-10 w-full rounded-md border border-input px-2 py-1 text-sm file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium"
+              />
+              <div class="image_upload flex gap-x-4">
+                <div v-for="url in arrayUrl" :key="url" class="flex">
+                  <img
+                    class="object-contain h-48 w-96"
+                    v-if="url"
+                    :src="url"
+                    alt="Avatar"
+                  />
+                  <label
+                    @click="HandleRemoveImage(url)"
+                    class="bi bi-x cursor-pointer"
+                  ></label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Name Furniture</label>
+              <input
+                v-model="cusfurnitureName"
+                type="text"
+                class="form-control w-10/12"
+                id="exampleFormControlInput1"
+                placeholder="10m"
+              />
+            </div>
+            <div class="grid grid-cols-2 gap-x-6">
+              <div class="color form-group">
+                <label for="exampleFormControlSelect1">Color ID</label>
+                <select
+                  v-model="colorId"
+                  class="form-control"
+                  id="exampleFormControlSelect1"
+                >
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+              <div class="cateory form-group">
+                <label for="exampleFormControlSelect1">Category ID</label>
+                <select
+                  v-model="categoryId"
+                  class="form-control"
+                  id="exampleFormControlSelect1"
+                >
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-x-24">
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Height</label>
+                <div class="flex gap-x-4">
+                  <input
+                    v-model="height"
+                    type="text"
+                    class="form-control"
+                    id="exampleFormControlInput1"
+                    placeholder="10"
+                  />
+                  <p class="flex items-center font-medium">m<sup>2</sup></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Length</label>
+                <div class="flex gap-x-4">
+                  <input
+                    v-model="length"
+                    type="text"
+                    class="form-control"
+                    id="exampleFormControlInput1"
+                    placeholder="10"
+                  />
+                  <p class="flex items-center font-medium">m<sup>2</sup></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Width</label>
+                <div class="flex gap-x-4">
+                  <input
+                    v-model="width"
+                    type="text"
+                    class="form-control"
+                    id="exampleFormControlInput1"
+                    placeholder="10"
+                  />
+                  <p class="flex items-center font-medium">m<sup>2</sup></p>
+                </div>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-x-6">
+              <div class="color form-group">
+                <label for="exampleFormControlSelect1">Wood ID</label>
+                <select
+                  v-model="woodId"
+                  class="form-control"
+                  id="exampleFormControlSelect1"
+                >
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Quantity</label>
+                <input
+                  v-model="quantityFurniture"
+                  type="text"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder="1.."
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Description</label>
+              <input
+                v-model="description"
+                type="text"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder="...."
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="exampleFormControlInput1"
+                >Desired Completion Date</label
+              >
+              <input
+                v-model="completionDate"
+                type="date"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder="name@example.com"
+              />
+            </div>
+            <div class="mt-10 mb-20">
+              <button
+                class="px-4 py-2 text-white ring-offset-2 ring-2 bg-slate-600 form-group right-7 absolute rounded"
+                @click="customizeOrder"
+              >
+                Order
+              </button>
+            </div>
+          </form>
+        </div>
+        <!-- <div class="form_register px-6 py-6 mb-10 relative">
           <div class="w-full items-center gap-x-6 pb-3">
             <label for="exampleFormControlInput1">Picture</label>
             <input
@@ -191,7 +360,7 @@
               Order
             </button>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -200,25 +369,37 @@
 import axios from "axios";
 export default {
   data() {
-    return {};
+    return {
+      url: "",
+      arrayUrl: [],
+    };
   },
   methods: {
-    onFileChange(event) {
-      this.file = event.target.files[0];
+    onFile(event) {
+      this.arrayFile = event.target.files;
+      if (this.arrayFile) {
+        for (let i = 0; i < event.target.files.length; i++) {
+          this.url = URL.createObjectURL(event.target.files[i]);
+          this.arrayUrl.push(this.url);
+        }
+      }
+    },
+    HandleRemoveImage(url) {
+      this.arrayUrl = this.arrayUrl.filter((item) => item !== url);
     },
     async customizeOrder() {
       const formData = new FormData();
-      formData.append("file", this.file);
-      formData.append("customizeFurnitureName", this.furnitureName);
+      formData.append("Attachmens", this.arrayFile);
+      formData.append("CustomizeFurnitureName", this.cusfurnitureName);
       formData.append("CategoryId", this.categoryId);
       formData.append("ColorId", this.colorId);
       formData.append("Height", this.height);
       formData.append("Length", this.length);
       formData.append("Width", this.width);
       formData.append("WoodId", this.woodId);
-      formData.append("Quantity", this.quantities);
+      formData.append("Quantity", "10");
       formData.append("Description", this.description);
-      formData.append("DesiredCompletionDate", this.date);
+      formData.append("DesiredCompletionDate", this.completionDate);
       try {
         const response = await axios.post(
           "customer/customize-furnitures/create",
@@ -229,8 +410,8 @@ export default {
             },
           }
         );
-        if (response.status === 201) {
-          alert("Please confirm the code in your email!");
+        if (response.status === 200) {
+          alert("Order success");
         }
       } catch (error) {
         this.message = error.response.data.message;
@@ -257,6 +438,11 @@ span {
 }
 li {
   font-weight: 500;
+}
+.image_upload {
+  max-width: 100%;
+  max-height: 141px;
+  overflow: hidden;
 }
 .form_register {
   border: 1px solid #e5e4e4;

@@ -13,6 +13,14 @@
       </nav>
     </div>
     <!-- </div> -->
+    <div class="absolute right-0">
+      <alert-Error v-if="isAlertError">
+        <template v-slot:message>{{ messageError }}</template></alert-Error
+      >
+      <alert-success v-if="isAlertSuccess">
+        <template v-slot:message>{{ messageSuccess }}</template>
+      </alert-success>
+    </div>
     <div class="funiture_detail mx-28 max-sm:mx-3">
       <div class="flex flex-cols-2">
         <div class="furniture detail mt-3 rounded-lg">
@@ -63,7 +71,7 @@
                     <div class="furniture_infor pt-2">
                       <div>
                         <h1 class="text-xl font-bold">
-                          {{ furnitureFrist.furnitureName }}
+                          {{ furnitureFirst.furnitureSpecificationName }}
                         </h1>
                         <div class="rating">
                           <input
@@ -107,12 +115,12 @@
                       <div>
                         <span class="text-xs"
                           >ID Furniture:
-                          {{ furnitureFrist.furnitureSpecificationId }}</span
+                          {{ furnitureFirst.furnitureSpecificationId }}</span
                         >
                       </div>
                       <div class="mt-3">
-                        <span class="font-semibold">Start: </span>
-                        <span>Avaliable </span>
+                        <span class="font-semibold">Available: </span>
+                        <span>{{ furnitureFirst.available }} </span>
                       </div>
                       <div>
                         <span class="font-semibold">Category: </span>
@@ -122,39 +130,45 @@
                         <!-- <div class="w-10/12 bg-slate-200 h-px"></div> -->
                         <hr />
                         <span class="price text-3xl font-medium"
-                          >${{ furnitureFrist.price }}</span
+                          >${{ furnitureFirst.price }}</span
                         >
                         <hr />
                         <!-- <div class="w-10/12 bg-slate-200 h-px"></div> -->
                       </div>
                       <div>
                         <span class="font-semibold">Color: </span>
-                        <span>{{ furnitureFrist.color }}</span>
+                        <span>{{ furnitureFirst.color }}</span>
                       </div>
                       <div class="mt-3">
                         <span class="font-semibold">Height: </span>
-                        <span>{{ furnitureFrist.height }}m</span>
+                        <span>{{ furnitureFirst.height }}m</span>
                       </div>
                       <div class="mt-3">
                         <span class="font-semibold">Width: </span>
-                        <span>{{ furnitureFrist.width }}m</span>
+                        <span>{{ furnitureFirst.width }}m</span>
                         <div class="mt-3">
                           <span class="font-semibold">Lenght: </span>
-                          <span>{{ furnitureFrist.length }}m</span>
+                          <span>{{ furnitureFirst.length }}m</span>
                         </div>
                       </div>
                       <div></div>
-                      <div class="flex flex-cols-2 my-3">
-                        <div class="btn add_to_card">
-                          <button class="text-sm btn bg-neutral-700">
-                            ADD TO CART
-                          </button>
-                        </div>
-                        <div class="btn order">
-                          <button class="btn text-sm bg-neutral-700">
-                            BUY
-                          </button>
-                        </div>
+                      <div class="flex flex-cols-2 my-3 gap-x-7">
+                        <button
+                          @click="showModal(furnitureFirst)"
+                          data-toggle="modal"
+                          data-target="#exampleModalLong"
+                          data-dismiss="modal"
+                          data-backdrop="false"
+                          class="px-2 py-1 text-white ring-offset-2 ring-2 bg-slate-600 rounded-md"
+                        >
+                          ADD TO CART
+                        </button>
+
+                        <button
+                          class="px-2 py-1 text-white ring-offset-2 ring-2 bg-red-700 ring-red-300 rounded-md"
+                        >
+                          BUY
+                        </button>
                         <div class="icon_heart pl-3 pt-2">
                           <div class="heart-container" title="Like">
                             <input
@@ -203,25 +217,25 @@
                           <thead>
                             <tr>
                               <th scope="col">Wood</th>
-                              <th scope="col">{{ furnitureFrist.wood }}</th>
+                              <th scope="col">{{ furnitureFirst.wood }}</th>
                             </tr>
                           </thead>
                           <tbody>
                             <tr>
                               <th>Size</th>
                               <td>
-                                {{ furnitureFrist.height }} x
-                                {{ furnitureFrist.width }} x
-                                {{ furnitureFrist.length }}
+                                {{ furnitureFirst.height }} x
+                                {{ furnitureFirst.width }} x
+                                {{ furnitureFirst.length }}
                               </td>
                             </tr>
                             <tr>
-                              <th scope="row">Quantity</th>
-                              <td>Jacob</td>
+                              <th scope="row">Room</th>
+                              <td>{{ furnitureFirst.appropriateRoom }}</td>
                             </tr>
                             <tr>
-                              <th scope="row">Star</th>
-                              <td>Jacob</td>
+                              <th scope="row">Collection</th>
+                              <td>{{ furnitureFirst.collection }}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -238,7 +252,7 @@
                     <div class="furniture_infor pt-2">
                       <div>
                         <h1 class="text-lg font-bold">
-                          {{ furnitureIndex.furnitureName }}
+                          {{ furnitureIndex.furnitureSpecificationName }}
                         </h1>
                         <div class="rating">
                           <input
@@ -295,9 +309,9 @@
                       </div>
                       <div class="my-3">
                         <div class="w-10/12 bg-slate-200 h-px"></div>
-                        <span class="text-red-700 text-lg font-medium">{{
-                          furnitureIndex.price
-                        }}</span>
+                        <span class="text-red-700 text-3xl font-medium"
+                          >$ {{ furnitureIndex.price }}</span
+                        >
                         <div class="w-10/12 bg-slate-200 h-px"></div>
                       </div>
                       <div>
@@ -316,43 +330,23 @@
                           <span>{{ furnitureIndex.length }}</span>
                         </div>
                       </div>
-                      <div class="flex flex-cols-2 gap-x-4 mt-2">
-                        <label
-                          for="exampleInputEmail1"
-                          class="text-base form-label font-semibold mt-2"
-                          >Quantity</label
+                      <div class="flex flex-cols-2 my-3 gap-x-7">
+                        <button
+                          @click="showModal(furnitureIndex)"
+                          data-toggle="modal"
+                          data-target="#exampleModalLong"
+                          data-dismiss="modal"
+                          data-backdrop="false"
+                          class="px-2 py-1 text-white ring-offset-2 ring-2 bg-slate-600 rounded-md"
                         >
-                        <input
-                          v-model="quantities"
-                          type="email"
-                          class="form-control h-1/12 w-2/12"
-                        />
-                        {{ quantities }}
-                      </div>
-                      <div class="flex flex-cols-2 my-3">
-                        <div
-                          class="btn add_to_card"
-                          @click.prevent="handleAddToCart(furnitureIndex)"
+                          ADD TO CART
+                        </button>
+                        <button
+                          class="px-2 py-1 text-white ring-offset-2 ring-2 bg-red-700 ring-red-300 rounded-md"
                         >
-                          <!-- <button class="text-sm btn bg-neutral-700">
-                            ADD TO CART
-                          </button> -->
-                          <button
-                            class="px-2 py-1 text-black ring-offset-2 ring-2 bg-slate-600"
-                          >
-                            ADD TO CART
-                          </button>
-                        </div>
-                        <div class="btn order">
-                          <!-- <button class="btn text-sm bg-neutral-700">
-                            BUY
-                          </button> -->
-                          <button
-                            class="px-2 py-1 text-white ring-offset-2 ring-2 bg-slate-600"
-                          >
-                            BUY NOW
-                          </button>
-                        </div>
+                          BUY
+                        </button>
+
                         <div class="icon_heart pl-3 pt-2">
                           <div class="heart-container" title="Like">
                             <input
@@ -414,12 +408,12 @@
                               </td>
                             </tr>
                             <tr>
-                              <th scope="row">Quantity</th>
-                              <td>Jacob</td>
+                              <th scope="row">Room</th>
+                              <td>{{ furnitureIndex.appropriateRoom }}</td>
                             </tr>
                             <tr>
-                              <th scope="row">Star</th>
-                              <td>Jacob</td>
+                              <th scope="row">Collection</th>
+                              <td>{{ furnitureIndex.collection }}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -429,6 +423,35 @@
                 </div>
               </div>
             </div>
+            <modal v-show="isShowQuantity" @close="closeModal">
+              <template v-slot:title>
+                <div class="flex items-center text-lg font-medium">
+                  ALL Furniture
+                </div>
+              </template>
+              <template v-slot:body>
+                <div class="flex flex-cols-2 gap-x-4 mt-2">
+                  <label
+                    for="exampleInputEmail1"
+                    class="text-base form-label font-semibold mt-2"
+                    >Quantity</label
+                  >
+                  <input
+                    v-model="quantities"
+                    type="email"
+                    class="form-control h-1/12 w-2/12"
+                  />
+                </div>
+              </template>
+              <template v-slot:footer>
+                <button
+                  @click="handleAddToCart"
+                  class="px-2 py-1 text-white ring-offset-2 ring-2 bg-slate-600 rounded-md"
+                >
+                  ADD TO CART
+                </button>
+              </template>
+            </modal>
           </div>
         </div>
 
@@ -598,7 +621,7 @@
         class="scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100 snap-x overflow-y-hidden"
       >
         <div>
-          <all-furniture class="all-furniture" />
+          <all-furniture :furnitures="furnitures"></all-furniture>
         </div>
       </div>
     </div>
@@ -607,20 +630,32 @@
 <script>
 import axios from "axios";
 import AllFurniture from "./AllFurniture.vue";
+import modal from "@/components/ModalPage.vue";
+import alertError from "@/components/AlertError.vue";
+import alertSuccess from "@/components/AlertSuccess.vue";
 
 export default {
   components: {
     AllFurniture,
+    modal,
+    alertError,
+    alertSuccess,
   },
   data() {
     return {
       furnitures: [],
       furnitureIndex: {},
-      furnitureFrist: {},
+      furnitureFirst: {},
       quantities: "",
       moreFurniture: [],
       feedbacks: [],
       isShow: false,
+      isShowQuantity: false,
+      isFurnitureIdModal: "",
+      isAlertSuccess: false,
+      isAlertError: false,
+      messageError: null,
+      messageSuccess: null,
     };
   },
   created() {
@@ -634,7 +669,7 @@ export default {
           "customer/furnitures/" + this.$route.params.id
         );
         this.furnitures = response.data;
-        this.furnitureFrist = this.furnitures[0];
+        this.furnitureFirst = this.furnitures[0];
         this.isShow = false;
       } catch (error) {
         console.error(error);
@@ -644,20 +679,39 @@ export default {
       this.furnitureIndex = furniture;
       this.isShow = true;
     },
-    async handleAddToCart(furnitureIndex) {
+    showModal(furniture) {
+      this.isFurnitureIdModal = furniture.furnitureSpecificationId;
+      this.isShowQuantity = !this.isShowQuantity;
+    },
+    async handleAddToCart() {
       try {
         const response = await axios.post(
           "customer/cart/add?furnitureSpecificationId=" +
-            furnitureIndex.furnitureSpecificationId +
+            this.isFurnitureIdModal +
             "&quantity=" +
             this.quantities
         );
         if (response.status === 200) {
-          alert(response.data.message);
+          this.isAlertSuccess = true;
+          this.messageSuccess = "Add to card successfully!";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 5000);
+          this.getAllWoods();
+          this.isShowQuantity = false;
         }
       } catch (error) {
+        this.isShowQuantity = false;
+        this.isAlertError = true;
+        this.messageError = "Add to card error!";
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 5000);
         console.error(error);
       }
+    },
+    closeModal() {
+      this.isShowQuantity = false;
     },
     async getUserFeedback() {
       try {
@@ -857,10 +911,12 @@ hr {
 /* .all-furniture .grid.grid-cols-4.gap-4 {
 
 } */
-.btn.add_to_card .btn,
+/* .btn.add_to_card .btn,
 .btn.order .btn {
   color: white;
-}
+  font-weight: 600;
+  background: rgb(48, 46, 46);
+} */
 .furniture_infor {
   font-size: 14px;
 }

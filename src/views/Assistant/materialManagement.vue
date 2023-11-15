@@ -2,15 +2,30 @@
   <div class="">
     <div class="nav">
       <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-transparent text-sm pt-4 px-5 font-medium">
-          <li class="breadcrumb-item text-base">
+        <ol class="breadcrumb bg-transparent text-sm pt-4 ml-4 font-medium">
+          <li class="breadcrumb-item text-sm">
             <router-link to="/indexAssistant">Home</router-link>
           </li>
-          <li class="breadcrumb-item text-base active" aria-current="page">
-            Managemnet Material
+          <li class="breadcrumb-item text-sm active" aria-current="page">
+            Management/Material
+          </li>
+          <li class="breadcrumb-item text-sm active" aria-current="page">
+            All Import
           </li>
         </ol>
       </nav>
+    </div>
+    <div class="font-semibold text-lg ml-4 pt-4">All Material</div>
+    <div class="absolute right-0">
+      <alert-Error v-if="isAlertError">
+        <template v-slot:message>{{ messageError }}</template></alert-Error
+      >
+      <alert-success v-if="isAlertSuccess">
+        <template v-slot:message>{{ messageSuccess }}</template>
+      </alert-success>
+      <alert-wanning v-if="isAlertWanning">
+        <template v-slot:message>{{ messageWanning }}</template>
+      </alert-wanning>
     </div>
     <div class="content_table pt-14 px-10 scroll">
       <div class="flex mb-4">
@@ -43,21 +58,17 @@
               <th scope="col">Price</th>
               <th scope="col">Description</th>
               <th scope="col">SuperlierId</th>
-              <th scope="col">RepositoryId</th>
-              <th scope="col">Edit</th>
-              <th scope="col">Delete</th>
+              <th scope="col">Repository</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody v-if="materials.length">
             <tr class="text-sm" v-for="ma in materials" :key="ma.materialId">
               <td class="img">
-                <img
-                  src="@/assets/images/category/shelves_tv/shelves_10.png"
-                  alt="furniture"
-                  class="w-20"
-                />
+                <img :src="ma.materialImage" alt="material" class="w-20" />
               </td>
-              <!-- <td>{{ ma.materialImage }}</td> -->
               <td class="text-start">
                 <span class="font-semibold block">{{ ma.materialName }}</span>
                 <span class="text-xs">{{ ma.materialId }}</span>
@@ -65,7 +76,15 @@
               <td>${{ ma.materialPrice }}</td>
               <td>{{ ma.description }}</td>
               <td>{{ ma.defaultSuplierId }}</td>
-              <td>{{ ma.available[0].repositoryId }}</td>
+              <td>
+                <div
+                  v-for="repo in ma.available"
+                  :key="repo.repositoryId"
+                  class="mb-2"
+                >
+                  {{ repo.repositoryName }}
+                </div>
+              </td>
               <td>
                 <button
                   class="button_edit"
@@ -174,6 +193,23 @@
                   ></span>
                 </button>
               </td>
+              <td>
+                <div
+                  class="px-2 py-1 bg-orange-600 w-20 text-white text-center"
+                >
+                  <button
+                    class="btn_action"
+                    type="button"
+                    data-toggle="modal"
+                    data-target="#exampleModalLong"
+                    data-dismiss="modal"
+                    data-backdrop="false"
+                    @click="opentModal('exportMaterial', 'null')"
+                  >
+                    Export
+                  </button>
+                </div>
+              </td>
               <modal
                 v-if="modalType == 'add'"
                 @close="modalType == null"
@@ -188,14 +224,12 @@
                 </template>
                 <template v-slot:body>
                   <div class="text-sm">
-                    <div class="mx-10 my-10">
-                      <div class="row mb-6">
-                        <label class="col-lg-4 col-form-label fw-medium"
-                          >Image</label
-                        >
-                        <div class="col-lg-8">
+                    <div class="mx-4 mb-6 mt-2">
+                      <div class="">
+                        <label class="col-form-label fw-medium">Image</label>
+                        <div class="">
                           <div class="flex">
-                            <div class="avatar_upload">
+                            <div class="avatar_upload ml-14 py-3">
                               <img v-if="url" :src="url" alt="Avatar" />
                               <img
                                 v-else
@@ -221,17 +255,13 @@
                               ></label>
                             </div>
                           </div>
-                          <!-- <div class="avatar_upload">
-                          <img v-if="url" :src="url" alt="Avatar" />
-                        </div> -->
-                          <!-- <img :src="getPostAvatar(info)" /> -->
                         </div>
                       </div>
-                      <div class="row mb-6">
-                        <label class="col-lg-4 col-form-label fw-medium"
-                          >Name</label
+                      <div class="mt-3">
+                        <label class="col-form-label fw-medium"
+                          >Material Name</label
                         >
-                        <div class="col-lg-8">
+                        <div class="">
                           <input
                             v-model="materialName"
                             type="text"
@@ -241,11 +271,9 @@
                           />
                         </div>
                       </div>
-                      <div class="row mb-6">
-                        <label class="col-lg-4 col-form-label fw-medium"
-                          >Price</label
-                        >
-                        <div class="col-lg-8">
+                      <div class="mt-3">
+                        <label class="col-form-label fw-medium">Price</label>
+                        <div class="">
                           <input
                             v-model="materialPrice"
                             type="text"
@@ -255,11 +283,11 @@
                           />
                         </div>
                       </div>
-                      <div class="row mb-6">
-                        <label class="col-lg-4 col-form-label fw-medium"
+                      <div class="mt-3">
+                        <label class="col-form-label fw-medium"
                           >Description</label
                         >
-                        <div class="col-lg-8">
+                        <div class="">
                           <input
                             v-model="materialDescription"
                             type="text"
@@ -269,22 +297,51 @@
                           />
                         </div>
                       </div>
-                      <div class="row mb-6">
-                        <label class="col-lg-4 col-form-label fw-medium"
-                          >DefaultSuplier</label
-                        >
-                        <div class="col-lg-8">
-                          <select
-                            class="form-select"
-                            aria-label="Default select example"
-                            v-model="materialSuplier"
-                          >
-                            <option selected>Open this select menu</option>
-                            <option value="1">Hung</option>
-                            <option value="2">Loan</option>
-                            <option value="3">Van</option>
-                          </select>
+                      <div class="mt-3">
+                        <label class="col-form-label fw-medium">Quantity</label>
+                        <div class="">
+                          <input
+                            v-model="quantities"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                          />
                         </div>
+                      </div>
+                      <div class="mt-3">
+                        <label class="col-form-label fw-medium">Note</label>
+                        <div class="">
+                          <input
+                            v-model="note"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                          />
+                        </div>
+                      </div>
+                      <div class="mt-3">
+                        <label
+                          for="exampleInputEmail1"
+                          class="col-form-label font-medium"
+                          >Default Suplier</label
+                        >
+                        <select
+                          v-if="suppliers.length"
+                          v-model="supplierId"
+                          class="form-select text-sm"
+                          aria-label="Default select example"
+                        >
+                          <option selected>Choose supplier</option>
+                          <option
+                            v-for="sup in suppliers"
+                            :key="sup.supplierId"
+                            :value="sup.supplierId"
+                          >
+                            {{ sup.supplierName }}
+                          </option>
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -315,20 +372,39 @@
                 </template>
                 <template v-slot:body>
                   <div class="text-sm">
-                    <div class="mx-10 my-10">
-                      <div class="row mb-6">
-                        <label class="col-lg-4 col-form-label fw-medium"
-                          >Image</label
-                        >
-                        <div class="col-lg-8">
+                    <div class="mx-4 mb-6 mt-2">
+                      <div class="">
+                        <label class="col-form-label fw-medium">Image</label>
+                        <div class="">
                           <div class="flex">
-                            <div class="avatar_upload">
-                              <img v-if="url" :src="url" alt="Avatar" />
-                              <img
-                                v-else
-                                src="@/assets/images/assistant/image_default.jpeg"
-                                alt="Avatar"
-                              />
+                            <div class="avatar_upload ml-14 py-3">
+                              <div v-if="urlMaterials">
+                                <img
+                                  v-if="!url"
+                                  :src="urlMaterials"
+                                  alt="image"
+                                  class="w-8/12"
+                                />
+                                <img
+                                  v-else-if="url"
+                                  :src="url"
+                                  alt="image"
+                                  class="w-8/12"
+                                />
+                              </div>
+                              <div v-else>
+                                <img
+                                  v-if="!url"
+                                  src="@/assets/images/assistant/image_default.jpeg"
+                                  alt="image"
+                                />
+                                <img
+                                  v-else
+                                  :src="url"
+                                  alt="image"
+                                  class="w-8/12"
+                                />
+                              </div>
                             </div>
                             <div class="avatar_edit">
                               <div class="hidden">
@@ -348,17 +424,11 @@
                               ></label>
                             </div>
                           </div>
-                          <!-- <div class="avatar_upload">
-                          <img v-if="url" :src="url" alt="Avatar" />
-                        </div> -->
-                          <!-- <img :src="getPostAvatar(info)" /> -->
                         </div>
                       </div>
-                      <div class="row mb-6">
-                        <label class="col-lg-4 col-form-label fw-medium"
-                          >Name</label
-                        >
-                        <div class="col-lg-8">
+                      <div class="mt-3">
+                        <label class="col-form-label fw-medium">Name</label>
+                        <div class="">
                           <input
                             v-model="materialNameModal"
                             type="text"
@@ -368,11 +438,9 @@
                           />
                         </div>
                       </div>
-                      <div class="row mb-6">
-                        <label class="col-lg-4 col-form-label fw-medium"
-                          >Price</label
-                        >
-                        <div class="col-lg-8">
+                      <div class="mt-3">
+                        <label class="col-form-label fw-medium">Price</label>
+                        <div class="">
                           <input
                             v-model="materialPriceModal"
                             type="text"
@@ -382,11 +450,11 @@
                           />
                         </div>
                       </div>
-                      <div class="row mb-6">
-                        <label class="col-lg-4 col-form-label fw-medium"
+                      <div class="mt-3">
+                        <label class="col-form-label fw-medium"
                           >Description</label
                         >
-                        <div class="col-lg-8">
+                        <div class="">
                           <input
                             v-model="materialDescriptionModal"
                             type="text"
@@ -396,22 +464,28 @@
                           />
                         </div>
                       </div>
-                      <div class="row mb-6">
-                        <label class="col-lg-4 col-form-label fw-medium"
-                          >DefaultSuplier</label
+
+                      <div class="mt-3">
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Default Suplier</label
                         >
-                        <div class="col-lg-8">
-                          <select
-                            class="form-select"
-                            aria-label="Default select example"
-                            v-model="materialSuplierModal"
+                        <select
+                          v-if="suppliers.length"
+                          v-model="idSupModal"
+                          class="form-select text-sm"
+                          aria-label="Default select example"
+                        >
+                          <option selected>{{ idSupModal }}</option>
+                          <option
+                            v-for="sup in suppliers"
+                            :key="sup.supplierId"
+                            :value="sup.supplierId"
                           >
-                            <option selected>Open this select menu</option>
-                            <option value="1">Hung</option>
-                            <option value="2">Loan</option>
-                            <option value="3">Van</option>
-                          </select>
-                        </div>
+                            {{ sup.supplierName }}
+                          </option>
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -434,35 +508,81 @@
                 data-target="#myModal"
               >
                 <template v-slot:title>
-                  <div class="flex items-center text-lg font-medium">
+                  <div class="flex items-center text-lg font-semibold">
                     Delete
                   </div>
                 </template>
                 <template v-slot:body>
-                  <p>Are you sure detete {{ nameWoodModal }} category</p>
+                  <p class="text-base py-3">
+                    Are you sure detete <b> {{ materialNameModal }} ?</b>
+                  </p>
                 </template>
                 <template v-slot:footer>
-                  <button
-                    type="button"
-                    class="btn btn-primary my-8"
-                    data-bs-target="#exampleModalToggle2"
-                    data-bs-toggle="modal"
-                    data-bs-dismiss="modal"
-                    @click.prevent="HandleDelete"
-                  >
-                    Yes
-                  </button>
-                  <!-- <button
+                  <div class="bg-red-900 rounded-md">
+                    <span
                       type="button"
-                      class="btn btn-primary my-8"
-                      data-bs-target="#exampleModalToggle2"
-                      data-bs-toggle="modal"
-                      data-bs-dismiss="modal"
-                      @click="opentModal('notification', w)"
-                      @click.prevent="HandleDelete"
+                      class="btn text-white"
+                      @click="HandleDelete"
                     >
-                      Yes
-                    </button> -->
+                      Delete
+                    </span>
+                  </div>
+                </template>
+              </modal>
+              <modal
+                v-if="modalType == 'exportMaterial'"
+                @close="closeModal"
+                data-target="#myModal"
+              >
+                <template v-slot:title>
+                  <div
+                    class="flex items-center text-base font-semibold text-yellow-950"
+                  >
+                    Export Material
+                  </div>
+                </template>
+                <template v-slot:body>
+                  <div class="grid grid-cols-12 gap-x-10">
+                    <label
+                      for="exampleInputEmail1"
+                      class="col-span-4 form-label text-semibold text-base pt-2 border-none"
+                      >Quantity</label
+                    >
+                    <input
+                      v-model="quantity"
+                      type="text"
+                      class="col-span-8 form-control"
+                      id="exampleInpuName1"
+                      aria-describedby="nameHelp"
+                      required
+                    />
+                  </div>
+                  <div class="grid grid-cols-12 gap-x-10 mt-3">
+                    <label
+                      for="exampleInputEmail1"
+                      class="col-span-4 form-label text-semibold text-base pt-2 border-none"
+                      >Reason</label
+                    >
+                    <input
+                      v-model="reason"
+                      type="text"
+                      class="col-span-8 form-control"
+                      id="exampleInpuName1"
+                      aria-describedby="nameHelp"
+                      required
+                    />
+                  </div>
+                </template>
+                <template v-slot:footer>
+                  <div class="bg-yellow-900 rounded-md">
+                    <span
+                      type="button"
+                      class="btn text-white"
+                      @click="HandleExportMaterial(ma)"
+                    >
+                      Export
+                    </span>
+                  </div>
                 </template>
               </modal>
             </tr>
@@ -476,9 +596,15 @@
 <script>
 import axios from "axios";
 import modal from "@/components/ModalPage.vue";
+import alertError from "@/components/AlertError.vue";
+import alertSuccess from "@/components/AlertSuccess.vue";
+import alertWanning from "@/components/AlertWanning.vue";
 export default {
   components: {
     modal,
+    alertError,
+    alertSuccess,
+    alertWanning,
   },
   data() {
     return {
@@ -491,10 +617,22 @@ export default {
       materialPriceModal: null,
       materialDescriptionModal: null,
       materialSuplierModal: null,
+      isAlertSuccess: false,
+      isAlertError: false,
+      isAlertWanning: false,
+      messageError: null,
+      messageSuccess: null,
+      messageWanning: null,
+      searchResults: [],
+      keyword: "",
+      urlMaterials: "",
+      suppliers: [],
+      idSupModal: "",
     };
   },
   created() {
     this.getMaterial();
+    this.getSuppliers();
   },
   methods: {
     async getMaterial() {
@@ -505,29 +643,26 @@ export default {
         console.error(error);
       }
     },
+    async getSuppliers() {
+      try {
+        const response = await axios.get("shopOwner/shop-data/suppliers");
+        this.suppliers = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async opentModal(type, ma) {
       this.modalType = type;
+      this.urlMaterials = ma.materialImage;
       this.materialIdModal = ma.materialId;
       this.materialNameModal = ma.materialName;
       this.materialPriceModal = ma.materialPrice;
       this.materialDescriptionModal = ma.description;
       this.materialSuplierModal = ma.defaultSuplierId;
+      this.idSupModal = ma.defaultSuplierId;
     },
     closeModal() {
       this.modalType = null;
-    },
-    async HandleAdd() {
-      try {
-        const response = await axios.post(
-          "assistant/shop-data/materials/add/?woodType=" + this.categoryName
-        );
-        if (response.status === 201) {
-          this.modalType = null;
-        }
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
     },
     onFileChange(event) {
       this.file = event.target.files[0];
@@ -541,11 +676,12 @@ export default {
 
     async AddMaterial() {
       const formData = new FormData();
-      formData.append("MaterialName", this.materialName);
-      formData.append("MaterialPrice", this.materialPrice);
-      formData.append("Description", this.materialDescription);
-      formData.append("DefaultSuplierId", this.materialSuplier);
-      formData.append("materialImage", this.file);
+      formData.append("materialName", this.materialName);
+      formData.append("materialPrice", this.materialPrice);
+      formData.append("description", this.materialDescription);
+      formData.append("DefaultSuplierId", this.supplierId);
+      formData.append("UploadImage", this.file);
+      formData.append("Items", this.materialDescription);
       try {
         const response = await axios.post(
           "assistant/shop-data/materials/add",
@@ -558,9 +694,20 @@ export default {
         );
         if (response.status === 201) {
           this.modalType = null;
+          this.isAlertSuccess = true;
+          this.messageSuccess = "Add new material successfully";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 5000);
+          this.getMaterial();
         }
-        console.log(this.avatar);
       } catch (error) {
+        this.modalType = null;
+        this.isAlertError = true;
+        this.messageError = error.response.data.message;
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 5000);
         console.error(error);
       }
     },
@@ -570,11 +717,13 @@ export default {
       formData.append("MaterialName", this.materialNameModal);
       formData.append("MaterialPrice", this.materialPriceModal);
       formData.append("Description", this.materialDescriptionModal);
-      formData.append("DefaultSuplierId", this.materialSuplierModal);
-      formData.append("materialImage", this.file);
+      formData.append("DefaultSuplierId", this.idSupModal);
+      if (this.file != null) {
+        formData.append("UploadImage", this.file);
+      } else formData.append("UploadImage", this.urlMaterials);
       try {
         const response = await axios.put(
-          "customer/customer-infor/update",
+          "assistant/shop-data/materials/edit",
           formData,
           {
             headers: {
@@ -584,30 +733,79 @@ export default {
         );
         if (response.status === 200) {
           this.modalType = null;
+          this.isAlertSuccess = true;
+          this.messageSuccess =
+            "Update " + this.materialNameModal + " successful!";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 5000);
+          this.getMaterial();
         }
-        // if (response.status === 200) {
-        //   this.avatar = URL.createObjectURL(this.file);
-        // }
         console.log(this.avatar);
       } catch (error) {
+        this.isAlertError = true;
+        this.messageError = error.response.data.message;
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 5000);
         console.error(error);
       }
     },
     async HandleDelete() {
       try {
         const response = await axios.delete(
-          "assistant/shop-data/woods/remove/" + this.materialIdModal
+          "assistant/shop-data/materials/delete/" + this.materialIdModal
         );
         if (response.status === 204) {
           this.modalType = null;
           this.isSuccess = true;
+          this.isAlertSuccess = true;
+          this.messageSuccess =
+            "Delete " + this.materialNameModal + " successful!";
           setTimeout(() => {
             this.isSuccess = false;
           }, 3000);
-        } else {
-          this.isSuccess = false;
+          this.getMaterial();
         }
       } catch (error) {
+        this.isAlertError = true;
+        this.messagerError = error.response.data.message;
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 5000);
+      }
+    },
+    async HandleExportMaterial(ma) {
+      try {
+        const response = await axios.post(
+          "assistant/warehouse/repositories/" +
+            ma.materialId +
+            "/export-material",
+          {
+            Items: [
+              {
+                Id: ma.materialId,
+                Quantity: this.quantity,
+              },
+            ],
+            ExportReason: this.reason,
+          }
+        );
+        if (response.status === 201) {
+          this.modalType = null;
+          this.isAlertSuccess = true;
+          this.messageSuccess = "Add new repository successfully";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 5000);
+          this.getAllReponsitory();
+        }
+      } catch (error) {
+        this.isAlertError = true;
+        this.messageError = error.response.data.message;
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 5000);
         console.error(error);
       }
     },

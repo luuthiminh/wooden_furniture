@@ -1,6 +1,6 @@
 <template>
   <div v-if="furnitureSearch.length">
-    <search-results :furnitureSearch="furnitureSearch"></search-results>
+    <!-- <search-results :furnitureSearch="furnitureSearch"></search-results> -->
   </div>
   <div v-else>
     <header @mouseleave="HandleHeader">
@@ -197,13 +197,17 @@
       <content>
         <div class="mx-64 max-sm:mx-1">
           <div
-            class="service grid grid-cols-3 grid-flow-col h-40 max-h1 shadow-2xl"
+            class="service grid grid-cols-3 grid-flow-col h-44 max-h1 shadow-2xl"
           >
             <div
               class="service_item col col_1 border-r-1 border-indigo-600 text-center"
             >
-              <div class="service-icon">
-                <i class="fa-solid fa-shield-halved"></i>
+              <div class="service-icon ml-32 mt-3">
+                <img
+                  src="@/assets/images/warranty.png"
+                  alt="warranty"
+                  class="w-3/12"
+                />
               </div>
               <div
                 class="service-title text-xl font-semibold text-red-950 max-md:text-base"
@@ -217,8 +221,13 @@
               </div>
             </div>
             <div class="service_item col col_2 text-center">
-              <div class="service-icon">
-                <i class="fa-solid fa-truck-fast"></i>
+              <div class="service-icon ml-32 mt-3">
+                <!-- <i class="fa-solid fa-truck-fast"></i> -->
+                <img
+                  src="@/assets/images/delivery.png"
+                  alt="warranty"
+                  class="w-3/12"
+                />
               </div>
               <div
                 class="service-title text-xl font-semibold text-red-950 max-md:text-base"
@@ -235,8 +244,13 @@
               </div>
             </div>
             <div class="service_item col col_3 text-center">
-              <div class="service-icon">
-                <i class="fa-solid fa-headphones"></i>
+              <div class="service-icon ml-32 mt-3">
+                <!-- <i class="fa-solid fa-headphones"></i> -->
+                <img
+                  src="@/assets/images/support.png"
+                  alt="warranty"
+                  class="w-3/12"
+                />
               </div>
               <div
                 class="service-title text-xl font-semibold text-red-950 max-md:text-base"
@@ -400,7 +414,7 @@
             <div class="hot_task">
               <div class="hot_product">
                 <div>
-                  <all-furniture />
+                  <all-furniture :furnitures="furnitures"></all-furniture>
                 </div>
               </div>
               <div class="customize_furniture">
@@ -425,32 +439,37 @@
                         class="px-10 pt-3 max-sm:px-3"
                         @submit.prevent="customizeOrder"
                       >
-                        <!-- <div class="flex">
-                          <label for="exampleFormControlInput1">Picture</label>
-                          <input
-                            id="picture"
-                            type="file"
-                            class="flex h-10 w-full rounded-md border border-input bg-white px-3 py-2 text-sm text-gray-400 file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium"
-                          />
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleFormControlInput1"
-                            >Furniture name</label
-                          >
-                          <input
-                            v-model="furnitureName"
-                            type="text"
-                            class="form-control"
-                            id="exampleFormControlInput1"
-                            placeholder="Sofa.."
-                          />
-                        </div> -->
                         <div class="w-full items-center gap-x-6 pb-3">
                           <label for="exampleFormControlInput1">Picture</label>
                           <input
                             id="picture"
                             type="file"
-                            class="flex bg-slate-100 h-10 w-full rounded-md border border-input px-2 py-1 text-sm file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium"
+                            accept=".png, .jpg, .jpeg"
+                            :maxFileSize="1000000"
+                            ref="file"
+                            multiple
+                            @change="onFile"
+                            class="bg-slate-100 h-10 w-full rounded-md border border-input px-2 py-1 text-sm file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium"
+                          />
+                        </div>
+                        <!-- <div class="form-group">
+                          <label>Select multi image files</label>
+                          <input
+                            type="file"
+                            class="form-control"
+                            id="fileInput"                 
+                          />
+                        </div> -->
+                        <div class="form-group">
+                          <label for="exampleFormControlInput1"
+                            >Name Furniture</label
+                          >
+                          <input
+                            v-model="cusfurnitureName"
+                            type="text"
+                            class="form-control w-10/12"
+                            id="exampleFormControlInput1"
+                            placeholder="10m"
                           />
                         </div>
                         <div class="grid grid-cols-2 gap-x-6">
@@ -525,7 +544,7 @@
                               >Wood ID</label
                             >
                             <select
-                              v-model="woodID"
+                              v-model="woodId"
                               class="form-control"
                               id="exampleFormControlSelect1"
                             >
@@ -541,7 +560,7 @@
                               >Quantity</label
                             >
                             <input
-                              v-model="quantities"
+                              v-model="quantityFurniture"
                               type="text"
                               class="form-control"
                               id="exampleFormControlInput1"
@@ -869,6 +888,7 @@ export default {
       notifications: [],
       isDarkMode: false,
       isShowHeader: false,
+      arrayFile: [],
     };
   },
   created() {
@@ -876,18 +896,10 @@ export default {
     this.getAllAnnouncements();
     // window.addEventListener("scroll", this.onScroll);
   },
-  unmounted() {
-    // Gỡ bỏ sự kiện cuộn cửa sổ khi component bị hủy
-    window.removeEventListener("scroll", this.onScroll);
-  },
   methods: {
     async getFurnitureAll() {
       try {
-        const response = await axios.get("customer/furnitures", {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        });
+        const response = await axios.get("customer/furnitures");
         this.furnitures = response.data;
         console.log(response);
         console.log(this.furnitures);
@@ -949,21 +961,34 @@ export default {
         this.isLight = true;
       }
     },
+    onFile(event) {
+      this.arrayFile = event.target.files;
+    },
     async customizeOrder() {
+      const formData = new FormData();
+      formData.append("Attachmens", this.arrayFile);
+      formData.append("CustomizeFurnitureName", this.cusfurnitureName);
+      formData.append("CategoryId", this.categoryId);
+      formData.append("ColorId", this.colorId);
+      formData.append("Height", this.height);
+      formData.append("Length", this.length);
+      formData.append("Width", this.width);
+      formData.append("WoodId", this.woodId);
+      formData.append("Quantity", "10");
+      formData.append("Description", this.description);
+      formData.append("DesiredCompletionDate", this.completionDate);
       try {
-        const response = await axios.post("customize-furnitures/create", {
-          customizeFurnitureName: this.furnitureName,
-          categoryId: this.categoryId,
-          colorId: this.colorId,
-          height: this.height,
-          length: this.length,
-          woodId: this.woodId,
-          quantity: this.quantities,
-          description: this.description,
-          DesiredCompletionDate: this.desiredCompletionDate,
-        });
-        if (response.status === 201) {
-          alert("Please confirm the code in your email!");
+        const response = await axios.post(
+          "customer/customize-furnitures/create",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        if (response.status === 200) {
+          alert("Order success");
         }
       } catch (error) {
         this.message = error.response.data.message;
@@ -1216,7 +1241,6 @@ header::before {
   display: flex;
 }
 .service .service_item.col {
-  padding-top: 7px;
   font-size: x-large;
   text-align: center;
   border-right: 1px solid rgb(226, 224, 224);

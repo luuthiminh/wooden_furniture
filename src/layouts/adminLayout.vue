@@ -1,26 +1,21 @@
 <template>
   <div class="layout flex">
     <nav
-      class="nav__layout_header flex-none w-24 bg-white fixed z-1 max-sm:hidden max-md:hidden"
+      class="nav__layout_header flex-none w-24 bg-white fixed max-sm:hidden max-md:hidden"
     >
-      <ul class="nav leading-10 text-center nav nav-stacked" role="tablist">
-        <li role="presentation" class="logo pb-3 mt-6 cursor-poniter">
+      <div class="text-center mt-6 border-1 border-bottom border-slate-50">
+        <img class="w-7/12 ml-3" src="@/assets/images/logo.png" alt="logo" />
+        <span class="text-sm font-bold">L & L</span>
+      </div>
+      <ul class="nav leading-9 text-center nav nav-stacked" role="tablist">
+        <li role="presentation" class="w-full">
           <a
-            href="#users active"
+            href="#users"
             aria-controls="users"
             role="tab"
             data-toggle="tab"
+            class="active"
           >
-            <img
-              class="w-7/12 ml-3"
-              src="@/assets/images/logo.png"
-              alt="logo"
-            />
-            <span class="text-sm font-bold">L & L</span>
-          </a>
-        </li>
-        <li role="presentation" class="w-full">
-          <a href="#users" aria-controls="users" role="tab" data-toggle="tab">
             <i class="bi bi-people"></i>
             <p>User</p>
           </a>
@@ -31,7 +26,7 @@
             aria-controls="furniture"
             role="tab"
             data-toggle="tab"
-            class="active"
+            class=""
           >
             <i class="bi bi-house"></i>
             <p>Furniture</p>
@@ -80,6 +75,24 @@
             <p>Material</p></router-link
           >
         </li>
+        <li class="w-full">
+          <router-link to="/suppliersManager">
+            <i class="bi bi-person-check"></i>
+            <p>Suppliers</p>
+          </router-link>
+        </li>
+        <li class="w-full">
+          <router-link to="/allOrder">
+            <i class="bi bi-cart-check"></i>
+            <p>Orders</p>
+          </router-link>
+        </li>
+        <li class="w-full">
+          <router-link to="/CustomizeOrder">
+            <i class="bi bi-cart"></i>
+            <p>Customize</p>
+          </router-link>
+        </li>
         <li role="presentation" class="w-full">
           <!-- <a
             href="#collections"
@@ -95,6 +108,7 @@
             <p>Collection</p>
           </router-link>
         </li>
+
         <li role="presentation" class="w-full">
           <!-- <a
             href="#categories"
@@ -124,10 +138,10 @@
       </div>
     </nav>
     <nav
-      class="nav__layout__content flex-none w-80 bg-white fixed px-5 pt-4 z-1 max-sm:hidden max-md:hidden"
+      class="nav__layout__content flex-none w-80 bg-white fixed px-5 pt-4 max-sm:hidden max-md:hidden"
     >
       <div class="tab-content col-span-5 max-sm:hidden max-md:hidden">
-        <div role="tabpanel" class="tab-pane" id="users">
+        <div role="tabpanel" class="tab-pane active" id="users">
           <h1 class="font-semibold mb-6 mt-2 text-lg">Management Users</h1>
           <div>
             <SearchAdmin />
@@ -142,57 +156,27 @@
                 </router-link>
               </li>
               <li class="py-2">
-                <router-link to="userManaegment" class="flex">
-                  <i class="bi bi-person-check pr-3"></i>
-                  <p class="font-normal">User List</p>
+                <router-link to="/adManagement" class="flex">
+                  <i class="bi bi-person pr-3"></i>
+                  <p class="font-normal">Admin Account List</p>
                 </router-link>
               </li>
-              <li class="cursor-none py-2">
-                <div class="dropdown">
-                  <div
-                    class="flex"
-                    type="button"
-                    id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <i class="bi bi-person-gear pr-3"></i>
-                    <p class="font-normal">Roles</p>
-                    <i
-                      class="bi bi-chevron-double-down text-xs pl-28"
-                      style="font-size: 62%; padding-top: 10px"
-                    ></i>
-                  </div>
-                  <ul
-                    class="dropdown-menu user_roles mb-10 tex-base text-stone-600 font-normal ml-3"
-                    aria-labelledby="dropdownMenuButton1"
-                  >
-                    <li>
-                      <router-link to="/adManagement">
-                        <i class="fa-regular fa-circle-dot"></i
-                        >Admin</router-link
-                      >
-                    </li>
-                    <li>
-                      <router-link to="/cusManagement">
-                        <i class="fa-regular fa-circle-dot"></i
-                        >Customer</router-link
-                      >
-                    </li>
-                    <li>
-                      <router-link to="/asManagement"
-                        ><i class="fa-regular fa-circle-dot"></i
-                        >Assistant</router-link
-                      >
-                    </li>
-                    <li></li>
-                  </ul>
-                </div>
+              <li class="py-2">
+                <router-link to="/cusManagement" class="flex">
+                  <i class="bi bi-person pr-3"></i>
+                  <p class="font-normal">Customer Account List</p>
+                </router-link>
+              </li>
+              <li class="py-2">
+                <router-link to="/asManagement" class="flex">
+                  <i class="bi bi-person pr-3"></i>
+                  <p class="font-normal">Assistant Account List</p>
+                </router-link>
               </li>
             </ul>
           </div>
         </div>
-        <div role="tabpanel" class="tab-pane active" id="furniture">
+        <div role="tabpanel" class="tab-pane" id="furniture">
           <h1 class="text-yellow-950 font-semibold mb-6 mt-2 text-lg">
             Management Furniture
           </h1>
@@ -208,7 +192,7 @@
                 </router-link>
               </li>
               <li class="py-2">
-                <router-link to="/furnitureManagement" class="flex">
+                <router-link to="/furnitureManagementAd" class="flex">
                   <i class="bi bi-person-check pr-3"></i>
                   <p class="font-normal">All Furniture</p>
                 </router-link>
@@ -317,8 +301,15 @@ export default {
 /* .layout {
   overflow: hidden;
 } */
+nav i,
+.nav svg {
+  color: #9ca3af;
+}
 .layout li {
   cursor: pointer;
+}
+.nav__layout__content {
+  height: 44em;
 }
 .nav__layout_header {
   border-right: 1px solid transparent;
@@ -336,7 +327,8 @@ i {
 }
 .nav__layout_header p {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
+  opacity: 0.95;
 }
 .nav__layout__content {
   margin-left: 96px;
@@ -351,7 +343,7 @@ i {
 }
 
 .nav__layout__avatar {
-  margin-top: 50%;
+  margin-top: 37%;
 }
 .nav__layout__content .user_roles i {
   font-size: 39%;
@@ -365,13 +357,33 @@ i {
 .nav__layout__content .task_user p,
 .nav__layout__content .user_roles {
   font-size: 15px;
-  font-weight: 400;
+  font-weight: 500;
 }
-.layout p,
 .layout li,
-.layout i,
 .layout h1 {
   color: rgb(83, 61, 22);
+}
+.nav {
+  overflow: scroll;
+  overflow-x: hidden;
+  height: 28em;
+}
+.nav::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+.nav::-webkit-scrollbar {
+  width: 6px;
+  background-color: #f5f5f5;
+  height: 10px;
+  margin-top: 1em;
+}
+
+.nav::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #d0c9be;
 }
 /*Mobile & tablet: width<1024px*/
 @media only screen and (max-width: 63.9375em) {

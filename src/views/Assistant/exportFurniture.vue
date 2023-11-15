@@ -2,28 +2,23 @@
   <div class="">
     <div class="nav">
       <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-transparent text-sm pt-4 ml-4 font-medium">
-          <li class="breadcrumb-item text-sm">
+        <ol class="breadcrumb bg-transparent text-sm pt-4 px-5 font-medium">
+          <li class="breadcrumb-item text-base">
             <router-link to="/indexAssistant">Home</router-link>
           </li>
-          <li class="breadcrumb-item text-sm active" aria-current="page">
-            Management Material
-          </li>
-          <li class="breadcrumb-item text-sm active" aria-current="page">
-            Import Material
+          <li class="breadcrumb-item text-base active" aria-current="page">
+            Managemnet Material
           </li>
         </ol>
       </nav>
     </div>
-    <div class="font-semibold text-lg ml-4 pt-4">Import Material</div>
-    <span></span>
     <div class="content_table pt-14 px-10 scroll">
       <div class="flex mb-4">
         <div class="flex items-center gap-x-4 text-sm">
           <p class="font-semibold">Total Woods:</p>
           <!-- {{ materials.length }} -->
         </div>
-        <div class="absolute right-10 flex gap-x-10">
+        <div class="absolute right-10">
           <button
             type="button"
             class="button_add ring-offset-2 ring-2 bg-lime-700 ring-lime-300 hover:ring-lime-600 text-sm rounded-md"
@@ -31,7 +26,7 @@
             data-target="#exampleModalLong"
             data-dismiss="modal"
             data-backdrop="false"
-            @click="opentModal('add')"
+            @click="opentModal('add', 'null')"
           >
             <span class="button__text text-sm">Add</span>
             <span class="button__icon"
@@ -51,36 +46,6 @@
                 <line y2="12" y1="12" x2="19" x1="5"></line></svg
             ></span>
           </button>
-
-          <a
-            href="https://landlstore.azurewebsites.net/api/assistant/warehouse/material/import-history/to-csv"
-            class="button_download"
-            data-tooltip="Size: 20Mb"
-          >
-            <div class="button-wrapper">
-              <div class="text">Download</div>
-              <span class="icon">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                  role="img"
-                  width="2em"
-                  height="2em"
-                  preserveAspectRatio="xMidYMid meet"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 0 0 4.561 21h14.878a2 2 0 0 0 1.94-1.515L22 17"
-                  ></path>
-                </svg>
-              </span>
-            </div>
-          </a>
         </div>
         <modal
           v-if="modalType == 'add'"
@@ -99,10 +64,10 @@
               <div class="mx-4 mb-6">
                 <div class="flex gap-x-6 my-3">
                   <label for="exampleInputEmail1" class="form-label font-medium"
-                    >Bill Image</label
+                    >Bill</label
                   >
                   <img v-if="url" :src="url" alt="image" class="w-6/12" />
-                  <label v-else class="custum-file-upload ml-28" for="file">
+                  <label v-else class="custum-file-upload" for="file">
                     <div class="icon">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -164,7 +129,7 @@
                       v-if="materials.length"
                       class="form-select"
                       aria-label="Default select example"
-                      v-model="maId"
+                      v-model="materialId"
                     >
                       <option selected class="font-medium">
                         Choose repository
@@ -185,7 +150,19 @@
                   >
                   <div class="col-lg-8">
                     <input
-                      v-model="quantity"
+                      v-model="quantitiesmaterial"
+                      type="text"
+                      class="form-control border-none bg-neutral-100"
+                      id="firstname"
+                      aria-describedby="firstnameHelp"
+                    />
+                  </div>
+                </div>
+                <div class="row mb-6">
+                  <label class="col-lg-4 col-form-label fw-medium">Price</label>
+                  <div class="col-lg-8">
+                    <input
+                      v-model="materialPrice"
                       type="text"
                       class="form-control border-none bg-neutral-100"
                       id="firstname"
@@ -213,8 +190,7 @@
               <span
                 type="button"
                 class="btn text-white"
-                data-dismiss="modal"
-                @click.prevent="HandleAdd(ma)"
+                @click.prevent="HandleAdd"
               >
                 Add
               </span>
@@ -230,77 +206,56 @@
             <tr class="text-sm">
               <th scope="col">ID</th>
               <th scope="col">Bill</th>
-              <th scope="col">Created By</th>
-              <th scope="col">Repository Id</th>
-              <th scope="col">Address</th>
+              <th scope="col">Creater</th>
               <th scope="col">Cost</th>
-              <th scope="col">Materials</th>
+              <th scope="col">RepositoryId</th>
+              <th scope="col">Material</th>
               <th scope="col">CreationDate</th>
               <th scope="col">DeliveryDate</th>
               <th scope="col">Status</th>
-              <th></th>
-              <th></th>
-              <th></th>
+              <th scope="col">Edit</th>
+              <th scope="col">Delete</th>
             </tr>
           </thead>
           <tbody v-if="imports.length">
             <tr class="text-sm" v-for="i in imports" :key="i.importId">
-              <td>{{ i.importId }}</td>
               <td class="img">
                 <img :src="i.billImage" alt="furniture" class="w-20" />
               </td>
               <!-- <td>{{ ma.materialImage }}</td> -->
               <td>{{ i.createdBy }}</td>
               <td>{{ i.repositoryId }}</td>
-              <td>{{ i.repositoryAddress }}</td>
               <td>${{ i.totalCost }}</td>
-              <td>
-                <div v-for="it in i.importItems" :key="it.materialId">
-                  {{ it.materialId }}
-                </div>
+              <td>{{ i.repositoryId }}</td>
+              <td v-for="it in i.importItems" :key="it.materialId">
+                {{ it.materialId }}
               </td>
               <td>{{ i.creationDate }}</td>
               <td>{{ i.deliveryDate }}</td>
               <td>{{ i.status }}</td>
-              <td v-if="i.status === 'Delivered'">
-                <div
-                  class="dropdown text-center py-1 bg-blue-800 w-20 rounded-md text-white"
-                >
-                  <button
-                    data-toggle="modal"
-                    data-target="#exampleModalLong"
-                    data-dismiss="modal"
-                    data-backdrop="false"
-                    @click="opentModal('transfer')"
-                  >
-                    Transfer
-                  </button>
-                </div>
-              </td>
-              <td v-if="i.status === 'Processing'">
-                <div
-                  class="dropdown text-center py-1 bg-blue-800 w-20 rounded-md text-white"
-                >
-                  <button
-                    data-toggle="modal"
-                    data-target="#exampleModalLong"
-                    data-dismiss="modal"
-                    data-backdrop="false"
-                    @click="opentModal('confirm')"
-                  >
-                    Confirm
-                  </button>
-                </div>
-              </td>
-              <td v-if="i.status === 'Processing'">
+              <td>
                 <button
-                  class="button_delete rounded-md"
+                  class="button_edit"
                   type="button"
                   data-toggle="modal"
                   data-target="#exampleModalLong"
                   data-dismiss="modal"
                   data-backdrop="false"
-                  @click="opentModal('delete')"
+                  @click="opentModal('edit', ma)"
+                >
+                  <span class="button__text text-xs">Edit</span>
+                  <span class="button__icon bi bi-pencil text-white"></span>
+                </button>
+              </td>
+              <td>
+                <button
+                  class="button_delete"
+                  type="button"
+                  data-toggle="modal"
+                  data-target="#exampleModalLong"
+                  data-dismiss="modal"
+                  data-backdrop="false"
+                  @click="opentModal('delete', ma)"
                 >
                   <span class="button__text text-xs">Delete</span>
                   <span class="button__icon"
@@ -387,108 +342,33 @@
                 </button>
               </td>
               <modal
-                v-if="modalType == 'transfer'"
-                @close="closeModal"
+                v-if="modalType == 'edit'"
+                @close="modalType == null"
                 data-target="#myModal"
               >
                 <template v-slot:title>
                   <div
                     class="flex items-center text-base font-semibold text-yellow-950"
                   >
-                    Transfer Material
-                  </div>
-                </template>
-                <template v-slot:body>
-                  <div>
-                    <div class="row mb-6">
-                      <label class="col-lg-4 col-form-label fw-medium text-base"
-                        >Repository</label
-                      >
-                      <div class="col-lg-8">
-                        <select
-                          v-if="reponsitories.length"
-                          class="form-select"
-                          aria-label="Default select example"
-                          v-model="repositoryId"
-                        >
-                          <option selected class="font-medium">
-                            Choose repository
-                          </option>
-                          <option
-                            v-for="repo in reponsitories"
-                            :key="repo.repositoryId"
-                            :value="repo.repositoryId"
-                          >
-                            {{ repo.repositoryName }}
-                          </option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="grid grid-cols-12 gap-x-10">
-                      <label
-                        for="exampleInputEmail1"
-                        class="col-span-4 form-label text-semibold text-base pt-2 border-none"
-                        >Quantity</label
-                      >
-                      <input
-                        v-model="quantity"
-                        type="text"
-                        class="col-span-8 form-control"
-                        id="exampleInpuName1"
-                        aria-describedby="nameHelp"
-                        required
-                      />
-                    </div>
-                  </div>
-                </template>
-                <template v-slot:footer>
-                  <div class="bg-yellow-900 rounded-md">
-                    <span
-                      type="button"
-                      class="btn text-white"
-                      @click="HandleTranfer(i)"
-                    >
-                      Transfer
-                    </span>
-                  </div>
-                </template>
-              </modal>
-              <modal
-                v-if="modalType == 'confirm'"
-                @close="closeModal"
-                data-target="#myModal"
-              >
-                <template v-slot:title>
-                  <div
-                    class="flex items-center text-base font-semibold text-yellow-950"
-                  >
-                    Confirm Import
+                    Edit Material
                   </div>
                 </template>
                 <template v-slot:body>
                   <div class="text-sm">
-                    <div class="mx-4 mb-6 mt-2">
-                      <div class="">
-                        <label class="col-form-label fw-medium"
-                          >Bill Image</label
+                    <div class="mx-10 my-10">
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >Image</label
                         >
-                        <div class="">
+                        <div class="col-lg-8">
                           <div class="flex">
-                            <div class="avatar_upload ml-14 py-3">
-                              <div v-if="i.billImage">
-                                <img
-                                  v-if="!url"
-                                  :src="i.billImage"
-                                  alt="image"
-                                  class="w-8/12"
-                                />
-                                <img
-                                  v-else-if="url"
-                                  :src="url"
-                                  alt="image"
-                                  class="w-8/12"
-                                />
-                              </div>
+                            <div class="avatar_upload">
+                              <img v-if="url" :src="url" alt="Avatar" />
+                              <img
+                                v-else
+                                src="@/assets/images/assistant/image_default.jpeg"
+                                alt="Avatar"
+                              />
                             </div>
                             <div class="avatar_edit">
                               <div class="hidden">
@@ -508,21 +388,69 @@
                               ></label>
                             </div>
                           </div>
+                          <!-- <div class="avatar_upload">
+                              <img v-if="url" :src="url" alt="Avatar" />
+                            </div> -->
+                          <!-- <img :src="getPostAvatar(info)" /> -->
                         </div>
                       </div>
                       <div class="row mb-6">
                         <label class="col-lg-4 col-form-label fw-medium"
-                          >Delivery Date
-                        </label>
+                          >Name</label
+                        >
                         <div class="col-lg-8">
-                          <span>{{ i.deliveryDate }}</span>
-                          <!-- <input
-                            v-model="deliveryDate"
-                            type="date"
+                          <input
+                            v-model="materialNameModal"
+                            type="text"
                             class="form-control border-none bg-neutral-100"
                             id="firstname"
                             aria-describedby="firstnameHelp"
-                          /> -->
+                          />
+                        </div>
+                      </div>
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >Price</label
+                        >
+                        <div class="col-lg-8">
+                          <input
+                            v-model="materialPriceModal"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                          />
+                        </div>
+                      </div>
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >Description</label
+                        >
+                        <div class="col-lg-8">
+                          <input
+                            v-model="materialDescriptionModal"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                          />
+                        </div>
+                      </div>
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >DefaultSuplier</label
+                        >
+                        <div class="col-lg-8">
+                          <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            v-model="materialSuplierModal"
+                          >
+                            <option selected>Open this select menu</option>
+                            <option value="1">Hung</option>
+                            <option value="2">Loan</option>
+                            <option value="3">Van</option>
+                          </select>
                         </div>
                       </div>
                     </div>
@@ -533,9 +461,9 @@
                     <span
                       type="button"
                       class="btn text-white"
-                      @click.prevent="HandleConfirmImport(i)"
+                      @click.prevent="updateMaterial"
                     >
-                      Confirm
+                      Update
                     </span>
                   </div>
                 </template>
@@ -551,20 +479,30 @@
                   </div>
                 </template>
                 <template v-slot:body>
-                  <p class="text-center py-3 text-base">
-                    Are you sure detete this import??
-                  </p>
+                  <p>Are you sure detete {{ nameWoodModal }} category</p>
                 </template>
                 <template v-slot:footer>
-                  <div class="bg-red-900 rounded-md">
-                    <span
-                      type="button"
-                      class="btn text-white"
-                      @click="HandleDelete(i)"
-                    >
-                      Delete
-                    </span>
-                  </div>
+                  <button
+                    type="button"
+                    class="btn btn-primary my-8"
+                    data-bs-target="#exampleModalToggle2"
+                    data-bs-toggle="modal"
+                    data-bs-dismiss="modal"
+                    @click.prevent="HandleDelete"
+                  >
+                    Yes
+                  </button>
+                  <!-- <button
+                          type="button"
+                          class="btn btn-primary my-8"
+                          data-bs-target="#exampleModalToggle2"
+                          data-bs-toggle="modal"
+                          data-bs-dismiss="modal"
+                          @click="opentModal('notification', w)"
+                          @click.prevent="HandleDelete"
+                        >
+                          Yes
+                        </button> -->
                 </template>
               </modal>
             </tr>
@@ -576,7 +514,6 @@
   <!-- </div> -->
 </template>
 <script>
-import { format } from "date-fns";
 import axios from "axios";
 import modal from "@/components/ModalPage.vue";
 export default {
@@ -610,17 +547,7 @@ export default {
         const response = await axios.get(
           "assistant/warehouse/material/imports"
         );
-        if (response.status == 200) {
-          this.imports = response.data;
-
-          this.imports = this.imports.map((item) => {
-            const dateCre = new Date(item.creationDate);
-            const dateDeli = new Date(item.deliveryDate);
-            item.creationDate = format(dateCre, "dd/MM/yyyy");
-            item.deliveryDate = format(dateDeli, "dd/MM/yyyy");
-            return item;
-          });
-        }
+        this.imports = response.data;
       } catch (error) {
         console.error(error);
       }
@@ -641,8 +568,13 @@ export default {
         console.error(error);
       }
     },
-    async opentModal(type) {
+    async opentModal(type, ma) {
       this.modalType = type;
+      this.materialIdModal = ma.materialId;
+      this.materialNameModal = ma.materialName;
+      this.materialPriceModal = ma.materialPrice;
+      this.materialDescriptionModal = ma.description;
+      this.materialSuplierModal = ma.defaultSuplierId;
     },
     closeModal() {
       this.modalType = null;
@@ -659,75 +591,32 @@ export default {
         const response = await axios.post(
           "assistant/warehouse/material/imports/create",
           {
-            repositoryId: this.repositoryId,
+            userInput: {
+              RepositoryId: this.repositoryId,
+              BillImage: this.file,
+            },
             items: [
               {
-                materialId: this.maId,
-                quantity: this.quantity,
-                note: this.note,
+                MaterialId: this.materialId,
+                Quantity: this.quantitiesmaterial,
+                Note: this.note,
               },
             ],
           }
         );
         if (response.status === 201) {
           this.modalType = null;
-          this.modalType = null;
-          this.isAlertSuccess = true;
-          this.messageSuccess = "Import material successfully";
-          setTimeout(() => {
-            this.isAlertSuccess = false;
-          }, 5000);
-          this.getImports();
         }
         console.log(response.data);
       } catch (error) {
-        this.isAlertError = true;
-        this.messageError = error.response.data.message;
-        setTimeout(() => {
-          this.isAlertError = false;
-        }, 5000);
         console.error(error);
       }
     },
-    async HandleConfirmImport(i) {
-      const formData = new FormData();
-      formData.append("DeliveryDate", i.deliveryDate);
-      if (this.file == null) {
-        formData.append("BillImage", this.file);
-      } else formData.append("BillImage", i.billImage);
-      try {
-        const response = await axios.put(
-          "assistant/warehouse/material/imports/confirm/" + i.importId,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        if (response.status === 200) {
-          this.modalType = null;
-          this.isAlertSuccess = true;
-          this.messageSuccess = "Update successful!";
-          setTimeout(() => {
-            this.isAlertSuccess = false;
-          }, 5000);
-          this.getImports();
-        }
-        console.log(this.avatar);
-      } catch (error) {
-        this.isAlertError = true;
-        this.messageError = error.response.data.message;
-        setTimeout(() => {
-          this.isAlertError = false;
-        }, 5000);
-        console.error(error);
-      }
-    },
-    async HandleDelete(i) {
+
+    async HandleDelete() {
       try {
         const response = await axios.delete(
-          "assistant/warehouse/material/imports/remove/" + i.importId
+          "assistant/warehouse/material/imports/remove/" + this.materialIdModal
         );
         if (response.status === 204) {
           this.modalType = null;
@@ -735,38 +624,10 @@ export default {
           setTimeout(() => {
             this.isSuccess = false;
           }, 3000);
-          this.getImports();
         } else {
           this.isSuccess = false;
         }
       } catch (error) {
-        console.error(error);
-      }
-    },
-    async HandleTranfer(i) {
-      try {
-        const response = await axios.put(
-          "assistant/warehouse/repositories/" +
-            i.repositoryId +
-            "/material/transfer/" +
-            this.repositoryId
-        );
-        if (response.status === 200) {
-          this.modalType = null;
-          this.isAlertSuccess = true;
-          this.messageSuccess = "Update successful!";
-          setTimeout(() => {
-            this.isAlertSuccess = false;
-          }, 5000);
-          this.getImports();
-        }
-        console.log(this.avatar);
-      } catch (error) {
-        this.isAlertError = true;
-        this.messageError = error.response.data.message;
-        setTimeout(() => {
-          this.isAlertError = false;
-        }, 5000);
         console.error(error);
       }
     },
@@ -982,8 +843,8 @@ td img {
   background-color: #dde4e794;
 }
 .custum-file-upload {
-  ight: 178px;
-  width: 248px;
+  height: 200px;
+  width: 300px;
   display: flex;
   flex-direction: column;
   align-items: space-between;
@@ -1025,123 +886,5 @@ td img {
 }
 .form-select {
   background-color: #cecfd442;
-}
-table {
-  overflow: scroll;
-  width: 95em;
-}
-.button_download {
-  --width: 100px;
-  --height: 35px;
-  --tooltip-height: 35px;
-  --tooltip-width: 90px;
-  --gap-between-tooltip-to-button: 18px;
-  --button-color: #1163ff;
-  --tooltip-color: #fff;
-  width: var(--width);
-  height: var(--height);
-  background: var(--button-color);
-  position: relative;
-  text-align: center;
-  border-radius: 0.45em;
-  font-family: "Arial";
-  transition: background 0.3s;
-}
-
-.button_download::before {
-  position: absolute;
-  content: attr(data-tooltip);
-  width: var(--tooltip-width);
-  height: var(--tooltip-height);
-  background-color: var(--tooltip-color);
-  font-size: 0.9rem;
-  color: #111;
-  border-radius: 0.25em;
-  line-height: var(--tooltip-height);
-  bottom: calc(var(--height) + var(--gap-between-tooltip-to-button) + 10px);
-  left: calc(50% - var(--tooltip-width) / 2);
-}
-
-.button_download::after {
-  position: absolute;
-  content: "";
-  width: 0;
-  height: 0;
-  border: 10px solid transparent;
-  border-top-color: var(--tooltip-color);
-  left: calc(50% - 10px);
-  bottom: calc(100% + var(--gap-between-tooltip-to-button) - 10px);
-}
-
-.button_download::after,
-.button_download::before {
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.5s;
-}
-
-.button_download .text {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.button_download .button-wrapper,
-.button_download .text,
-.button_download .icon {
-  overflow: hidden;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  color: #fff;
-}
-
-.button_download .text {
-  top: 0;
-}
-
-.button_download .text,
-.button_download .icon {
-  transition: top 0.5s;
-}
-
-.button_download .icon {
-  color: #fff;
-  top: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.button_download .icon svg {
-  width: 24px;
-  height: 24px;
-}
-
-.button_download:hover {
-  background: #6c18ff;
-}
-
-.button_download:hover .text {
-  top: -100%;
-}
-
-.button_download:hover .icon {
-  top: 0;
-}
-
-.button_download:hover:before,
-.button_download:hover:after {
-  opacity: 1;
-  visibility: visible;
-}
-
-.button_download:hover:after {
-  bottom: calc(var(--height) + var(--gap-between-tooltip-to-button) - 20px);
-}
-
-.button_download:hover:before {
-  bottom: calc(var(--height) + var(--gap-between-tooltip-to-button));
 }
 </style>

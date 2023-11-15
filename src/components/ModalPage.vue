@@ -45,7 +45,7 @@ export default {
     closeModal() {
       this.$emit("close");
     },
-    props: ["tyle"],
+    // props: ["tyle"],
   },
 };
 </script>

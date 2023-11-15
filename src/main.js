@@ -6,6 +6,9 @@ import router from "./router";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+// import VueSocketIO from "vue-socket.io";
+
+// Vue.config.productionTip = false;
 
 window.axios = axios;
 
@@ -31,4 +34,15 @@ app.use(router);
 app.use(ViewUIPlus, {
   locale,
 });
+// app.use(
+//   new VueSocketIO({
+//     debug: true,
+//     connection: "http://localhost:3000",
+//   })
+// );
+
+// new Vue({
+//   render: (h) => h(App),
+// }).$mount("#app");
+
 app.mount("#app");

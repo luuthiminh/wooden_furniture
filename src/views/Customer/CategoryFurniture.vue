@@ -259,11 +259,11 @@
         </div>
       </div>
       <div class="col-span-4">
-        <all-furniture />
+        <all-furniture :furnitures="furnitures"></all-furniture>
         <div class="mt-5">
           <h1 class="font-medium text-center text-lg">BEST FURNITURE</h1>
           <hr class="w-1/12 mb-4" />
-          <all-furniture />
+          <all-furniture :furnitures="furnitures"></all-furniture>
         </div>
       </div>
     </div>
@@ -289,7 +289,7 @@ export default {
   methods: {
     async getFurnitures() {
       try {
-        const response = await axios.get("/customer/furnitures");
+        const response = await axios.get("customer/furnitures");
         this.furnitures = response.data;
       } catch (error) {
         console.error(error);
@@ -297,7 +297,7 @@ export default {
     },
     async toggleWishlist(furniture) {
       try {
-        const response = await axios.put("/wishlist/toggle", {
+        const response = await axios.put("customer/wishlist/toggle", {
           params: { furnitureId: furniture.furnitureId },
         });
 

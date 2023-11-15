@@ -35,7 +35,7 @@
                 class="text-decoration-none"
               ></router-link>
               <li class="search">
-                <form @keyup.enter="search">
+                <form>
                   <div class="flex flex-cols-6 gap-x-3">
                     <div class="col-span-4 font-normal">
                       <div class="form">
@@ -103,7 +103,9 @@
               <li class="flex gap-2">
                 <router-link to="/TemporaryCart" style="text-decoration: none"
                   ><i class="bi bi-cart3 cursor-pointer text-2xl"></i>
-                  <sup class="px-1 bg-red-600 rounded-full text-white">2 </sup>
+                  <sup class="px-1 bg-red-600 rounded-full text-white">{{
+                    cart.length
+                  }}</sup>
                 </router-link>
                 <p class="font-semibold pt-1 text-lg">Cart</p>
               </li>
@@ -332,7 +334,9 @@
               <div class="w-10">
                 <router-link to="/TemporaryCart" style="text-decoration: none"
                   ><i class="bi bi-cart3 cursor-pointer text-xl"></i>
-                  <sup class="px-1 bg-red-600 rounded-full text-white">2 </sup>
+                  <sup class="px-1 bg-red-600 rounded-full text-white"
+                    >{{ cart.length }}
+                  </sup>
                 </router-link>
               </div>
               <div
@@ -369,7 +373,7 @@
                   <div class="pl-4 font-medium text-lg text-center py-2">
                     Notifications ({{ notifications.length }})
                   </div>
-                  <ul class="message bg-slate-50 mb-px rounded-b-lg">
+                  <!-- <ul class="message bg-slate-50 mb-px rounded-b-lg">
                     <li class="card_bell">
                       <hr />
                       <div class="textBox px-4 py-2">
@@ -424,13 +428,28 @@
                         </p>
                       </div>
                     </li>
-                  </ul>
+                  </ul> -->
+                  <div
+                    class="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4"
+                  >
+                    <div class="shrink-0">
+                      <img
+                        class="h-12 w-12"
+                        src="/img/logo.svg"
+                        alt="ChitChat Logo"
+                      />
+                    </div>
+                    <div>
+                      <div class="text-xl font-medium text-black">ChitChat</div>
+                      <p class="text-slate-500">You have a new message!</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="search px-3 pt-4 pb-2">
-            <form @keyup.enter="search">
+            <form>
               <div class="flex flex-cols-6 gap-x-3">
                 <div class="col-span-4 font-normal">
                   <div class="form w-1/12">
@@ -662,57 +681,35 @@
     <div v-if="isBell">
       <div v-if="notifications.length">
         <div
-          v-for="(notification, index) in notifications"
-          :key="index"
-          class="w-80 bg-white float-right z-10 border border-1-black mr-4 rounded-lg"
+          class="w-96 bg-white float-right z-10 border border-1-black mr-4 rounded-md shadow-lg"
         >
-          <div class="pl-4 font-medium text-lg text-center py-2">
+          <div
+            class="noti pl-4 font-semibold text-lg text-center py-2 bg-slate-50"
+          >
             Notifications ({{ notifications.length }})
           </div>
-          <ul class="message bg-slate-50 mb-px rounded-b-lg">
-            <li class="card_bell">
-              <hr />
-              <div class="textBox px-4 py-2">
-                <div class="textContent flex py-3">
-                  <p class="font-semibold text-sm pr-24">
-                    {{ notification.title }}
-                  </p>
-                  <span class="text-xs">{{ notification.date }}</span>
-                </div>
-                <p class="text-sm">{{ notification.content }}</p>
+          <div
+            v-for="(notification, index) in notifications"
+            :key="index"
+            class="bell p-4 max-w-sm mx-auto bg-white flex items-center space-x-4"
+          >
+            <div class="shrink-0">
+              <img
+                class="h-12 w-12"
+                src="@/assets/images/logo.png"
+                alt="Logo"
+              />
+            </div>
+            <div>
+              <div class="text-base font-medium text-black">
+                {{ notification.title }}
               </div>
-            </li>
-            <li class="card_bell">
-              <hr />
-              <div class="textBox px-4 py-2">
-                <div class="textContent flex py-3">
-                  <p class="font-semibold text-sm pr-24">Clans of Clash</p>
-                  <span class="text-xs">12 min ago</span>
-                </div>
-                <p class="text-sm">Xhattmahs is not attacking your base!</p>
-              </div>
-            </li>
-            <li class="card_bell">
-              <hr />
-              <div class="textBox px-4 py-2">
-                <div class="textContent flex py-3">
-                  <p class="font-semibold text-sm pr-24">Clans of Clash</p>
-                  <span class="text-xs">12 min ago</span>
-                </div>
-                <p class="text-sm">Xhattmahs is not attacking your base!</p>
-              </div>
-            </li>
-            <li class="card_bell">
-              <hr />
-              <div class="textBox px-4 py-2">
-                <div class="textContent flex py-3">
-                  <p class="font-semibold text-sm pr-24">Clans of Clash</p>
-                  <span class="text-xs">12 min ago</span>
-                </div>
-                <p class="text-sm">Xhattmahs is not attacking your base!</p>
-              </div>
-            </li>
-          </ul>
+              <p class="text-slate-500 text-sm py-2">
+                {{ notification.content }}
+              </p>
+              <span class="text-xs">{{ notification.date }}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -721,25 +718,35 @@
 
 <script>
 import axios from "axios";
+import { format } from "date-fns";
 // import { format, parseISO } from "date-fns";
 export default {
   data() {
     return {
       keyword: "",
       furnitureSearch: [],
+      cart: [],
       isBell: false,
       notifications: [],
       isDarkMode: false,
       isLogin: false,
       isNavBar: false,
-      // Date: "",
     };
   },
   created() {
     this.getAllAnnouncements();
     this.checkLogin();
+    this.getCart();
   },
   methods: {
+    async getCart() {
+      try {
+        const response = await axios.get("customer/cart");
+        this.cart = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async search() {
       try {
         const response = await axios.get(
@@ -747,10 +754,11 @@ export default {
         );
         if (response.status === 200) {
           this.furnitureSearch = response.data;
+          this.$router.push("/searchResult");
         }
       } catch (error) {
         console.error(error);
-        // alert("Furniture not found!");
+        alert("Furniture not found!");
       }
     },
     clear() {
@@ -769,9 +777,10 @@ export default {
         const response = await axios.get("customer/announcements");
         if (response.status === 200) {
           this.notifications = response.data;
-          // const d = parseISO(this.notifications.date);
-          // const DateN = format(d, "dd/MM/yyyy");
-          // this.Date = DateN;
+          this.notifications = this.notifications.map((noti) => ({
+            ...noti,
+            date: format(new Date(noti.date), "dd/MM/yyyy"),
+          }));
         }
       } catch (error) {
         console.error(error);
@@ -835,6 +844,10 @@ export default {
   font-weight: 600;
   color: gray;
 } */
+.noti,
+.bell {
+  border-bottom: 1px solid #eeecec;
+}
 .nav_bar li {
   line-height: 48px;
 }
@@ -1103,6 +1116,9 @@ nav li {
 @media only screen and (max-width: 63.9375em) {
   nav {
     display: none;
+  }
+  .header {
+    box-shadow: none;
   }
 }
 /*Mobile: width<780px*/

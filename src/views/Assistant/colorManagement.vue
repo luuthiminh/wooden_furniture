@@ -5,7 +5,9 @@
         <ol class="breadcrumb bg-transparent text-sm pt-4 px-4">
           <li class="breadcrumb-item"><a href="#">Home</a></li>
 
-          <li class="breadcrumb-item active" aria-current="page">Wood</li>
+          <li class="breadcrumb-item active" aria-current="page">
+            Color Management
+          </li>
         </ol>
       </nav>
     </div>
@@ -21,11 +23,11 @@
       </alert-wanning>
     </div>
     <div class="px-7">
-      <h1 class="font-semibold text-xl py-6">Wood Manage</h1>
-      <div class="flex gap-x-40 pt-10 bg-white my-10 px-6 rounded-md">
+      <h1 class="font-semibold text-xl py-6">Management Colors</h1>
+      <div class="flex gap-x-40 pt-10">
         <div class="flex items-center gap-x-4 text-sm">
-          <p class="font-semibold gap-x-4s">Total Woods:</p>
-          {{ woods.length }}
+          <p class="gap-x-2 font-semibold">Total colors:</p>
+          {{ colors.length }}
         </div>
         <div class="search_assistant">
           <div class="container">
@@ -35,7 +37,7 @@
               name="text"
               class="input"
               placeholder="search wood"
-              @input="searchWood"
+              @input="searchColor"
             />
             <button
               class="search__btn bg-gradient-to-r from-yellow-700 to-orange-800 opacity-90"
@@ -85,30 +87,29 @@
         </div>
       </div>
       <!-- <div v-show="isSuccess">
-        <div>
-          <notification-modal>
-            <template v-slot:title>Delete this category Successful </template>
-          </notification-modal>
-        </div>
-      </div> -->
+          <div>
+            <notification-modal>
+              <template v-slot:title>Delete this category Successful </template>
+            </notification-modal>
+          </div>
+        </div> -->
       <div class="content_table scroll">
         <div v-if="searchResults.length" class="pt-10">
           <table
-            v-if="searchResults.length"
             class="table table-borderless text-yellow-950 font-medium text-center bg-white round-md"
           >
             <thead class="table-light">
               <tr class="text-sm text-center">
                 <th scope="col">ID</th>
-                <th scope="col">WOOD NAME</th>
+                <th scope="col">Color NAME</th>
                 <th></th>
                 <th></th>
               </tr>
             </thead>
-            <tbody v-for="w in searchResults" :key="w.woodId">
-              <tr class="text-sm">
-                <th scope="row">{{ w.woodId }}</th>
-                <td>{{ w.woodType }}</td>
+            <tbody>
+              <tr class="text-sm" v-for="s in searchResults" :key="s.colorId">
+                <th scope="row">{{ s.colorId }}</th>
+                <td>{{ s.colorName }}</td>
                 <td class="flex gap-x-4">
                   <button
                     class="button_edit ring-offset-2 ring-2 ring-blue-300 hover:ring-blue-600 rounded-md"
@@ -117,7 +118,7 @@
                     data-target="#exampleModalLong"
                     data-dismiss="modal"
                     data-backdrop="false"
-                    @click="opentModal('edit', sr)"
+                    @click="opentModal('edit', co)"
                   >
                     <span class="button__text text-xs">Edit</span>
                     <span class="button__icon bi bi-pencil text-white"></span>
@@ -130,7 +131,7 @@
                     data-target="#exampleModalLong"
                     data-dismiss="modal"
                     data-backdrop="false"
-                    @click="opentModal('delete', sr)"
+                    @click="opentModal('delete', co)"
                   >
                     <span class="button__text text-xs">Delete</span>
                     <span class="button__icon"
@@ -225,7 +226,7 @@
                     <div
                       class="flex items-center text-base font-semibold text-yellow-950"
                     >
-                      Add New Wood
+                      Add New Color
                     </div>
                   </template>
                   <template v-slot:body>
@@ -234,10 +235,10 @@
                         <label
                           for="exampleInputEmail1"
                           class="col-span-4 form-label text-semibold text-base pt-2 border-none"
-                          >Name Wood</label
+                          >Name Color</label
                         >
                         <input
-                          v-model="woodName"
+                          v-model="colorName"
                           type="text"
                           class="col-span-8 form-control"
                           id="exampleInpuName1"
@@ -268,7 +269,7 @@
                     <div
                       class="flex items-center text-base font-semibold text-yellow-950"
                     >
-                      Edit This Wood
+                      Edit This Color
                     </div>
                   </template>
                   <template v-slot:body>
@@ -276,11 +277,11 @@
                       <div class="grid grid-cols-12 gap-x-10">
                         <label
                           for="exampleInputEmail1"
-                          class="col-span-4 form-label text-semibold font-base pt-2 border-none"
-                          >Name Wood</label
+                          class="col-span-4 form-label text-semibold text-base pt-2 border-none"
+                          >Name Color</label
                         >
                         <input
-                          v-model="nameWoodModal"
+                          v-model="nameColorModal"
                           type="text"
                           class="col-span-8 form-control"
                           id="exampleInpuName1"
@@ -314,7 +315,8 @@
                   </template>
                   <template v-slot:body>
                     <p class="text-base py-3">
-                      Are you sure detete <b> {{ nameWoodModal }}</b>
+                      Are you sure detete <b> {{ nameColorModal }}</b
+                      >?
                     </p>
                   </template>
                   <template v-slot:footer>
@@ -327,6 +329,17 @@
                         Delete
                       </span>
                     </div>
+                    <!-- <button
+                        type="button"
+                        class="btn btn-primary my-8"
+                        data-bs-target="#exampleModalToggle2"
+                        data-bs-toggle="modal"
+                        data-bs-dismiss="modal"
+                        @click="opentModal('notification', w)"
+                        @click.prevent="HandleDelete"
+                      >
+                        Yes
+                      </button> -->
                   </template>
                 </modal>
               </tr>
@@ -335,21 +348,21 @@
         </div>
         <div v-else class="pt-10">
           <table
-            v-if="woods.length"
+            v-if="colors.length"
             class="table table-borderless text-yellow-950 font-medium text-center bg-white round-md"
           >
             <thead class="table-light">
               <tr class="text-sm text-center">
                 <th scope="col">ID</th>
-                <th scope="col">WOOD NAME</th>
+                <th scope="col">Color NAME</th>
                 <th></th>
                 <th></th>
               </tr>
             </thead>
-            <tbody v-for="w in woods" :key="w.woodId">
+            <tbody v-for="co in colors" :key="co.colorsId">
               <tr class="text-sm">
-                <th scope="row">{{ w.categoryId }}</th>
-                <td>{{ w.categoryName }}</td>
+                <th scope="row">{{ co.colorsId }}</th>
+                <td>{{ co.colorName }}</td>
                 <td class="flex gap-x-4">
                   <button
                     class="button_edit ring-offset-2 ring-2 ring-blue-300 hover:ring-blue-600 rounded-md"
@@ -358,7 +371,7 @@
                     data-target="#exampleModalLong"
                     data-dismiss="modal"
                     data-backdrop="false"
-                    @click="opentModal('edit', w)"
+                    @click="opentModal('edit', co)"
                   >
                     <span class="button__text text-xs">Edit</span>
                     <span class="button__icon bi bi-pencil text-white"></span>
@@ -371,7 +384,7 @@
                     data-target="#exampleModalLong"
                     data-dismiss="modal"
                     data-backdrop="false"
-                    @click="opentModal('delete', w)"
+                    @click="opentModal('delete', co)"
                   >
                     <span class="button__text text-xs">Delete</span>
                     <span class="button__icon"
@@ -466,7 +479,7 @@
                     <div
                       class="flex items-center text-base font-semibold text-yellow-950"
                     >
-                      Add New Wood
+                      Add New Color
                     </div>
                   </template>
                   <template v-slot:body>
@@ -475,10 +488,10 @@
                         <label
                           for="exampleInputEmail1"
                           class="col-span-4 form-label text-semibold text-base pt-2 border-none"
-                          >Name Wood</label
+                          >Name Color</label
                         >
                         <input
-                          v-model="woodName"
+                          v-model="colorName"
                           type="text"
                           class="col-span-8 form-control"
                           id="exampleInpuName1"
@@ -509,7 +522,7 @@
                     <div
                       class="flex items-center text-base font-semibold text-yellow-950"
                     >
-                      Edit This Wood
+                      Edit This Color
                     </div>
                   </template>
                   <template v-slot:body>
@@ -517,11 +530,11 @@
                       <div class="grid grid-cols-12 gap-x-10">
                         <label
                           for="exampleInputEmail1"
-                          class="col-span-4 form-label text-semibold font-base pt-2 border-none"
-                          >Name Wood</label
+                          class="col-span-4 form-label text-semibold text-base pt-2 border-none"
+                          >Name Color</label
                         >
                         <input
-                          v-model="nameWoodModal"
+                          v-model="nameColorModal"
                           type="text"
                           class="col-span-8 form-control"
                           id="exampleInpuName1"
@@ -555,20 +568,11 @@
                   </template>
                   <template v-slot:body>
                     <p class="text-base py-3">
-                      Are you sure detete <b> {{ nameWoodModal }}</b>
+                      Are you sure detete <b> {{ nameColorModal }}</b
+                      >?
                     </p>
                   </template>
                   <template v-slot:footer>
-                    <!-- <button
-                      type="button"
-                      class="btn btn-primary my-8"
-                      data-bs-target="#exampleModalToggle2"
-                      data-bs-toggle="modal"
-                      data-bs-dismiss="modal"
-                      @click.prevent="HandleDelete"
-                    >
-                      Yes
-                    </button> -->
                     <div class="bg-red-900 rounded-md">
                       <span
                         type="button"
@@ -579,16 +583,16 @@
                       </span>
                     </div>
                     <!-- <button
-                      type="button"
-                      class="btn btn-primary my-8"
-                      data-bs-target="#exampleModalToggle2"
-                      data-bs-toggle="modal"
-                      data-bs-dismiss="modal"
-                      @click="opentModal('notification', w)"
-                      @click.prevent="HandleDelete"
-                    >
-                      Yes
-                    </button> -->
+                        type="button"
+                        class="btn btn-primary my-8"
+                        data-bs-target="#exampleModalToggle2"
+                        data-bs-toggle="modal"
+                        data-bs-dismiss="modal"
+                        @click="opentModal('notification', w)"
+                        @click.prevent="HandleDelete"
+                      >
+                        Yes
+                      </button> -->
                   </template>
                 </modal>
               </tr>
@@ -605,6 +609,7 @@ import modal from "@/components/ModalPage.vue";
 import alertError from "@/components/AlertError.vue";
 import alertSuccess from "@/components/AlertSuccess.vue";
 import alertWanning from "@/components/AlertWanning.vue";
+
 export default {
   components: {
     modal,
@@ -615,14 +620,12 @@ export default {
   data() {
     return {
       modalType: null,
-      woods: [],
-      newWood: "",
-      nameWoodModal: null,
-      idWoodModal: null,
+      colors: [],
+      nameColorModal: null,
+      idColorModal: null,
       isSuccess: false,
       isAlertSuccess: false,
       isAlertError: false,
-      isAlertWanning: false,
       messageError: null,
       messageSuccess: null,
       messageWanning: null,
@@ -631,23 +634,21 @@ export default {
     };
   },
   created() {
-    this.getAllWoods();
+    this.getAllColors();
   },
   methods: {
-    async getAllWoods() {
+    async getAllColors() {
       try {
-        const response = await axios.get("Assistant/shop-data/woods");
-        this.woods = response.data;
-        console.log(response.data);
+        const response = await axios.get("assistant/shop-data/colors");
+        this.colors = response.data;
       } catch (error) {
         console.error(error);
       }
     },
-    async searchWood() {
-      // Gọi API khi có sự thay đổi trong searchText
+    async searchColor() {
       try {
         const response = await axios.get(
-          "assistant/shop-data/woods/search?searchString=" + this.keyword
+          "assistant/shop-data/colors/search?searchString=" + this.keyword
         );
         this.searchResults = response.data;
       } catch (error) {
@@ -658,10 +659,10 @@ export default {
         }, 5000);
       }
     },
-    async opentModal(type, w) {
+    async opentModal(type, co) {
       this.modalType = type;
-      this.nameWoodModal = w.categoryName;
-      this.idWoodModal = w.categoryId;
+      this.nameColorModal = co.colorName;
+      this.idColorModal = co.colorsId;
     },
     closeModal() {
       this.modalType = null;
@@ -669,16 +670,16 @@ export default {
     async HandleAdd() {
       try {
         const response = await axios.post(
-          "Assistant/shop-data/woods/add?woodType=" + this.woodName
+          "Assistant/shop-data/colors/add?colorName=" + this.colorName
         );
         if (response.status === 201) {
           this.modalType = null;
           this.isAlertSuccess = true;
-          this.messageSuccess = "Add new wood successfully";
+          this.messageSuccess = "Add new color successfully";
           setTimeout(() => {
             this.isAlertSuccess = false;
           }, 5000);
-          this.getAllWoods();
+          this.getAllColors();
         }
       } catch (error) {
         this.isAlertError = true;
@@ -692,19 +693,20 @@ export default {
     async HandleUpdate() {
       try {
         const response = await axios.put(
-          "Assistant/shop-data/woods/update?woodId=" +
-            this.idWoodModal +
-            "&woodType=" +
-            this.nameWoodModal
+          "Assistant/shop-data/colors/update?colorId=" +
+            this.idColorModal +
+            "&colorName=" +
+            this.nameColorModal
         );
         if (response.status === 200) {
           this.modalType = null;
           this.isAlertSuccess = true;
-          this.messageSuccess = "Update " + this.nameWoodModal + " successful!";
+          this.messageSuccess =
+            "Update " + this.nameColorModal + " successful!";
           setTimeout(() => {
             this.isAlertSuccess = false;
           }, 5000);
-          this.getAllWoods();
+          this.getAllColors();
         }
       } catch (error) {
         this.isAlertError = true;
@@ -718,24 +720,25 @@ export default {
     async HandleDelete() {
       try {
         const response = await axios.delete(
-          "Assistant/shop-data/woods/remove/" + this.idWoodModal
+          "Assistant/shop-data/colors/remove/" + this.idColorModal
         );
         if (response.status === 204) {
           this.modalType = null;
           this.isSuccess = true;
           this.isAlertSuccess = true;
-          this.messageSuccess = "Delete " + this.nameWoodModal + " successful!";
+          this.messageSuccess =
+            "Delete " + this.nameColorModal + " successful!";
           setTimeout(() => {
-            this.isSuccess = false;
-          }, 3000);
-          this.getAllWoods();
+            this.isAlertSuccess = false;
+          }, 5000);
+          this.getAllColors();
         }
       } catch (error) {
         this.isAlertError = true;
         this.messagerError = error.response.data.message;
         setTimeout(() => {
           this.isAlertError = false;
-        }, 3000);
+        }, 5000);
         console.error(error);
       }
     },
@@ -755,11 +758,5 @@ th {
 td {
   padding-top: 0.7em;
   padding-bottom: 0.7em;
-}
-
-.form-control,
-.form-select {
-  border: none;
-  background-color: #dde4e794;
 }
 </style>

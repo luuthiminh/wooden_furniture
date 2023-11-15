@@ -93,17 +93,17 @@
                   </div>
                 </div>
                 <!-- <div>Sign in using</div> -->
-                <div class="login_text mb-4 mt-1 rounded-md">
-                  <button
-                    class="btn text-white pl-32 md:max-lg:pl-48 lg:max-xl:pl-36 font-medium"
-                    type="submit"
-                  >
-                    Sign In
-                  </button>
-                </div>
+
+                <button
+                  type="submit"
+                  class="btn_send text-white cursor-pointer mt-2 px-1 py-1 mb-4"
+                >
+                  Sign In
+                </button>
                 <div class="flex justify-center">
                   <a
-                    href="https://landlstore.azurewebsites.net/api/customer/signin-google"
+                    @click="loginGg"
+                    href="https://landlstore.azurewebsites.net/api/authentication/signin-google"
                   >
                     <div class="button_gg">
                       <svg
@@ -149,6 +149,7 @@
 </template>
 
 <script>
+import * as signalR from "@microsoft/signalr";
 import axios from "axios";
 
 export default {
@@ -162,7 +163,7 @@ export default {
   methods: {
     async login() {
       try {
-        const response = await axios.post("customer/login", {
+        const response = await axios.post("authentication/login", {
           email: this.email,
           password: this.password,
           rememberMe: this.rememberMe,
@@ -177,6 +178,29 @@ export default {
       }
     },
   },
+  mounted() {
+    this.connection = new signalR.HubConnectionBuilder()
+      .configureLogging(signalR.LogLevel.Debug)
+      .withUrl("https://landlstore.azurewebsites.net/signalHub", {
+        skipNegotiation: true,
+        transport: signalR.HttpTransportType.WebSockets,
+      })
+      .build();
+
+    this.connection
+      .start()
+      .then(() => {
+        console.log("Connected to hub");
+
+        // Đăng ký sự kiện "ReceiveJWTToken"
+        this.connection.on("receivedjwttoken", (token) => {
+          console.log("Received message from hub:", token);
+          localStorage.setItem("token", token.token);
+          this.$router.push({ name: "Customer" });
+        });
+      })
+      .catch((err) => console.error(err));
+  },
 };
 </script>
 
@@ -187,8 +211,10 @@ export default {
 .img_google img {
   max-width: 6%;
 }
-.login_text {
-  background-color: #44433f;
+.btn_send {
+  background-color: #302924;
+  width: 100%;
+  border-radius: 7px;
 }
 a {
   text-decoration: none;

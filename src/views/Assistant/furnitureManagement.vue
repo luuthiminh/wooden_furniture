@@ -2,16 +2,17 @@
   <div class="">
     <div class="nav">
       <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-transparent text-sm pt-4 px-5 font-medium">
-          <li class="breadcrumb-item text-base">
+        <ol class="breadcrumb bg-transparent text-sm pt-4 ml-4 font-medium">
+          <li class="breadcrumb-item text-sm">
             <router-link to="/indexAssistant">Home</router-link>
           </li>
-          <li class="breadcrumb-item text-base active" aria-current="page">
+          <li class="breadcrumb-item text-sm active" aria-current="page">
             Furniture Manager
           </li>
         </ol>
       </nav>
     </div>
+    <div class="font-semibold text-lg ml-4 pt-4">All Furniture</div>
     <div class="content_table pt-6 px-6 scroll">
       <div class="py-4">
         <table
@@ -21,14 +22,14 @@
             <tr class="text-sm text-center">
               <th scope="col">Furniture</th>
               <th></th>
-              <th scope="col">Collection ID</th>
+              <th scope="col">Collection</th>
+              <th scope="col">Category</th>
               <th scope="col">Label</th>
               <th scope="col">Sold</th>
               <th scope="col">Appropriate Room</th>
               <th scope="col">Vote Star</th>
               <th scope="col">Avaliable</th>
               <th scope="col">Price</th>
-              <th scope="col">Detail</th>
             </tr>
           </thead>
           <tbody v-if="furnitures.length">
@@ -38,11 +39,7 @@
               :key="furniture.furnitureId"
             >
               <td class="img">
-                <img
-                  src="@/assets/images/category/shelves_tv/shelves_11.png"
-                  alt="furniture"
-                  class="w-20"
-                />
+                <img :src="furniture.image" alt="furniture" class="w-20" />
               </td>
               <td class="text-start">
                 <span class="font-semibold block">{{
@@ -50,14 +47,14 @@
                 }}</span>
                 <span class="text-xs">{{ furniture.furnitureId }}</span>
               </td>
-              <td>{{ furniture.collectionId }}</td>
+              <td>{{ furniture.collection }}</td>
+              <td>{{ furniture.category }}</td>
               <td>{{ furniture.label }}</td>
               <td>{{ furniture.sold }}</td>
               <td>{{ furniture.appropriateRoom }}</td>
               <td>{{ furniture.voteStar }}</td>
               <td>{{ furniture.available }}</td>
               <td>{{ furniture.price }}</td>
-              <td></td>
             </tr>
           </tbody>
         </table>
@@ -88,7 +85,7 @@ export default {
   methods: {
     async getFurnitures() {
       try {
-        const response = await axios.get("/Assistant/shop-data/furniures");
+        const response = await axios.get("shopOwner/shop-data/furniures");
         this.furnitures = response.data;
       } catch (error) {
         console.error(error);

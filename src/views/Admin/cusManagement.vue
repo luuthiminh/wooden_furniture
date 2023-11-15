@@ -15,6 +15,14 @@
             <input placeholder="Search" type="search" class="input" />
           </div>
         </div>
+        <div class="absolute right-10">
+          <alert-Error v-if="isAlertError">
+            <template v-slot:message>{{ messageError }}</template></alert-Error
+          >
+          <alert-success v-if="isAlertSuccess">
+            <template v-slot:message>{{ messageSuccess }}</template>
+          </alert-success>
+        </div>
 
         <div
           class="dropdown bg-orange-50 shadow-lg bg-orange-100/100 px-2 py-2 rounded-lg"
@@ -56,259 +64,419 @@
           </ul>
         </div>
       </div>
-      <div class="py-4">
-        <table class="table table-borderless text-yellow-950 font-medium">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>USER</th>
-              <th>DoB</th>
-              <th>GENDER</th>
-              <th>SPENT</th>
-              <th>DEBIT</th>
-              <th>CREATION DATE</th>
-              <th>LATEST UPDATE</th>
-              <th>ACTIONS</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>
-                <div class="user flex gap-x-2">
-                  <div class="avatar">
-                    <router-link to="/profileAssistant">
-                      <img
-                        class="rounded-full cursor-pointer"
-                        src="@/assets/images/avatar.jpg "
-                        alt="avatar"
-                      />
-                    </router-link>
+      <div v-if="users.length">
+        <div class="py-4">
+          <table class="table table-borderless text-yellow-950 font-medium">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>User</th>
+                <th>Date of Birth</th>
+                <th>Gender</th>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Creation Date</th>
+                <th>Is Activated</th>
+                <th>Two Factor Enabled</th>
+                <!-- <th>Debit</th>
+                <th>Spent</th>
+                <th>Point</th> -->
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="u in users" :key="u.userId">
+                <td>{{ u.userId }}</td>
+                <td>
+                  <div class="user flex gap-x-2">
+                    <div class="avatar">
+                      <router-link to="/profileManagement">
+                        <img
+                          class="rounded-full cursor-pointer"
+                          :src="u.avatar"
+                          alt="avatar"
+                        />
+                      </router-link>
+                    </div>
+                    <div>
+                      <span
+                        class="block text-gray-800 text-hover-primary font-semibold mb-2"
+                        >{{ u.firstName }} {{ u.lastName }}</span
+                      >
+                      <span class="email font-medium">{{ u.email }}</span>
+                    </div>
                   </div>
-                  <div>
-                    <span
-                      class="block text-gray-800 text-hover-primary font-semibold mb-2"
-                      >Name User</span
+                </td>
+                <td>{{ u.doB }}</td>
+                <td>{{ u.gender }}</td>
+                <td>{{ u.userName }}</td>
+                <td>{{ u.role.result }}</td>
+                <td>{{ u.phoneNumber }}</td>
+                <td>{{ u.email }}</td>
+                <td>{{ u.creationDate }}</td>
+                <td>{{ u.isActivated }}</td>
+                <td>{{ u.twoFactorEnabled }}</td>
+                <!-- <td>{{ u.debit }}</td>
+                <td>{{ u.spent }}</td>
+                <td>{{ u.point }}</td> -->
+                <td class="td_action w-1/12 text-sm">
+                  <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
+                    <button
+                      class="btn_action dropdown-toggle"
+                      type="button"
+                      id="dropdownMenuButton1"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
                     >
-                    <span class="email font-medium">email@gmail.com</span>
+                      Actions
+                    </button>
+                    <ul
+                      class="dropdown-menu text-sm font-medium pl-3"
+                      aria-labelledby="dropdownMenuButton1"
+                    >
+                      <li
+                        class="flex gap-x-4 py-1"
+                        data-toggle="modal"
+                        data-target="#exampleModalLong"
+                        data-dismiss="modal"
+                        data-backdrop="false"
+                        @click="opentModal('edit', u)"
+                      >
+                        <i class="bi bi-pencil text-base"></i>
+                        <span>Edit</span>
+                      </li>
+                      <li class="flex gap-x-4 py-1" @click="ToggleDisable(u)">
+                        <i class="bi bi-dash-circle text-base"></i>
+                        <span>Disable</span>
+                      </li>
+                    </ul>
                   </div>
-                </div>
-              </td>
-              <td>28/06/02</td>
-              <td>Female</td>
-              <td>$1000</td>
-              <td>$0</td>
-              <td>22/10/2023 10:10 am</td>
-              <td>23/10/2023 10:10 am</td>
-              <td class="td_action w-1/12 text-sm">
-                <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
-                  <button
-                    class="btn_action dropdown-toggle"
-                    type="button"
-                    id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Actions
-                  </button>
-                  <ul
-                    class="dropdown-menu text-sm font-medium pl-3"
-                    aria-labelledby="dropdownMenuButton1"
-                  >
-                    <li
-                      class="flex gap-x-4"
-                      data-toggle="modal"
-                      data-target="#exampleModalLong"
-                      data-dismiss="modal"
-                      data-backdrop="false"
-                      @click.prevent="isEditModal = true"
-                    >
-                      <i class="bi bi-pencil"></i>
-                      <span>Edit</span>
-                    </li>
-                    <li
-                      class="flex gap-x-4"
-                      data-toggle="modal"
-                      data-target="#exampleModalLong"
-                      data-dismiss="modal"
-                      data-backdrop="false"
-                      @click.prevent="isDeleteModal = true"
-                    >
-                      <i class="bi bi-trash3"></i>
-                      <span>Deltete</span>
-                    </li>
-                  </ul>
-                </div>
+                </td>
                 <modal
-                  v-if="isEditModal"
-                  @close="isEditModal = false"
+                  v-if="modalType == 'edit'"
+                  @close="closeModal"
                   data-target="#myModal"
                 >
                   <template v-slot:title>
-                    <h1 class="flex items-center text-lg font-medium">
-                      Edit Thi Furniture
+                    <h1 class="flex items-center text-lg font-semibold">
+                      Edit User
                     </h1>
                   </template>
                   <template v-slot:body>
-                    <div class="py-1 px-4 text-sm">
-                      <form @submit.prevent="">
-                        <div>
-                          <label
-                            for="exampleInputEmail1"
-                            class="form-label font-medium"
-                            >Name Furniture</label
-                          >
-                          <input
-                            v-model="furnitureName"
-                            type="text"
-                            class="form-control"
-                            id="exampleInpuName1"
-                            aria-describedby="nameHelp"
-                            required
+                    <div class="pb-3 px-4 text-sm">
+                      <div class="flex gap-x-6 mt-3">
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Avatar</label
+                        >
+                        <div v-if="u.avatar">
+                          <img
+                            v-if="!url"
+                            :src="u.avatar"
+                            alt="image"
+                            for="file"
+                          />
+                          <img
+                            v-else-if="url"
+                            :src="url"
+                            alt="image"
+                            for="file"
                           />
                         </div>
-                        <div>
-                          <label
-                            for="exampleInputEmail1"
-                            class="form-label font-medium"
-                            >Price</label
-                          >
-                          <input
-                            v-model="price"
-                            type="text"
-                            class="form-control"
-                            id="exampleInputEmail1"
-                            aria-describedby="emailHelp"
-                            required
-                          />
-                        </div>
-                        <div>
-                          <label for="exampleInputEmail1" class="form-label"
-                            >Category</label
-                          >
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="exampleInputEmail1"
-                            aria-describedby="emailHelp"
-                            required
-                          />
-                        </div>
-                        <div>
-                          <label for="exampleInputEmail1" class="form-label"
-                            >Quantity</label
-                          >
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="exampleInputEmail1"
-                            aria-describedby="emailHelp"
-                            required
-                          />
-                        </div>
-                        <div>
-                          <label for="exampleInputEmail1" class="form-label"
-                            >Material</label
-                          >
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="exampleInputEmail1"
-                            aria-describedby="emailHelp"
-                            required
-                          />
-                        </div>
-                        <div>
-                          <label for="exampleInputEmail1" class="form-label"
-                            >Description</label
-                          >
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="exampleInputEmail1"
-                            aria-describedby="emailHelp"
-                            required
-                          />
-                        </div>
-                        <div class="flex gap-x-3 mt-3">
-                          <label
-                            for="exampleInputEmail1"
-                            class="form-label mt-10"
-                            >Image</label
-                          >
-                          <div class="img flex">
-                            <img
-                              class="image_default pr-10"
-                              src="@/assets/images/image_default.jpg"
-                              alt="furniture"
-                            />
+                        <label v-else class="custum-file-upload" for="file">
+                          <div class="icon">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill=""
+                              viewBox="0 0 24 24"
+                            >
+                              <g stroke-width="0" id="SVGRepo_bgCarrier"></g>
+                              <g
+                                stroke-linejoin="round"
+                                stroke-linecap="round"
+                                id="SVGRepo_tracerCarrier"
+                              ></g>
+                              <g id="SVGRepo_iconCarrier">
+                                <path
+                                  fill=""
+                                  d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z"
+                                  clip-rule="evenodd"
+                                  fill-rule="evenodd"
+                                ></path>
+                              </g>
+                            </svg>
+                          </div>
+                          <div class="text">
+                            <span>Click to upload image</span>
+                          </div>
+                        </label>
+                        <div class="avatar_edit">
+                          <div class="hidden">
                             <input
                               type="file"
-                              id="myFile"
-                              class="mt-10"
-                              name="filename"
+                              name="avatar"
+                              id="imageUpload"
+                              accept="image/*, video/*"
+                              :maxFileSize="1000000"
+                              ref="file"
+                              @change="onFileChange"
+                            />
+                          </div>
+                          <label
+                            class="bi bi-pencil text-xs"
+                            for="imageUpload"
+                          ></label>
+                        </div>
+                      </div>
+                      <div class="mt-3">
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >First Name</label
+                        >
+                        <input
+                          v-model="firstNameModal"
+                          type="text"
+                          class="form-control"
+                          id="exampleInputEmail1"
+                          aria-describedby="emailHelp"
+                          required
+                        />
+                      </div>
+                      <div class="addFurniture grid grid-cols-3 gap-x-6 mt-3">
+                        <div>
+                          <label
+                            for="exampleInputEmail1"
+                            class="form-label font-medium"
+                            >Last Name</label
+                          >
+                          <div class="flex gap-x-2">
+                            <input
+                              v-model="lastNameModal"
+                              type="text"
+                              class="form-control"
+                              id="exampleInputEmail1"
+                              aria-describedby="emailHelp"
+                              required
                             />
                           </div>
                         </div>
-                        <button type="submit" class="btn my-8">Edit</button>
-                      </form>
+
+                        <div>
+                          <label
+                            for="exampleInputEmail1"
+                            class="form-label font-medium"
+                            >Dob</label
+                          >
+                          <div class="flex gap-x-2">
+                            <input
+                              v-model="dobModal"
+                              type="date"
+                              class="form-control"
+                              id="exampleInputEmail1"
+                              aria-describedby="emailHelp"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <label
+                            for="exampleInputEmail1"
+                            class="form-label font-medium"
+                            >Gender</label
+                          >
+                          <div class="flex gap-x-2">
+                            <input
+                              v-model="genderModal"
+                              type="number"
+                              class="form-control"
+                              id="exampleInputEmail1"
+                              aria-describedby="emailHelp"
+                              required
+                            />
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </template>
                   <template v-slot:footer>
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      @click.prevent="saveChanges"
+                    <div
+                      class="bg-yellow-900 rounded-md"
+                      @click.prevent="HandleUpdate"
                     >
-                      Save changes
-                    </button>
+                      <span type="button" class="btn text-white"> Update </span>
+                    </div>
                   </template>
                 </modal>
-                <modal
-                  v-if="isDeleteModal"
-                  @close="isDeleteModal = false"
+                <!-- <modal
+                  v-if="modalType == 'disable'"
+                  @close="modalType == null"
                   data-target="#myModal"
                 >
                   <template v-slot:title>
-                    <h1 class="flex items-center text-lg font-medium">
-                      Delete This Furniture
-                    </h1>
-                  </template>
-                  <template v-slot:body>
-                    <div class="py-1 px-4 text-sm">
-                      <h1>Are you sure delete this furniture?</h1>
+                    <div class="flex items-center text-lg font-semibold">
+                      Disable Account
                     </div>
                   </template>
-                  <template v-slot:footer>
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      @click.prevent="saveChanges"
-                    >
-                      Yes
-                    </button>
+                  <template v-slot:body>
+                    <p class="text-base py-3">
+                      Are you sure dsisable
+                      <b> {{ u.firstName }} {{ u.lastName }} ?</b>
+                    </p>
                   </template>
-                </modal>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                  <template v-slot:footer>
+                    <div class="bg-red-900 rounded-md">
+                      <span
+                        type="button"
+                        class="btn text-white"
+                        @click="HandleDelete(u)"
+                      >
+                        Delete
+                      </span>
+                    </div>
+                  </template>
+                </modal> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+      <div v-else class="loader"></div>
     </div>
   </div>
-  <p class="text-sm font-medium mb-5">Total users: 5</p>
+  <p class="text-sm font-medium my-5 ml-2">Total users: {{ users.length }}</p>
 </template>
 <script>
 import HeaderAdmin from "@/components/headerAdmin.vue";
+import axios from "axios";
+import { format } from "date-fns";
+import alertError from "@/components/AlertError.vue";
+import alertSuccess from "@/components/AlertSuccess.vue";
 
 export default {
-  components: { HeaderAdmin },
+  components: { HeaderAdmin, alertError, alertSuccess },
   data() {
     return {
       title: "Customer Account List",
       isEditModal: false,
       isDeleteModal: false,
+      users: [],
+      dob: "",
+      modalType: null,
+      firstNameModal: null,
+      lastNameModal: null,
+      dobModal: null,
+      genderModal: null,
+      avatarModal: null,
     };
+  },
+  created() {
+    this.getAllUser();
+  },
+  methods: {
+    async getAllUser() {
+      try {
+        const response = await axios.get("user/all?roleId=1");
+        if (response.status === 200) {
+          this.users = response.data;
+          for (let i = 0; i < this.users.length; i++) {
+            const date = new Date(this.users[i].creationDate);
+            const dob = new Date(this.users[i].doB);
+            this.users[i].creationDate = format(date, "dd/MM/yyyy");
+            this.users[i].doB = format(dob, "dd/MM/yyyy");
+          }
+        }
+        console.log(this.dob);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async opentModal(type, u) {
+      this.modalType = type;
+      this.firstNameModal = u.firstName;
+      this.lastNameFurModal = u.lastNameModal;
+      this.dobModal = u.doB;
+      this.genderModal = u.gender;
+    },
+    closeModal() {
+      this.modalType = null;
+    },
+    onFileChange(event) {
+      this.file = event.target.files[0];
+      if (this.file) {
+        this.url = URL.createObjectURL(this.file);
+      }
+      console.log(event);
+    },
+    async HandleUpdate() {
+      const formData = new FormData();
+      formData.append("FirstName ", this.firstNameModal);
+      formData.append("LastName ", this.lastNameFurModal);
+      formData.append("DoB", this.dobModal);
+      formData.append("Gender", this.genderModal);
+      formData.append("Image", this.file);
+      try {
+        await axios.get("user/all/update", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async handleDisable(u) {
+      try {
+        await axios.put("shopOwner/accounts/disable", {
+          userId: u.userId,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async HandleDelete() {
+      const formData = new FormData();
+      formData.append("FirstName ", this.firstNameModal);
+      formData.append("LastName ", this.lastNameFurModal);
+      formData.append("DoB", this.dobModal);
+      formData.append("Gender", this.genderModal);
+      formData.append("Image", this.file);
+      try {
+        await axios.get("user/all/update", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async ToggleDisable(u) {
+      try {
+        const response = await axios.put(
+          "shopOwner/accounts/disable?userId=" + u.userId
+        );
+        if (response.status === 200) {
+          let successMessage = u.isActivated
+            ? "Disable account successfully!"
+            : "Active account successfully!";
+
+          this.isAlertSuccess = true;
+          this.messageSuccess = successMessage;
+
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 3000);
+
+          this.getAllUser();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
   },
 };
 </script>
@@ -385,23 +553,30 @@ td {
 }
 .pt-6.px-6.scroll {
   overflow: scroll;
-  overflow-x: hidden;
   height: 35em;
+  width: 65em;
 }
-.pt-6.px-6.scroll::-webkit-scrollbar-track {
+.pt-6.px-6::-webkit-scrollbar-track,
+.table_order::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
   background-color: #f5f5f5;
 }
 
-.pt-6.px-6.scroll::-webkit-scrollba {
+.pt-6.px-6::-webkit-scrollbar,
+.table_order::-webkit-scrollbar {
   width: 6px;
   background-color: #f5f5f5;
 }
 
-.pt-6.px-6.scroll:-webkit-scrollbar-thumb {
+.pt-6.px-6::-webkit-scrollbar-thumb,
+.table_order::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: #cdc0aa;
+}
+table {
+  overflow: scroll;
+  width: 174em;
 }
 </style>

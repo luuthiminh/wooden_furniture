@@ -1,10 +1,12 @@
 <template>
   <div class="forgot_password">
     <div class="border border-red-100 px-7 py-7 w-80 rounded-2xl bg-white">
-      <div class="logo w-6/12">
-        <img src="@/assets/images/logo.png" alt="logo" />
+      <div class="py-6">
+        <div class="logo w-6/12">
+          <img src="@/assets/images/logo.png" alt="logo" />
+        </div>
+        <p class="font-bold text-2xl text-center text-yellow-950">L & L</p>
       </div>
-
       <form @submit.prevent="forgotPassword">
         <div class="mb-1">
           <div>
@@ -46,7 +48,7 @@ export default {
       console.log(this.email);
       try {
         const response = await axios.post(
-          "customer/forgot-password?email=" + this.email
+          "Authentication/forgot-password?email=" + this.email
         );
         if (response.status === 200) {
           localStorage.setItem("token", response.data.token);
@@ -57,6 +59,21 @@ export default {
         console.error("Error sending link your email:", error);
       }
     },
+    // async forgotPassword() {
+    //   console.log(this.email);
+    //   try {
+    //     const response = await axios.post("Authentication/forgot-password", {
+    //       params: { email: this.email },
+    //     });
+    //     if (response.status === 200) {
+    //       localStorage.setItem("token", response.data.token);
+    //       alert("Please confirm the link in your email!");
+    //       this.$router.push({ name: "newPassword" });
+    //     }
+    //   } catch (error) {
+    //     console.error("Error sending link your email:", error);
+    //   }
+    // },
   },
 };
 </script>
@@ -76,7 +93,7 @@ export default {
 .btn_send {
   background-color: #302924;
   width: 100%;
-  border-radius: 4px;
+  border-radius: 7px;
 }
 .logo {
   transform: translateX(50%);

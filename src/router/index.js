@@ -17,6 +17,28 @@ const routes = [
       ),
   },
   {
+    path: "/term",
+    name: "TermOfService",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Auth/TermsOfService.vue"
+      ),
+  },
+  {
+    path: "/policy",
+    name: "PrivacyPolicy",
+    meta: {
+      layout: "customerLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Auth/privacyPolicy.vue"
+      ),
+  },
+  {
     path: "/otp",
     name: "otp",
     component: Otp,
@@ -306,17 +328,6 @@ const routes = [
       ),
   },
   {
-    path: "/searchResult2",
-    name: "searchResults",
-    meta: {
-      layout: "customerLayout",
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "register" */ "../views/Customer/searchResults.vue"
-      ),
-  },
-  {
     path: "/furnitureMix",
     name: "FurnitureMix",
     meta: {
@@ -358,17 +369,6 @@ const routes = [
       ),
   },
   {
-    path: "/furnitureManage",
-    name: "furnitureManage",
-    meta: {
-      layout: "assistantLayout",
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "register" */ "../views/Assistant/furnitureManagement..vue"
-      ),
-  },
-  {
     path: "/indexAssistant",
     name: "indexAssistant",
     meta: {
@@ -377,6 +377,139 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "register" */ "../views/Assistant/indexAssistant.vue"
+      ),
+  },
+  {
+    path: "/furnitureManage",
+    name: "furnitureManage",
+    meta: {
+      layout: "assistantLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Assistant/furnitureManagement.vue"
+      ),
+  },
+  {
+    path: "/importFurniture",
+    name: "ImportFurniture",
+    meta: {
+      layout: "assistantLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Assistant/importFurniture.vue"
+      ),
+  },
+  {
+    path: "/repositoriesManagement",
+    name: "RepositoriesManagement",
+    meta: {
+      layout: "assistantLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Assistant/repositoriesManagement.vue"
+      ),
+  },
+  {
+    path: "/detailRepository/:id",
+    name: "DetailRepository",
+    meta: {
+      layout: "assistantLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Assistant/detailRepository.vue"
+      ),
+  },
+  {
+    path: "/historyFurRepo",
+    name: "HistoryFurRepo",
+    meta: {
+      layout: "assistantLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Assistant/historyFurRepo.vue"
+      ),
+  },
+  {
+    path: "/historyMaterialRepo",
+    name: "HistoryMaterialRepo",
+    meta: {
+      layout: "assistantLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Assistant/historyMaterialRepo.vue"
+      ),
+  },
+  {
+    path: "/colorManagement",
+    name: "colorManagement",
+    meta: {
+      layout: "assistantLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Assistant/colorManagement.vue"
+      ),
+  },
+  {
+    path: "/feedbackManagement",
+    name: "feedbackManagement",
+    meta: {
+      layout: "assistantLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Assistant/feedbackManagement.vue"
+      ),
+  },
+
+  {
+    path: "/postManagement",
+    name: "postManagement",
+    meta: {
+      layout: "assistantLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Assistant/postManagement.vue"
+      ),
+  },
+  {
+    path: "/notiManagement",
+    name: "NotificationManagement",
+    meta: {
+      layout: "assistantLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Assistant/notificationManagement.vue"
+      ),
+  },
+  {
+    path: "/orderRequestManage",
+    name: "orderRequestManage",
+    meta: {
+      layout: "assistantLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Assistant/orderRequestManage.vue"
+      ),
+  },
+  {
+    path: "/dashboardAssistant",
+    name: "dashboardAssistant",
+    meta: {
+      layout: "assistantLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Assistant/dashboardAssistant.vue"
       ),
   },
   {
@@ -399,6 +532,48 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "register" */ "../views/Admin/collectionManagement.vue"
+      ),
+  },
+  {
+    path: "/allOrder",
+    name: "AllOrder",
+    meta: {
+      layout: "adminLayout",
+    },
+    component: () =>
+      import(/* webpackChunkName: "register" */ "../views/Admin/allOrder.vue"),
+  },
+  {
+    path: "/customizeOrder",
+    name: "CustomizeOrder",
+    meta: {
+      layout: "adminLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Admin/customizeOrder.vue"
+      ),
+  },
+  {
+    path: "/furnitureSpecifications/:id",
+    name: "FurnitureSpecifications",
+    meta: {
+      layout: "adminLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Admin/furnitureSpecifications.vue"
+      ),
+  },
+  {
+    path: "/suppliersManager",
+    name: "SuppliersManager",
+    meta: {
+      layout: "adminLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Admin/suppliersManager.vue"
       ),
   },
   {
@@ -535,25 +710,14 @@ const routes = [
       ),
   },
   {
-    path: "/addNewUser",
-    name: "AddNewUser",
-    meta: {
-      layout: "adminLayout",
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "register" */ "../views/Admin/addNewUser.vue"
-      ),
-  },
-  {
-    path: "/furnitureManagement",
+    path: "/furnitureManagementAd",
     name: "FurnitureManagement",
     meta: {
       layout: "adminLayout",
     },
     component: () =>
       import(
-        /* webpackChunkName: "register" */ "../views/Admin/furnitureManagement.vue"
+        /* webpackChunkName: "register" */ "../views/Admin/furnitureManagementAd.vue"
       ),
   },
   {
@@ -565,17 +729,6 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "register" */ "../views/Admin/materialView.vue"
-      ),
-  },
-  {
-    path: "/dashboardUser",
-    name: "DashboardUser",
-    meta: {
-      layout: "adminLayout",
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "register" */ "../views/Admin/dashboardUser.vue"
       ),
   },
   {

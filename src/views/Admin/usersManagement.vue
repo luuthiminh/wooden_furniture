@@ -60,10 +60,23 @@
         <table class="table table-borderless text-yellow-950 font-medium">
           <thead>
             <tr>
-              <th>USER</th>
-              <th>ROLE</th>
-              <th>JOINED DATE</th>
-              <th>ACTION</th>
+              <th>User ID</th>
+              <th>Last Name</th>
+              <th>First Name</th>
+              <th>Date of Birth</th>
+              <th>Gender</th>
+              <th>Username</th>
+              <th>Role</th>
+              <th>Phone Number</th>
+              <th>Email</th>
+              <th>Avatar</th>
+              <th>Creation Date</th>
+              <th>Is Activated</th>
+              <th>Two Factor Enabled</th>
+              <th>Debit</th>
+              <th>Spent</th>
+              <th>Point</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -71,7 +84,7 @@
               <td>
                 <div class="user flex gap-x-2">
                   <div class="avatar">
-                    <router-link to="/profileAssistant">
+                    <router-link to="/profileManagement">
                       <img
                         class="rounded-full cursor-pointer"
                         src="@/assets/images/avatar.jpg "
@@ -878,6 +891,7 @@
 </template>
 <script>
 import HeaderAdmin from "@/components/headerAdmin.vue";
+import axios from "axios";
 
 export default {
   components: { HeaderAdmin },
@@ -886,7 +900,21 @@ export default {
       title: "User List",
       isEditModal: false,
       isDeleteModal: false,
+      users: [],
     };
+  },
+  created() {
+    this.getAllUser();
+  },
+  methods: {
+    async getAllUser() {
+      try {
+        const response = await axios.get("user/all?roleId=3");
+        this.users = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
   },
 };
 </script>

@@ -2,10 +2,35 @@
   <header-admin :title="title" />
   <div class="bg-white mb-2 rounded-xl mt-32">
     <div class="header pt-6 px-6">
+      <div class="absolute right-10">
+        <alert-Error v-if="isAlertError">
+          <template v-slot:message>{{ messageError }}</template></alert-Error
+        >
+        <alert-success v-if="isAlertSuccess">
+          <template v-slot:message>{{ messageSuccess }}</template>
+        </alert-success>
+      </div>
       <div class="flex items-center justify-between">
-        <search-admin />
+        <div class="search_admin">
+          <div class="group">
+            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+              <g>
+                <path
+                  d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
+                ></path>
+              </g>
+            </svg>
+            <input
+              placeholder="Search"
+              type="search"
+              class="input"
+              v-model="keyword"
+              @input="searchCategory"
+            />
+          </div>
+        </div>
         <div class="flex flex-cols-2 gap-x-3">
-          <div
+          <!-- <div
             class="dropdown bg-orange-50 shadow-lg bg-orange-100/50 px-2 py-2 rounded-lg"
           >
             <button
@@ -43,13 +68,82 @@
                 <a class="dropdown-item font-medium" href="#">Old User</a>
               </li>
             </ul>
+          </div> -->
+          <div class="">
+            <button
+              type="button"
+              class="button_add"
+              data-toggle="modal"
+              data-target="#exampleModalLong"
+              data-dismiss="modal"
+              data-backdrop="false"
+              @click="opentModal('add', 'null')"
+            >
+              <span class="button__text text-sm">Add</span>
+              <span class="button__icon"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                  stroke-linecap="round"
+                  stroke="currentColor"
+                  height="24"
+                  fill="none"
+                  class="svg"
+                >
+                  <line y2="19" y1="5" x2="12" x1="12"></line>
+                  <line y2="12" y1="12" x2="19" x1="5"></line></svg
+              ></span>
+            </button>
           </div>
+          <modal
+            v-if="modalType == 'add'"
+            @close="isShowAddModal = false"
+            data-target="#myModal"
+          >
+            <template v-slot:title>
+              <div
+                class="flex items-center text-base font-semibold text-yellow-950"
+              >
+                Add New Color
+              </div>
+            </template>
+            <template v-slot:body>
+              <div class="py-3 pr-36 text-sm">
+                <div class="grid grid-cols-12 gap-x-10">
+                  <label
+                    for="exampleInputEmail1"
+                    class="col-span-5 form-label text-semibold text-base pt-2 border-none"
+                    >Name Category</label
+                  >
+                  <input
+                    v-model="cateName"
+                    type="text"
+                    class="col-span-7 form-control"
+                    id="exampleInpuName1"
+                    aria-describedby="nameHelp"
+                    required
+                  />
+                </div>
+              </div>
+            </template>
+            <template v-slot:footer>
+              <div class="bg-yellow-900 rounded-md">
+                <span type="button" class="btn text-white" @click="HandleAdd">
+                  Add
+                </span>
+              </div>
+            </template>
+          </modal>
         </div>
       </div>
     </div>
     <div class="content_table pt-6 px-6 scroll">
       <div class="py-4">
         <table
+          v-if="searchResults.length"
           class="table table-borderless text-yellow-950 font-medium text-center"
         >
           <thead>
@@ -62,82 +156,18 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Category 1</td>
-              <td>
-                <button
-                  type="button"
-                  class="button_add"
-                  data-toggle="modal"
-                  data-target="#exampleModalLong"
-                  @click="isShowAddModal = true"
-                >
-                  <span class="button__text text-xs">Add</span>
-                  <span class="button__icon"
-                    ><svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      viewBox="0 0 24 24"
-                      stroke-width="2"
-                      stroke-linejoin="round"
-                      stroke-linecap="round"
-                      stroke="currentColor"
-                      height="24"
-                      fill="none"
-                      class="svg"
-                    >
-                      <line y2="19" y1="5" x2="12" x1="12"></line>
-                      <line y2="12" y1="12" x2="19" x1="5"></line></svg
-                  ></span>
-                </button>
-                <modal
-                  v-if="isShowAddModal"
-                  @close="isShowAddModal = false"
-                  data-target="#myModal"
-                >
-                  <template v-slot:title>
-                    <div class="flex items-center text-lg font-medium">
-                      ADD CATEGORY
-                    </div>
-                  </template>
-                  <template v-slot:body>
-                    <div class="py-3 px-4 text-sm">
-                      <form @submit.prevent="Add">
-                        <div>
-                          <label for="exampleInputEmail1" class="form-label"
-                            >Name Furniture</label
-                          >
-                          <input
-                            v-model="categoryName"
-                            type="text"
-                            class="form-control"
-                            id="exampleInpuName1"
-                            aria-describedby="nameHelp"
-                            required
-                          />
-                        </div>
-                      </form>
-                    </div>
-                  </template>
-                  <template v-slot:footer>
-                    <button
-                      type="button"
-                      class="btn btn-primary my-8"
-                      @click.prevent="HandleAdd"
-                    >
-                      Save changes
-                    </button>
-                  </template>
-                </modal>
-              </td>
+            <tr v-for="s in searchResults" :key="s.categoryId">
+              <th scope="row">{{ s.categoryId }}</th>
+              <td>{{ s.categoryName }}</td>
               <td>
                 <button
                   class="button_edit"
                   type="button"
                   data-toggle="modal"
                   data-target="#exampleModalLong"
-                  @click="isShowEditdModal = true"
+                  data-dismiss="modal"
+                  data-backdrop="false"
+                  @click="opentModal('edit', s)"
                 >
                   <span class="button__text text-xs">Edit</span>
                   <span class="button__icon"
@@ -157,69 +187,85 @@
                   ></span>
                 </button>
                 <modal
-                  v-if="isEditModal"
-                  @close="isEditModal = false"
+                  v-if="modalType == 'edit'"
+                  @close="modalType == null"
                   data-target="#myModal"
                 >
                   <template v-slot:title>
-                    <h1 class="flex items-center text-lg font-medium">
-                      Edit Thi Furniture
-                    </h1>
+                    <div
+                      class="flex items-center text-base font-semibold text-yellow-950"
+                    >
+                      Edit This Category
+                    </div>
                   </template>
                   <template v-slot:body>
-                    <div class="py-1 px-4 text-sm">
-                      <form @submit.prevent="">
-                        <div>
-                          <label
-                            for="exampleInputEmail1"
-                            class="form-label font-medium"
-                            >Name Collection</label
-                          >
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="exampleInpuName1"
-                            aria-describedby="nameHelp"
-                            required
-                          />
-                        </div>
-                        <button type="submit" class="btn my-8">Edit</button>
-                      </form>
+                    <div class="py-3 pr-36 text-sm">
+                      <div class="grid grid-cols-12 gap-x-10">
+                        <label
+                          for="exampleInputEmail1"
+                          class="col-span-5 form-label text-semibold text-base pt-2 border-none"
+                          >Name Category</label
+                        >
+                        <input
+                          v-model="nameCateModal"
+                          type="text"
+                          class="col-span-7 form-control"
+                          id="exampleInpuName1"
+                          aria-describedby="nameHelp"
+                          required
+                        />
+                      </div>
                     </div>
                   </template>
                   <template v-slot:footer>
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      @click.prevent="saveChanges"
-                    >
-                      Save changes
-                    </button>
+                    <div class="bg-yellow-900 rounded-md">
+                      <span
+                        type="button"
+                        class="btn text-white"
+                        @click.prevent="HandleUpdate"
+                      >
+                        Update
+                      </span>
+                    </div>
                   </template>
                 </modal>
                 <modal
-                  v-if="isShowDeleteModal"
-                  @close="isShowDeleteModal = false"
+                  v-if="modalType == 'delete'"
+                  @close="modalType == null"
                   data-target="#myModal"
                 >
                   <template v-slot:title>
-                    <h1 class="flex items-center text-lg font-medium">
-                      Delete This Collection
-                    </h1>
-                  </template>
-                  <template v-slot:body>
-                    <div class="py-1 px-4 text-sm">
-                      <h1>Are you sure delete this furniture?</h1>
+                    <div class="flex items-center text-lg font-semibold">
+                      Delete
                     </div>
                   </template>
+                  <template v-slot:body>
+                    <p class="text-base py-3">
+                      Are you sure detete <b> {{ nameCateModal }}</b
+                      >?
+                    </p>
+                  </template>
                   <template v-slot:footer>
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      @click.prevent="saveChanges"
-                    >
-                      Yes
-                    </button>
+                    <div class="bg-red-900 rounded-md">
+                      <span
+                        type="button"
+                        class="btn text-white"
+                        @click="HandleDelete"
+                      >
+                        Delete
+                      </span>
+                    </div>
+                    <!-- <button
+                        type="button"
+                        class="btn btn-primary my-8"
+                        data-bs-target="#exampleModalToggle2"
+                        data-bs-toggle="modal"
+                        data-bs-dismiss="modal"
+                        @click="opentModal('notification', w)"
+                        @click.prevent="HandleDelete"
+                      >
+                        Yes
+                      </button> -->
                   </template>
                 </modal>
               </td>
@@ -229,7 +275,9 @@
                   type="button"
                   data-toggle="modal"
                   data-target="#exampleModalLong"
-                  @click="isShowDeleteModal = true"
+                  data-dismiss="modal"
+                  data-backdrop="false"
+                  @click="opentModal('delete', 'null')"
                 >
                   <span class="button__text text-xs">Delete</span>
                   <span class="button__icon"
@@ -341,31 +389,243 @@
             </tr>
           </tbody>
         </table>
+        <table
+          v-else
+          class="table table-borderless text-yellow-950 font-medium text-center"
+        >
+          <thead>
+            <tr class="text-sm text-center">
+              <th scope="col">ID</th>
+              <th scope="col">Category Name</th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="ca in categories" :key="ca.categoryId">
+              <th scope="row">{{ ca.categoryId }}</th>
+              <td>{{ ca.categoryName }}</td>
+              <td>
+                <button
+                  class="button_edit"
+                  type="button"
+                  data-toggle="modal"
+                  data-target="#exampleModalLong"
+                  data-dismiss="modal"
+                  data-backdrop="false"
+                  @click="opentModal('edit', ca)"
+                >
+                  <span class="button__text text-xs">Edit</span>
+                  <span class="button__icon bi bi-pencil text-white"></span>
+                </button>
+              </td>
+              <modal
+                v-if="modalType == 'edit'"
+                @close="modalType == null"
+                data-target="#myModal"
+              >
+                <template v-slot:title>
+                  <div
+                    class="flex items-center text-base font-semibold text-yellow-950"
+                  >
+                    Edit This Category
+                  </div>
+                </template>
+                <template v-slot:body>
+                  <div class="py-3 pr-36 text-sm">
+                    <div class="grid grid-cols-12 gap-x-10">
+                      <label
+                        for="exampleInputEmail1"
+                        class="col-span-5 form-label text-semibold text-base pt-2 border-none"
+                        >Name Category</label
+                      >
+                      <input
+                        v-model="nameCateModal"
+                        type="text"
+                        class="col-span-7 form-control"
+                        id="exampleInpuName1"
+                        aria-describedby="nameHelp"
+                        required
+                      />
+                    </div>
+                  </div>
+                </template>
+                <template v-slot:footer>
+                  <div class="bg-yellow-900 rounded-md">
+                    <span
+                      type="button"
+                      class="btn text-white"
+                      @click.prevent="HandleUpdate"
+                    >
+                      Update
+                    </span>
+                  </div>
+                </template>
+              </modal>
+              <td>
+                <button
+                  class="button_delete"
+                  type="button"
+                  data-toggle="modal"
+                  data-target="#exampleModalLong"
+                  data-dismiss="modal"
+                  data-backdrop="false"
+                  @click="opentModal('delete', ca)"
+                >
+                  <span class="button__text text-xs">Delete</span>
+                  <span class="button__icon"
+                    ><svg
+                      class="svg"
+                      height="512"
+                      viewBox="0 0 512 512"
+                      width="512"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <title></title>
+                      <path
+                        d="M112,112l20,320c.95,18.49,14.4,32,32,32H348c17.67,0,30.87-13.51,32-32l20-320"
+                        style="
+                          fill: none;
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-linejoin: round;
+                          stroke-width: 32px;
+                        "
+                      ></path>
+                      <line
+                        style="
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-miterlimit: 10;
+                          stroke-width: 32px;
+                        "
+                        x1="80"
+                        x2="432"
+                        y1="112"
+                        y2="112"
+                      ></line>
+                      <path
+                        d="M192,112V72h0a23.93,23.93,0,0,1,24-24h80a23.93,23.93,0,0,1,24,24h0v40"
+                        style="
+                          fill: none;
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-linejoin: round;
+                          stroke-width: 32px;
+                        "
+                      ></path>
+                      <line
+                        style="
+                          fill: none;
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-linejoin: round;
+                          stroke-width: 32px;
+                        "
+                        x1="256"
+                        x2="256"
+                        y1="176"
+                        y2="400"
+                      ></line>
+                      <line
+                        style="
+                          fill: none;
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-linejoin: round;
+                          stroke-width: 32px;
+                        "
+                        x1="184"
+                        x2="192"
+                        y1="176"
+                        y2="400"
+                      ></line>
+                      <line
+                        style="
+                          fill: none;
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-linejoin: round;
+                          stroke-width: 32px;
+                        "
+                        x1="328"
+                        x2="320"
+                        y1="176"
+                        y2="400"
+                      ></line></svg
+                  ></span>
+                </button>
+                <modal
+                  v-if="modalType == 'delete'"
+                  @close="modalType == null"
+                  data-target="#myModal"
+                >
+                  <template v-slot:title>
+                    <div class="flex items-center text-lg font-semibold">
+                      Delete
+                    </div>
+                  </template>
+                  <template v-slot:body>
+                    <p class="text-base py-3">
+                      Are you sure detete <b> {{ nameCateModal }}</b
+                      >?
+                    </p>
+                  </template>
+                  <template v-slot:footer>
+                    <div class="bg-red-900 rounded-md">
+                      <span
+                        type="button"
+                        class="btn text-white"
+                        @click="HandleDelete"
+                      >
+                        Delete
+                      </span>
+                    </div>
+                    <!-- <button
+                        type="button"
+                        class="btn btn-primary my-8"
+                        data-bs-target="#exampleModalToggle2"
+                        data-bs-toggle="modal"
+                        data-bs-dismiss="modal"
+                        @click="opentModal('notification', w)"
+                        @click.prevent="HandleDelete"
+                      >
+                        Yes
+                      </button> -->
+                  </template>
+                </modal>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- <div v-else class="loader"></div> -->
       </div>
     </div>
   </div>
   <p class="text-sm font-medium mb-5">Total users: 5</p>
-
-  <div class="loader"></div>
 </template>
 <script>
 import axios from "axios";
 import HeaderAdmin from "@/components/headerAdmin.vue";
 import modal from "@/components/ModalPage.vue";
-import SearchAdmin from "@/components/searchAdmin.vue";
+import alertError from "@/components/AlertError.vue";
+import alertSuccess from "@/components/AlertSuccess.vue";
 export default {
   components: {
     HeaderAdmin,
     modal,
-    SearchAdmin,
+    alertError,
+    alertSuccess,
   },
   data() {
     return {
-      isShowAddModal: false,
-      isShowEditdModal: false,
-      isShowDeleteModal: false,
       categories: [],
-      newCategory: "",
+      searchResults: [],
+      nameCateModal: null,
+      idCateModal: null,
+      modalType: null,
+      title: "All Categories",
     };
   },
   created() {
@@ -374,55 +634,105 @@ export default {
   methods: {
     async getAllCategories() {
       try {
-        const response = await axios.get("/Assistant/shop-data/categories");
+        const response = await axios.get("shopOwner/shop-data/categories");
         this.categories = response.data;
         console.log(response.data);
       } catch (error) {
         console.error(error);
       }
     },
+    async searchCategory() {
+      try {
+        const response = await axios.get(
+          "shopOwner/shop-data/categories/search?searchString=" + this.keyword
+        );
+        this.searchResults = response.data;
+      } catch (error) {
+        this.isAlertWanning = true;
+        this.messageWanning = this.keyword + " not found";
+        setTimeout(() => {
+          this.isAlertWanning = false;
+        }, 5000);
+      }
+    },
+    async opentModal(type, ca) {
+      this.modalType = type;
+      this.nameCateModal = ca.categoryName;
+      this.idCateModal = ca.categoryId;
+    },
+    closeModal() {
+      this.modalType = null;
+    },
     async HandleAdd() {
       try {
         const response = await axios.post(
-          "/Assistant/shop-data/categories/add?categoryName=" +
-            this.categoryName
+          "shopOwner/shop-data/categories/add?categoryName=" + this.cateName
         );
         if (response.status === 201) {
-          this.newCategory = response.data;
-          this.isShowAddModal = false;
+          this.modalType = null;
+          this.isAlertSuccess = true;
+          this.messageSuccess = "Add new category successfully";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 5000);
+          this.getAllCategories();
         }
-        console.log(response.data);
       } catch (error) {
+        this.isAlertError = true;
+        this.messageError = error.response.data.message;
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 5000);
         console.error(error);
       }
     },
-    async HandleUpdate(ca) {
+    async HandleUpdate() {
       try {
         const response = await axios.put(
-          "/Assistant/shop-data/categories/update?categoryId=" +
-            ca.categoryId +
+          "shopOwner/shop-data/categories/update?categoryId=" +
+            this.idCateModal +
             "&categoryName=" +
-            ca.categoryName
+            this.nameCateModal
         );
         if (response.status === 200) {
-          this.newCategory = response.data;
-          this.isShowEditModal = false;
+          this.modalType = null;
+          this.isAlertSuccess = true;
+          this.messageSuccess = "Update " + this.nameCateModal + " successful!";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 5000);
+          this.getAllCategories();
         }
-        console.log(response.data);
       } catch (error) {
+        this.isAlertError = true;
+        this.messageError = error.response.data.message;
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 5000);
         console.error(error);
       }
     },
-    async HandleDelete(ca) {
+    async HandleDelete() {
       try {
         const response = await axios.delete(
-          "/Assistant/shop-data/categories/remove/" + ca.categoryId
+          "shopOwner/shop-data/categories/remove/" + this.idCateModal
         );
         if (response.status === 204) {
-          this.isShowDeleteModal = false;
+          this.modalType = null;
+          this.isSuccess = true;
+          this.isAlertSuccess = true;
+          this.messageSuccess = "Delete " + this.nameCateModal + " successful!";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 5000);
+          this.getAllCategories();
         }
-        console.log(response.data);
       } catch (error) {
+        this.isAlertError = true;
+        this.messagerError = error.response.data.message;
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 5000);
         console.error(error);
       }
     },

@@ -28,10 +28,15 @@
         <i class="bi bi-list px-2 text-white hover:text-yellow-950"></i>
       </div>
     </div>
-    <div class="float-right flex max-sm:hidden max-md:hidden">
-      <div class="new member">
-        <router-link to="/addnewUser" class="text-decoration-none">
+    <div class="float-right flex max-sm:hidden max-md:hidden cursor-pointer">
+      <div>
+        <div class="new member">
           <div
+            data-toggle="modal"
+            data-target="#exampleModalLong"
+            data-dismiss="modal"
+            data-backdrop="false"
+            @click="opentModal('add')"
             class="new_member flex text-white hitrounded-md px-3 py-2 text-sm font-medium rounded-lg shadow-lg shadow-cyan-500/50"
           >
             <svg
@@ -50,9 +55,135 @@
             </svg>
             <span class="text-white">New Member</span>
           </div>
-        </router-link>
+          <modal
+            v-if="modalType == 'add'"
+            @close="closeModal"
+            data-target="#myModal"
+          >
+            <template v-slot:title>
+              <div
+                class="flex items-center text-base font-semibold text-yellow-950"
+              >
+                ADD NEW USER
+              </div>
+            </template>
+            <template v-slot:body>
+              <div class="form justify-center mt-2 px-3">
+                <div class="grid grid-cols-2 gap-x-6">
+                  <div>
+                    <label for="firstname" class="form-label">First Name</label>
+                    <input
+                      v-model="firstName"
+                      type="text"
+                      class="form-control"
+                      id="firstname"
+                      aria-describedby="firstnameHelp"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label for="lastname" class="form-label">Last Name</label>
+                    <input
+                      v-model="lastName"
+                      type="text"
+                      class="form-control"
+                      id="lastname"
+                      aria-describedby="lastnameHelp"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="grid grid-cols-2 gap-x-6 mt-2">
+                  <div>
+                    <label for="gender" class="form-label">Gender</label>
+                    <select
+                      v-model="gender"
+                      class="form-select pl-3"
+                      aria-label="Default select example"
+                      required
+                    >
+                      <option value="">Choose your gender</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="dob" class="form-label">Dob</label>
+                    <input
+                      v-model="date"
+                      type="date"
+                      class="form-control"
+                      id="dob"
+                      aria-describedby="dobHelp"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="mt-2">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >Email address</label
+                  >
+                  <input
+                    v-model="email"
+                    type="email"
+                    class="form-control"
+                    id="exampleInputEmail1"
+                    aria-describedby="emailHelp"
+                    required
+                    @input="validateEmail"
+                  />
+                  <span v-if="emailError" class="error text-xs">{{
+                    emailError
+                  }}</span>
+                  <span v-else class="success text-xs">{{ emailSuccess }}</span>
+                </div>
+                <div class="mt-2">
+                  <label for="phone" class="form-label">Phone</label>
+                  <input
+                    v-model="phone"
+                    type="number"
+                    class="form-control"
+                    id="phone"
+                    aria-describedby="phonelHelp"
+                    required
+                  />
+                </div>
+                <div class="mt-2">
+                  <label for="password" class="form-label">Password</label>
+                  <input
+                    v-model="password"
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    required
+                    @input="validatePassword"
+                  />
+                  <span v-if="passwordError" class="error text-xs">{{
+                    passwordError
+                  }}</span>
+                  <span v-else class="success text-xs">{{
+                    passwordSuccess
+                  }}</span>
+                </div>
+              </div>
+            </template>
+            <template v-slot:footer>
+              <div class="bg-yellow-900 rounded-md">
+                <span
+                  type="button"
+                  class="btn text-white"
+                  @click="HandleRegister"
+                >
+                  Sign up
+                </span>
+              </div>
+            </template>
+          </modal>
+        </div>
       </div>
-      <div class="">
+
+      <div @click="Logout">
         <button class="Btn">
           <div class="sign">
             <svg viewBox="0 0 512 512">
@@ -65,7 +196,7 @@
       </div>
     </div>
   </header>
-  <div v-show="!isNavBar">
+  <div v-show="isNavBar">
     <div class="overlay">
       <div class="nav_bar">
         <div class="logo border-1 border-bottom boder-slate-300">
@@ -83,11 +214,27 @@
   </div>
 </template>
 <script>
+import modal from "@/components/ModalPage.vue";
+import axios from "axios";
 export default {
+  components: {
+    modal,
+  },
   props: ["title"],
   data() {
     return {
       isNavBar: false,
+      modalType: null,
+      message: "",
+      passwordError: "",
+      passwordSuccess: "",
+      emailError: "",
+      emailSuccess: "",
+      firstNameError: "",
+      firstNameSuccess: "",
+      lastNameError: "",
+      lastNameSuccess: "",
+      isShowModal: "",
     };
   },
   methods: {
@@ -96,6 +243,58 @@ export default {
     },
     closeNavBar() {
       this.isNavBar = !this.isNavBar;
+    },
+    opentModal(type) {
+      this.modalType = type;
+    },
+    closeModal() {
+      this.modalType = null;
+    },
+    async HandleRegister() {
+      try {
+        const response = await axios.post("authentication/create-account/3", {
+          userInfor: {
+            firstName: this.firstName,
+            lastName: this.lastName,
+            gender: this.gender,
+            email: this.email,
+            password: this.password,
+            phoneNumbers: this.phone,
+            doB: this.date,
+            username: this.email,
+          },
+        });
+
+        if (response.status === 201) {
+          alert("Please confirm the code in your email!");
+        }
+      } catch (error) {
+        this.message = error.response.data.message;
+        console.error(error.response.data.message);
+      }
+    },
+    validateEmail() {
+      if (this.email === "") {
+        this.emailError = "Please enter your email";
+      } else {
+        this.emailError === "";
+        this.emailSuccess = "Email is valid";
+      }
+    },
+    validatePassword() {
+      const regex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      if (!regex.test(this.password)) {
+        this.passwordError =
+          "Password minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character";
+      } else {
+        this.passwordError = "";
+        this.passwordSuccess = "Password is valid";
+      }
+    },
+    Logout() {
+      localStorage.removeItem("token");
+      this.$router.push({ name: "login" });
     },
   },
 };
@@ -181,5 +380,14 @@ export default {
 h1,
 li {
   color: rgb(79, 59, 25);
+}
+.form-label {
+  font-size: 15px;
+  font-weight: 500;
+}
+.form-control,
+.form-select {
+  border: none;
+  background-color: #dde4e794;
 }
 </style>

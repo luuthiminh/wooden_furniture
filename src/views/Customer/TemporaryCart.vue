@@ -1,6 +1,7 @@
 <template>
   <div class="bg-neutral-100 text-slate-700">
-    <div class="pt-36 px-36">
+    <div class="pt-36 px-28">
+      <!-- 
       <div class="bg-white">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-neutral-100 text-xs">
@@ -9,8 +10,28 @@
             <li class="breadcrumb-item active" aria-current="page">Sofa</li>
           </ol>
         </nav>
+      </div> -->
+      <div class="nav pb-3 mb-2">
+        <nav aria-label="breadcrumb">
+          <ol class="flex bg-none text-xs max-sm:ml-3">
+            <li class="breadcrumb-item">
+              <router-link to="customerIndex">Home </router-link>
+            </li>
+            <li class="breadcrumb-item">
+              <router-link to="#">All Product</router-link>
+            </li>
+          </ol>
+        </nav>
       </div>
-      <h1 class="font-semibold pb-3 text-lg">Shopping Cart</h1>
+      <div class="absolute right-0">
+        <alert-Error v-if="isAlertError">
+          <template v-slot:message>{{ messageError }}</template></alert-Error
+        >
+        <alert-success v-if="isAlertSuccess">
+          <template v-slot:message>{{ messageSuccess }}</template>
+        </alert-success>
+      </div>
+      <h1 class="font-semibold pb-3 text-lg ml-1">Shopping Cart</h1>
       <div class="grid grid-cols-7 gap-x-7">
         <div class="col-span-5 cart">
           <div class="wrapper wrapper-content animated fadeInRight">
@@ -18,11 +39,11 @@
               <div class="col">
                 <div class="ibox">
                   <div class="ibox-title">
-                    <span class="pull-right"
+                    <span class="pull-right text-red-600"
                       >(<strong>{{ cart.length }}</strong
                       >) products</span
                     >
-                    <h5>All furniture in your cart</h5>
+                    <h5 class="font-medium py-2">All furniture in your cart</h5>
                   </div>
                   <div v-if="cart.length">
                     <div
@@ -35,16 +56,17 @@
                           <tbody>
                             <tr>
                               <td>
-                                <div class="form-check mt-5">
+                                <div class="mt-14">
                                   <input
                                     type="checkbox"
                                     id="checkbox"
-                                    v-model="checked"
+                                    v-model="furniture.isSelected"
+                                    @change="handleCartId(furniture)"
                                   />
                                 </div>
                               </td>
                               <td width="90">
-                                <div class="cart-product-imitation">
+                                <div class="cart-product-imitation mt-4">
                                   <img
                                     src="@/assets/images/category/shelves_tv/shelves_11.png"
                                     alt=""
@@ -52,33 +74,47 @@
                                 </div>
                               </td>
                               <td class="desc">
-                                <h3>
+                                <h3 class="font-medium">
                                   <a href="#" class="text-navy">
                                     {{ furniture.furnitureName }}
                                   </a>
                                 </h3>
-                                <p class="small">
-                                  It is a long established fact that a reader
-                                  will be distracted by the readable content of
-                                  a page when looking at its layout. The point
-                                  of using Lorem Ipsum is
-                                </p>
-                                <dl class="flex flex-cols-2 small m-b-none">
-                                  <dt class="pr-2">Color:</dt>
-                                  <dd>
+
+                                <dl
+                                  class="flex flex-cols-2 small m-b-none py-2"
+                                >
+                                  <dt class="pr-2 text-gray-800">
+                                    Specification Name:
+                                  </dt>
+                                  <dd class="font-medium text-gray-700">
                                     {{ furniture.furnitureSpecificationName }}
                                   </dd>
                                 </dl>
-
-                                <div class="flex flex-col-2 gap-x-2">
-                                  <a href="#" class="text-muted"
-                                    ><i class="fa-regular fa-heart"></i> Add
-                                    Wish List</a
-                                  >
-                                  |
+                                <div
+                                  class="flex gap-x-3 text-sm text-gray-600 font-medium"
+                                >
+                                  <label>Price:</label>
+                                  <span>${{ furniture.unitPrice }}</span>
+                                </div>
+                                <div
+                                  class="flex gap-x-3 text-sm text-gray-600 font-medium"
+                                >
+                                  <label>Quantity:</label>
+                                  <span>{{ furniture.quantity }}</span>
+                                </div>
+                                <div class="flex flex-col-2 gap-x-6">
                                   <div
-                                    @click.prevent="removeCart(furniture)"
-                                    class="text-muted cursor-pointer"
+                                    class="text-sm font-medium text-gray-600"
+                                  >
+                                    <i class="fa-regular fa-heart"></i> Add Wish
+                                    List
+                                  </div>
+                                  <div
+                                    type="button"
+                                    data-toggle="modal"
+                                    data-target="#exampleModalLong"
+                                    class="cursor-pointer text-sm font-medium text-gray-600"
+                                    @click="opentModal('remove')"
                                   >
                                     <i class="fa fa-trash"></i>
                                     Remove item
@@ -86,22 +122,53 @@
                                 </div>
                               </td>
 
-                              <td>
-                                {{ furniture.cost }}
-                                <s class="small text-muted">$230,00</s>
-                              </td>
-                              <td width="65">
-                                <input
-                                  v-model="furniture.quantity"
-                                  type="text"
-                                  class="form-control"
-                                  @input="totalPrice(furniture)"
-                                />
-                              </td>
-                              <td>
-                                <h4>{{ total }}</h4>
+                              <!-- <td width="80" class="py-4 flex gap-x-2">
+                                <label class="font-medium">Quantity</label>
+                                <span>{{ furniture.quantity }}</span>
+                              </td> -->
+                              <td
+                                class="mt-14 flex gap-x-2 w-40 absolute right-14 text-sm"
+                              >
+                                <span class="font-medium">Total Cost:</span>
+                                <span class="font-bold text-red-600"
+                                  >${{ furniture.cost }}</span
+                                >
                               </td>
                             </tr>
+                            <modal
+                              v-if="modalType == 'remove'"
+                              @close="closeModal"
+                              data-target="#myModal"
+                            >
+                              <template v-slot:title>
+                                <div
+                                  class="flex items-center text-lg font-semibold"
+                                >
+                                  Delete
+                                </div>
+                              </template>
+                              <template v-slot:body>
+                                <p class="text-base py-3">
+                                  Are you sure detete
+                                  <b>
+                                    {{
+                                      furniture.furnitureSpecificationName
+                                    }}</b
+                                  >?
+                                </p>
+                              </template>
+                              <template v-slot:footer>
+                                <div class="bg-red-900 rounded-md">
+                                  <span
+                                    type="button"
+                                    class="btn text-white"
+                                    @click="removeCart(furniture)"
+                                  >
+                                    Delete
+                                  </span>
+                                </div>
+                              </template>
+                            </modal>
                           </tbody>
                         </table>
                       </div>
@@ -117,25 +184,268 @@
             <div>
               <h5 class="font-semibold text-base">Summary</h5>
             </div>
-            <hr />
+            <hr class="bg-slate-50 mt-6" />
             <div class="row pt-4">
-              <div class="col" style="padding-left: 0">All Furniture</div>
-              <div class="col text-right">{{ cart.length }}</div>
+              <div class="col font-medium text-sm" style="padding-left: 0">
+                All Furniture
+              </div>
+              <div class="col font-medium text-right">
+                {{ cartIdList.length }}
+              </div>
             </div>
             <div class="mt-2">
-              <p>SHIPPING</p>
+              <p class="font-medium text-sm">Shipping</p>
               <img src="@/assets/images/freeship.png" alt="freeship" />
             </div>
             <div
               class="row"
               style="border-top: 1px solid rgba(0, 0, 0, 0.1); padding: 2vh 0"
             >
-              <div class="col">TOTAL PRICE</div>
-              <div class="col text-right">$ 137.00</div>
+              <div class="col font-semibold mt-3">TOTAL PRICE</div>
+
+              <div class="col font-medium text-right text-sm mt-3">
+                ${{ order.totalCost }}
+              </div>
             </div>
-            <router-link to="orderbill">
-              <button class="btn btn_checkout">ORDER</button>
-            </router-link>
+            <button
+              data-toggle="modal"
+              data-target="#exampleModalLong"
+              data-dismiss="modal"
+              data-backdrop="false"
+              @click="HandleCheckout"
+              class="ml-2 my-4 text-center px-28 py-2 text-white hover:ring-offset-2 hover:ring-2 bg-slate-600 text-sm rounded-md transition duration-700 ease-in-out font-medium"
+            >
+              Check Out
+            </button>
+
+            <modal
+              v-if="modalType == 'order'"
+              @close="closeModal"
+              data-target="#myModal"
+            >
+              <template v-slot:title>
+                <div>
+                  <h1 class="font-semibold text-lg">Check Out</h1>
+                </div>
+              </template>
+              <template v-slot:body>
+                <div class="mt-1 mb-2" v-if="order">
+                  <div class="bg-white rounded-md px-3 py-2">
+                    <span class="text-red-600 font-medium text-sm"
+                      ><i class="fa-solid fa-location-dot"></i> Address</span
+                    >
+                    <br />
+                    <div class="py-2 flex gap-x-4">
+                      <span class="font-semibold text-sm"
+                        >{{ order.deliveryAddress }}
+                      </span>
+                      <div class="text-sm">
+                        <div class="span_address">
+                          <div class="">
+                            <span
+                              class="px-2 py-1 font-medium text-red-600 text-xs"
+                              >Default</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="font-semibold text-amber-900 cursor-pointer"
+                        data-toggle="modal"
+                        data-target="#exampleModalLong"
+                        @click="opentModal('address')"
+                      >
+                        Change
+                      </div>
+                      <modal
+                        v-if="modalType == 'address'"
+                        @close="closeModal"
+                        data-target="#myModal"
+                      >
+                        <template v-slot:title>
+                          <div
+                            class="flex items-center text-base font-semibold text-yellow-950"
+                          >
+                            All Address
+                          </div>
+                        </template>
+                        <template v-slot:body>
+                          <div class="px-4 py-3" v-if="address.length">
+                            <div
+                              class="flex gap-x-10 py-3"
+                              v-for="ad in address"
+                              :key="ad.id"
+                            >
+                              <span class="span_address font-medium pl-3"
+                                >{{ ad.street }} {{ ad.ward }}
+                                {{ ad.district }} {{ ad.provine }}</span
+                              >
+                              <div
+                                v-if="ad.addressType === 'DEFAULT'"
+                                class="span_address"
+                              >
+                                <div
+                                  class="border-solid border-2 border-red-600 rounded-full"
+                                >
+                                  <span
+                                    class="px-2 py-1 font-medium text-red-600 text-xs"
+                                    >default</span
+                                  >
+                                </div>
+                              </div>
+                              <div class="absolute right-40 flex gap-x-5">
+                                <button
+                                  data-toggle="modal"
+                                  data-target="#exampleModalLong"
+                                  data-backdrop="false"
+                                  @click="opentModal('editAddress', ad)"
+                                  class="px-2 py-1 text-white hover:ring-offset-2 hover:ring-2 bg-slate-600 text-sm rounded-md transition duration-700 ease-in-out font-medium"
+                                >
+                                  Edit
+                                </button>
+                                <button
+                                  @click="HandleDelete(ad)"
+                                  class="px-2 py-1 text-white hover:ring-offset-2 hover:ring-2 bg-red-600 hover:ring-red-200 text-sm rounded-md transition duration-700 ease-in-out font-medium"
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </template>
+                        <template v-slot:footer></template>
+                      </modal>
+                    </div>
+                  </div>
+                </div>
+                <div class="bg-white rounded-md px-3 pt-2">
+                  <div>
+                    <div>
+                      <div class="card mb-3">
+                        <div
+                          class="card-body"
+                          v-for="fur in order.items"
+                          :key="fur.furnitureId"
+                        >
+                          <div class="d-flex justify-content-between">
+                            <div class="d-flex flex-row align-items-center">
+                              <div>
+                                <img
+                                  src="@/assets/images/category/shelves_tv/shelves_11.png"
+                                  class="img-fluid rounded-3"
+                                  alt="Shopping item"
+                                  style="width: 65px"
+                                />
+                              </div>
+                              <div class="ms-3">
+                                <h5>{{ fur.furnitureSpecificationName }}</h5>
+                                <!-- <p class="small mb-0">
+                                  {{ f.height }} x {{ f.width }} x
+                                  {{ f.length }}
+                                </p> -->
+                              </div>
+                            </div>
+                            <div class="d-flex flex-row align-items-center">
+                              <div style="width: 50px">
+                                <h5 class="fw-normal mb-0">
+                                  {{ fur.quantity }}
+                                </h5>
+                              </div>
+                              <div style="width: 50px">
+                                <h5 class="mb-0">{{ fur.cost }}</h5>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card bg-white rounded-md px-3 py-2 my-3 mx-3">
+                  <div class="flex gap-x-1 mt-3">
+                    <i
+                      class="bi bi-currency-dollar text-yellow-500 text-sm mt-2"
+                    ></i>
+                    <span class="font-medium label_payment mt-2">Point</span>
+                    <input
+                      v-model="userpoint"
+                      type="text"
+                      class="input_point col-span-8 form-control ml-2"
+                      id="exampleInpuName1"
+                      aria-describedby="nameHelp"
+                    />
+                    <div class="absolute right-7 mt-2">
+                      <span class="point font-medium">{{ info.point }}</span>
+                    </div>
+                  </div>
+
+                  <div class="">
+                    <div
+                      class="d-flex justify-content-between align-items-center mb-4"
+                    >
+                      <h5 class="label_payment mb-0 font-medium mt-3">
+                        Payment Method
+                      </h5>
+                    </div>
+
+                    <div>
+                      <div>
+                        <select
+                          v-if="order.payments"
+                          v-model="paymentId"
+                          class="form-select text-sm"
+                          aria-label="Default select example"
+                        >
+                          <option selected>Choose Payment</option>
+                          <option
+                            v-for="md in order.payments"
+                            :key="md"
+                            :value="md.paymentId"
+                          >
+                            {{ md.paymentMethod }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="">
+                      <label
+                        for="exampleInputEmail1"
+                        class="form-label label_payment border-none"
+                        >Note</label
+                      >
+                      <input
+                        v-model="note"
+                        type="text"
+                        class="form-control"
+                        id="exampleInpuName1"
+                        aria-describedby="nameHelp"
+                      />
+                      <!-- <textarea
+                        id="w3review"
+                        name="w3review"
+                        rows="4"
+                        cols="50"
+                        v-model="note"
+                      ></textarea> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between mt-7 px-4">
+                  <p class="font-semibold text-base">Total</p>
+                  <p class="font-bold text-base">{{ order.totalCost }}$</p>
+                </div>
+              </template>
+              <template v-slot:footer>
+                <button
+                  @click="HandleOrder(order)"
+                  data-dismiss="modal"
+                  class="ml-3 my-4 text-center px-4 py-2 text-white hover:ring-offset-2 hover:ring-2 bg-slate-600 text-sm rounded-md transition duration-700 ease-in-out font-medium"
+                >
+                  Order
+                </button>
+              </template>
+            </modal>
           </div>
           <div class="ibox mt-3 leading-8">
             <div class="ibox-title">
@@ -211,16 +521,41 @@
 </template>
 <script>
 import axios from "axios";
-
+import alertError from "@/components/AlertError.vue";
+import alertSuccess from "@/components/AlertSuccess.vue";
+import modal from "@/components/ModalPage.vue";
 export default {
+  components: {
+    modal,
+    alertError,
+    alertSuccess,
+  },
   data() {
     return {
       cart: [],
+      address: [],
+      info: {},
       total: "",
+      isAlertSuccess: false,
+      isAlertError: false,
+      messageError: null,
+      messageSuccess: null,
+      isShow: false,
+      FNameModal: "",
+      FurnitureIdModal: "",
+      furnitureOrder: [],
+      order: {},
+      modalType: "",
+      isCartId: "",
+      cartIdList: [],
     };
   },
   created() {
     this.getCart();
+    this.getInfor();
+    this.getAddress();
+    this.getInfor();
+    this.getAddress();
   },
   methods: {
     async getCart() {
@@ -231,20 +566,108 @@ export default {
         console.error(error);
       }
     },
+    async getAddress() {
+      try {
+        const response = await axios.get("user/customer-infor/address");
+        this.address = response.data;
+        console.log(this.address);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getInfor() {
+      try {
+        const response = await axios.get("user/detail");
+        this.info = response.data;
+        this.isEditPhone = true;
+      } catch (error) {
+        console.error(error);
+      }
+    },
     totalPrice(furniture) {
       const price = furniture.cost * furniture.quantity;
       this.total = price;
     },
+    handleCartId(furniture) {
+      if (furniture.isSelected) {
+        this.furnitureOrder.push(furniture.furnitureId);
+        this.cartIdList.push(furniture.cartDetailId);
+      } else {
+        this.furnitureOrder.splice(furniture);
+        this.cartIdList.splice(furniture);
+      }
+      // console.log(this.furnitureOrder);
+      console.log(this.cartIdList);
+    },
+    opentModal(type) {
+      this.modalType = type;
+    },
+    async HandleCheckout() {
+      this.opentModal("order");
+      this.cartId = "";
+      for (let i = 0; i < this.cartIdList.length; i++) {
+        if (i === this.cartIdList.length) {
+          this.cartId = this.cartId.concat(`cartIdList=${this.cartIdList[i]}`);
+        } else {
+          this.cartId = this.cartId.concat(`cartIdList=${this.cartIdList[i]}&`);
+        }
+      }
+      try {
+        const response = await axios.get(
+          `customer/checkout-via-cart?${this.cartId}`
+        );
+        if (response.status == 200) {
+          this.order = response.data;
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async removeCart(furniture) {
       try {
         const response = await axios.delete(
-          "customer/cart/remove/" + furniture.furnitureSpecificationId
+          "customer/cart/remove/" + furniture.furnitureSpecificationName
         );
         if (response.status === 200) {
-          alert("Remove furniture from cart successfully");
+          // this.isShow = false;
+          this.isAlertSuccess = true;
+          this.messageSuccess = "Delete successfull";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 5000);
+          this.getCart();
         }
       } catch (error) {
-        console.error(error.response.data.message);
+        this.isAlertError = true;
+        this.messageError = "Delete Error";
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 5000);
+        console.error(error);
+      }
+    },
+    closeModal() {
+      this.isShow = false;
+    },
+    async HandleOrder(order) {
+      const itemsArray = order.items.map((item) => ({
+        itemId: item.furnitureSpecificationId,
+        quantity: item.quantity,
+      }));
+      try {
+        const response = await axios.post("customer/order", {
+          addressId: 22,
+          paymentId: this.paymentId,
+          usedPoint: this.userpoint,
+          note: this.note,
+          items: itemsArray,
+        });
+        if (response.data !== null) {
+          this.paymentOline = response.data;
+          window.location.href = this.paymentOline;
+        }
+      } catch (error) {
+        console.error(error);
       }
     },
   },
@@ -307,7 +730,8 @@ a {
   margin-top: 2.5rem;
 }
 h5 {
-  margin-top: 2vh;
+  font-weight: 500;
+  font-size: 14px;
 }
 hr {
   margin-top: 1.25rem;
@@ -317,11 +741,12 @@ form {
 }
 select {
   border: 1px solid rgba(0, 0, 0, 0.137);
-  padding: 1.5vh 1vh;
+  padding: 1vh 1vh;
   margin-bottom: 4vh;
   outline: none;
   width: 100%;
-  background-color: rgb(247, 247, 247);
+  background-color: rgb(238 238 243 / 58%);
+  border: none;
 }
 input {
   border: 1px solid rgba(0, 0, 0, 0.137);
@@ -365,18 +790,18 @@ a:hover {
 
 /* new */
 h3 {
-  font-size: 16px;
+  font-size: 17px;
   margin-left: -6px;
 }
 .text-navy {
-  color: #1ab394;
+  color: #d19215;
 }
 .cart-product-imitation {
   text-align: center;
-  padding-top: 30px;
   height: 80px;
   width: 80px;
   background-color: #f8f8f9;
+  margin-right: 12px;
 }
 .product-imitation.xl {
   padding: 120px 0;
@@ -402,14 +827,10 @@ table.shoping-cart-table {
 }
 table.shoping-cart-table tr td {
   border: none;
-  text-align: right;
 }
 table.shoping-cart-table tr td.desc,
 table.shoping-cart-table tr td:first-child {
   text-align: left;
-}
-table.shoping-cart-table tr td:last-child {
-  width: 80px;
 }
 .ibox {
   clear: both;
@@ -454,5 +875,28 @@ table.shoping-cart-table tr td:last-child {
   font-size: 90%;
   background: #ffffff;
   padding: 10px 15px;
+}
+
+.label_point {
+  margin-top: -14px;
+}
+.point {
+  margin-top: -6px;
+}
+.label_payment {
+  font-size: 14px;
+  font-weight: 600;
+}
+.form-control.point_input {
+  margin-top: -10px;
+  height: 28px;
+  width: 65px;
+}
+.form-control {
+  background-color: rgb(238 238 243 / 58%);
+  border: none;
+}
+.input_point {
+  width: 17.7em;
 }
 </style>
