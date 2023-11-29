@@ -13,7 +13,7 @@
     </nav>
   </div>
   <div @mouseover="HandleHeader">
-    <div class="px-3 pt-40">
+    <div class="px-3 pt-4">
       <!-- <div class="filter_category w-12/12 pb-4"></div> -->
       <div class="flex gap-x-5">
         <div class="flex-none w-96">
@@ -75,7 +75,7 @@
             </ul>
           </div>
           <div class="flex flex-cols-2 gap-x-4 mt-3">
-            <form class="form">
+            <!-- <form class="form">
               <label for="search" class="mt-2">
                 <input
                   required=""
@@ -128,7 +128,7 @@
                   </svg>
                 </button>
               </label>
-            </form>
+            </form> -->
           </div>
           <div class="tab-content" id="nav-tabContent">
             <div
@@ -270,7 +270,7 @@
         </div>
         <div class="grow z-0">
           <div class="dropdown">
-            <button
+            <!-- <button
               class="dropdown-toggle text-black text-base font-medium"
               type="button"
               id="dropdownMenuButton1"
@@ -278,7 +278,7 @@
               aria-expanded="false"
             >
               Backgrounds Category
-            </button>
+            </button> -->
             <!-- <div class="flex gap-x-4">
               <Button
                 @click.prevent="HandlePlus"
@@ -296,7 +296,7 @@
                 <i class="bi bi-arrow-clockwise"></i>
               </Button>
             </div> -->
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <!-- <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
               <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <li
                   class="dropdown-item nav-link active"
@@ -335,7 +335,7 @@
                   Livingroom 2
                 </li>
               </div>
-            </ul>
+            </ul> -->
           </div>
           <div class="tab-content mt-3" id="nav-tabContent">
             <div
@@ -344,12 +344,6 @@
               role="tabpanel"
               aria-labelledby="nav-home-tab"
             >
-              <!-- <img
-              src="@/assets/images/mix/bg-bedroom.jpg"
-              alt="background"
-              class="box"
-            /> -->
-
               <div
                 class="box rotate-0"
                 @dragover.prevent="onDragover"
@@ -357,8 +351,7 @@
                 @dragleave="onDragleave"
               ></div>
             </div>
-
-            <div
+            <!-- <div
               class="tab-pane fade"
               id="nav-profile"
               role="tabpanel"
@@ -379,7 +372,7 @@
                 src="@/assets/images/mix/bg_livingrom2.jpg"
                 alt="background"
               />
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -389,6 +382,8 @@
 <script>
 export default {
   name: "App",
+
+  components: {},
   data() {
     return {
       furnitures: [

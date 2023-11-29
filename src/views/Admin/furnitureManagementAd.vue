@@ -647,7 +647,6 @@
                           <select
                             v-if="collections.length"
                             v-model="collectIdModal"
-                            required
                             class="form-select text-sm"
                             aria-label="Default select example"
                           >
@@ -673,7 +672,6 @@
                             v-if="labels.length"
                             v-model="labelModal"
                             class="form-select text-sm"
-                            required
                             aria-label="Default select example"
                           >
                             <option selected>{{ labelModal }}</option>
@@ -696,7 +694,6 @@
                             class="form-select text-sm"
                             aria-label="Default select example"
                             v-model="appropriateRoomModal"
-                            required
                           >
                             <option selected>{{ appropriateRoomModal }}</option>
                             <option value="KITCHENT">Kitchen Furniture</option>
@@ -719,7 +716,6 @@
                             v-if="categories.length"
                             v-model="cateIdModal"
                             class="form-select text-sm"
-                            required
                             aria-label="Default select example"
                           >
                             <option selected>{{ cateModal }}</option>

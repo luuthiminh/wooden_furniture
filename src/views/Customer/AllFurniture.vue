@@ -7,7 +7,7 @@
         </alert-success>
       </div>
       <div
-        class="grid grid-cols-4 gap-4 max-sm:grid-cols-2 max-md:grid-cols-2 max-lg:px-10"
+        class="grid grid-cols-4 gap-4 max-sm:grid-cols-2 max-md:grid-cols-2 max-lg:px-10 max-sm:px-2"
       >
         <div
           class="product"
@@ -77,7 +77,7 @@
                       data-toggle="modal"
                       data-target="#exampleModalLong"
                       data-backdrop="false"
-                      class="px-4 py-1 text-white ring-offset-2 ring-2 bg-slate-600 hover:ring-slate-400 ml-2 my-2 rounded-md max-lg:w-56 w-40"
+                      class="px-4 py-1 text-white ring-offset-2 ring-2 bg-slate-600 hover:ring-slate-400 ml-2 my-2 rounded-md max-lg:w-56 w-40 max-sm:w-32"
                     >
                       Buy now
                     </button>
@@ -173,7 +173,12 @@
                                 <span>{{ fur.wood }}</span>
                               </div>
                               <br />
-                              <div>
+                              <div v-if="fur.available === 0">
+                                <span class="text-red-500 font-medium">
+                                  This furnitrue out of stock!</span
+                                >
+                              </div>
+                              <div v-else>
                                 <label
                                   for="exampleInputEmail1"
                                   class="text-sm form-label font-semibold mt-2"
@@ -228,7 +233,7 @@
                       </template>
                       <template v-slot:body>
                         <div class="mt-1 mb-2" v-if="order">
-                          <div class="bg-white rounded-md px-3 py-2">
+                          <div class="bg-white rounded-md px-3 py-2 text-left">
                             <span
                               class="text-red-600 font-medium text-sm text-left"
                               ><i class="fa-solid fa-location-dot"></i>
@@ -237,7 +242,7 @@
                             <br />
                             <div class="py-2 flex gap-x-4">
                               <span
-                                v-if="!adChange"
+                                v-if="adChange"
                                 class="font-semibold text-sm"
                                 >{{ order.deliveryAddress }}
                               </span>

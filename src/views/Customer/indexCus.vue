@@ -1905,6 +1905,12 @@ header::before {
   .hot_news .grid.grid-cols-3 {
     display: block;
   }
+  .header_scroll {
+    display: none;
+  }
+  header {
+    height: 30em;
+  }
 }
 /*Tablet: width>=740px and width < 1024px*/
 @media only screen and (min-width: 46.25em) and (max-width: 63.9375em) {

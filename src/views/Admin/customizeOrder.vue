@@ -181,6 +181,7 @@
                         class="form-select form-select-sm"
                         aria-label=".form-select-sm example"
                         v-model="status"
+                        required
                       >
                         <option selected>Choose status</option>
                         <option value="Accepted">Accepted</option>

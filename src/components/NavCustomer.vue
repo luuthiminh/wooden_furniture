@@ -1,8 +1,6 @@
 <template>
   <navigation />
-  <nav
-    class="border-2 border-yellow-700 text-right clearfix max-sm:hidden font-medium"
-  >
+  <nav class="text-right max-sm:hidden font-medium">
     <ul class="flex gap-x-7 items-center">
       <router-link
         to="/customerIndex"

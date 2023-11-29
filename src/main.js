@@ -7,6 +7,7 @@ import axios from "axios";
 import store from "./store";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import drie from "@janvorisek/drie";
 
 window.axios = axios;
 
@@ -28,7 +29,7 @@ axios.defaults.headers.common["Authorization"] =
 const app = createApp(App);
 registerGlobalComponents(app);
 
-app.use(router).use(store);
+app.use(router).use(store).use(drie);
 app.use(ViewUIPlus, {
   locale,
 });

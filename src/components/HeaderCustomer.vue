@@ -25,9 +25,7 @@
             </div>
           </div>
         </div>
-        <nav
-          class="border-2 border-yellow-700 grid__item large--eight-twelfths text-right clearfix"
-        >
+        <nav class="grid__item text-right">
           <div class="flex">
             <ul class="flex gap-x-9">
               <router-link

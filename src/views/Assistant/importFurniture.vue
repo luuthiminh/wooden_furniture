@@ -158,6 +158,7 @@
                       class="form-control border-none bg-neutral-100"
                       id="firstname"
                       aria-describedby="firstnameHelp"
+                      required
                     />
                   </div>
                 </div>
@@ -170,6 +171,7 @@
                       class="form-control border-none bg-neutral-100"
                       id="firstname"
                       aria-describedby="firstnameHelp"
+                      required
                     />
                   </div>
                 </div>
@@ -182,6 +184,7 @@
                       class="form-control border-none bg-neutral-100"
                       id="firstname"
                       aria-describedby="firstnameHelp"
+                      required
                     />
                   </div>
                 </div>
