@@ -1908,9 +1908,6 @@ header::before {
   .header_scroll {
     display: none;
   }
-  header {
-    height: 30em;
-  }
 }
 /*Tablet: width>=740px and width < 1024px*/
 @media only screen and (min-width: 46.25em) and (max-width: 63.9375em) {
