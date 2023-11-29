@@ -45,12 +45,20 @@
           </router-link>
         </div>
       </li>
-      <li class="flex gap-x-2" :style="{ width: !isShowTab ? '91%' : '10%' }">
-        <router-link to="/TemporaryCart" style="text-decoration: none"
-          ><i class="bi bi-bell cursor-pointer text-xl text-amber-950"></i>
-          <sup class="px-1 bg-red-600 rounded-full text-white">2 </sup>
-        </router-link>
-        <p class="text-sm flex items-center text-amber-950">Notifications</p>
+      <li @click.prevent="handelBell" class="flex items-center gap-x-1 ml-3">
+        <div class="bi bi-bell cursor-pointer text-sm flex">
+          <sup v-if="notifications.length"
+            ><span class="relative flex h-2 w-2">
+              <span
+                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"
+              ></span>
+              <span
+                class="relative inline-flex rounded-full h-2 w-2 bg-sky-500"
+              ></span>
+            </span>
+          </sup>
+        </div>
+        <small class="text-xs">Notifications</small>
       </li>
       <li
         class="flex gap-x-2 items-center"
@@ -62,7 +70,7 @@
         ></i>
         <p class="text-sm flex items-center text-amber-950">Logout</p>
       </li>
-      <li v-if="isLogin" class="ml-10 max-sm:hidden max-md:hidden">
+      <li v-if="isLogin" class="ml-52 max-sm:hidden max-md:hidden">
         <router-link to="/">
           <button
             class="transition ease-in-out delay-150 px-2 py-1 font-medium text-white hover:ring-offset-2 hover:ring-2 bg-yellow-700 hover:ring-yellow-600 text-sm rounded-md flex"
@@ -71,17 +79,42 @@
           </button>
         </router-link>
       </li>
-      <li v-if="isLogin" class="ml-3 mr-10 max-sm:hidden max-md:hidden">
-        <router-link to="/register">
-          <button
-            class="transition ease-in-out delay-150 px-2 py-1 font-medium text-white hover:ring-offset-2 hover:ring-2 bg-yellow-700 hover:ring-yellow-600 text-sm rounded-md flex"
-          >
-            Register
-          </button>
-        </router-link>
-      </li>
     </ul>
-
+    <div v-if="isBell">
+      <div v-if="notifications.length">
+        <div
+          class="w-96 bg-white float-right z-10 border border-1-black mr-4 rounded-md shadow-lg mt-16"
+        >
+          <div
+            class="noti pl-4 font-semibold text-lg text-center py-2 bg-slate-50"
+          >
+            Notifications ({{ notifications.length }})
+          </div>
+          <div
+            v-for="(notification, index) in notifications"
+            :key="index"
+            class="bell p-4 max-w-sm mx-auto bg-white flex items-center space-x-4"
+          >
+            <div class="shrink-0">
+              <img
+                class="h-12 w-12"
+                src="@/assets/images/logo.png"
+                alt="Logo"
+              />
+            </div>
+            <div>
+              <div class="text-base font-medium text-black">
+                {{ notification.title }}
+              </div>
+              <p class="text-slate-500 text-sm py-2">
+                {{ notification.content }}
+              </p>
+              <span class="text-xs">{{ notification.date }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- <div
       @click.prevent="OpenNavBar(nav)"
       class="absolute items-center top-5 my-2 right-3 hidden border border-1 border-solid-yellow-950 rounded-md hover:bg-slate-200 cursor-pointer ring-1 ring-yellow-600 max-sm:block max-md:block bg-yellow-900 text-white opacity-90 z-10"
@@ -263,7 +296,7 @@
   </header>
   <div class="content">
     <div class="flex flex-cols-10">
-      <div class="col-span-3 fixed max-sm:hidden max-md:hidden">
+      <div class="col-span-3 fixed max-sm:hidden max-md:hidden z-1">
         <div class="flex flex-cols-2">
           <nav class="col-span-1 nav shadow-md">
             <div class="user">
@@ -507,11 +540,7 @@
                             >Import material</router-link
                           >
                         </li>
-                        <li>
-                          <router-link to="/importMaterial"
-                            >Export material</router-link
-                          >
-                        </li>
+
                         <li>
                           <router-link to="/historyMaterialRepo"
                             >History repositories material</router-link
@@ -549,17 +578,16 @@
 </template>
 <script>
 import axios from "axios";
-// import NotificationSuccess from "@/components/NotificationSuccess.vue";
+import { format } from "date-fns";
 export default {
-  components: {
-    // NotificationSuccess,
-  },
+  components: {},
   data() {
     return {
       isShowTab: true,
       isLogin: false,
       type: null,
-      announcements: [],
+      notifications: [],
+      isBell: false,
     };
   },
   created() {
@@ -568,7 +596,6 @@ export default {
   },
   methods: {
     toggleShowTab() {
-      console.log("Phương thức toggleShowTab được gọi.");
       this.isShowTab = !this.isShowTab;
       console.log(this.isShowTab);
     },
@@ -577,10 +604,11 @@ export default {
       this.$router.push({ name: "login" });
     },
     checkLogin() {
-      if (localStorage.getItem("token") !== "") {
-        this.isLogin = true;
-      } else {
+      if (localStorage.getItem("token") == "") {
         this.isLogin = false;
+        this.$router.push({ name: "login" });
+      } else {
+        this.isLogin = true;
       }
     },
     OpenNavBar(nav) {
@@ -596,10 +624,20 @@ export default {
         this.$router.push("dashboardAssistant");
       }, 7000);
     },
+    handelBell() {
+      this.isBell = !this.isBell;
+    },
     async getAnnouncements() {
       try {
         const response = await axios.get("assistant/announcements");
-        this.announcements = response.data;
+        this.notifications = response.data;
+        if (response.status === 200) {
+          this.notifications = response.data;
+          this.notifications = this.notifications.map((noti) => ({
+            ...noti,
+            date: format(new Date(noti.date), "dd/MM/yyyy"),
+          }));
+        }
       } catch (error) {
         console.error(error);
       }

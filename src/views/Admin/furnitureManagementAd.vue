@@ -31,7 +31,7 @@
         </div>
 
         <div class="flex flex-cols-2 gap-x-3">
-          <div
+          <!-- <div
             class="dropdown bg-orange-50 shadow-lg bg-orange-100/50 px-2 py-2 rounded-lg"
           >
             <button
@@ -69,7 +69,7 @@
                 <a class="dropdown-item font-medium" href="#">Old User</a>
               </li>
             </ul>
-          </div>
+          </div> -->
           <div class="new member">
             <div
               class="dropdown bg-orange-50 shadow-lg bg-orange-100/50 px-2 py-2 rounded-lg"
@@ -117,7 +117,7 @@
                     >Image</label
                   >
                   <img v-if="url" :src="url" alt="image" class="w-6/12" />
-                  <label v-else class="custum-file-upload" for="file">
+                  <label v-else class="custum-file-upload" for="imageUpload">
                     <div class="icon">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -143,8 +143,25 @@
                     <div class="text">
                       <span>Click to upload image</span>
                     </div>
-                    <input type="file" id="file" @change="onFileChange" />
+                    <!-- <input type="file" id="file" @change="onFileChange" /> -->
                   </label>
+                  <div class="avatar_edit">
+                    <div class="hidden">
+                      <input
+                        type="file"
+                        name="avatar"
+                        id="imageUpload"
+                        accept=".png, .jpg, .jpeg"
+                        :maxFileSize="1000000"
+                        ref="file"
+                        @change="onFileChange"
+                      />
+                    </div>
+                    <label
+                      class="bi bi-pencil text-xs"
+                      for="imageUpload"
+                    ></label>
+                  </div>
                 </div>
                 <div>
                   <label for="exampleInputEmail1" class="form-label font-medium"
@@ -186,7 +203,7 @@
                       class="form-select text-sm"
                       aria-label="Default select example"
                     >
-                      <option selected>Choose label</option>
+                      <option selected>Choose Collection</option>
                       <option
                         v-for="co in collections"
                         :key="co.collectionId"
@@ -227,11 +244,15 @@
                     <select
                       class="form-select text-sm"
                       aria-label="Default select example"
-                      v-model="appropriateRoom"
+                      v-model="appropriateRoomModal"
                     >
-                      <option selected>Choose room</option>
-                      <option value="Bed Room">Bed Room</option>
-                      <option value="Hot Sale">Hot Sale</option>
+                      <option selected>{{ appropriateRoomModal }}</option>
+                      <option value="KITCHENT">Kitchen Furniture</option>
+                      <option value="LIVINGROOM">Living Room Furniture</option>
+                      <option value="BEROOM">Bedroom Furniture</option>
+                      <option value="WORSHIPROOM">
+                        Worship Room Furniture
+                      </option>
                     </select>
                   </div>
                   <div class="mt-3">
@@ -262,6 +283,7 @@
             <template v-slot:footer>
               <div
                 class="bg-yellow-900 rounded-md"
+                data-dismiss="modal"
                 @click.prevent="HandleAddFurniture"
               >
                 <span type="button" class="btn text-white"> Add </span>
@@ -275,7 +297,7 @@
       >Click on the furniture name to view the furniture specification</span
     >
     <div v-if="furnitures.length">
-      <div class="content_table pt-6 px-6 scroll">
+      <div class="content_table pt-6 px-6 scroll pb-16">
         <div class="py-4">
           <table
             class="table table-borderless text-yellow-950 font-medium text-center"
@@ -283,7 +305,7 @@
             <thead>
               <tr class="text-sm text-center">
                 <th scope="col">Furniture</th>
-                <th></th>
+                <!-- <th></th> -->
                 <th scope="col">Collection</th>
                 <th scope="col">Label</th>
                 <th scope="col">Sold</th>
@@ -296,9 +318,9 @@
             </thead>
             <tbody>
               <tr v-for="f in furnitures" :key="f.furnitureId">
-                <td class="img">
+                <!-- <td class="img">
                   <img :src="f.image" alt="image furniture" />
-                </td>
+                </td> -->
 
                 <td class="text-start">
                   <router-link
@@ -498,8 +520,14 @@
                           v-model="appropriateRoomModal"
                         >
                           <option selected>{{ appropriateRoomModal }}</option>
-                          <option value="Bed Room">Bed Room</option>
-                          <option value="Hot Sale">Hot Sale</option>
+                          <option value="KITCHENT">Kitchen Furniture</option>
+                          <option value="LIVINGROOM">
+                            Living Room Furniture
+                          </option>
+                          <option value="BEROOM">Bedroom Furniture</option>
+                          <option value="WORSHIPROOM">
+                            Worship Room Furniture
+                          </option>
                         </select>
                       </div>
                       <div class="mt-3">
@@ -523,6 +551,7 @@
                   <template v-slot:footer>
                     <div
                       class="bg-yellow-900 rounded-md"
+                      data-dismiss="modal"
                       @click.prevent="HandleUpdate"
                     >
                       <span type="button" class="btn text-white"> Update </span>
@@ -600,7 +629,7 @@
                         >
                         <input
                           v-model="priceModal"
-                          type="text"
+                          type="number"
                           class="form-control"
                           id="exampleInputEmail1"
                           aria-describedby="emailHelp"
@@ -618,6 +647,7 @@
                           <select
                             v-if="collections.length"
                             v-model="collectIdModal"
+                            required
                             class="form-select text-sm"
                             aria-label="Default select example"
                           >
@@ -643,6 +673,7 @@
                             v-if="labels.length"
                             v-model="labelModal"
                             class="form-select text-sm"
+                            required
                             aria-label="Default select example"
                           >
                             <option selected>{{ labelModal }}</option>
@@ -665,34 +696,19 @@
                             class="form-select text-sm"
                             aria-label="Default select example"
                             v-model="appropriateRoomModal"
+                            required
                           >
                             <option selected>{{ appropriateRoomModal }}</option>
-                            <option value="Bed Room">Bed Room</option>
-                            <option value="Hot Sale">Hot Sale</option>
-                          </select>
-                        </div>
-                        <!-- <div class="mt-3">
-                          <label
-                            for="exampleInputEmail1"
-                            class="form-label font-medium"
-                            >Category</label
-                          >
-                          <select
-                            v-if="categories.length"
-                            v-model="cateId"
-                            class="form-select text-sm"
-                            aria-label="Default select example"
-                          >
-                            <option selected>{{ cateModal }}</option>
-                            <option
-                              v-for="ca in categories"
-                              :key="ca.categoryId"
-                              :value="ca.categoryId"
-                            >
-                              {{ ca.cateModal }}
+                            <option value="KITCHENT">Kitchen Furniture</option>
+                            <option value="LIVINGROOM">
+                              Living Room Furniture
+                            </option>
+                            <option value="BEROOM">Bedroom Furniture</option>
+                            <option value="WORSHIPROOM">
+                              Worship Room Furniture
                             </option>
                           </select>
-                        </div> -->
+                        </div>
                         <div class="mt-3">
                           <label
                             for="exampleInputEmail1"
@@ -703,6 +719,7 @@
                             v-if="categories.length"
                             v-model="cateIdModal"
                             class="form-select text-sm"
+                            required
                             aria-label="Default select example"
                           >
                             <option selected>{{ cateModal }}</option>
@@ -721,6 +738,7 @@
                   <template v-slot:footer>
                     <div
                       class="bg-yellow-900 rounded-md"
+                      data-dismiss="modal"
                       @click.prevent="HandleUpdate"
                     >
                       <span type="button" class="btn text-white"> Update </span>
@@ -747,6 +765,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click="HandleDelete"
                       >
                         Delete
@@ -960,7 +979,7 @@ export default {
         setTimeout(() => {
           this.isAlertError = false;
         }, 5000);
-        console.error(error);
+        console.error(error.response.data.message);
       }
     },
   },

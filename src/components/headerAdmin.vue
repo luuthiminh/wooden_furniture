@@ -68,103 +68,169 @@
               </div>
             </template>
             <template v-slot:body>
-              <div class="form justify-center mt-2 px-3">
-                <div class="grid grid-cols-2 gap-x-6">
-                  <div>
-                    <label for="firstname" class="form-label">First Name</label>
-                    <input
-                      v-model="firstName"
-                      type="text"
-                      class="form-control"
-                      id="firstname"
-                      aria-describedby="firstnameHelp"
-                      required
-                    />
+              <div class="form_register">
+                <div class="mb-2 mx-3 max-sm:mx-3 max-lg:mx-2">
+                  <div class="">
+                    <div class="text-red-600 pt-3">{{ message }}</div>
+                    <!-- </div> -->
+                    <form id="signup-form" @submit.prevent="register">
+                      <div class="form justify-center">
+                        <div class="grid grid-cols-2 gap-x-6">
+                          <div>
+                            <label for="firstname" class="form-label"
+                              >First Name</label
+                            >
+                            <input
+                              v-model="firstName"
+                              type="text"
+                              class="form-control"
+                              id="firstname"
+                              aria-describedby="firstnameHelp"
+                              required
+                            />
+                          </div>
+                          <div>
+                            <label for="lastname" class="form-label"
+                              >Last Name</label
+                            >
+                            <input
+                              v-model="lastName"
+                              type="text"
+                              class="form-control"
+                              id="lastname"
+                              aria-describedby="lastnameHelp"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-x-6 mt-2">
+                          <div>
+                            <label for="gender" class="form-label"
+                              >Gender</label
+                            >
+                            <select
+                              v-model="gender"
+                              class="form-select pl-3"
+                              aria-label="Default select example"
+                              required
+                            >
+                              <option value="">
+                                --Please choose your gender--
+                              </option>
+                              <option value="Male">Male</option>
+                              <option value="Female">Female</option>
+                              <option value="Other">Other</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label for="dob" class="form-label">Dob</label>
+                            <input
+                              v-model="date"
+                              type="date"
+                              class="form-control"
+                              id="dob"
+                              aria-describedby="dobHelp"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div class="mt-2">
+                          <label for="exampleInputEmail1" class="form-label"
+                            >Email address</label
+                          >
+                          <input
+                            v-model="email"
+                            type="email"
+                            class="form-control"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            required
+                            @input="validateEmail"
+                          />
+                          <span v-if="emailError" class="error text-xs">{{
+                            emailError
+                          }}</span>
+                          <span v-else class="success text-xs">{{
+                            emailSuccess
+                          }}</span>
+                        </div>
+                        <div class="mt-2">
+                          <label for="phone" class="form-label">Phone</label>
+                          <input
+                            v-model="phone"
+                            type="text"
+                            class="form-control"
+                            id="phone"
+                            aria-describedby="phonelHelp"
+                            required
+                          />
+                        </div>
+                        <div class="mt-2">
+                          <label for="password" class="form-label"
+                            >Password</label
+                          >
+                          <div class="flex relative">
+                            <input
+                              v-model="password"
+                              :type="[isShowPassword ? 'text' : 'password']"
+                              class="form-control"
+                              id="password"
+                              aria-describedby="passwordHelp"
+                              required
+                              @input="validatePassword"
+                            />
+                            <span
+                              @click="isShowPassword = !isShowPassword"
+                              class="mr-2 absolute right-2 mt-2"
+                            >
+                              <i v-if="isShowPassword" class="bi bi-eye"></i>
+                              <i v-else class="bi bi-eye-slash"></i>
+                            </span>
+                          </div>
+                          <span v-if="passwordError" class="error text-xs">{{
+                            passwordError
+                          }}</span>
+                          <span v-else class="success text-xs">{{
+                            passwordSuccess
+                          }}</span>
+                        </div>
+                      </div>
+                      <div class="flex gap-x-4 py-3">
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="flexRadioDefault"
+                            id="flexRadioDefault1"
+                            v-model="roleId"
+                            value="2"
+                          />
+                          <label
+                            class="form-check-label font-medium text-sm"
+                            for="flexRadioDefault1"
+                          >
+                            Assistant
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="flexRadioDefault"
+                            id="flexRadioDefault2"
+                            v-model="roleId"
+                            value="3"
+                          />
+                          <label
+                            class="form-check-label font-medium text-sm"
+                            for="flexRadioDefault2"
+                          >
+                            Shop Owner
+                          </label>
+                        </div>
+                      </div>
+                    </form>
                   </div>
-                  <div>
-                    <label for="lastname" class="form-label">Last Name</label>
-                    <input
-                      v-model="lastName"
-                      type="text"
-                      class="form-control"
-                      id="lastname"
-                      aria-describedby="lastnameHelp"
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="grid grid-cols-2 gap-x-6 mt-2">
-                  <div>
-                    <label for="gender" class="form-label">Gender</label>
-                    <select
-                      v-model="gender"
-                      class="form-select pl-3"
-                      aria-label="Default select example"
-                      required
-                    >
-                      <option value="">Choose your gender</option>
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                      <option value="Other">Other</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label for="dob" class="form-label">Dob</label>
-                    <input
-                      v-model="date"
-                      type="date"
-                      class="form-control"
-                      id="dob"
-                      aria-describedby="dobHelp"
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="mt-2">
-                  <label for="exampleInputEmail1" class="form-label"
-                    >Email address</label
-                  >
-                  <input
-                    v-model="email"
-                    type="email"
-                    class="form-control"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                    required
-                    @input="validateEmail"
-                  />
-                  <span v-if="emailError" class="error text-xs">{{
-                    emailError
-                  }}</span>
-                  <span v-else class="success text-xs">{{ emailSuccess }}</span>
-                </div>
-                <div class="mt-2">
-                  <label for="phone" class="form-label">Phone</label>
-                  <input
-                    v-model="phone"
-                    type="number"
-                    class="form-control"
-                    id="phone"
-                    aria-describedby="phonelHelp"
-                    required
-                  />
-                </div>
-                <div class="mt-2">
-                  <label for="password" class="form-label">Password</label>
-                  <input
-                    v-model="password"
-                    type="password"
-                    class="form-control"
-                    id="password"
-                    required
-                    @input="validatePassword"
-                  />
-                  <span v-if="passwordError" class="error text-xs">{{
-                    passwordError
-                  }}</span>
-                  <span v-else class="success text-xs">{{
-                    passwordSuccess
-                  }}</span>
                 </div>
               </div>
             </template>
@@ -173,6 +239,7 @@
                 <span
                   type="button"
                   class="btn text-white"
+                  data-dismiss="modal"
                   @click="HandleRegister"
                 >
                   Sign up
@@ -235,6 +302,8 @@ export default {
       lastNameError: "",
       lastNameSuccess: "",
       isShowModal: "",
+      isShowPassword: false,
+      roleId: 2,
     };
   },
   methods: {
@@ -252,8 +321,9 @@ export default {
     },
     async HandleRegister() {
       try {
-        const response = await axios.post("authentication/create-account/3", {
-          userInfor: {
+        const response = await axios.post(
+          "authentication/create-account/" + this.roleId,
+          {
             firstName: this.firstName,
             lastName: this.lastName,
             gender: this.gender,
@@ -262,8 +332,8 @@ export default {
             phoneNumbers: this.phone,
             doB: this.date,
             username: this.email,
-          },
-        });
+          }
+        );
 
         if (response.status === 201) {
           alert("Please confirm the code in your email!");
@@ -389,5 +459,11 @@ li {
 .form-select {
   border: none;
   background-color: #dde4e794;
+}
+.error {
+  color: red;
+}
+.success {
+  color: green;
 }
 </style>

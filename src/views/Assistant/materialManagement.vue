@@ -3,14 +3,14 @@
     <div class="nav">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent text-sm pt-4 ml-4 font-medium">
-          <li class="breadcrumb-item text-sm">
+          <li class="breadcrumb-item text-sm font-semibold">
             <router-link to="/indexAssistant">Home</router-link>
           </li>
-          <li class="breadcrumb-item text-sm active" aria-current="page">
-            Management/Material
-          </li>
-          <li class="breadcrumb-item text-sm active" aria-current="page">
-            All Import
+          <li
+            class="breadcrumb-item text-sm active font-medium"
+            aria-current="page"
+          >
+            Management Material
           </li>
         </ol>
       </nav>
@@ -30,7 +30,7 @@
     <div class="content_table pt-14 px-10 scroll">
       <div class="flex mb-4">
         <div class="flex items-center gap-x-4 text-sm">
-          <p class="font-semibold">Total Woods:</p>
+          <p class="font-semibold">Total Materials:</p>
           {{ materials.length }}
         </div>
         <div class="absolute right-10">
@@ -246,6 +246,7 @@
                                   accept=".png, .jpg, .jpeg"
                                   :maxFileSize="1000000"
                                   ref="file"
+                                  required
                                   @change="onFileChange"
                                 />
                               </div>
@@ -268,6 +269,7 @@
                             class="form-control border-none bg-neutral-100"
                             id="firstname"
                             aria-describedby="firstnameHelp"
+                            required
                           />
                         </div>
                       </div>
@@ -280,6 +282,7 @@
                             class="form-control border-none bg-neutral-100"
                             id="firstname"
                             aria-describedby="firstnameHelp"
+                            required
                           />
                         </div>
                       </div>
@@ -294,6 +297,7 @@
                             class="form-control border-none bg-neutral-100"
                             id="firstname"
                             aria-describedby="firstnameHelp"
+                            required
                           />
                         </div>
                       </div>
@@ -306,6 +310,7 @@
                             class="form-control border-none bg-neutral-100"
                             id="firstname"
                             aria-describedby="firstnameHelp"
+                            required
                           />
                         </div>
                       </div>
@@ -318,6 +323,7 @@
                             class="form-control border-none bg-neutral-100"
                             id="firstname"
                             aria-describedby="firstnameHelp"
+                            required
                           />
                         </div>
                       </div>
@@ -338,6 +344,7 @@
                             v-for="sup in suppliers"
                             :key="sup.supplierId"
                             :value="sup.supplierId"
+                            required
                           >
                             {{ sup.supplierName }}
                           </option>
@@ -351,6 +358,7 @@
                     <span
                       type="button"
                       class="btn text-white"
+                      data-dismiss="modal"
                       @click.prevent="AddMaterial"
                     >
                       Add
@@ -495,6 +503,7 @@
                     <span
                       type="button"
                       class="btn text-white"
+                      data-dismiss="modal"
                       @click.prevent="updateMaterial"
                     >
                       Update
@@ -522,6 +531,7 @@
                     <span
                       type="button"
                       class="btn text-white"
+                      data-dismiss="modal"
                       @click="HandleDelete"
                     >
                       Delete
@@ -578,6 +588,7 @@
                     <span
                       type="button"
                       class="btn text-white"
+                      data-dismiss="modal"
                       @click="HandleExportMaterial(ma)"
                     >
                       Export

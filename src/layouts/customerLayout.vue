@@ -3,12 +3,12 @@
   <div v-show="isNavBar">
     <div class="bg-black h-96 w-32"></div>
   </div>
-  <div v-if="furnitureSearch.length">
+  <!-- <div v-if="furnitureSearch.length">
     <search-result :furnitureSearch="furnitureSearch"></search-result>
-  </div>
-  <div v-else>
-    <slot />
-  </div>
+  </div> -->
+  <!-- <div v-else> -->
+  <slot />
+  <!-- </div> -->
   <footer>
     <div class="footer w-full">
       <div class="background w-full">
@@ -77,22 +77,17 @@
   </footer>
 </template>
 <script>
-import axios from "axios";
-import SearchResult from "../views/Customer/searchResult.vue";
+// import axios from "axios";
 import HeaderCus from "@/components/HeaderCustomer.vue";
 
 export default {
   components: {
     HeaderCus,
-    SearchResult,
   },
   data() {
-    const lang = localStorage.getItem("lang") || "en";
     return {
       keyword: "",
       furnitureSearch: [],
-      lang: lang,
-      // isBell: false,
       notifications: [],
     };
   },
@@ -100,23 +95,23 @@ export default {
     // this.getAllAnnouncements();
   },
   methods: {
-    async search() {
-      try {
-        const response = await axios.get(
-          "customer/furnitures/search?keyword=" + this.keyword
-        );
-        if (response.status === 200) {
-          this.furnitureSearch = response.data;
-        }
-      } catch (error) {
-        console.error(error);
-        // alert("Furniture not found!");
-      }
-    },
-    clear() {
-      this.keyword = "";
-      this.furnitureSearch = "";
-    },
+    // async search() {
+    //   try {
+    //     const response = await axios.get(
+    //       "customer/furnitures/search?keyword=" + this.keyword
+    //     );
+    //     if (response.status === 200) {
+    //       this.furnitureSearch = response.data;
+    //     }
+    //   } catch (error) {
+    //     console.error(error);
+    //     // alert("Furniture not found!");
+    //   }
+    // },
+    // clear() {
+    //   this.keyword = "";
+    //   this.furnitureSearch = "";
+    // },
     handleChange(event) {
       localStorage.setItem("lang", event.target.value);
       window.location.reload();

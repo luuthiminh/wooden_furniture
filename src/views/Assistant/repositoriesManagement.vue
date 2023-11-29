@@ -3,9 +3,9 @@
     <div class="nav">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent text-sm pt-4 px-4">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item font-semibold"><a href="#">Home</a></li>
 
-          <li class="breadcrumb-item active" aria-current="page">
+          <li class="breadcrumb-item active font-medium" aria-current="page">
             Reponsitory Management
           </li>
         </ol>
@@ -43,7 +43,7 @@
         <div class="absolute right-10 flex gap-x-10">
           <a
             style="text-decoration: none"
-            href="https://landlstore.azurewebsites.net/api/assistant/warehouse/repositories/material-repositories-history/to-csv"
+            href="https://landlstore.azurewebsites.net/api/assistant/warehouse/repositories/material-repository-history/to-csv"
             class="download-button"
           >
             <div class="docs">
@@ -88,7 +88,7 @@
           </a>
           <a
             style="text-decoration: none"
-            href="https://landlstore.azurewebsites.net/api/assistant/warehouse/repositories/furniture-repositories/history/to-csv"
+            href="https://landlstore.azurewebsites.net/api/assistant/warehouse/repositories/furniture-repository-history/to-csv"
             class="download-button"
           >
             <div class="docs">
@@ -136,7 +136,6 @@
             class="button_add ring-offset-2 ring-2 bg-lime-700 ring-lime-300 hover:ring-lime-600 text-sm rounded-md"
             data-toggle="modal"
             data-target="#exampleModalLong"
-            data-dismiss="modal"
             data-backdrop="false"
             @click="opentModal('add', 'null')"
           >
@@ -204,7 +203,6 @@
                       type="button"
                       data-toggle="modal"
                       data-target="#exampleModalLong"
-                      data-dismiss="modal"
                       data-backdrop="false"
                       @click="opentModal('material', re)"
                     >
@@ -343,6 +341,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click="HandleAdd"
                       >
                         Add
@@ -439,6 +438,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click.prevent="HandleImportMaterial"
                       >
                         Add
@@ -471,6 +471,7 @@
                               class="form-select"
                               aria-label="Default select example"
                               v-model="furId"
+                              @change="handleFurnitureSpecification"
                             >
                               <option selected class="font-medium">
                                 Choose furniture
@@ -481,6 +482,30 @@
                                 :value="fur.furnitureId"
                               >
                                 {{ fur.furnitureName }}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="row mb-6">
+                          <label class="col-lg-4 col-form-label fw-medium"
+                            >Furniture Specification</label
+                          >
+                          <div class="col-lg-8">
+                            <select
+                              v-if="furnitures.length"
+                              class="form-select"
+                              aria-label="Default select example"
+                              v-model="furId"
+                            >
+                              <option selected class="font-medium">
+                                Choose Furniture Specification
+                              </option>
+                              <option
+                                v-for="furSpe in furnitureSpe"
+                                :key="furSpe.furnitureSpecificationId"
+                                :value="furSpe.furnitureSpecificationId"
+                              >
+                                {{ furSpe.furnitureSpecificationName }}
                               </option>
                             </select>
                           </div>
@@ -535,6 +560,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click.prevent="HandleImportFurniture"
                       >
                         Import
@@ -606,6 +632,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click="HandleExportMaterial(re)"
                       >
                         Export
@@ -639,6 +666,7 @@ export default {
       reponsitories: [],
       materials: [],
       furnitures: [],
+      furnitureSpe: [],
       modalType: null,
       nameRepoModal: null,
       idRepoModal: null,
@@ -817,6 +845,16 @@ export default {
         console.error(error);
       }
     },
+    async handleFurnitureSpecification() {
+      try {
+        const response = await axios.get(
+          "shopOwner/shop-data/furniures/" + this.furId
+        );
+        this.furnitureSpe = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
   },
 };
 </script>
@@ -974,11 +1012,11 @@ tabel {
   padding: 0 7px;
   border-radius: 4px;
   z-index: 1;
-  background-color: #ab7442;
-  border: solid 1px #e8e8e82d;
+  background-color: white;
+  border: solid 2px #a157122d;
   transition: all 0.5s cubic-bezier(0.77, 0, 0.175, 1);
   font-size: 13px;
-  color: white;
+  color: #39230b;
 }
 
 .download-button:hover {

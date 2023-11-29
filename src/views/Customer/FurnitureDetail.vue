@@ -2,12 +2,13 @@
   <div class="content_detail pt-36">
     <div class="nav pb-3 mb-2">
       <nav aria-label="breadcrumb">
-        <ol class="flex bg-none text-xs max-sm:pl-3 pl-28">
-          <li class="breadcrumb-item">
+        <ol class="breadcrumb flex bg-none ml-28 max-sm:ml-3 max-md:ml-4">
+          <li class="breadcrumb-item font-semibold text-yellow-950">
             <router-link to="customerIndex">Home</router-link>
           </li>
-          <li class="breadcrumb-item">
-            <router-link to="#">All Product</router-link>
+
+          <li class="breadcrumb-item active font-medium" aria-current="page">
+            Furnitrue Detail
           </li>
         </ol>
       </nav>
@@ -28,7 +29,7 @@
             <div class="img_product border-4 border-indigo-600 w-10/12">
               <img
                 class="px-3 py-3 pl-3"
-                src="@/assets/images/category/shelves_tv/shelves_11.png"
+                src="@/assets/images/category/bed/bed_8.png"
                 alt="product1"
               />
               <div class="image_all px-3 py-3">
@@ -48,12 +49,13 @@
                               <div
                                 class="border border-1 border-gray-900 px-2 py-2"
                               >
-                                <img
-                                  class=""
-                                  src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                  alt=""
-                                />
-                                <!-- {{ furnitureFrist.image }} -->
+                                <div v-for="im in furniture.images" :key="im">
+                                  <img
+                                    :src="im.path"
+                                    alt="furniture"
+                                    class="w-20"
+                                  />
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -555,8 +557,8 @@
         </div>
         <div class="content_item rounded-md px-3 py-3 mt-4">
           <div class="grid grid-cols-2 gap-x-44 w-full">
-            <p class="font-semibold">1 comment</p>
-            <div class="flex flex-cols-2 float-right pl-96">
+            <p class="font-semibold">1 feedback</p>
+            <!-- <div class="flex flex-cols-2 float-right pl-96">
               <span class="pr-3">Filters </span>
               <div class="dropdown">
                 <button
@@ -571,7 +573,7 @@
                   <li><a href="#">Oldest</a></li>
                 </ul>
               </div>
-            </div>
+            </div> -->
           </div>
           <div class="h-px w-full bg-slate-200 mt-2"></div>
           <div class="grid grid-cols-12 mt-3">
@@ -597,7 +599,7 @@
               <router-link to="/profileCusPage" style="text-decoration: none"
                 ><img
                   class="rounded-full w-14"
-                  src="https://ordinaryofficial.vn/wp-content/uploads/2022/12/con-gai-han-quoc.jpg"
+                  src="@/assets/images/avatar.jpg"
                   alt="avatar"
               /></router-link>
             </div>
@@ -608,11 +610,16 @@
               <span class="text-xs">10:10AM</span>
             </div>
           </div>
+          <img
+            class="rounded-md w-24 ml-24"
+            src="@/assets/images/category/bed/bed_8.png"
+            alt="avatar"
+          />
           <div class="h-px w-full bg-slate-200 mt-2"></div>
         </div>
       </div>
     </div>
-    <div class="more product mt-14 mx-32 max-sm:mx-3">
+    <!-- <div class="more product mt-14 mx-32 max-sm:mx-3">
       <h1 class="text-center font-semibold text-2xl mb-4 max-sm:text-xl">
         More Product
       </h1>
@@ -624,19 +631,19 @@
           <all-furniture :furnitures="furnitures"></all-furniture>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
 import axios from "axios";
-import AllFurniture from "./AllFurniture.vue";
+// import AllFurniture from "./AllFurniture.vue";
 import modal from "@/components/ModalPage.vue";
 import alertError from "@/components/AlertError.vue";
 import alertSuccess from "@/components/AlertSuccess.vue";
 
 export default {
   components: {
-    AllFurniture,
+    // AllFurniture,
     modal,
     alertError,
     alertSuccess,
@@ -977,5 +984,8 @@ hr {
 .moon p,
 .moon i {
   color: #f9f1e4;
+}
+.content_detail {
+  overflow: hidden;
 }
 </style>

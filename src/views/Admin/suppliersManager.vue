@@ -284,7 +284,7 @@
           <thead>
             <tr class="text-sm text-center">
               <th scope="col">Supplier</th>
-              <th></th>
+              <!-- <th></th> -->
               <th scope="col">Address</th>
               <th scope="col">Email</th>
               <th scope="col">Phone</th>
@@ -294,9 +294,9 @@
           </thead>
           <tbody v-for="s in suppliers" :key="s.supplierId">
             <tr>
-              <td class="img">
+              <!-- <td class="img">
                 <img :src="s.suplierImage" alt="suplierImage" class="w-20" />
-              </td>
+              </td> -->
               <td class="text-start">
                 <span class="font-semibold block">{{ s.supplierName }}</span>
                 <span class="text-xs">{{ s.suplierId }}</span>
@@ -304,9 +304,12 @@
               <td>{{ s.supplierAddress }}</td>
               <td>{{ s.suplierEmail }}</td>
               <td>{{ s.suplierPhoneNums }}</td>
-              <td v-for="m in s.materialProvided" :key="m.materialId">
-                {{ m.materialName }}
+              <td>
+                <div v-for="m in s.materialProvided" :key="m.materialId">
+                  {{ m.materialName }}
+                </div>
               </td>
+
               <td class="td_action w-1/12 text-sm">
                 <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
                   <button
@@ -598,7 +601,7 @@
     </div>
     <div v-else class="loader"></div>
   </div>
-  <p class="text-base font-medium mb-5">Total users: 5</p>
+  <p class="text-base font-medium mb-5">Total users: {{ suppliers.length }}</p>
 </template>
 <script>
 import axios from "axios";

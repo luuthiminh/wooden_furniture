@@ -194,12 +194,20 @@
       </div>
       <div class="kitchen grid grid-cols-2 gap-x-4">
         <div class="max-md:mt-14">
-          <img src="@/assets/images/category/k/k_1.png" alt="" />
-          <img src="@/assets/images/category/k/k_2.png" alt="" class="mt-3" />
+          <img src="@/assets/images/category/combo/k_1.png" alt="" />
+          <img
+            src="@/assets/images/category/combo/k_2.png"
+            alt=""
+            class="mt-3"
+          />
         </div>
         <div class="max-md:mt-14">
-          <img src="@/assets/images/category/k/k_3.png" alt="" class="" />
-          <img src="@/assets/images/category/k/k_4.png" alt="" class="mt-3" />
+          <img src="@/assets/images/category/combo/k_3.png" alt="" class="" />
+          <img
+            src="@/assets/images/category/combo/k_4.png"
+            alt=""
+            class="mt-3"
+          />
         </div>
       </div>
     </div>

@@ -65,8 +65,12 @@
                     v-model="password"
                     placeholder="Enter your Password"
                     class="input"
-                    type="password"
+                    :type="[isShowPassword ? 'text' : 'password']"
                   />
+                  <span @click="isShowPassword = !isShowPassword" class="mr-2">
+                    <i v-if="isShowPassword" class="bi bi-eye"></i>
+                    <i v-else class="bi bi-eye-slash"></i>
+                  </span>
                 </div>
                 <div
                   class="grid grid-cols-2 text-xs text-slate-400 mt-3 lg:max-xl:mt-px"
@@ -158,6 +162,7 @@ export default {
       rememberMe: false,
       message: "",
       token: null,
+      isShowPassword: false,
     };
   },
   methods: {

@@ -63,6 +63,16 @@
                 <td>{{ repository.capacity }}</td>
                 <td>{{ repository.isFull }}</td>
                 <td>{{ repository.creationDate }}</td>
+                <td>
+                  <div v-for="im in repository.furnitureRepository" :key="im">
+                    {{ im.furnitureSpecificationName }}
+                  </div>
+                </td>
+                <td>
+                  <div v-for="im in repository.materialRepository" :key="im">
+                    {{ im.materialName }}
+                  </div>
+                </td>
                 <td class="flex gap-x-4">
                   <button
                     class="button_edit ring-offset-2 ring-2 ring-blue-300 hover:ring-blue-600 rounded-md"

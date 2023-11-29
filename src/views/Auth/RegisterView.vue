@@ -1,15 +1,19 @@
 <template>
   <div class="register">
-    <div class="grid grid-cols-2 max-sm:max-lg:block">
+    <div class="grid grid-cols-2 max-sm:max-lg:block bg-gray-50">
       <div class="max-sm:hidden">
         <div class="img">
-          <img src="@/assets/images/store_3.jpg" alt="register information" />
+          <img
+            src="@/assets/images/register.png"
+            alt="register information"
+            class="fixed w-6/12"
+          />
         </div>
       </div>
-      <div class="form_register bg-gray-50">
+      <div class="form_register">
         <div class="mb-20 mx-32 max-sm:mx-3 max-lg:mx-2">
           <div
-            class="bg-white border border-indigo-600 mt-16 px-11 rounded-lg max-sm:px-2"
+            class="bg-white border border-indigo-600 mt-4 px-11 rounded-lg max-sm:px-2"
           >
             <div class="text-red-600 pt-3">{{ message }}</div>
             <!-- </div> -->
@@ -102,15 +106,24 @@
                 </div>
                 <div class="mt-2">
                   <label for="password" class="form-label">Password</label>
-                  <input
-                    v-model="password"
-                    type="password"
-                    class="form-control"
-                    id="password"
-                    aria-describedby="passwordHelp"
-                    required
-                    @input="validatePassword"
-                  />
+                  <div class="flex relative">
+                    <input
+                      v-model="password"
+                      :type="[isShowPassword ? 'text' : 'password']"
+                      class="form-control"
+                      id="password"
+                      aria-describedby="passwordHelp"
+                      required
+                      @input="validatePassword"
+                    />
+                    <span
+                      @click="isShowPassword = !isShowPassword"
+                      class="mr-2 absolute right-2 mt-2"
+                    >
+                      <i v-if="isShowPassword" class="bi bi-eye"></i>
+                      <i v-else class="bi bi-eye-slash"></i>
+                    </span>
+                  </div>
                   <span v-if="passwordError" class="error text-xs">{{
                     passwordError
                   }}</span>
@@ -216,6 +229,7 @@ export default {
       firstNameSuccess: "",
       lastNameError: "",
       lastNameSuccess: "",
+      isShowPassword: false,
     };
   },
   methods: {

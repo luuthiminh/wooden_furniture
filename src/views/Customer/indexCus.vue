@@ -1,8 +1,5 @@
 <template>
-  <div v-if="furnitureSearch.length">
-    <!-- <search-results :furnitureSearch="furnitureSearch"></search-results> -->
-  </div>
-  <div v-else>
+  <div class="index">
     <header @mouseleave="HandleHeader">
       <div class="header_scroll flex text-sm">
         <div class="container-fluid p-0">
@@ -195,7 +192,7 @@
     </header>
     <div class="homepage">
       <content>
-        <div class="mx-64 max-sm:mx-1">
+        <div class="service_all mx-64 max-sm:mx-1">
           <div
             class="service grid grid-cols-3 grid-flow-col h-44 max-h1 shadow-2xl"
           >
@@ -275,11 +272,12 @@
               class="category grid grid-cols-6 max-sm:grid max-sm:grid-cols-2"
             >
               <div class="">
-                <router-link to="" class="relative text-decoration-none">
+                <router-link to="" class="text-decoration-none">
                   <img
+                    @click="HandleCateFurniture"
                     src="@/assets/images/category/wardrobe/wardrobe_7.png"
                     alt="bed"
-                    class="overflow-hidden hover:contrast-125"
+                    class=""
                   />
                 </router-link>
               </div>
@@ -307,9 +305,7 @@
                 </div>
               </div>
               <div class="relative">
-                <router-link
-                  to=""
-                  class="absolute overflow-hidden hover:contrast-125 text-decoration-none"
+                <router-link to="" class="text-decoration-none"
                   ><img
                     src="@/assets/images/category/clock/clock_7.png"
                     alt="clock"
@@ -399,16 +395,14 @@
           </div>
           <div>
             <div class="text-center text-2xl font-bold mt-11 mb-4 relative">
-              <h1 class="crossbar max-sm:text-lg">Hot Product</h1>
+              <h1 class="crossbar max-sm:text-lg">Hot Furniture</h1>
             </div>
             <div class="category_hot_product mb-4">
               <ul class="flex flex-1 justify-center gap-3 font-medium">
-                <li>Desk chair</li>
-                <li>Bed</li>
-                <li>Wardrobe</li>
-                <li>TV Shelf</li>
-                <li>Clock</li>
-                <li>Altar</li>
+                <li>Living Room</li>
+                <li>Bedroom</li>
+                <li>Kitchen</li>
+                <li>Alart Room</li>
               </ul>
             </div>
             <div class="hot_task">
@@ -419,19 +413,120 @@
               </div>
               <div class="customize_furniture">
                 <div class="text-center text-2xl font-bold mt-11 mb-4 relative">
-                  <h1 class="crossbar max-sm:text-lg max-sm:w-8/12">
+                  <h1
+                    class="crossbar max-sm:text-lg max-sm:w-8/12 max-lg:w-8/12"
+                  >
                     Customize Furniture
                   </h1>
                 </div>
                 <div
-                  class="grid grid-cols-2 bg-white border border-indigo-600 rounded-lg max-sm:block max-sm:w-8/12"
+                  class="grid grid-cols-2 bg-white border border-indigo-601 rounded-lg max-sm:block max-sm:w-8/12 max-lg:block max-lg:w-7/12 max-lg:ml-10"
                 >
-                  <div class="img max-sm:hidden">
-                    <img
-                      src="@/assets/images/customize.jpg"
-                      alt="customize"
-                      class="h-full"
-                    />
+                  <div class="img max-sm:hidden max-lg:hidden">
+                    <div
+                      id="carouselExampleCaptions"
+                      class="carousel slide"
+                      data-bs-ride="carousel"
+                    >
+                      <div class="carousel-indicators">
+                        <button
+                          type="button"
+                          data-bs-target="#carouselExampleCaptions"
+                          data-bs-slide-to="0"
+                          class="active"
+                          aria-current="true"
+                          aria-label="Slide 1"
+                        ></button>
+                        <button
+                          type="button"
+                          data-bs-target="#carouselExampleCaptions"
+                          data-bs-slide-to="1"
+                          aria-label="Slide 2"
+                        ></button>
+                        <button
+                          type="button"
+                          data-bs-target="#carouselExampleCaptions"
+                          data-bs-slide-to="2"
+                          aria-label="Slide 3"
+                        ></button>
+                        <button
+                          type="button"
+                          data-bs-target="#carouselExampleIndicators"
+                          data-bs-slide-to="3"
+                          aria-label="Slide 4"
+                        ></button>
+                      </div>
+                      <div class="carousel-inner">
+                        <div class="carousel-item active">
+                          <img
+                            src="@/assets/images/category/living.png"
+                            class="d-block w-100 rounded-md"
+                            alt="livingroom"
+                          />
+                          <div class="carousel-caption d-none d-md-block">
+                            <h5>Livingroom</h5>
+                            <p>The living room where the family gathers..</p>
+                          </div>
+                        </div>
+                        <div class="carousel-item">
+                          <img
+                            src="@/assets/images/category/alat.png"
+                            class="d-block w-100 rounded-md"
+                            alt="alat"
+                          />
+                          <div class="carousel-caption d-none d-md-block">
+                            <h5>Worship room</h5>
+                            <p>Ornamental worship room in design.</p>
+                          </div>
+                        </div>
+                        <div class="carousel-item">
+                          <img
+                            src="@/assets/images/category/bedroom.png"
+                            class="d-block w-100 rounded-md"
+                            alt="bedroom"
+                          />
+                          <div class="carousel-caption d-none d-md-block">
+                            <h5>Bedroom</h5>
+                            <p>The bedroom where you can be yourself.</p>
+                          </div>
+                        </div>
+                        <div class="carousel-item">
+                          <img
+                            src="@/assets/images/category/kitchen.png"
+                            class="d-block w-100"
+                            alt="kitchen"
+                          />
+                          <div class="carousel-caption d-none d-md-block">
+                            <h5>Kitchen</h5>
+                            <p>The kitchen is a loving firehouse..</p>
+                          </div>
+                        </div>
+                      </div>
+                      <button
+                        class="carousel-control-prev"
+                        type="button"
+                        data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="prev"
+                      >
+                        <span
+                          class="carousel-control-prev-icon"
+                          aria-hidden="true"
+                        ></span>
+                        <span class="visually-hidden">Previous</span>
+                      </button>
+                      <button
+                        class="carousel-control-next"
+                        type="button"
+                        data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="next"
+                      >
+                        <span
+                          class="carousel-control-next-icon"
+                          aria-hidden="true"
+                        ></span>
+                        <span class="visually-hidden">Next</span>
+                      </button>
+                    </div>
                   </div>
                   <div class="">
                     <div class="">
@@ -449,17 +544,10 @@
                             ref="file"
                             multiple
                             @change="onFile"
+                            required
                             class="bg-slate-100 h-10 w-full rounded-md border border-input px-2 py-1 text-sm file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium"
                           />
                         </div>
-                        <!-- <div class="form-group">
-                          <label>Select multi image files</label>
-                          <input
-                            type="file"
-                            class="form-control"
-                            id="fileInput"                 
-                          />
-                        </div> -->
                         <div class="form-group">
                           <label for="exampleFormControlInput1"
                             >Name Furniture</label
@@ -469,40 +557,71 @@
                             type="text"
                             class="form-control w-10/12"
                             id="exampleFormControlInput1"
-                            placeholder="10m"
+                            placeholder=""
+                            required
                           />
                         </div>
-                        <div class="grid grid-cols-2 gap-x-6">
-                          <div class="color form-group">
-                            <label for="exampleFormControlSelect1"
-                              >Color ID</label
+                        <div class="grid grid-cols-3 gap-x-4">
+                          <div>
+                            <label
+                              for="exampleInputEmail1"
+                              class="form-label font-medium w-10/12"
+                              >Color</label
                             >
                             <select
+                              v-if="colors.length"
                               v-model="colorId"
-                              class="form-control"
-                              id="exampleFormControlSelect1"
+                              class="form-select text-sm"
+                              aria-label="Default select example"
                             >
-                              <option>1</option>
-                              <option>2</option>
-                              <option>3</option>
-                              <option>4</option>
-                              <option>5</option>
+                              <!-- <option value="1" selected>--Choose Color--</option> -->
+                              <option
+                                v-for="co in colors"
+                                :key="co.colorsId"
+                                :value="co.colorsId"
+                              >
+                                {{ co.colorName }}
+                              </option>
                             </select>
                           </div>
                           <div class="cateory form-group">
                             <label for="exampleFormControlSelect1"
-                              >Category ID</label
+                              >Category</label
                             >
                             <select
+                              v-if="categories.length"
                               v-model="categoryId"
-                              class="form-control"
+                              class="form-select w-10/12"
                               id="exampleFormControlSelect1"
                             >
-                              <option>1</option>
-                              <option>2</option>
-                              <option>3</option>
-                              <option>4</option>
-                              <option>5</option>
+                              <option
+                                v-for="ca in categories"
+                                :key="ca.categoryId"
+                                :value="ca.categoryId"
+                              >
+                                {{ ca.categoryName }}
+                              </option>
+                            </select>
+                          </div>
+                          <div>
+                            <label
+                              for="exampleInputEmail1"
+                              class="form-label font-medium w-10/12"
+                              >Wood</label
+                            >
+                            <select
+                              v-if="woods.length"
+                              v-model="woodId"
+                              class="form-select text-sm"
+                              aria-label="Default select example"
+                            >
+                              <option
+                                v-for="w in woods"
+                                :key="w.woodId"
+                                :value="w.woodId"
+                              >
+                                {{ w.woodType }}
+                              </option>
                             </select>
                           </div>
                         </div>
@@ -511,50 +630,34 @@
                             <label for="exampleFormControlInput1">Height</label>
                             <input
                               v-model="height"
-                              type="text"
+                              type="number"
                               class="form-control w-10/12"
                               id="exampleFormControlInput1"
-                              placeholder="10m"
+                              required
                             />
                           </div>
                           <div class="form-group">
                             <label for="exampleFormControlInput1">Length</label>
                             <input
                               v-model="length"
-                              type="text"
+                              type="number"
                               class="form-control w-10/12"
                               id="exampleFormControlInput1"
-                              placeholder="10m"
+                              required
                             />
                           </div>
                           <div class="form-group">
                             <label for="exampleFormControlInput1">Width</label>
                             <input
                               v-model="width"
-                              type="text"
+                              type="number"
                               class="form-control w-10/12"
                               id="exampleFormControlInput1"
-                              placeholder="10m"
+                              required
                             />
                           </div>
                         </div>
                         <div class="grid grid-cols-2 gap-x-6">
-                          <div class="color form-group">
-                            <label for="exampleFormControlSelect1"
-                              >Wood ID</label
-                            >
-                            <select
-                              v-model="woodId"
-                              class="form-control"
-                              id="exampleFormControlSelect1"
-                            >
-                              <option>1</option>
-                              <option>2</option>
-                              <option>3</option>
-                              <option>4</option>
-                              <option>5</option>
-                            </select>
-                          </div>
                           <div class="form-group">
                             <label for="exampleFormControlInput1"
                               >Quantity</label
@@ -565,6 +668,18 @@
                               class="form-control"
                               id="exampleFormControlInput1"
                               placeholder="1.."
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleFormControlInput1"
+                              >Desired Completion Date</label
+                            >
+                            <input
+                              v-model="completionDate"
+                              type="date"
+                              class="form-control"
+                              id="exampleFormControlInput1"
+                              placeholder="name@example.com"
                             />
                           </div>
                         </div>
@@ -578,21 +693,10 @@
                             class="form-control"
                             id="exampleFormControlInput1"
                             placeholder="...."
+                            required
                           />
                         </div>
 
-                        <div class="form-group">
-                          <label for="exampleFormControlInput1"
-                            >Desired Completion Date</label
-                          >
-                          <input
-                            v-model="completionDate"
-                            type="date"
-                            class="form-control"
-                            id="exampleFormControlInput1"
-                            placeholder="name@example.com"
-                          />
-                        </div>
                         <div class="button_order float-right rounded-md my-2">
                           <button type="submit" class="btn text-white">
                             Order
@@ -603,10 +707,10 @@
                   </div>
                 </div>
               </div>
-              <div class="hot_news relative">
+              <div class="hot_news relative max-lg:mx-10">
                 <div class="text-center text-2xl font-bold mt-11 mb-4 relative">
                   <!-- <div @mouseover="onMouseOver"> -->
-                  <h1 class="crossbar max-sm:text-xl max-sm:pl-20">Hot News</h1>
+                  <h1 class="pb-10 max-sm:text-xl max-sm:pl-20">Hot News</h1>
                   <!-- </div> -->
                   <div class="grid grid-cols-3 gap-x-4 max-sm:px-3">
                     <div
@@ -675,13 +779,15 @@
                   </div>
                 </div>
               </div>
-              <div class="hot_feedback">
+              <div class="hot_feedback max-lg:mx-10">
                 <div class="grid grid-cols-6 max-sm:block">
                   <div class="col-span-2 max-sm:hidden">
                     <div
                       class="time text-center bg-slate-50 mx-3 w-54 h-40 rounded-md"
                     >
-                      <h1 class="text-lg font-semibold pt-3">Business hours</h1>
+                      <h1 class="text-lg font-semibold pt-3 text-yellow-950">
+                        Business hours
+                      </h1>
                       <br />
                       <span class="text-sm px-1">Monday-Friday: 7AM-22PM</span>
                       <br />
@@ -689,7 +795,7 @@
                       <span class="text-sm px-1">Satuday-Sunday: 9AM-20PM</span>
                     </div>
                   </div>
-                  <div class="col-span-4 pt-5 max-sm:pt-3">
+                  <div class="col-span-4 pt-5 max-sm:pt-3 max-lg:mx-10">
                     <h1
                       class="text-white text-2xl font-bold text-center max-sm:text-xl"
                     >
@@ -700,66 +806,47 @@
                       class="carousel slide"
                       data-bs-ride="carousel"
                     >
+                      <!-- <div class="carousel-inner">
+                        <div class="carousel-item active">
+                          <div class="content_feedback px-2 pt-9 max-sm:pt-2">
+                            <div
+                              class="avatar"
+                              v-for="img in f.feedbackImages"
+                              :key="img"
+                            >
+                              <img
+                                class="rounded-full w-3/12 cursor-pointer"
+                                :src="img.url"
+                                alt="img"
+                              />
+                            </div>
+                            <div class="text_feedback text-center px-14 pt-10">
+                              <h1 class="font-semibold text-2xl text-white">
+                                {{ f.furnitureName }}
+                              </h1>
+                              <span>{{ f.content }}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                       -->
                       <div class="carousel-inner">
                         <div class="carousel-item active">
                           <div class="content_feedback px-2 pt-9 max-sm:pt-2">
-                            <div class="avatar">
+                            <div class="avatar bg-white">
                               <img
-                                class="rounded-full w-3/12 cursor-pointer"
-                                src="@/assets/images/avatar.jpg "
-                                alt="avatar"
+                                class="rounded-full cursor-pointer px-2 py-2"
+                                src="@/assets/images/category/sofa/sofa_1.png"
+                                alt="img"
                               />
                             </div>
                             <div class="text_feedback text-center px-14 pt-10">
                               <h1 class="font-semibold text-2xl text-white">
-                                Minh Lưu Thị
+                                Russian Oak Sofa
                               </h1>
                               <span
-                                >When I first came to the store, I found it very
-                                neat, bright, airy and comfortable. Staff speak
-                                softly, politely and respect customers</span
-                              >
-                            </div>
-                          </div>
-                        </div>
-                        <div class="carousel-item">
-                          <div class="content_feedback px-2 pt-9 max-sm:pt-2">
-                            <div class="avatar">
-                              <img
-                                class="rounded-full w-3/12 cursor-pointer"
-                                src="@/assets/images/avatar.jpg "
-                                alt="avatar"
-                              />
-                            </div>
-                            <div class="text_feedback text-center px-14 pt-10">
-                              <h1 class="font-semibold text-2xl text-white">
-                                Minh Lưu Thị
-                              </h1>
-                              <span
-                                >When I first came to the store, I found it very
-                                neat, bright, airy and comfortable. Staff speak
-                                softly, politely and respect customers</span
-                              >
-                            </div>
-                          </div>
-                        </div>
-                        <div class="carousel-item">
-                          <div class="content_feedback px-2 pt-9 max-sm:pt-2">
-                            <div class="avatar">
-                              <img
-                                class="rounded-full w-3/12 cursor-pointer"
-                                src="@/assets/images/avatar.jpg "
-                                alt="avatar"
-                              />
-                            </div>
-                            <div class="text_feedback text-center px-14 pt-10">
-                              <h1 class="font-semibold text-2xl text-white">
-                                Minh Lưu Thị
-                              </h1>
-                              <span
-                                >When I first came to the store, I found it very
-                                neat, bright, airy and comfortable. Staff speak
-                                softly, politely and respect customers</span
+                                >This is an incredibly perfect product, worth a
+                                try</span
                               >
                             </div>
                           </div>
@@ -865,12 +952,8 @@
 <script>
 import axios from "axios";
 import Navigation from "@/components/NavCustomer.vue";
-// import SearchResults from "../views/Customer/searchResults.vue";
 import AllFurniture from "./AllFurniture.vue";
 export default {
-  // components: {
-  //   SearchResults,
-  // },
   components: {
     Navigation,
     AllFurniture,
@@ -889,12 +972,20 @@ export default {
       isDarkMode: false,
       isShowHeader: false,
       arrayFile: [],
+      feedbacks: [],
+      colors: [],
+      categories: [],
+      woods: [],
+      cateFurnitrue: [],
     };
   },
   created() {
     this.getFurnitureAll();
     this.getAllAnnouncements();
-    // window.addEventListener("scroll", this.onScroll);
+    this.getFeedback();
+    this.getAllColors();
+    this.getAllCategories();
+    this.getAllWoods();
   },
   methods: {
     async getFurnitureAll() {
@@ -907,23 +998,35 @@ export default {
         console.error(error);
       }
     },
-
-    async search() {
-      try {
-        const response = await axios.get(
-          "customer/furnitures/search?keyword=" + this.keyword
-        );
-        if (response.status === 200) {
-          this.furnitureSearch = response.data;
-        }
-      } catch (error) {
-        console.error(error);
-        // alert("Furniture not found!");
-      }
-    },
     clear() {
       this.keyword = "";
       this.furnitureSearch = "";
+    },
+    async getAllColors() {
+      try {
+        const response = await axios.get("assistant/shop-data/colors");
+        this.colors = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getAllCategories() {
+      try {
+        const response = await axios.get("shopOwner/shop-data/categories");
+        this.categories = response.data;
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getAllWoods() {
+      try {
+        const response = await axios.get("Assistant/shop-data/woods");
+        this.woods = response.data;
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
     },
     handleLogout() {
       localStorage.removeItem("token");
@@ -937,13 +1040,9 @@ export default {
         const response = await axios.get("customer/announcements");
         if (response.status === 200) {
           this.notifications = response.data;
-          // const d = parseISO(this.notifications.date);
-          // const DateN = format(d, "dd/MM/yyyy");
-          // this.Date = DateN;
         }
       } catch (error) {
         console.error(error);
-        // alert("Furniture not found!");
       }
     },
     toggleDark() {
@@ -995,21 +1094,26 @@ export default {
         console.error(error.response.data.message);
       }
     },
-
-    toast(toaster, append = false) {
-      this.counter++;
-      this.$bvToast.toast(`Toast ${this.counter} body content`, {
-        title: `Toaster ${toaster}`,
-        toaster: toaster,
-        solid: true,
-        appendToast: append,
-      });
+    HandleCateFurniture() {
+      this.cateFurnitrue = this.furnitures
+        .map((furniture) => (furniture.category = "Bed"))
+        .filter((value, index, furs) => furs.indexOf(value) === index);
+      this.$router.push({ name: "AllProduct" });
+      console.log(this.cateFurnitrue);
     },
     onMouseOver() {
       this.isShow = true;
     },
     HandleHeader() {
       this.isShowHeader = !this.isShowHeader;
+    },
+    async getFeedback() {
+      try {
+        const response = await axios.get("customer/feedbacks");
+        this.feedbacks = response.data;
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };
@@ -1235,7 +1339,8 @@ header::before {
     opacity: 1;
   }
 }
-.grid.grid-cols-3 {
+.hot_news .grid.grid-cols-3,
+.service.grid.grid-cols-3 {
   position: relative;
   margin-bottom: 40px;
   display: flex;
@@ -1268,6 +1373,7 @@ header::before {
   color: white;
   font-size: smaller;
 }
+
 .button_card .btn {
   font-size: 12px;
 }
@@ -1544,9 +1650,10 @@ header::before {
   color: black;
 }
 .hot_feedback .avatar {
-  transform: translateX(50%);
+  transform: translateX(252%);
   margin-top: 3em;
-  width: 80%;
+  width: 16%;
+  border-radius: 10px;
 }
 /* Toast massage*/
 .notifications-container {
@@ -1687,7 +1794,7 @@ header::before {
   height: 50%;
 }
 .customize_furniture button {
-  background-color: #514742;
+  background-color: #7c5434;
 }
 .warranty label {
   color: rgb(24, 41, 56);
@@ -1730,10 +1837,19 @@ header::before {
   .logo a {
     width: 13%;
   }
+  .index {
+    overflow: hidden;
+  }
+  .service_all {
+    display: contents;
+  }
 }
 
 /*Mobile: width<780px*/
 @media only screen and (max-width: 46.25em) {
+  .homepage {
+    overflow: hidden;
+  }
   .logo {
     width: 100%;
   }
@@ -1792,6 +1908,16 @@ header::before {
 }
 /*Tablet: width>=740px and width < 1024px*/
 @media only screen and (min-width: 46.25em) and (max-width: 63.9375em) {
+  .header_scroll {
+    display: none;
+  }
+  .logo a {
+    width: 44%;
+  }
+  .service .w-3\/12 {
+    width: 59%;
+    margin-left: -12em;
+  }
 }
 /*laptop*/
 @media only screen and (width: 64em) {
@@ -1810,7 +1936,8 @@ header::before {
 .category_hot_product li {
   color: black;
 }
-.form-control {
+.form-control,
+.form-select {
   border: none;
   background-color: rgb(242, 246, 249);
 }
@@ -1821,7 +1948,7 @@ form label {
 .allFurniture {
   overflow: scroll;
   overflow-x: hidden;
-  height: 57em;
+  height: 62em;
 }
 .allFurniture::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
@@ -1866,12 +1993,18 @@ form label {
 }
 
 .moon .service,
-.moon .new_item,
 .moon .logo img {
   background-color: #efede9;
 }
 
-.moon small {
+.moon .new_item,
+.moon .service {
+  background-color: transparent;
+  border: 1px solid;
+}
+.moon small,
+.moon .service_item h1,
+.moon .service_item span {
   color: #efede9;
 }
 .moon .icon.icon--moon,

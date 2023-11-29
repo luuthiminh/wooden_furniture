@@ -253,6 +253,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click="HandleAdd"
                       >
                         Add
@@ -286,7 +287,6 @@
                           class="col-span-8 form-control"
                           id="exampleInpuName1"
                           aria-describedby="nameHelp"
-                          required
                         />
                       </div>
                     </div>
@@ -296,6 +296,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click.prevent="HandleUpdate"
                       >
                         Update
@@ -324,6 +325,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click="HandleDelete"
                       >
                         Delete
@@ -506,6 +508,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click="HandleAdd"
                       >
                         Add
@@ -549,6 +552,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click.prevent="HandleUpdate"
                       >
                         Update
@@ -577,6 +581,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click="HandleDelete"
                       >
                         Delete

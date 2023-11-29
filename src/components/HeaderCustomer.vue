@@ -194,62 +194,10 @@
               >Customize Furniture</router-link
             >
           </li>
-          <li>
-            <div class="dropdown">
-              <div class="dropdown-toggle" data-toggle="dropdown">
-                <strong class="font-medium">All Furniture</strong>
-              </div>
-              <div class="dropdown-menu px-3 py-2 mt-1 leading-7">
-                <li>
-                  <router-link
-                    to="/categoryFurniture"
-                    class="font-medium text-base"
-                  >
-                    Wardrobe</router-link
-                  >
-                </li>
-                <li>
-                  <router-link
-                    to="/categoryFurniture"
-                    class="font-medium text-base"
-                  >
-                    Sofa</router-link
-                  >
-                </li>
-                <li>
-                  <router-link
-                    to="/categoryFurniture"
-                    class="font-medium text-base"
-                  >
-                    Clock</router-link
-                  >
-                </li>
-                <li>
-                  <router-link
-                    to="/categoryFurniture"
-                    class="font-medium text-base"
-                  >
-                    Altar</router-link
-                  >
-                </li>
-                <li>
-                  <router-link
-                    to="/categoryFurniture"
-                    class="font-medium text-base"
-                  >
-                    Bed</router-link
-                  >
-                </li>
-                <li>
-                  <router-link
-                    to="/categoryFurniture"
-                    class="font-medium text-base"
-                  >
-                    Shelves TV</router-link
-                  >
-                </li>
-              </div>
-            </div>
+          <li class="font-medium">
+            <router-link to="/allproduct" class="text-decoration-none"
+              >Al Furniture
+            </router-link>
           </li>
           <li class="font-medium">
             <router-link to="/furnitureMix" class="text-decoration-none"
@@ -290,10 +238,12 @@
             </router-link>
           </li>
           <li class="font-medium">
-            <router-link to="/contactCus" class="">Contact</router-link>
+            <router-link to="/contactCus" class="text-decoration-none"
+              >Contact</router-link
+            >
           </li>
         </ul>
-        <ul v-show="isLogin" class="flex gap-x-10 right-2 items-center">
+        <ul v-if="isLogin" class="flex gap-x-10 right-2 items-center">
           <li
             class="absolute right-28 flex gap-x-10 items-center font-semibold"
           >
@@ -312,12 +262,12 @@
             </div>
           </li>
         </ul>
-        <ul v-show="!isLogin" class="flex items-center">
+        <ul v-else class="flex items-center">
           <li class="absolute right-28 flex gap-x-2 items-center">
-            <router-link to="/">
+            <router-link to="/" class="text-decoration-none">
               <span class="font-medium text-sm">Login/ </span>
             </router-link>
-            <router-link to="/">
+            <router-link to="/" class="text-decoration-none">
               <span class="font-medium text-sm">Register </span>
             </router-link>
           </li>
@@ -326,7 +276,7 @@
     </div>
     <div v-show="isNavBar">
       <div class="overlay">
-        <div class="nav_bar">
+        <div class="nav_bar lg:hidden">
           <div class="flex gap-x-4">
             <div
               class="icon_cancle flex items-center px-3 border-1 border-bottom border-solid-yellow-600 opacity-90"
@@ -339,112 +289,11 @@
                   </sup>
                 </router-link>
               </div>
-              <div
-                @click.prevent="handelBell"
-                class="flex items-center gap-x-1 ml-3"
-              >
-                <div class="bi bi-bell cursor-pointer text-lg flex">
-                  <sup v-if="notifications.length"
-                    ><span class="relative flex h-2 w-2">
-                      <span
-                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"
-                      ></span>
-                      <span
-                        class="relative inline-flex rounded-full h-2 w-2 bg-sky-500"
-                      ></span>
-                    </span>
-                  </sup>
-                </div>
-              </div>
               <div>
                 <i
                   @click.prevent="closeNavBar"
-                  class="bi bi-x-square pl-28 py-3 text-xl flex items-center cursor-pointer"
+                  class="bi bi-x-square pl-40 py-3 text-xl flex items-center cursor-pointer"
                 ></i>
-              </div>
-            </div>
-            <div v-if="isBell">
-              <div v-if="notifications.length">
-                <div
-                  v-for="(notification, index) in notifications"
-                  :key="index"
-                  class="w-80 bg-white float-right z-10 border border-1-black mr-4 rounded-lg"
-                >
-                  <div class="pl-4 font-medium text-lg text-center py-2">
-                    Notifications ({{ notifications.length }})
-                  </div>
-                  <!-- <ul class="message bg-slate-50 mb-px rounded-b-lg">
-                    <li class="card_bell">
-                      <hr />
-                      <div class="textBox px-4 py-2">
-                        <div class="textContent flex py-3">
-                          <p class="font-semibold text-sm pr-24">
-                            {{ notification.title }}
-                          </p>
-                          <span class="text-xs">{{ notification.date }}</span>
-                        </div>
-                        <p class="text-sm">{{ notification.content }}</p>
-                      </div>
-                    </li>
-                    <li class="card_bell">
-                      <hr />
-                      <div class="textBox px-4 py-2">
-                        <div class="textContent flex py-3">
-                          <p class="font-semibold text-sm pr-24">
-                            Clans of Clash
-                          </p>
-                          <span class="text-xs">12 min ago</span>
-                        </div>
-                        <p class="text-sm">
-                          Xhattmahs is not attacking your base!
-                        </p>
-                      </div>
-                    </li>
-                    <li class="card_bell">
-                      <hr />
-                      <div class="textBox px-4 py-2">
-                        <div class="textContent flex py-3">
-                          <p class="font-semibold text-sm pr-24">
-                            Clans of Clash
-                          </p>
-                          <span class="text-xs">12 min ago</span>
-                        </div>
-                        <p class="text-sm">
-                          Xhattmahs is not attacking your base!
-                        </p>
-                      </div>
-                    </li>
-                    <li class="card_bell">
-                      <hr />
-                      <div class="textBox px-4 py-2">
-                        <div class="textContent flex py-3">
-                          <p class="font-semibold text-sm pr-24">
-                            Clans of Clash
-                          </p>
-                          <span class="text-xs">12 min ago</span>
-                        </div>
-                        <p class="text-sm">
-                          Xhattmahs is not attacking your base!
-                        </p>
-                      </div>
-                    </li>
-                  </ul> -->
-                  <div
-                    class="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4"
-                  >
-                    <div class="shrink-0">
-                      <img
-                        class="h-12 w-12"
-                        src="/img/logo.svg"
-                        alt="ChitChat Logo"
-                      />
-                    </div>
-                    <div>
-                      <div class="text-xl font-medium text-black">ChitChat</div>
-                      <p class="text-slate-500">You have a new message!</p>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -638,12 +487,16 @@
                 <div class="dropdown-menu px-3 py-2 mt-1 leading-7">
                   <li>
                     <router-link to="/news" class="font-medium text-base"
-                      ><i class="fa-regular fa-newspaper pr-3"></i>
+                      ><i
+                        class="fa-regular fa-newspaper pr-3 cursor-pointer"
+                      ></i>
                       News</router-link
                     >
                   </li>
                   <li>
-                    <router-link to="/tips" class="font-medium text-base"
+                    <router-link
+                      to="/tips"
+                      class="font-medium text-base cursor-pointer"
                       ><i class="fa-solid fa-seedling pr-3"></i>
                       Tips</router-link
                     >
@@ -684,7 +537,7 @@
           class="w-96 bg-white float-right z-10 border border-1-black mr-4 rounded-md shadow-lg"
         >
           <div
-            class="noti pl-4 font-semibold text-lg text-center py-2 bg-slate-50"
+            class="noti pl-4 font-semibold text-lg text-center py-2 bg-slate-50 text-yellow-950"
           >
             Notifications ({{ notifications.length }})
           </div>
@@ -701,7 +554,7 @@
               />
             </div>
             <div>
-              <div class="text-base font-medium text-black">
+              <div class="text-base font-medium text-yellow-950">
                 {{ notification.title }}
               </div>
               <p class="text-slate-500 text-sm py-2">
@@ -719,11 +572,11 @@
 <script>
 import axios from "axios";
 import { format } from "date-fns";
-// import { format, parseISO } from "date-fns";
 export default {
   data() {
     return {
       keyword: "",
+      furnitures: [],
       furnitureSearch: [],
       cart: [],
       isBell: false,
@@ -731,14 +584,31 @@ export default {
       isDarkMode: false,
       isLogin: false,
       isNavBar: false,
+      filteredFurnitures: [],
     };
   },
   created() {
+    this.getFurnitures();
     this.getAllAnnouncements();
     this.checkLogin();
     this.getCart();
   },
   methods: {
+    checkLogin() {
+      if (localStorage.getItem("token") !== null) {
+        this.isLogin = true;
+      } else {
+        this.isLogin = false;
+      }
+    },
+    async getFurnitures() {
+      try {
+        const response = await axios.get("customer/furnitures");
+        this.furnitures = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async getCart() {
       try {
         const response = await axios.get("customer/cart");
@@ -747,19 +617,25 @@ export default {
         console.error(error);
       }
     },
-    async search() {
-      try {
-        const response = await axios.get(
-          "customer/furnitures/search?keyword=" + this.keyword
-        );
-        if (response.status === 200) {
-          this.furnitureSearch = response.data;
-          this.$router.push("/searchResult");
-        }
-      } catch (error) {
-        console.error(error);
-        alert("Furniture not found!");
-      }
+    // async search() {
+    //   try {
+    //     const response = await axios.get(
+    //       "customer/furnitures/search?keyword=" + this.keyword
+    //     );
+    //     if (response.status === 200) {
+    //       this.furnitureSearch = response.data;
+    //       this.$router.push("/searchResult");
+    //     }
+    //   } catch (error) {
+    //     console.error(error);
+    //     alert("Furniture not found!");
+    //   }
+    // },
+    search() {
+      this.$store.dispatch("searchBooks", this.keyword).then(() => {
+        this.$router.push({ name: "SearchResult" }); // Chuyển hướng đến trang tìm kiếm
+      });
+      console.log("Đã chueyenr hướng");
     },
     clear() {
       this.keyword = "";
@@ -802,13 +678,6 @@ export default {
         this.isLight = true;
       }
     },
-    checkLogin() {
-      if (localStorage.getItem("token") !== "") {
-        this.isLogin = true;
-      } else {
-        this.isLogin = false;
-      }
-    },
     OpenNavBar() {
       this.isNavBar = !this.isNavBar;
     },
@@ -834,8 +703,9 @@ export default {
 .nav_bar {
   width: 15.4em;
   height: 100%;
-  background: rgb(251, 250, 250);
+  background: rgb(46 43 43);
   box-shadow: 10px 0 5px -2px #b6b2b2;
+  color: lightgrey;
 }
 .nav_bar .form {
   width: 213px;
@@ -853,7 +723,7 @@ export default {
 }
 .icon_cancle {
   background-color: rgb(185 189 206 / 17%);
-  box-shadow: 0 4px 13px -6px #a5a7ac;
+  box-shadow: 0 4px 8px -6px #a5a7ac;
 }
 .moon .icon_cancle,
 .moon .nav_bar {

@@ -7,7 +7,7 @@
             <router-link to="/indexAssistant">Home</router-link>
           </li>
           <li class="breadcrumb-item text-base active" aria-current="page">
-            Managemnet Material
+            Import Furniture
           </li>
         </ol>
       </nav>
@@ -106,6 +106,7 @@
                       class="form-select"
                       aria-label="Default select example"
                       v-model="repositoryId"
+                      required
                     >
                       <option selected class="font-medium">
                         Choose repository
@@ -114,6 +115,7 @@
                         v-for="repo in reponsitories"
                         :key="repo.repositoryId"
                         :value="repo.repositoryId"
+                        required
                       >
                         {{ repo.repositoryName }}
                       </option>
@@ -130,6 +132,7 @@
                       class="form-select"
                       aria-label="Default select example"
                       v-model="materialId"
+                      required
                     >
                       <option selected class="font-medium">
                         Choose repository

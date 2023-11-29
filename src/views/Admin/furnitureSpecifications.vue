@@ -279,10 +279,10 @@
                       <option selected>Choose Wood</option>
                       <option
                         v-for="w in woods"
-                        :key="w.categoryId"
-                        :value="w.categoryId"
+                        :key="w.woodId"
+                        :value="w.woodId"
                       >
-                        {{ w.categoryName }}
+                        {{ w.woodType }}
                       </option>
                     </select>
                   </div>
@@ -292,6 +292,7 @@
             <template v-slot:footer>
               <div
                 class="bg-yellow-900 rounded-md"
+                data-dismiss="modal"
                 @click.prevent="HandleAddFurniture"
               >
                 <span type="button" class="btn text-white"> Add </span>
@@ -325,7 +326,9 @@
             <tbody>
               <tr v-for="f in furnitureSpecifications" :key="f.furnitureId">
                 <td class="img">
-                  <img :src="f.images" alt="furniture" class="w-20" />
+                  <div v-for="im in f.images" :key="im">
+                    <img :src="im.path" alt="furniture" class="w-20" />
+                  </div>
                 </td>
                 <td class="text-start">
                   <p class="font-semibold">
@@ -508,10 +511,10 @@
                             <option selected>{{ woodModal }}</option>
                             <option
                               v-for="w in woods"
-                              :key="w.categoryId"
+                              :key="w.woodId"
                               :value="w.woodId"
                             >
-                              {{ w.woodName }}
+                              {{ w.woodType }}
                             </option>
                           </select>
                         </div>
@@ -543,6 +546,7 @@
                   <template v-slot:footer>
                     <div
                       class="bg-yellow-900 rounded-md"
+                      data-dismiss="modal"
                       @click.prevent="HandleUpdate"
                     >
                       <span type="button" class="btn text-white"> Update </span>
@@ -768,10 +772,10 @@
                             <option selected>Choose Wood{{ woodModal }}</option>
                             <option
                               v-for="w in woods"
-                              :key="w.categoryId"
-                              :value="w.categoryId"
+                              :key="w.woodId"
+                              :value="w.woodId"
                             >
-                              {{ w.categoryName }}
+                              {{ w.woodType }}
                             </option>
                           </select>
                         </div>
@@ -781,6 +785,7 @@
                   <template v-slot:footer>
                     <div
                       class="bg-yellow-900 rounded-md"
+                      data-dismiss="modal"
                       @click.prevent="HandleUpdate(f)"
                     >
                       <span type="button" class="btn text-white"> Update </span>
@@ -808,6 +813,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click="HandleDelete(f)"
                       >
                         Delete

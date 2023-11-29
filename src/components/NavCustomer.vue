@@ -24,8 +24,8 @@
         >
       </li>
       <li>
-        <div class="dropdown">
-          <div class="dropdown-toggle" data-toggle="dropdown">
+        <div class="">
+          <div class="" data-toggle="dropdown">
             <router-link to="/allproduct">All Product</router-link>
           </div>
           <div class="dropdown-menu px-3 py-2 mt-1 leading-7">
@@ -119,7 +119,7 @@
         >
       </li>
       <li>
-        <form @keyup.enter="search">
+        <form>
           <div class="flex flex-cols-6 gap-x-3">
             <div class="col-span-4 font-normal">
               <div class="form">
@@ -132,7 +132,7 @@
                     id="search"
                     type="text"
                     v-model="keyword"
-                    @keyup.enter="search"
+                    @change="search"
                   />
                   <div class="icon">
                     <svg
@@ -180,12 +180,6 @@
                 </label>
               </div>
             </div>
-
-            <!-- <div
-                    class="col-span-2 bg-white text-black text-center px-2 py-2 rounded-md w-6/12"
-                  >
-                    <button type="submit" class="text-xs">Search</button>
-                  </div> -->
           </div>
         </form>
       </li>
@@ -200,30 +194,14 @@
       <div>
         <router-link to="/TemporaryCart" style="text-decoration: none"
           ><i class="bi bi-cart3 cursor-pointer text-2xl"></i>
-          <sup class="ml-1 px-1 bg-red-600 rounded-full text-white">2 </sup>
+          <sup class="ml-1 px-1 bg-red-600 rounded-full text-white"
+            >{{ cart.length }}
+          </sup>
         </router-link>
       </div>
-      <!-- <div class="">
-        <ul>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-      </div> -->
-      <!-- <li>
-        <select
-          class="form-select"
-          aria-label="Default select example"
-          v-model="lang"
-          @change="handleChange($event)"
-        >
-          <option selected>English</option>
-          <option value="en">English</option>
-          <option value="vn">Viet Nam</option>
-        </select>
-      </li> -->
     </ul>
   </nav>
+
   <div v-if="isShowAccount" class="mt-40">
     <ul
       v-if="isLogin"
@@ -245,13 +223,13 @@
     </ul>
     <ul
       v-else
-      class="hover_account rounded-sm divide-y divide-solid divide-slate-300"
+      class="hover_account rounded divide-y divide-solid divide-slate-200"
     >
-      <li class="px-3 pb-2 pt-4">
+      <li class="px-3 pb-2 pt-2">
         <router-link
           to="/"
           style="text-decoration: none"
-          class="flex gap-x-4 items-center font-medium px-3 py-3"
+          class="flex gap-x-4 items-center font-medium"
           >Login</router-link
         >
       </li>
@@ -259,17 +237,272 @@
         <router-link
           to="/register"
           style="text-decoration: none"
-          class="flex gap-x-4 items-center font-medium px-3 py-3s"
+          class="flex gap-x-4 items-center font-medium"
           >Register</router-link
         >
       </li>
     </ul>
   </div>
+  <div class="absolute right-3 flex items-center top-5 my-2">
+    <div
+      @click="OpenNavBar"
+      class="hidden border border-1 border-solid-yellow-950 rounded-md hover:bg-slate-200 cursor-pointer ring-1 ring-yellow-600 max-sm:block max-md:block bg-yellow-900 text-white opacity-70"
+    >
+      <i class="bi bi-list px-1 hover:text-yellow-950"></i>
+    </div>
+  </div>
+  <div v-show="isNavBar">
+    <div class="overlay">
+      <div class="nav_bar lg:hidden">
+        <div class="flex gap-x-4">
+          <div
+            class="icon_cancle flex items-center px-3 border-1 border-bottom border-solid-yellow-600 opacity-90"
+          >
+            <div class="w-10">
+              <router-link to="/TemporaryCart" style="text-decoration: none"
+                ><i class="bi bi-cart3 cursor-pointer text-xl"></i>
+                <sup class="px-1 bg-red-600 rounded-full text-white"
+                  >{{ cart.length }}
+                </sup>
+              </router-link>
+            </div>
+            <div>
+              <i
+                @click.prevent="closeNavBar"
+                class="bi bi-x-square pl-40 py-3 text-xl flex items-center cursor-pointer"
+              ></i>
+            </div>
+          </div>
+        </div>
+        <div class="search px-3 pt-4 pb-2">
+          <form>
+            <div class="flex flex-cols-6 gap-x-3">
+              <div class="col-span-4 font-normal">
+                <div class="form w-1/12">
+                  <label for="search">
+                    <input
+                      required=""
+                      autocomplete="off"
+                      placeholder="search your chats"
+                      id="search"
+                      type="text"
+                      v-model="keyword"
+                      @keyup.enter="search"
+                    />
+                    <div class="icon">
+                      <svg
+                        stroke-width="2"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="swap-on"
+                      >
+                        <path
+                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                          stroke-linejoin="round"
+                          stroke-linecap="round"
+                        ></path>
+                      </svg>
+                      <svg
+                        stroke-width="2"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="swap-off"
+                      >
+                        <path
+                          d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                          stroke-linejoin="round"
+                          stroke-linecap="round"
+                        ></path>
+                      </svg>
+                    </div>
+                    <button @click="clear" type="reset" class="close-btn">
+                      <svg
+                        viewBox="0 0 20 20"
+                        class="h-5 w-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          clip-rule="evenodd"
+                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                          fill-rule="evenodd"
+                        ></path>
+                      </svg>
+                    </button>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <ul v-show="isLogin" class="flex gap-x-10 right-2 items-center">
+          <li class="items-center px-3" @click.prevent="closeNavBar">
+            <div class="flex gap-x-4 font-medium">
+              <router-link to="/profileCusPage" class="text-decoration-none"
+                ><i class="bi bi-person cursor-pointer"></i
+              ></router-link>
+              <p class="">Account</p>
+            </div>
+
+            <div @click.prevent="handleLogout" class="flex gap-x-4 font-medium">
+              <i class="bi bi-arrow-right-circle cursor-pointer"></i>
+              <p>Logout</p>
+            </div>
+          </li>
+        </ul>
+        <ul v-show="!isLogin" class="flex items-center">
+          <li class="items-center px-3">
+            <router-link to="/">
+              <span class="font-medium text-sm">Login/ </span>
+            </router-link>
+            <router-link to="/">
+              <span class="font-medium text-sm">Register </span>
+            </router-link>
+          </li>
+        </ul>
+        <div
+          class="line border-1 border-bottom border-solid-slate-200 opacity-90"
+        ></div>
+        <ul class="items-center px-3">
+          <li class="flex gap-x-4" @click.prevent="closeNavBar">
+            <i class="bi bi-shop"></i>
+            <router-link
+              to="/customerIndex"
+              class="font-medium text-decoration-none"
+            >
+              Home</router-link
+            >
+          </li>
+          <li class="flex gap-x-4 font-medium" @click.prevent="closeNavBar">
+            <i class="bi bi-card-checklist"></i>
+            <router-link to="/StoreIntroduction" class="text-decoration-none"
+              >Introduce</router-link
+            >
+          </li>
+          <li class="flex gap-x-4 font-medium" @click.prevent="closeNavBar">
+            <i class="bi bi-brush"></i>
+            <router-link to="/CustomizeFurniture" class="text-decoration-none"
+              >Customize Furniture</router-link
+            >
+          </li>
+          <li class="flex gap-x-4" @click.prevent="closeNavBar">
+            <i class="bi bi-house-check"></i>
+            <div class="dropdown">
+              <div class="dropdown-toggle" data-toggle="dropdown">
+                <strong class="font-medium">All Furniture</strong>
+              </div>
+              <div class="dropdown-menu px-3 py-2 mt-1 leading-7">
+                <li>
+                  <router-link
+                    to="/categoryFurniture"
+                    class="font-medium text-base"
+                  >
+                    Wardrobe</router-link
+                  >
+                </li>
+                <li>
+                  <router-link
+                    to="/categoryFurniture"
+                    class="font-medium text-base"
+                  >
+                    Sofa</router-link
+                  >
+                </li>
+                <li>
+                  <router-link
+                    to="/categoryFurniture"
+                    class="font-medium text-base"
+                  >
+                    Clock</router-link
+                  >
+                </li>
+                <li>
+                  <router-link
+                    to="/categoryFurniture"
+                    class="font-medium text-base"
+                  >
+                    Altar</router-link
+                  >
+                </li>
+                <li>
+                  <router-link
+                    to="/categoryFurniture"
+                    class="font-medium text-base"
+                  >
+                    Bed</router-link
+                  >
+                </li>
+                <li>
+                  <router-link
+                    to="/categoryFurniture"
+                    class="font-medium text-base"
+                  >
+                    Shelves TV</router-link
+                  >
+                </li>
+              </div>
+            </div>
+          </li>
+          <li class="flex gap-x-4 font-medium" @click.prevent="closeNavBar">
+            <i class="bi bi-puzzle"></i>
+            <router-link to="/furnitureMix" class="text-decoration-none"
+              >Mix
+            </router-link>
+          </li>
+          <li class="flex gap-x-4" @click.prevent="closeNavBar">
+            <i class="bi bi-back"></i>
+            <div class="dropdown">
+              <div class="dropdown-toggle" data-toggle="dropdown">
+                <strong class="font-medium">About</strong>
+              </div>
+              <div class="dropdown-menu px-3 py-2 mt-1 leading-7">
+                <li>
+                  <router-link to="/news" class="font-medium text-base"
+                    ><i class="fa-regular fa-newspaper pr-3 cursor-pointer"></i>
+                    News</router-link
+                  >
+                </li>
+                <li>
+                  <router-link
+                    to="/tips"
+                    class="font-medium text-base cursor-pointer"
+                    ><i class="fa-solid fa-seedling pr-3"></i> Tips</router-link
+                  >
+                </li>
+                <li>
+                  <router-link
+                    to="/categoryFurniture"
+                    class="font-medium text-base"
+                  >
+                    Help</router-link
+                  >
+                </li>
+              </div>
+            </div>
+          </li>
+          <li class="flex gap-x-4 font-medium" @click.prevent="closeNavBar">
+            <i class="bi bi-bar-chart-steps"></i>
+            <router-link to="/shoppingGuide" class="text-decoration-none"
+              >Shopping Guide
+            </router-link>
+          </li>
+          <li class="flex gap-x-4 font-medium" @click.prevent="closeNavBar">
+            <i class="bi bi-c-square"></i>
+            <router-link to="/contactCus" class="text-decoration-none"
+              >Contact</router-link
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 import axios from "axios";
 export default {
-  // props: { isDarkMode: Boolean },
   data() {
     return {
       isDarkMode: false,
@@ -279,26 +512,29 @@ export default {
       notifications: [],
       isLogin: false,
       isShowAccount: false,
+      cart: [],
+      isNavBar: false,
     };
   },
   created() {
-    // this.getLang();
     this.checkLogin();
     this.getAllCategory();
+    this.getCart();
   },
   methods: {
-    async search() {
-      try {
-        const response = await axios.get(
-          "customer/furnitures/search?keyword=" + this.keyword
-        );
-        if (response.status === 200) {
-          this.furnitureSearch = response.data;
-        }
-      } catch (error) {
-        console.error(error);
-        // alert("Furniture not found!");
+    checkLogin() {
+      if (localStorage.getItem("token") !== null) {
+        this.isLogin = true;
+      } else {
+        this.isLogin = false;
       }
+    },
+    search() {
+      // this.$store.dispatch("searchBooks", this.keyword).then(() => {
+      //   this.$router.push({ name: "SearchResult" }); // Chuyển hướng đến trang tìm kiếm
+      // });
+      this.$router.push({ name: "login" });
+      console.log("Đã chueyenr hướng");
     },
     async getAllCategory() {
       try {
@@ -332,23 +568,22 @@ export default {
         document.body.classList.add("sun");
       }
     },
-    // handleChange(event) {
-    //   localStorage.setItem("lang", event.target.value);
-    //   window.location.reload();
-    // },
-    // getLang() {
-    //   const lang = localStorage.getItem("lang" || "en");
-    //   this.lang = lang;
-    // },
-    checkLogin() {
-      if (localStorage.getItem("token") !== "") {
-        this.isLogin = true;
-      } else {
-        this.isLogin = false;
-      }
-    },
     HandleMouseOver() {
       this.isShowAccount = !this.isShowAccount;
+    },
+    async getCart() {
+      try {
+        const response = await axios.get("customer/cart");
+        this.cart = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    OpenNavBar() {
+      this.isNavBar = !this.isNavBar;
+    },
+    closeNavBar() {
+      this.isNavBar = !this.isNavBar;
     },
   },
 };
@@ -565,18 +800,6 @@ li:hover {
   margin-left: -29em;
 }
 
-/* .dropdown.dropdown-menu {
-  top: 0;
-} */
-/* #switch:checked + .icon--moon {
-  transform: rotate(360deg) scale(0);
-}
-
-#switch:checked ~ .icon--sun {
-  transition-delay: 200ms;
-  transform: scale(1) rotate(360deg);
-} */
-
 /*Mobile & tablet: width<1024px*/
 @media only screen and (max-width: 63.9375em) {
   nav {
@@ -608,5 +831,41 @@ li:hover {
   /* text-shadow: 0 0 1px #181412, 0 0 2px #000000;
   color: #fffaf0; */
   color: #fffcef;
+}
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(28, 27, 27, 0.3);
+  animation: fadeIn linear 0.2s;
+  transform: translate(-429px, 0px);
+  z-index: 1;
+  margin-top: 3em;
+}
+.nav_bar {
+  width: 15.4em;
+  height: 100%;
+  background: rgb(46 43 43);
+  box-shadow: 10px 0 5px -10px #b6b2b2;
+  color: lightgrey;
+}
+.nav_bar .form {
+  width: 213px;
+}
+.nav_bar li {
+  line-height: 48px;
+}
+.moon .icon_cancle,
+.moon .nav_bar {
+  background-color: transparent;
+}
+.moon li {
+  color: #f9f1e4;
+}
+.moon img {
+  background-color: white;
+}
+.logo a {
+  width: 11%;
 }
 </style>

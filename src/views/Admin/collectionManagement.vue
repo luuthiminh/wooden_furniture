@@ -131,7 +131,12 @@
             </template>
             <template v-slot:footer>
               <div class="bg-yellow-900 rounded-md">
-                <span type="button" class="btn text-white" @click="HandleAdd">
+                <span
+                  type="button"
+                  class="btn text-white"
+                  @click="HandleAdd"
+                  data-dismiss="modal"
+                >
                   Add
                 </span>
               </div>
@@ -165,7 +170,6 @@
                   type="button"
                   data-toggle="modal"
                   data-target="#exampleModalLong"
-                  data-dismiss="modal"
                   data-backdrop="false"
                   @click="opentModal('edit', s)"
                 >
@@ -222,6 +226,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click.prevent="HandleUpdate"
                       >
                         Update
@@ -250,6 +255,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click="HandleDelete"
                       >
                         Delete
@@ -379,6 +385,7 @@
                     <button
                       type="button"
                       class="btn btn-primary my-8"
+                      data-dismiss="modal"
                       @click.prevent="HandleDelete(ca)"
                     >
                       Yes
@@ -456,6 +463,7 @@
                     <span
                       type="button"
                       class="btn text-white"
+                      data-dismiss="modal"
                       @click.prevent="HandleUpdate"
                     >
                       Update
@@ -577,6 +585,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click="HandleDelete"
                       >
                         Delete
@@ -626,6 +635,12 @@ export default {
       idColModal: null,
       modalType: null,
       title: "All Collections",
+      isAlertWanning: false,
+      isAlertSuccess: false,
+      isAlertError: false,
+      messageWanning: null,
+      messageSuccess: null,
+      messageError: null,
     };
   },
   created() {
@@ -762,8 +777,7 @@ th {
   margin-top: -8px;
 }
 td {
-  padding-top: 3em;
-  padding-bottom: 1em;
+  padding-top: 1em;
 }
 .user {
   margin-top: -10px;

@@ -16,57 +16,15 @@
           <p class="gap-x-2 font-semibold">Total Orders:</p>
           {{ requestOrders.length }}
         </div>
-        <!-- <div class="search">
-              <div class="search-box">
-                <div class="search-field">
-                  <input placeholder="Search..." class="input" type="text" />
-                  <div class="search-box-icon">
-                    <button class="btn-icon-content">
-                      <i class="search-icon">
-                        <i class="bi bi-search"></i>
-                      </i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div> -->
-        <!-- <div class="absolute right-10">
-          <button
-            type="button"
-            class="button_add ring-offset-2 ring-2 bg-lime-700 ring-lime-300 hover:ring-lime-600 text-sm rounded-md"
-            data-toggle="modal"
-            data-target="#exampleModalLong"
-            data-dismiss="modal"
-            data-backdrop="false"
-            @click="opentModal('add', 'null')"
-          >
-            <span class="button__text text-sm">Add</span>
-            <span class="button__icon"
-              ><svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                viewBox="0 0 24 24"
-                stroke-width="2"
-                stroke-linejoin="round"
-                stroke-linecap="round"
-                stroke="currentColor"
-                height="24"
-                fill="none"
-                class="svg"
-              >
-                <line y2="19" y1="5" x2="12" x1="12"></line>
-                <line y2="12" y1="12" x2="19" x1="5"></line></svg
-            ></span>
-          </button>
-        </div> -->
       </div>
-      <!-- <div v-show="isSuccess">
-            <div>
-              <notification-modal>
-                <template v-slot:title>Delete this category Successful </template>
-              </notification-modal>
-            </div>
-          </div> -->
+      <div class="absolute right-0">
+        <alert-Error v-if="isAlertError">
+          <template v-slot:message>{{ messageError }}</template></alert-Error
+        >
+        <alert-success v-if="isAlertSuccess">
+          <template v-slot:message>{{ messageSuccess }}</template>
+        </alert-success>
+      </div>
       <div class="content_table scroll">
         <div class="pt-10">
           <table
@@ -119,215 +77,14 @@
                     data-target="#exampleModalLong"
                     data-dismiss="modal"
                     data-backdrop="false"
-                    @click="opentModal('edit', p)"
+                    @click="opentModal('changeStatus', order)"
                   >
-                    <span class="button__text text-xs">Edit</span>
+                    <span class="button__text text-xs">Set Status</span>
                     <span class="button__icon bi bi-pencil text-white"></span>
-                  </button>
-
-                  <button
-                    class="button_delete ring-offset-2 ring-2 ring-red-300 hover:ring-red-600 rounded-md"
-                    type="button"
-                    data-toggle="modal"
-                    data-target="#exampleModalLong"
-                    data-dismiss="modal"
-                    data-backdrop="false"
-                    @click="opentModal('delete', l)"
-                  >
-                    <span class="button__text text-xs">Delete</span>
-                    <span class="button__icon"
-                      ><svg
-                        class="svg"
-                        height="512"
-                        viewBox="0 0 512 512"
-                        width="512"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <title></title>
-                        <path
-                          d="M112,112l20,320c.95,18.49,14.4,32,32,32H348c17.67,0,30.87-13.51,32-32l20-320"
-                          style="
-                            fill: none;
-                            stroke: #fff;
-                            stroke-linecap: round;
-                            stroke-linejoin: round;
-                            stroke-width: 32px;
-                          "
-                        ></path>
-                        <line
-                          style="
-                            stroke: #fff;
-                            stroke-linecap: round;
-                            stroke-miterlimit: 10;
-                            stroke-width: 32px;
-                          "
-                          x1="80"
-                          x2="432"
-                          y1="112"
-                          y2="112"
-                        ></line>
-                        <path
-                          d="M192,112V72h0a23.93,23.93,0,0,1,24-24h80a23.93,23.93,0,0,1,24,24h0v40"
-                          style="
-                            fill: none;
-                            stroke: #fff;
-                            stroke-linecap: round;
-                            stroke-linejoin: round;
-                            stroke-width: 32px;
-                          "
-                        ></path>
-                        <line
-                          style="
-                            fill: none;
-                            stroke: #fff;
-                            stroke-linecap: round;
-                            stroke-linejoin: round;
-                            stroke-width: 32px;
-                          "
-                          x1="256"
-                          x2="256"
-                          y1="176"
-                          y2="400"
-                        ></line>
-                        <line
-                          style="
-                            fill: none;
-                            stroke: #fff;
-                            stroke-linecap: round;
-                            stroke-linejoin: round;
-                            stroke-width: 32px;
-                          "
-                          x1="184"
-                          x2="192"
-                          y1="176"
-                          y2="400"
-                        ></line>
-                        <line
-                          style="
-                            fill: none;
-                            stroke: #fff;
-                            stroke-linecap: round;
-                            stroke-linejoin: round;
-                            stroke-width: 32px;
-                          "
-                          x1="328"
-                          x2="320"
-                          y1="176"
-                          y2="400"
-                        ></line></svg
-                    ></span>
                   </button>
                 </td>
                 <modal
-                  v-if="modalType == 'add'"
-                  @close="isShowAddModal = false"
-                  data-target="#myModal"
-                >
-                  <template v-slot:title>
-                    <div
-                      class="flex items-center text-base font-semibold text-yellow-950"
-                    >
-                      Add New Post
-                    </div>
-                  </template>
-                  <template v-slot:body>
-                    <div class="py-3 pr-36 text-sm">
-                      <div class="grid grid-cols-12 gap-x-10">
-                        <div class="avatar_upload">
-                          <img v-if="url" :src="url" alt="Avatar" />
-                          <img
-                            v-else
-                            src="@/assets/images/avatar_default.jpg"
-                            alt="Avatar"
-                          />
-                        </div>
-                        <div class="avatar_edit">
-                          <div class="hidden">
-                            <input
-                              type="file"
-                              name="image"
-                              id="imageUpload"
-                              accept=".png, .jpg, .jpeg"
-                              :maxFileSize="1000000"
-                              ref="file"
-                              multiple
-                              @change="onFileChange"
-                            />
-                          </div>
-                          <label
-                            class="bi bi-pencil text-xs"
-                            for="imageUpload"
-                          ></label>
-                        </div>
-                        <label
-                          for="exampleInputEmail1"
-                          class="col-span-4 form-label text-semibold text-base pt-2 border-none"
-                          >Title</label
-                        >
-                        <input
-                          v-model="postTitle"
-                          type="text"
-                          class="col-span-8 form-control"
-                          id="exampleInpuName1"
-                          aria-describedby="nameHelp"
-                          required
-                        />
-                        <label
-                          for="exampleInputEmail1"
-                          class="col-span-4 form-label text-semibold text-base pt-2 border-none"
-                          >Content</label
-                        >
-                        <input
-                          v-model="postContent"
-                          type="text"
-                          class="col-span-8 form-control"
-                          id="exampleInpuName1"
-                          aria-describedby="nameHelp"
-                          required
-                        />
-                        <label
-                          for="exampleInputEmail1"
-                          class="col-span-4 form-label text-semibold text-base pt-2 border-none"
-                          >Author</label
-                        >
-                        <input
-                          v-model="postAuthor"
-                          type="text"
-                          class="col-span-8 form-control"
-                          id="exampleInpuName1"
-                          aria-describedby="nameHelp"
-                          required
-                        />
-                        <label
-                          for="exampleInputEmail1"
-                          class="col-span-4 form-label text-semibold text-base pt-2 border-none"
-                          >CreationDate</label
-                        >
-                        <input
-                          v-model="postCD"
-                          type="text"
-                          class="col-span-8 form-control"
-                          id="exampleInpuName1"
-                          aria-describedby="nameHelp"
-                          required
-                        />
-                      </div>
-                    </div>
-                  </template>
-                  <template v-slot:footer>
-                    <div class="bg-yellow-900 rounded-md">
-                      <span
-                        type="button"
-                        class="btn text-white"
-                        @click="HandleAdd"
-                      >
-                        Add
-                      </span>
-                    </div>
-                  </template>
-                </modal>
-                <modal
-                  v-if="modalType == 'edit'"
+                  v-if="modalType == 'changeStatus'"
                   @close="modalType == null"
                   data-target="#myModal"
                 >
@@ -335,26 +92,29 @@
                     <div
                       class="flex items-center text-base font-semibold text-yellow-950"
                     >
-                      Edit This Label
+                      Change Status
                     </div>
                   </template>
                   <template v-slot:body>
-                    <div class="py-3 pr-36 text-sm">
-                      <div class="grid grid-cols-12 gap-x-10">
-                        <label
-                          for="exampleInputEmail1"
-                          class="col-span-4 form-label text-semibold text-base pt-2 border-none"
-                          >Name Lable</label
-                        >
-                        <input
-                          v-model="nameLabelModal"
-                          type="text"
-                          class="col-span-8 form-control"
-                          id="exampleInpuName1"
-                          aria-describedby="nameHelp"
-                          required
-                        />
-                      </div>
+                    <div class="mt-3">
+                      <label
+                        for="exampleInputEmail1"
+                        class="col-form-label font-medium"
+                        >Status</label
+                      >
+                      <select
+                        v-model="status"
+                        class="form-select text-sm"
+                        aria-label="Default select example"
+                        required
+                      >
+                        <option selected>Choose status</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Canceled">Canceled</option>
+                        <option value="Preparing">Preparing</option>
+                        <option value="Delivering">Delivering</option>
+                        <option value="Delivered">Delivered</option>
+                      </select>
                     </div>
                   </template>
                   <template v-slot:footer>
@@ -362,50 +122,12 @@
                       <span
                         type="button"
                         class="btn text-white"
-                        @click.prevent="HandleUpdate"
+                        data-dismiss="modal"
+                        @click="HandleStatus"
                       >
-                        Update
+                        Set Status
                       </span>
                     </div>
-                  </template>
-                </modal>
-                <modal
-                  v-if="modalType == 'delete'"
-                  @close="modalType == null"
-                  data-target="#myModal"
-                >
-                  <template v-slot:title>
-                    <div class="flex items-center text-lg font-semibold">
-                      Delete
-                    </div>
-                  </template>
-                  <template v-slot:body>
-                    <p class="text-base py-3">
-                      Are you sure detete <b> {{ nameLabelModal }}</b
-                      >?
-                    </p>
-                  </template>
-                  <template v-slot:footer>
-                    <div class="bg-red-900 rounded-md">
-                      <span
-                        type="button"
-                        class="btn text-white"
-                        @click="HandleDelete"
-                      >
-                        Delete
-                      </span>
-                    </div>
-                    <!-- <button
-                          type="button"
-                          class="btn btn-primary my-8"
-                          data-bs-target="#exampleModalToggle2"
-                          data-bs-toggle="modal"
-                          data-bs-dismiss="modal"
-                          @click="opentModal('notification', w)"
-                          @click.prevent="HandleDelete"
-                        >
-                          Yes
-                        </button> -->
                   </template>
                 </modal>
               </tr>
@@ -420,9 +142,13 @@
 import axios from "axios";
 import { format } from "date-fns";
 import modal from "@/components/ModalPage.vue";
+import alertError from "@/components/AlertError.vue";
+import alertSuccess from "@/components/AlertSuccess.vue";
 export default {
   components: {
     modal,
+    alertError,
+    alertSuccess,
   },
   data() {
     return {
@@ -432,6 +158,11 @@ export default {
       idPostModal: null,
       isSuccess: false,
       file: "",
+      isAlertSuccess: false,
+      isAlertError: false,
+      messageError: null,
+      messageSuccess: null,
+      orderId: null,
     };
   },
   created() {
@@ -451,31 +182,34 @@ export default {
         console.error(error);
       }
     },
-    async opentModal(type, l) {
+    async opentModal(type, order) {
       this.modalType = type;
-      this.namePostModal = l.postlName;
-      this.idPostModal = l.postId;
+      this.orderId = order.orderId;
     },
-    closeModal() {
-      this.modalType = null;
-    },
-    onFileChange(event) {
-      this.file = event.target.files;
-    },
-    async HandleUpdate() {
+    async HandleStatus() {
       try {
         const response = await axios.put(
-          "Assistant/shop-data/posts?labelId=" +
-            this.idLabelModal +
-            "&labelName=" +
-            this.nameLabelModal +
-            "/edit"
+          "assistant/customer-requests/orders/" +
+            this.orderId +
+            "/change-status/?status=" +
+            this.status
         );
         if (response.status === 200) {
           this.modalType = null;
-          alert("Update was successful!");
+          this.isAlertSuccess = true;
+          this.messageSuccess = "Set order successfully";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 5000);
+          this.getAllOrders();
+          console.log(this.orderId);
         }
       } catch (error) {
+        this.isAlertError = true;
+        this.messageError = error.response.data.message;
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 5000);
         console.error(error);
       }
     },
@@ -615,6 +349,12 @@ td {
 }
 table {
   overflow: scroll;
-  width: 102em;
+  width: 115em;
+}
+.button_edit {
+  width: 100px;
+}
+.button_edit .button__icon {
+  transform: translateX(74px);
 }
 </style>

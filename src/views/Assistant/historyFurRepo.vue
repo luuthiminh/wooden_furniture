@@ -3,7 +3,7 @@
     <div class="nav">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent text-sm pt-4 ml-4 font-medium">
-          <li class="breadcrumb-item text-sm">
+          <li class="breadcrumb-item text-sm font-semibold">
             <router-link to="/indexAssistant">Home</router-link>
           </li>
           <li class="breadcrumb-item text-sm active" aria-current="page">
@@ -109,23 +109,6 @@
               <td>{{ hf.creationDate }}</td>
               <td>
                 <div
-                  class="px-2 py-1 bg-orange-600 w-20 rounded-md text-center text-white"
-                >
-                  <button
-                    class="btn_action"
-                    type="button"
-                    data-toggle="modal"
-                    data-target="#exampleModalLong"
-                    data-dismiss="modal"
-                    data-backdrop="false"
-                    @click="opentModal('exportFurniture')"
-                  >
-                    Export
-                  </button>
-                </div>
-              </td>
-              <td>
-                <div
                   class="dropdown text-center py-1 bg-blue-800 w-20 rounded-md text-white"
                 >
                   <button
@@ -139,77 +122,6 @@
                   </button>
                 </div>
               </td>
-              <modal
-                v-if="modalType == 'exportFurniture'"
-                @close="closeModal"
-                data-target="#myModal"
-              >
-                <template v-slot:title>
-                  <div
-                    class="flex items-center text-base font-semibold text-yellow-950"
-                  >
-                    Export Furniture
-                  </div>
-                </template>
-                <template v-slot:body>
-                  <div class="grid grid-cols-12 gap-x-10">
-                    <label
-                      for="exampleInputEmail1"
-                      class="col-span-4 form-label text-semibold text-base pt-2 border-none"
-                      >Quantity</label
-                    >
-                    <input
-                      v-model="quantity"
-                      type="text"
-                      class="col-span-8 form-control"
-                      id="exampleInpuName1"
-                      aria-describedby="nameHelp"
-                      required
-                    />
-                  </div>
-                  <div class="grid grid-cols-12 gap-x-10">
-                    <label
-                      for="exampleInputEmail1"
-                      class="col-span-4 form-label text-semibold text-base pt-2 border-none"
-                      >Reason</label
-                    >
-                    <input
-                      v-model="reason"
-                      type="text"
-                      class="col-span-8 form-control"
-                      id="exampleInpuName1"
-                      aria-describedby="nameHelp"
-                      required
-                    />
-                  </div>
-                  <div class="grid grid-cols-12 gap-x-10">
-                    <label
-                      for="exampleInputEmail1"
-                      class="col-span-4 form-label text-semibold text-base pt-2 border-none"
-                      >Date</label
-                    >
-                    <input
-                      v-model="dateFurniture"
-                      type="date"
-                      class="col-span-8 form-control"
-                      id="exampleInpuName1"
-                      aria-describedby="nameHelp"
-                      required
-                    />
-                  </div>
-                </template>
-                <template v-slot:footer>
-                  <div class="bg-yellow-900 rounded-md">
-                    <span
-                      type="button"
-                      class="btn text-white"
-                      @click="HandleExportFurniture(hf)"
-                    >
-                      Export
-                    </span>
-                  </div>
-                </template>
-              </modal>
               <modal
                 v-if="modalType == 'transfer'"
                 @close="closeModal"
@@ -242,6 +154,7 @@
                             v-for="repo in reponsitories"
                             :key="repo.repositoryId"
                             :value="repo.repositoryId"
+                            required
                           >
                             {{ repo.repositoryName }}
                           </option>

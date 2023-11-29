@@ -1,11 +1,11 @@
 <template>
   <div class="forgot_password">
     <div class="border border-red-100 px-7 py-7 w-80 rounded-2xl bg-white">
-      <div class="py-6">
-        <div class="logo w-6/12">
-          <img src="@/assets/images/logo.png" alt="logo" />
-        </div>
-        <p class="font-bold text-2xl text-center text-yellow-950">L & L</p>
+      <div class="mt-3 mb-4 text-left text-xs text-slate-500">
+        <span class="font-medium"
+          >Please enter the email you want to send the password reset link
+          to</span
+        >
       </div>
       <form @submit.prevent="forgotPassword">
         <div class="mb-1">
@@ -53,7 +53,7 @@ export default {
         if (response.status === 200) {
           localStorage.setItem("token", response.data.token);
           alert("Please confirm the link in your email!");
-          this.$router.push({ name: "newPassword" });
+          this.$router.push({ name: "ComfirmEmail" });
         }
       } catch (error) {
         console.error("Error sending link your email:", error);
@@ -91,7 +91,7 @@ export default {
   left: 38%;
 }
 .btn_send {
-  background-color: #302924;
+  background-color: #4f4c3d;
   width: 100%;
   border-radius: 7px;
 }

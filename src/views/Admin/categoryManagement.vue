@@ -131,7 +131,12 @@
             </template>
             <template v-slot:footer>
               <div class="bg-yellow-900 rounded-md">
-                <span type="button" class="btn text-white" @click="HandleAdd">
+                <span
+                  type="button"
+                  class="btn text-white"
+                  data-dismiss="modal"
+                  @click="HandleAdd"
+                >
                   Add
                 </span>
               </div>
@@ -222,6 +227,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click.prevent="HandleUpdate"
                       >
                         Update
@@ -250,6 +256,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click="HandleDelete"
                       >
                         Delete
@@ -379,6 +386,7 @@
                     <button
                       type="button"
                       class="btn btn-primary my-8"
+                      data-dismiss="modal"
                       @click.prevent="HandleDelete(ca)"
                     >
                       Yes
@@ -456,6 +464,7 @@
                     <span
                       type="button"
                       class="btn text-white"
+                      data-dismiss="modal"
                       @click.prevent="HandleUpdate"
                     >
                       Update
@@ -577,6 +586,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click="HandleDelete"
                       >
                         Delete
@@ -625,6 +635,12 @@ export default {
       nameCateModal: null,
       idCateModal: null,
       modalType: null,
+      isAlertWanning: false,
+      isAlertSuccess: false,
+      isAlertError: false,
+      messageWanning: null,
+      messageSuccess: null,
+      messageError: null,
       title: "All Categories",
     };
   },
@@ -760,8 +776,7 @@ th {
   margin-top: -8px;
 }
 td {
-  padding-top: 3em;
-  padding-bottom: 1em;
+  padding-top: 1em;
 }
 .user {
   margin-top: -10px;

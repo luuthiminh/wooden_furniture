@@ -2,10 +2,12 @@
   <div class="">
     <div class="nav">
       <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-transparent text-sm pt-4 px-4">
+        <ol class="breadcrumb bg-transparent text-sm pt-4 px-4 font-semibold">
           <li class="breadcrumb-item"><a href="#">Home</a></li>
 
-          <li class="breadcrumb-item active" aria-current="page">Post</li>
+          <li class="breadcrumb-item active font-medium" aria-current="page">
+            Post
+          </li>
         </ol>
       </nav>
     </div>
@@ -13,7 +15,7 @@
       <h1 class="font-semibold text-xl py-6">Management Post</h1>
       <div class="flex gap-x-40 pt-10">
         <div class="flex items-center gap-x-4 text-sm">
-          <p class="gap-x-2 font-semibold">Total Labels:</p>
+          <p class="gap-x-2 font-semibold">Total Posts:</p>
           <!-- {{ posts.length }} -->
         </div>
         <!-- <div class="search">
@@ -30,6 +32,17 @@
               </div>
             </div>
           </div> -->
+        <div class="absolute right-0">
+          <alert-Error v-if="isAlertError">
+            <template v-slot:message>{{ messageError }}</template></alert-Error
+          >
+          <alert-success v-if="isAlertSuccess">
+            <template v-slot:message>{{ messageSuccess }}</template>
+          </alert-success>
+          <alert-wanning v-if="isAlertWanning">
+            <template v-slot:message>{{ messageWanning }}</template>
+          </alert-wanning>
+        </div>
         <div class="absolute right-10">
           <button
             type="button"
@@ -60,13 +73,6 @@
           </button>
         </div>
       </div>
-      <!-- <div v-show="isSuccess">
-          <div>
-            <notification-modal>
-              <template v-slot:title>Delete this category Successful </template>
-            </notification-modal>
-          </div>
-        </div> -->
       <div class="content_table scroll">
         <div class="pt-10">
           <table
@@ -197,7 +203,7 @@
                     ></span>
                   </button>
                 </td> -->
-                <modal
+                <!-- <modal
                   v-if="modalType == 'add'"
                   @close="isShowAddModal = false"
                   data-target="#myModal"
@@ -304,6 +310,119 @@
                       </span>
                     </div>
                   </template>
+                </modal> -->
+                <modal
+                  v-if="modalType == 'add'"
+                  @close="modalType == null"
+                  data-target="#myModal"
+                >
+                  <template v-slot:title>
+                    <div
+                      class="flex items-center text-base font-semibold text-yellow-950"
+                    >
+                      Add New Material
+                    </div>
+                  </template>
+                  <template v-slot:body>
+                    <div class="text-sm text-left">
+                      <div class="mx-4 mb-6 mt-2">
+                        <div class="">
+                          <label class="col-form-label fw-medium">Image</label>
+                          <div class="">
+                            <div class="flex">
+                              <div class="avatar_upload py-3">
+                                <img v-if="url" :src="url" alt="image" />
+
+                                <label v-else for="imageUpload" class="ml-14">
+                                  <img
+                                    src="@/assets/images/assistant/image_default.jpeg"
+                                    alt="Avatar"
+                                  />
+                                </label>
+                              </div>
+
+                              <div class="avatar_edit">
+                                <div class="hidden">
+                                  <input
+                                    type="file"
+                                    name="avatar"
+                                    id="imageUpload"
+                                    accept=".png, .jpg, .jpeg"
+                                    :maxFileSize="1000000"
+                                    ref="file"
+                                    @change="onFileChange"
+                                    required
+                                  />
+                                </div>
+                                <label
+                                  class="bi bi-pencil text-xs"
+                                  for="imageUpload"
+                                ></label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="mt-3">
+                          <label class="col-form-label fw-medium">Title</label>
+                          <div class="">
+                            <input
+                              v-model="title"
+                              type="text"
+                              class="form-control border-none bg-neutral-100"
+                              id="firstname"
+                              aria-describedby="firstnameHelp"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div class="mt-3">
+                          <label class="col-form-label fw-medium"
+                            >Content</label
+                          >
+                          <div class="">
+                            <input
+                              v-model="content"
+                              type="text"
+                              class="form-control border-none bg-neutral-100"
+                              id="firstname"
+                              aria-describedby="firstnameHelp"
+                              required
+                            />
+                          </div>
+                        </div>
+
+                        <div class="mt-3">
+                          <label
+                            for="exampleInputEmail1"
+                            class="col-form-label font-medium"
+                            >Type</label
+                          >
+                          <select
+                            required
+                            v-model="type"
+                            class="form-select text-sm"
+                            aria-label="Default select example"
+                          >
+                            <option selected>Choose type</option>
+                            <option value="TIP">Tip</option>
+                            <option value="NEW">News</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                  <template v-slot:footer>
+                    <div class="bg-yellow-900 rounded-md">
+                      <span
+                        type="button"
+                        class="btn text-white"
+                        data-dismiss="modal"
+                        @click.prevent="HandleAddPost"
+                      >
+                        Add
+                      </span>
+                    </div>
+                  </template>
                 </modal>
                 <modal
                   v-if="modalType == 'edit'"
@@ -374,17 +493,6 @@
                         Delete
                       </span>
                     </div>
-                    <!-- <button
-                        type="button"
-                        class="btn btn-primary my-8"
-                        data-bs-target="#exampleModalToggle2"
-                        data-bs-toggle="modal"
-                        data-bs-dismiss="modal"
-                        @click="opentModal('notification', w)"
-                        @click.prevent="HandleDelete"
-                      >
-                        Yes
-                      </button> -->
                   </template>
                 </modal>
               </tr>
@@ -398,9 +506,15 @@
 <script>
 import axios from "axios";
 import modal from "@/components/ModalPage.vue";
+import alertError from "@/components/AlertError.vue";
+import alertSuccess from "@/components/AlertSuccess.vue";
+import alertWanning from "@/components/AlertWanning.vue";
 export default {
   components: {
     modal,
+    alertError,
+    alertSuccess,
+    alertWanning,
   },
   data() {
     return {
@@ -410,6 +524,14 @@ export default {
       idPostModal: null,
       isSuccess: false,
       file: "",
+      url: "",
+      arrayUrl: [],
+      isAlertSuccess: false,
+      isAlertError: false,
+      isAlertWanning: false,
+      messageError: null,
+      messageSuccess: null,
+      messageWanning: null,
     };
   },
   created() {
@@ -418,7 +540,7 @@ export default {
   methods: {
     async getAllPosts() {
       try {
-        const response = await axios.get("Assistant/shop-data/posts");
+        const response = await axios.get("assistant/shop-data/posts");
         this.posts = response.data;
         console.log(response.data);
       } catch (error) {
@@ -434,23 +556,42 @@ export default {
       this.modalType = null;
     },
     onFileChange(event) {
-      this.file = event.target.files;
+      this.file = event.target.files[0];
+      if (this.file) {
+        this.url = URL.createObjectURL(this.file);
+      }
     },
-    async HandleAdd() {
+    async HandleAddPost() {
+      const formData = new FormData();
+      formData.append("title", this.title);
+      formData.append("content", this.content);
+      formData.append("type", this.type);
+      formData.append("image", this.file);
       try {
-        const response = await axios.post("assistant/shop-data/posts/add", {
-          PostTitle: this.PostTitle,
-          PostImage: this.file,
-          PosContent: this.posContent,
-          Author: this.postAuthor,
-          CreationDate: this.postCD,
-        });
+        const response = await axios.post(
+          "assistant/shop-data/posts/add",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
         if (response.status === 201) {
           this.modalType = null;
-          alert("Add was successful!");
+          this.messageSuccess = "Add new post successful!";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 5000);
+          this.getAllPosts();
         }
         console.log(response.data);
       } catch (error) {
+        this.isAlertError = true;
+        this.messageError = error.response.data.message;
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 5000);
         console.error(error);
       }
     },

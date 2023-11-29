@@ -10,8 +10,8 @@
             class="card-body flex justify-content-between flex-column px-0 p-0 bg-white h-32"
           >
             <div class="mb-4 px-7">
-              <!-- <div class="text-blue-600 bg-blue-400 h-1"></div> -->
-              <div class="bg-red-100 h-1"></div>
+              <!-- <div class="text-blue-500 bg-blue-400 h-1"></div> -->
+              <div class="bg-yellow-700 h-1"></div>
               <p class="text-base font-medium text-gray-400 py-6">
                 Profit this month
               </p>
@@ -21,14 +21,16 @@
                   class="text-sm font-semibold text-gray-400 align-self-start me-1>"
                   >$</span
                 >
-                <span class="text-3xl font-semibold text-gray-800 me-2 lh-1"
-                  >69,700</span
-                >
-                <!-- <div class="badge text-blue-600 bg-blue-400">
+                <span class="text-2xl font-semibold text-gray-800 me-2 lh-1">{{
+                  dataNumber.profit
+                }}</span>
+                <!-- <div class="badge bg-gradient-to-r from-cyan-500 to-blue-500">
                   <i class="bi bi-arrow-up text-white text-sm"></i>
                   2.2%
                 </div> -->
-                <div class="badge text-red-600 bg-red-600">
+                <div
+                  class="badge badge bg-gradient-to-r from-purple-500 to-pink-500"
+                >
                   <i class="bi bi-arrow-down text-white text-sm"></i>
                   2.2%
                 </div>
@@ -43,25 +45,21 @@
             class="card-body flex justify-content-between flex-column px-0 p-0 bg-white h-32"
           >
             <div class="mb-4 px-7">
-              <div class="bg-blue-100 h-1"></div>
-              <!-- <div class="bg-red-400 h-1"></div> -->
+              <div class="bg-slate-600 h-1"></div>
+              <!-- <div class="bg-yellow-700 h-1"></div> -->
               <p class="text-base font-medium text-gray-400 py-6">
                 Total Furniture
               </p>
 
               <div class="d-flex align-items-center mb-2">
-                <span
-                  class="text-sm font-semibold text-gray-400 align-self-start me-1>"
-                  >$</span
-                >
-                <span class="text-3xl font-semibold text-gray-800 me-2 lh-1"
-                  >69,700</span
-                >
-                <div class="badge text-blue-600 bg-blue-600">
+                <span class="text-2xl font-semibold text-gray-800 me-2 lh-1">{{
+                  dataNumber.totalFurniture
+                }}</span>
+                <div class="badge bg-gradient-to-r from-cyan-500 to-blue-500">
                   <i class="bi bi-arrow-up text-white text-sm"></i>
                   2.2%
                 </div>
-                <!-- <div class="badge text-red-600 bg-red-600">
+                <!-- <div class="badge badge bg-gradient-to-r from-purple-500 to-pink-500">
                   <i class="bi bi-arrow-down text-white text-sm"></i>
                   2.2%
                 </div> -->
@@ -78,24 +76,21 @@
             class="card-body flex justify-content-between flex-column px-0 p-0 bg-white h-32"
           >
             <div class="mb-4 px-7">
-              <div class="bg-blue-100 h-1"></div>
+              <div class="bg-slate-600 h-1"></div>
+              <!-- <div class="bg-yellow-700 h-1"></div> -->
               <p class="text-base font-medium text-gray-400 py-6">
                 Order this month
               </p>
 
               <div class="d-flex align-items-center mb-2">
-                <span
-                  class="text-sm font-semibold text-gray-400 align-self-start me-1>"
-                  >$</span
-                >
-                <span class="text-3xl font-semibold text-gray-800 me-2 lh-1"
-                  >69,700</span
-                >
-                <div class="badge text-blue-600 bg-blue-600">
+                <span class="text-2xl font-semibold text-gray-800 me-2 lh-1">{{
+                  dataNumber.orderInCurrentMonth
+                }}</span>
+                <div class="badge bg-gradient-to-r from-cyan-500 to-blue-500">
                   <i class="bi bi-arrow-up text-white text-sm"></i>
                   2.2%
                 </div>
-                <!-- <div class="badge text-red-600 bg-red-600">
+                <!-- <div class="badge badge bg-gradient-to-r from-purple-500 to-pink-500">
                   <i class="bi bi-arrow-down text-white text-sm"></i>
                   2.2%
                 </div> -->
@@ -111,25 +106,23 @@
             class="card-body flex justify-content-between flex-column px-0 p-0 bg-white h-32"
           >
             <div class="mb-4 px-7">
-              <div class="bg-red-100 h-1"></div>
+              <div class="bg-yellow-700 h-1"></div>
               <!-- <div class="bg-blue-400 h-1"></div> -->
-              <p class="text-base font-medium text-gray-400 py-6">
-                Customer this month
+              <p class="text-base font-medium text-gray-400 py-3">
+                Account Customer this month
               </p>
 
               <div class="d-flex align-items-center mb-2">
-                <span
-                  class="text-sm font-semibold text-gray-400 align-self-start me-1>"
-                  >$</span
-                >
-                <span class="text-3xl font-semibold text-gray-800 me-2 lh-1"
-                  >69,700</span
-                >
-                <!-- <div class="badge text-blue-600 bg-blue-600">
+                <span class="text-2xl font-semibold text-gray-800 me-2 lh-1">{{
+                  dataNumber.customerAccount
+                }}</span>
+                <!-- <div class="badge bg-gradient-to-r from-cyan-500 to-blue-500">
                   <i class="bi bi-arrow-up text-white text-sm"></i>
                   2.2%
                 </div> -->
-                <div class="badge text-red-600 bg-red-600">
+                <div
+                  class="badge badge bg-gradient-to-r from-purple-500 to-pink-500"
+                >
                   <i class="bi bi-arrow-down text-white text-sm"></i>
                   2.2%
                 </div>
@@ -159,7 +152,7 @@
     </div>
   </div>
   <div class="grid grid-cols-2 gap-x-8">
-    <div class="mb-5 mb-xl-10 border-none bg-white shadow-md rounded-xl">
+    <div class="mb-4 mb-xl-10 border-none bg-white shadow-md rounded-xl">
       <div class="graph px-7 py-7">
         <div class="graph pb-3">
           <span class="card-label font-semibold text-dark text-lg block"
@@ -167,8 +160,8 @@
           >
           <p class="text-gray-400 pt-2 font-medium text-sm">(for each month)</p>
         </div>
-        <div class="line_static mt-10">
-          <Line :data="lineData2" :options="lineOptions2" />
+        <div class="line_static mt-32">
+          <Line v-if="loaded" :data="lineProfit" :options="lineOptionsProfit" />
         </div>
       </div>
     </div>
@@ -187,30 +180,28 @@
         <p class="text-sm font-medium text-gray-400">Orders This Month</p>
       </div> -->
       <div class="px-9 py-2">
-        <Bar :data="barData" :options="barOptions" />
+        <Bar v-if="loaded" :data="barDataCate" :options="barOptionsCate" />
       </div>
     </div>
   </div>
   <div class="mb-5 mb-xl-10 border-none bg-white shadow-md rounded-xl">
     <div class="graph px-7 py-7">
       <span class="card-label font-semibold text-dark text-lg block"
-        >New Customers This Month</span
+        >Orders Static</span
       >
-      <p class="text-gray-400 pt-2 font-medium text-sm">
-        Users from all channels
-      </p>
+      <p class="text-gray-400 pt-2 font-medium text-sm">This Month</p>
     </div>
     <div class="px-9 py-2">
       <span class="text-3xl font-semibold text-gray-800 me-2 lh-1 block"
         >9,700</span
       >
-      <p class="text-sm font-medium text-gray-400">Orders This Month</p>
     </div>
     <div class="line_static mt-10 px-20 h-96 pb-10">
-      <Line :data="lineData3" :options="lineOptions3" />
+      <Line v-if="loaded" :data="lineDataUser" :options="lineOptionsUser" />
+      <!-- <Line :data="lineData" :options="lineOptions" /> -->
     </div>
   </div>
-  <div class="flex flex-cols-2 gap-x-7">
+  <div class="grid grid-cols-2 gap-x-7">
     <div class="col-span-1 mb-xxl-5 border-none bg-white shadow-md rounded-xl">
       <div class="py-7 px-7">
         <span class="card-label font-semibold text-dark text-lg block"
@@ -424,7 +415,7 @@
       <span class="font-medium mx-8 text-sm">Count: 10</span>
     </div>
   </div>
-  <div class="grid grid-cols-2 gap-x-8">
+  <!-- <div class="grid grid-cols-2 gap-x-8">
     <div class="mb-xl-10 border-none bg-white shadow-md rounded-xl mb-5">
       <div class="px-7 py-7">
         <span class="font-semibold text-dark text-lg">Recent Orders</span>
@@ -592,9 +583,7 @@
         >
         <p class="text-sm font-medium text-gray-400">Orders This Month</p>
       </div>
-      <div class="line_static mt-10">
-        <Line :data="lineData2" :options="lineOptions2" />
-      </div>
+      <div class="line_static mt-10"></div>
     </div>
   </div>
   <div class="">
@@ -865,10 +854,11 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 <script>
 import HeaderAdmin from "@/components/headerAdmin.vue";
+import axios from "axios";
 import {
   Chart as ChartJS,
   Title,
@@ -903,147 +893,20 @@ export default {
   },
   data() {
     return {
-      // labels: [
-      //   "Jan",
-      //   "Feb",
-      //   "Mar",
-      //   "Apr",
-      //   "May",
-      //   "Jun",
-      //   "Jul",
-      //   "Aug",
-      //   "Sep",
-      //   "Des",
-      //   "Nov",
-      //   "Dec",
-      // ],
-      title: "Furniture Dashboard",
-      barData: {
-        labels: [
-          "Category 1",
-          "Category 1",
-          "Category 1",
-          "Category 1",
-          "Category 1",
-          "Category 1",
-        ],
-        datasets: [
-          {
-            // label: "My First Dataset",
-            data: [400, 100, 300, 500, 600, 700, 800, 900, 900, 1000, 500],
-            backgroundColor: [
-              "rgba(62, 151, 255, 0.85)",
-              "rgba(241, 65, 108, 0.85)",
-              "rgba(80, 205, 137, 0.85)",
-              "rgba(255, 199, 0, 0.85)",
-              "rgba(114, 57, 234, 0.85)",
-              "rgba(63, 66, 84, 0.85)",
-            ],
-            // borderWidth: 1,
-            borderColor: "#777",
-            hoverBorderWidth: 3,
-            // hoverBorderColor: "#000",
-            borderRadius: 2,
-            barPercentage: 1.0,
-            categoryPercentage: 0.5,
-          },
-        ],
-      },
-      lineData: {
-        labels: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Des",
-          "Nov",
-          "Dec",
-        ],
-        datasets: [
-          {
-            label: "Looping tension",
-            data: [65, 59, 80, 81, 26, 55, 40, 9, 19, 100, 11, 12],
-            fill: false,
-            // borderColor: "rgb(75, 192, 192)"
-            borderColor: "rgb(163, 117, 57)",
-          },
-        ],
-      },
-      lineData2: {
-        labels: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Des",
-          "Nov",
-          "Dec",
-        ],
-        datasets: [
-          {
-            label: "Revenue",
-            data: [650, 590, 800, 810, 260, 550, 400, 900, 190, 100, 110, 120],
-            fill: false,
-            borderColor: "rgb(163, 117, 57)",
-          },
-          {
-            label: "Expenditure",
-            data: [650, 590, 900, 110, 460, 750, 400, 90, 190, 1000, 110, 120],
-            fill: false,
-            borderColor: "rgb(247, 219, 183)",
-          },
-        ],
-      },
-      lineOptions2: {
-        // animations: {
-        //   tension: {
-        //     duration: 1000,
-        //     easing: "linear",
-        //     from: 1,
-        //     to: 0,
-        //     loop: true,
-        //   },
-        // },
-        // scales: {
-        //   x: {
-        //     type: "time",
-        //     time: {
-        //       // Luxon format string
-        //       tooltipFormat: "DD T",
-        //     },
-        //     title: {
-        //       display: true,
-        //       text: "Date",
-        //     },
-        //   },
-        //   y: {
-        //     title: {
-        //       display: true,
-        //       text: "value",
-        //     },
-        //   },
-        // },
-        scales: {
-          y: {
-            min: 0,
-            max: 1000,
-          },
-        },
-      },
-      lineOptions: {
+      dataNumber: {},
+      spent: [],
+      topTable: [],
+      income: [],
+      loaded: false,
+      lineProfit: null,
+      barDataCate: null,
+      lineDataUser: null,
+      title: "Admin Dashboard",
+
+      lineOptionsProfit: {
         animations: {
           tension: {
-            duration: 1000,
+            duration: 20000,
             easing: "linear",
             from: 1,
             to: 0,
@@ -1053,11 +916,11 @@ export default {
         scales: {
           y: {
             min: 0,
-            max: 100,
+            max: 20000,
           },
         },
       },
-      barOptions: {
+      barOptionsCate: {
         indexAxis: "y",
         // elements: {
         //   bar: {
@@ -1082,47 +945,7 @@ export default {
           },
         },
       },
-      pieData: {
-        labels: ["Red", "Blue", "Yellow"],
-        datasets: [
-          {
-            label: "My First Dataset",
-            data: [300, 50, 100],
-            backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
-            ],
-            hoverOffset: 4,
-          },
-        ],
-      },
-      lineData3: {
-        // labels: [
-        //   "Jan",
-        //   "Feb",
-        //   "Mar",
-        //   "Apr",
-        //   "May",
-        //   "Jun",
-        //   "Jul",
-        //   "Aug",
-        //   "Sep",
-        //   "Des",
-        //   "Nov",
-        //   "Dec",
-        // ],
-        labels: ["Quarter 1", "Quarter 2", "Quarter 3"],
-        datasets: [
-          {
-            label: "customer",
-            data: [650, 590, 800, 810, 260, 550, 400, 900, 190, 100, 110, 120],
-            fill: false,
-            borderColor: "rgb(163, 117, 57)",
-          },
-        ],
-      },
-      lineOptions3: {
+      lineOptionsUser: {
         // animations: {
         //   tension: {
         //     duration: 1000,
@@ -1154,33 +977,174 @@ export default {
         scales: {
           y: {
             min: 0,
-            max: 1000,
+            max: 20000,
           },
         },
       },
     };
   },
-  mounted() {
-    const doughnutChart = document.getElementById("doughnut");
-    const dn = new Chart(doughnutChart, {
-      type: "doughnut",
-      data: {
-        labels: ["Red", "Blue", "Yellow"],
+  created() {
+    this.getNumber();
+    this.getTopSaleFurniture();
+  },
+  methods: {
+    async getNumber() {
+      try {
+        const response = await axios.get("dashboard/shop-owner/statics");
+        this.dataNumber = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getTopSaleFurniture() {
+      try {
+        const response = await axios.get("dashboard/shop-owner/tables");
+        this.topTable = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
+  async mounted() {
+    this.loaded = false;
+    try {
+      const responseChart = await axios.get("dashboard/shop-owner/charts");
+      const responseCategories = await axios.get(
+        "shopOwner/shop-data/categories"
+      );
+      const listCategories = responseCategories.data.map(
+        (item) => item.categoryName
+      );
+      this.spent = responseChart.data.spentInYear;
+      this.income = responseChart.data.income;
+      //Load data
+      this.loaded = true;
+      //Expense and Revenue
+      this.lineProfit = {
+        labels: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Des",
+          "Nov",
+          "Dec",
+        ],
         datasets: [
           {
-            label: "My First Dataset",
-            data: [300, 50, 100],
-            backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
+            label: "Revenue",
+            // data: this.income,
+            data: [
+              1000, 8000, 3000, 2000, 3000, 10000, 20000, 30000, 40000, 5000,
             ],
-            hoverOffset: 4,
+            fill: false,
+            borderColor: "rgb(163, 117, 57)",
+          },
+          {
+            label: "Expenditure",
+            // data: this.spent,
+            data: [
+              900, 10000, 3000, 2000, 3000, 2000, 4000, 3000, 3000, 4000, 1000,
+            ],
+            fill: false,
+            borderColor: "rgb(247, 219, 183)",
           },
         ],
-      },
-    });
-    dn;
+      };
+      //Top Selling Categories
+      this.barDataCate = {
+        labels: listCategories,
+        datasets: [
+          {
+            // label: "My First Dataset",
+            // data: responseChart.data.categories,
+            data: [
+              900, 10000, 3000, 2000, 3000, 2000, 4000, 3000, 3000, 4000, 1000,
+            ],
+            backgroundColor: [
+              "rgba(62, 151, 255, 0.85)",
+              "rgba(241, 65, 108, 0.85)",
+              "rgba(80, 205, 137, 0.85)",
+              "rgba(255, 199, 0, 0.85)",
+              "rgba(114, 57, 234, 0.85)",
+              "rgba(63, 66, 84, 0.85)",
+            ],
+            // borderWidth: 1,
+            borderColor: "#777",
+            hoverBorderWidth: 3,
+            // hoverBorderColor: "#000",
+            borderRadius: 2,
+            barPercentage: 1.0,
+            categoryPercentage: 0.5,
+          },
+        ],
+      };
+      this.lineDataUser = {
+        labels: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Des",
+          "Nov",
+          "Dec",
+        ],
+        datasets: [
+          {
+            label: "customer",
+            // data: responseChart.data.newAccountInYear,
+            data: [
+              1000, 8000, 3000, 2000, 3000, 10000, 20000, 30000, 40000, 5000,
+              1000, 10000,
+            ],
+            fill: false,
+            borderColor: "rgb(163, 117, 57)",
+          },
+        ],
+      };
+
+      const doughnutChart = document.getElementById("doughnut");
+      const dn = new Chart(doughnutChart, {
+        type: "doughnut",
+        data: {
+          labels: [
+            "Red",
+            "Blue",
+            "Yellow",
+            "Yellow",
+            "Yellow",
+            "Yellow",
+            "Yellow",
+          ],
+          datasets: [
+            {
+              label: "My First Dataset",
+              // data: responseChart.data.woodPercent,
+              data: [10, 80, 30, 20, 30],
+              backgroundColor: [
+                "rgb(255, 99, 132)",
+                "rgb(54, 162, 235)",
+                "rgb(255, 205, 86)",
+              ],
+              hoverOffset: 4,
+            },
+          ],
+        },
+      });
+      dn;
+    } catch (error) {
+      console.error(error);
+    }
   },
 };
 </script>

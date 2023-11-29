@@ -3,10 +3,10 @@
     <div class="nav">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent text-sm pt-4 ml-4 font-medium">
-          <li class="breadcrumb-item text-sm">
+          <li class="breadcrumb-item text-sm font-semibold">
             <router-link to="/indexAssistant">Home</router-link>
           </li>
-          <li class="breadcrumb-item text-sm active" aria-current="page">
+          <li class="breadcrumb-item text-sm font-semibold" aria-current="page">
             Management Material
           </li>
           <li class="breadcrumb-item text-sm active" aria-current="page">
@@ -15,13 +15,28 @@
         </ol>
       </nav>
     </div>
-    <div class="font-semibold text-lg ml-4 pt-4">Import Material</div>
-    <span></span>
-    <div class="content_table pt-14 px-10 scroll">
+    <div class="absolute right-0">
+      <alert-Error v-if="isAlertError">
+        <template v-slot:message>{{ messageError }}</template></alert-Error
+      >
+      <alert-success v-if="isAlertSuccess">
+        <template v-slot:message>{{ messageSuccess }}</template>
+      </alert-success>
+    </div>
+    <div class="font-semibold text-lg ml-4 pt-4 pb-10">Import Material</div>
+    <span class="font-medium text-xs ml-6"
+      >You can download the entire imported material in CSV
+    </span>
+    <br />
+    <span class="font-medium text-xs ml-6"
+      >Please confirm import material if you have received supplier's
+      goods</span
+    >
+    <div class="content_table pt-14 px-6 scroll">
       <div class="flex mb-4">
         <div class="flex items-center gap-x-4 text-sm">
-          <p class="font-semibold">Total Woods:</p>
-          <!-- {{ materials.length }} -->
+          <p class="font-semibold">Total material:</p>
+          {{ imports.length }}
         </div>
         <div class="absolute right-10 flex gap-x-10">
           <button
@@ -55,31 +70,27 @@
           <a
             href="https://landlstore.azurewebsites.net/api/assistant/warehouse/material/import-history/to-csv"
             class="button_download"
-            data-tooltip="Size: 20Mb"
+            type="button"
           >
-            <div class="button-wrapper">
-              <div class="text">Download</div>
-              <span class="icon">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                  role="img"
-                  width="2em"
-                  height="2em"
-                  preserveAspectRatio="xMidYMid meet"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 0 0 4.561 21h14.878a2 2 0 0 0 1.94-1.515L22 17"
-                  ></path>
-                </svg>
-              </span>
-            </div>
+            <span class="button__text text-sm">Download</span>
+            <span class="button__icon"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 35 35"
+                id="bdd05811-e15d-428c-bb53-8661459f9307"
+                data-name="Layer 2"
+                class="svg"
+              >
+                <path
+                  d="M17.5,22.131a1.249,1.249,0,0,1-1.25-1.25V2.187a1.25,1.25,0,0,1,2.5,0V20.881A1.25,1.25,0,0,1,17.5,22.131Z"
+                ></path>
+                <path
+                  d="M17.5,22.693a3.189,3.189,0,0,1-2.262-.936L8.487,15.006a1.249,1.249,0,0,1,1.767-1.767l6.751,6.751a.7.7,0,0,0,.99,0l6.751-6.751a1.25,1.25,0,0,1,1.768,1.767l-6.752,6.751A3.191,3.191,0,0,1,17.5,22.693Z"
+                ></path>
+                <path
+                  d="M31.436,34.063H3.564A3.318,3.318,0,0,1,.25,30.749V22.011a1.25,1.25,0,0,1,2.5,0v8.738a.815.815,0,0,0,.814.814H31.436a.815.815,0,0,0,.814-.814V22.011a1.25,1.25,0,1,1,2.5,0v8.738A3.318,3.318,0,0,1,31.436,34.063Z"
+                ></path></svg
+            ></span>
           </a>
         </div>
         <modal
@@ -97,7 +108,7 @@
           <template v-slot:body>
             <div class="text-sm">
               <div class="mx-4 mb-6">
-                <div class="flex gap-x-6 my-3">
+                <!-- <div class="flex gap-x-6 my-3">
                   <label for="exampleInputEmail1" class="form-label font-medium"
                     >Bill Image</label
                   >
@@ -130,7 +141,7 @@
                     </div>
                     <input type="file" id="file" @change="onFileChange" />
                   </label>
-                </div>
+                </div> -->
                 <div class="row mb-6">
                   <label class="col-lg-4 col-form-label fw-medium"
                     >Repository</label
@@ -149,6 +160,7 @@
                         v-for="repo in reponsitories"
                         :key="repo.repositoryId"
                         :value="repo.repositoryId"
+                        required
                       >
                         {{ repo.repositoryName }}
                       </option>
@@ -173,6 +185,7 @@
                         v-for="ma in materials"
                         :key="ma.materialId"
                         :value="ma.materialId"
+                        required
                       >
                         {{ ma.materialName }}
                       </option>
@@ -190,6 +203,7 @@
                       class="form-control border-none bg-neutral-100"
                       id="firstname"
                       aria-describedby="firstnameHelp"
+                      required
                     />
                   </div>
                 </div>
@@ -202,6 +216,7 @@
                       class="form-control border-none bg-neutral-100"
                       id="firstname"
                       aria-describedby="firstnameHelp"
+                      required
                     />
                   </div>
                 </div>
@@ -418,6 +433,7 @@
                             v-for="repo in reponsitories"
                             :key="repo.repositoryId"
                             :value="repo.repositoryId"
+                            required
                           >
                             {{ repo.repositoryName }}
                           </option>
@@ -446,6 +462,7 @@
                     <span
                       type="button"
                       class="btn text-white"
+                      data-dismiss="modal"
                       @click="HandleTranfer(i)"
                     >
                       Transfer
@@ -467,62 +484,52 @@
                 </template>
                 <template v-slot:body>
                   <div class="text-sm">
-                    <div class="mx-4 mb-6 mt-2">
-                      <div class="">
-                        <label class="col-form-label fw-medium"
+                    <div class="row mx-1 mb-6 mt-2">
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
                           >Bill Image</label
                         >
-                        <div class="">
-                          <div class="flex">
-                            <div class="avatar_upload ml-14 py-3">
-                              <div v-if="i.billImage">
-                                <img
-                                  v-if="!url"
-                                  :src="i.billImage"
-                                  alt="image"
-                                  class="w-8/12"
-                                />
-                                <img
-                                  v-else-if="url"
-                                  :src="url"
-                                  alt="image"
-                                  class="w-8/12"
-                                />
-                              </div>
+                        <div class="col-lg-8 flex">
+                          <div class="avatar_upload py-3">
+                            <img v-if="url" :src="url" alt="Avatar" />
+                            <img
+                              v-else
+                              src="@/assets/images/assistant/image_default.jpeg"
+                              alt="Avatar"
+                            />
+                          </div>
+                          <div class="avatar_edit">
+                            <div class="hidden">
+                              <input
+                                type="file"
+                                name="avatar"
+                                id="imageUpload"
+                                accept=".png, .jpg, .jpeg"
+                                :maxFileSize="1000000"
+                                ref="file"
+                                @change="onFileChange"
+                              />
                             </div>
-                            <div class="avatar_edit">
-                              <div class="hidden">
-                                <input
-                                  type="file"
-                                  name="avatar"
-                                  id="imageUpload"
-                                  accept=".png, .jpg, .jpeg"
-                                  :maxFileSize="1000000"
-                                  ref="file"
-                                  @change="onFileChange"
-                                />
-                              </div>
-                              <label
-                                class="bi bi-pencil text-xs"
-                                for="imageUpload"
-                              ></label>
-                            </div>
+                            <label
+                              class="bi bi-pencil text-xs"
+                              for="imageUpload"
+                            ></label>
                           </div>
                         </div>
                       </div>
                       <div class="row mb-6">
                         <label class="col-lg-4 col-form-label fw-medium"
-                          >Delivery Date
-                        </label>
+                          >Delivery Date</label
+                        >
                         <div class="col-lg-8">
-                          <span>{{ i.deliveryDate }}</span>
-                          <!-- <input
+                          <input
                             v-model="deliveryDate"
-                            type="date"
+                            type="text"
                             class="form-control border-none bg-neutral-100"
                             id="firstname"
                             aria-describedby="firstnameHelp"
-                          /> -->
+                            required
+                          />
                         </div>
                       </div>
                     </div>
@@ -533,6 +540,7 @@
                     <span
                       type="button"
                       class="btn text-white"
+                      data-dismiss="modal"
                       @click.prevent="HandleConfirmImport(i)"
                     >
                       Confirm
@@ -560,6 +568,7 @@
                     <span
                       type="button"
                       class="btn text-white"
+                      data-dismiss="modal"
                       @click="HandleDelete(i)"
                     >
                       Delete
@@ -579,9 +588,13 @@
 import { format } from "date-fns";
 import axios from "axios";
 import modal from "@/components/ModalPage.vue";
+import alertError from "@/components/AlertError.vue";
+import alertSuccess from "@/components/AlertSuccess.vue";
 export default {
   components: {
     modal,
+    alertError,
+    alertSuccess,
   },
   data() {
     return {
@@ -590,6 +603,10 @@ export default {
       reponsitories: [],
       modalType: null,
       isAllModal: false,
+      isAlertSuccess: false,
+      isAlertError: false,
+      messageError: null,
+      messageSuccess: null,
       url: "",
       file: "",
       materialIdModal: null,
@@ -612,14 +629,15 @@ export default {
         );
         if (response.status == 200) {
           this.imports = response.data;
-
-          this.imports = this.imports.map((item) => {
-            const dateCre = new Date(item.creationDate);
-            const dateDeli = new Date(item.deliveryDate);
-            item.creationDate = format(dateCre, "dd/MM/yyyy");
-            item.deliveryDate = format(dateDeli, "dd/MM/yyyy");
-            return item;
-          });
+          this.imports = response.data.map((item) => ({
+            ...item,
+            creationDate: item.creationDate
+              ? format(new Date(item.creationDate), "dd/MM/yyyy")
+              : "",
+            deliveryDate: item.deliveryDate
+              ? format(new Date(item.deliveryDate), "dd/MM/yyyy")
+              : "",
+          }));
         }
       } catch (error) {
         console.error(error);
@@ -646,13 +664,6 @@ export default {
     },
     closeModal() {
       this.modalType = null;
-    },
-    onFileChange(event) {
-      this.file = event.target.files[0];
-      if (this.file) {
-        this.url = URL.createObjectURL(this.file);
-      }
-      console.log(event);
     },
     async HandleAdd() {
       try {
@@ -689,12 +700,17 @@ export default {
         console.error(error);
       }
     },
+    onFileChange(event) {
+      this.file = event.target.files[0];
+      if (this.file) {
+        this.url = URL.createObjectURL(this.file);
+      }
+      console.log(event);
+    },
     async HandleConfirmImport(i) {
       const formData = new FormData();
-      formData.append("DeliveryDate", i.deliveryDate);
-      if (this.file == null) {
-        formData.append("BillImage", this.file);
-      } else formData.append("BillImage", i.billImage);
+      formData.append("DeliveryDate", this.deliveryDate);
+      formData.append("BillImage", this.file);
       try {
         const response = await axios.put(
           "assistant/warehouse/material/imports/confirm/" + i.importId,
@@ -1031,117 +1047,64 @@ table {
   width: 95em;
 }
 .button_download {
-  --width: 100px;
-  --height: 35px;
-  --tooltip-height: 35px;
-  --tooltip-width: 90px;
-  --gap-between-tooltip-to-button: 18px;
-  --button-color: #1163ff;
-  --tooltip-color: #fff;
-  width: var(--width);
-  height: var(--height);
-  background: var(--button-color);
   position: relative;
-  text-align: center;
-  border-radius: 0.45em;
-  font-family: "Arial";
-  transition: background 0.3s;
-}
-
-.button_download::before {
-  position: absolute;
-  content: attr(data-tooltip);
-  width: var(--tooltip-width);
-  height: var(--tooltip-height);
-  background-color: var(--tooltip-color);
-  font-size: 0.9rem;
-  color: #111;
-  border-radius: 0.25em;
-  line-height: var(--tooltip-height);
-  bottom: calc(var(--height) + var(--gap-between-tooltip-to-button) + 10px);
-  left: calc(50% - var(--tooltip-width) / 2);
-}
-
-.button_download::after {
-  position: absolute;
-  content: "";
-  width: 0;
-  height: 0;
-  border: 10px solid transparent;
-  border-top-color: var(--tooltip-color);
-  left: calc(50% - 10px);
-  bottom: calc(100% + var(--gap-between-tooltip-to-button) - 10px);
-}
-
-.button_download::after,
-.button_download::before {
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.5s;
-}
-
-.button_download .text {
+  width: 125px;
+  height: 32px;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center;
-}
-
-.button_download .button-wrapper,
-.button_download .text,
-.button_download .icon {
+  border: 1px solid #6dddbe;
+  background-color: #366054;
   overflow: hidden;
+  border-radius: 7px;
+}
+
+.button_download,
+.button_download .button__icon,
+.button_download .button__text {
+  transition: all 0.3s;
+}
+
+.button_download .button__text {
+  transform: translateX(8px);
+  color: #fff;
+  font-weight: 600;
+}
+
+.button_download .button__icon {
   position: absolute;
-  width: 100%;
+  transform: translateX(85px);
   height: 100%;
-  left: 0;
-  color: #fff;
-}
-
-.button_download .text {
-  top: 0;
-}
-
-.button_download .text,
-.button_download .icon {
-  transition: top 0.5s;
-}
-
-.button_download .icon {
-  color: #fff;
-  top: 100%;
+  width: 39px;
+  background-color: #17795e;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.button_download .icon svg {
-  width: 24px;
-  height: 24px;
+.button_download .svg {
+  width: 20px;
+  fill: #fff;
 }
 
 .button_download:hover {
-  background: #6c18ff;
+  background: #17795e;
 }
 
-.button_download:hover .text {
-  top: -100%;
+.button_download:hover .button__text {
+  color: transparent;
 }
 
-.button_download:hover .icon {
-  top: 0;
+.button_download:hover .button__icon {
+  width: 120px;
+  transform: translateX(0);
 }
 
-.button_download:hover:before,
-.button_download:hover:after {
-  opacity: 1;
-  visibility: visible;
+.button_download:active .button__icon {
+  background-color: #146c54;
 }
 
-.button_download:hover:after {
-  bottom: calc(var(--height) + var(--gap-between-tooltip-to-button) - 20px);
-}
-
-.button_download:hover:before {
-  bottom: calc(var(--height) + var(--gap-between-tooltip-to-button));
+.button_download:active {
+  border: 1px solid #146c54;
 }
 </style>

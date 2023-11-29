@@ -3,12 +3,13 @@
   <div class="profile_customer">
     <div class="nav pt-36 pb-3 mb-2 max-md:pt-24">
       <nav aria-label="breadcrumb">
-        <ol class="flex bg-none ml-28 max-sm:ml-3 max-md:ml-4">
-          <li class="breadcrumb-item">
-            <router-link to="customerIndex">Home </router-link>
+        <ol class="breadcrumb flex bg-none ml-28 max-sm:ml-3 max-md:ml-4">
+          <li class="breadcrumb-item font-semibold text-yellow-950">
+            <router-link to="customerIndex">Home</router-link>
           </li>
-          <li class="breadcrumb-item">
-            <router-link to="#">Profile</router-link>
+
+          <li class="breadcrumb-item active font-medium" aria-current="page">
+            Profile
           </li>
         </ol>
       </nav>
@@ -28,16 +29,18 @@
       <div class="view-account">
         <section class="module">
           <div class="module-inner grid grid-cols-6 max-md:grid-cols-4">
-            <div class="side-bar col-span-1">
+            <div class="side-bar col-span-1 h-56">
               <div class="user-info">
-                <!-- <img :src="avatar" alt="avatar" /> -->
-                <img
+                <img :src="info.avatar" alt="avatar" />
+                <!-- <img
                   class="rounded-md"
                   src="@/assets/images/avatar.jpg"
                   alt=""
-                />
+                /> -->
                 <ul class="meta list list-unstyled">
-                  <li class="name">{{ info.firstName }} {{ info.lastName }}</li>
+                  <li class="name font-medium mt-2">
+                    {{ info.firstName }} {{ info.lastName }}
+                  </li>
                   <li class="activity text-sm">
                     Last logged in: Today at 2:18pm
                   </li>
@@ -87,7 +90,16 @@
                       aria-controls="warranty"
                       role="tab"
                       data-toggle="tab"
-                      ><span class="fa-solid fa-shield-halved"></span> Warranty
+                      ><span class="fa-solid fa-shield-halved"></span> Guarantee
+                    </a>
+                  </li>
+                  <li role="presentation">
+                    <a
+                      href="#feedback"
+                      aria-controls="feedback"
+                      role="tab"
+                      data-toggle="tab"
+                      ><span class="bi bi-star-fill"></span> Feedback
                     </a>
                   </li>
                   <li role="presentation">
@@ -169,13 +181,173 @@
             </div>
             <!-- Tab panes -->
             <div class="tab-content col-span-5 ml-10 max-md:col-span-3">
-              <div role="tabpanel" class="tab-pane" id="profile">
+              <div role="tabpanel" class="tab-pane active" id="profile">
                 <div class="bg-white form">
-                  <h1
-                    class="py-3 font-semibold text-base pl-10 text-yellow-950"
-                  >
-                    Information
-                  </h1>
+                  <div class="flex">
+                    <h1
+                      class="py-3 font-semibold text-base pl-10 text-yellow-950"
+                    >
+                      Information
+                    </h1>
+                    <div class="absolute right-40 flex gap-x-3">
+                      <div
+                        v-if="info.isActivated === true"
+                        @click="opentModal('disable', 'null')"
+                        data-toggle="modal"
+                        data-target="#exampleModalLong"
+                        class="bg-yellow-700 px-2 py-1 text-white rounded-md text-sm cursor-pointer mt-3 font-medium"
+                      >
+                        Disable
+                      </div>
+
+                      <div
+                        v-if="info.twoFactorEnabled === true"
+                        @click="HandleToggole2fa"
+                        data-toggle="modal"
+                        data-target="#exampleModalLong"
+                        class="bg-lime-700 px-2 py-1 text-white rounded-md text-sm cursor-pointer mt-3 font-medium"
+                      >
+                        Set 2F
+                      </div>
+                      <div
+                        v-if="info.twoFactorEnabled === false"
+                        @click="HandleToggole2fa"
+                        data-toggle="modal"
+                        data-target="#exampleModalLong"
+                        class="bg-lime-700 px-2 py-1 text-white rounded-md text-sm cursor-pointer mt-3 font-medium"
+                      >
+                        Cancel 2F
+                      </div>
+                    </div>
+
+                    <div
+                      v-if="info.isActivated === false"
+                      @click="opentModal('enable', 'null')"
+                      data-toggle="modal"
+                      data-target="#exampleModalLong"
+                      class="absolute right-40 bg-lime-700 px-2 py-1 text-white rounded-md text-sm cursor-pointer mt-3"
+                    >
+                      Enable
+                    </div>
+                    <modal
+                      v-if="modalType == 'disable'"
+                      @close="modalType == null"
+                      data-target="#myModal"
+                    >
+                      <template v-slot:title>
+                        <div
+                          class="flex items-center text-base font-semibold text-yellow-950"
+                        >
+                          Disable Account
+                        </div>
+                      </template>
+                      <template v-slot:body>
+                        <div class="text-sm text-left">
+                          <div class="mx-2 my-2">
+                            <div class="row mb-6">
+                              <label class="col-lg-4 col-form-label fw-medium"
+                                >Password</label
+                              >
+                              <div class="col-lg-8">
+                                <input
+                                  v-model="disablePassword"
+                                  type="password"
+                                  class="form-control border-none bg-neutral-100"
+                                  id="firstname"
+                                  aria-describedby="firstnameHelp"
+                                  required
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </template>
+                      <template v-slot:footer>
+                        <div class="bg-yellow-900 rounded-md">
+                          <span
+                            type="button"
+                            class="btn text-white"
+                            data-dismiss="modal"
+                            @click="handleDisable"
+                          >
+                            Disable
+                          </span>
+                        </div>
+                      </template>
+                    </modal>
+                    <modal
+                      v-if="modalType == 'enable'"
+                      @close="modalType == null"
+                      data-target="#myModal"
+                    >
+                      <template v-slot:title>
+                        <div
+                          class="flex items-center text-base font-semibold text-yellow-950"
+                        >
+                          Enable Account
+                        </div>
+                      </template>
+                      <template v-slot:body>
+                        <div class="text-sm text-left">
+                          <div class="mx-2 my-2">
+                            <div class="row mb-6">
+                              <label class="col-lg-4 col-form-label fw-medium"
+                                >Email</label
+                              >
+                              <div class="col-lg-8">
+                                <div class="input-group mb-3">
+                                  <input
+                                    v-model="email"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Recipient's username"
+                                    aria-label="Recipient's username"
+                                    aria-describedby="basic-addon2"
+                                  />
+                                  <div class="input-group-append">
+                                    <button
+                                      class="btn btn-outline-secondary"
+                                      type="button"
+                                      @click="handleEnableOtp"
+                                    >
+                                      Send Otp
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row mb-6">
+                              <label class="col-lg-4 col-form-label fw-medium"
+                                >Otp</label
+                              >
+                              <div class="col-lg-8">
+                                <input
+                                  v-model="otp"
+                                  type="text"
+                                  class="form-control border-none bg-neutral-100"
+                                  id="firstname"
+                                  aria-describedby="firstnameHelp"
+                                  required
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </template>
+                      <template v-slot:footer>
+                        <div class="bg-yellow-900 rounded-md">
+                          <span
+                            type="button"
+                            class="btn text-white"
+                            data-dismiss="modal"
+                            @click="handleEnable"
+                          >
+                            Enable
+                          </span>
+                        </div>
+                      </template>
+                    </modal>
+                  </div>
                   <div
                     class="border-dotted border-1 border-indigo-gray opacity-20"
                   ></div>
@@ -320,7 +492,7 @@
                           @click="opentModal('change')"
                           data-toggle="modal"
                           data-target="#exampleModalLong"
-                          class="px-2 py-1 text-white hover:ring-offset-2 hover:ring-2 bg-red-800 hover:ring-red-200 text-sm rounded-md transition duration-700 ease-in-out font-medium"
+                          class="px-2 py-1 text-white hover:ring-offset-2 hover:ring-2 bg-cyan-600 hover:bg-cyan-800 text-sm rounded-md transition duration-700 ease-in-out font-medium"
                         >
                           Change
                         </button>
@@ -388,6 +560,7 @@
                               <span
                                 type="button"
                                 class="btn text-white"
+                                data-dismiss="modal"
                                 @click.prevent="HandleUpdatePhone"
                               >
                                 Save changes
@@ -396,6 +569,18 @@
                           </template>
                         </modal>
                       </div>
+                    </div>
+                    <div class="row mb-4 flex">
+                      <label class="col-lg-4 font-medium text-sm text-slate-600"
+                        >Point</label
+                      >
+                      <label
+                        class="col-lg-8 font-semibold text-sm text-yellow-950"
+                        >{{ info.point }}
+                        <i
+                          class="bi bi-currency-dollar text-amber-500 text-sm"
+                        ></i
+                      ></label>
                     </div>
                   </div>
                 </div>
@@ -456,7 +641,7 @@
                         >
                         <div class="col-lg-8">
                           <input
-                            v-model="info.firtName"
+                            v-model="info.firstName"
                             type="text"
                             class="form-control border-none bg-neutral-100"
                             id="firstname"
@@ -499,7 +684,7 @@
                         <div class="col-lg-8">
                           <input
                             v-model="DoB"
-                            type="text"
+                            type="date"
                             class="form-control border-none bg-neutral-100"
                             id="firstname"
                             aria-describedby="firstnameHelp"
@@ -573,9 +758,6 @@
                     class="border-dotted border-1 border-indigo-gray opacity-20"
                   ></div>
                   <div class="px-4 py-3" v-if="address.length">
-                    <!-- <h2 class="pt-3 py-8 px-3 font-medium text-yellow-950">
-                      Address
-                    </h2> -->
                     <div
                       class="flex gap-x-10 py-3"
                       v-for="ad in address"
@@ -598,20 +780,36 @@
                           >
                         </div>
                       </div>
-                      <!-- <select
-                        class="form-select"
-                        aria-label="Default select example"
-                        v-model="ad.addressType"
+                      <div
+                        v-if="ad.addressType === 'HOME'"
+                        class="span_address"
                       >
-                        <option selected>Set as Default Address</option>
-                        <option value="DEFAULT">Default</option>
-                        <option value="HOME">HOME</option>
-                      </select> -->
+                        <div
+                          class="border-solid border-2 border-zinc-600 rounded-full"
+                        >
+                          <span
+                            class="px-2 py-1 font-medium text-zinc-600 text-xs"
+                            >home</span
+                          >
+                        </div>
+                      </div>
+                      <div
+                        v-if="ad.addressType === 'COMPANY'"
+                        class="span_address"
+                      >
+                        <div
+                          class="border-solid border-2 border-zinc-600 rounded-full"
+                        >
+                          <span
+                            class="px-2 py-1 font-medium text-zinc-600 text-xs"
+                            >company</span
+                          >
+                        </div>
+                      </div>
                       <div class="absolute right-40 flex gap-x-5">
                         <button
                           data-toggle="modal"
                           data-target="#exampleModalLong"
-                          data-dismiss="modal"
                           data-backdrop="false"
                           @click="opentModal('editAddress', ad)"
                           class="px-2 py-1 text-white hover:ring-offset-2 hover:ring-2 bg-slate-600 text-sm rounded-md transition duration-700 ease-in-out font-medium"
@@ -619,7 +817,10 @@
                           Edit
                         </button>
                         <button
-                          @click="HandleDelete(ad)"
+                          data-toggle="modal"
+                          data-target="#exampleModalLong"
+                          data-backdrop="false"
+                          @click="opentModal('deleteAddress', ad)"
                           class="px-2 py-1 text-white hover:ring-offset-2 hover:ring-2 bg-red-600 hover:ring-red-200 text-sm rounded-md transition duration-700 ease-in-out font-medium"
                         >
                           Delete
@@ -692,21 +893,6 @@
                               />
                             </div>
                           </div>
-                          <!-- <div class="form-check py-2">
-                            <input
-                              class="form-check-input"
-                              type="checkbox"
-                              value=""
-                              id="flexCheckChecked"
-                              v-model="ad.type"
-                            />
-                            <label
-                              class="form-check-label text-zinc-950 font-medium text-sm opacity-80"
-                              for="flexCheckChecked"
-                            >
-                              Set as Default Address
-                            </label>
-                          </div> -->
                           <select
                             class="form-select"
                             aria-label="Default select example"
@@ -728,6 +914,40 @@
                             </span>
                           </div></template
                         >
+                      </modal>
+                      <modal
+                        v-if="modalType == 'deleteAddress'"
+                        @close="modalType == null"
+                        data-target="#myModal"
+                      >
+                        <template v-slot:title>
+                          <div class="flex items-center text-lg font-semibold">
+                            Delete
+                          </div>
+                        </template>
+                        <template v-slot:body>
+                          <p class="text-base py-3">
+                            Are you sure detete
+                            <b>
+                              {{ addressModal.street }}
+                              {{ addressModal.ward }}
+                              {{ addressModal.district }}
+                              {{ addressModal.provine }}?</b
+                            >
+                          </p>
+                        </template>
+                        <template v-slot:footer>
+                          <div class="bg-red-900 rounded-md">
+                            <span
+                              type="button"
+                              class="btn text-white"
+                              data-dismiss="modal"
+                              @click="HandleDelete"
+                            >
+                              Delete
+                            </span>
+                          </div>
+                        </template>
                       </modal>
                     </div>
                   </div>
@@ -754,9 +974,11 @@
                             class="form-control border-none bg-neutral-100"
                             id="firstname"
                             aria-describedby="firstnameHelp"
+                            required
                           />
                         </div>
                       </div>
+
                       <div class="row mb-6">
                         <label class="col-lg-4 col-form-label fw-medium"
                           >Ward</label
@@ -768,6 +990,7 @@
                             class="form-control border-none bg-neutral-100"
                             id="firstname"
                             aria-describedby="firstnameHelp"
+                            required
                           />
                         </div>
                       </div>
@@ -782,6 +1005,7 @@
                             class="form-control border-none bg-neutral-100"
                             id="firstname"
                             aria-describedby="firstnameHelp"
+                            required
                           />
                         </div>
                       </div>
@@ -796,37 +1020,88 @@
                             class="form-control border-none bg-neutral-100"
                             id="firstname"
                             aria-describedby="firstnameHelp"
+                            required
                           />
+                        </div>
+                      </div>
+                      <!-- <div>
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Province</label
+                        >
+                        <select
+                          v-model="district"
+                          class="form-select text-sm"
+                          aria-label="Default select example"
+                        >
+                          <option selected>Choose Province</option>
+                          <div v-for="province in provinces" :key="province">
+                            <option
+                              v-for="d in province.data"
+                              :key="d.ProvinceID"
+                              :value="d.ProvinceID"
+                            >
+                              {{ d.ProvinceName }}
+                            </option>
+                          </div>
+                        </select> -->
+                      <!-- </div>
+                       <div>
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Province</label
+                        >
+                        <select
+                          v-model="selectedProvinceID"
+                          class="form-select text-sm"
+                          aria-label="Default select example"
+                        >
+                          <option value="" selected>Choose Province</option>
+                          <optgroup
+                            v-for="province in provinces"
+                            :key="province.CountryID"
+                            :label="province.ProvinceName"
+                          >
+                            <option
+                              v-for="d in province.data"
+                              :key="d.ProvinceID"
+                              :value="d.ProvinceID"
+                            >
+                              {{ d.ProvinceName }}
+                            </option>
+                          </optgroup>
+                        </select> -->
+                      <!-- Hiển thị thông tin của province được chọn -->
+                      <!-- <div v-if="selectedProvinceID">
+                          <p>Province ID: {{ selectedProvinceID }}</p>
+                          <p>
+                            Province Name:
+                            {{ getProvinceName(selectedProvinceID) }}
+                          </p>
+                        </div> -->
+                      <!-- </div> -->
+                      <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-medium"
+                          >Label As</label
+                        >
+                        <div class="col-lg-8">
+                          <select
+                            class="form-select address"
+                            aria-label="Default select example"
+                            v-model="type"
+                          >
+                            <option selected>Set as Default Address</option>
+                            <option value="DEFAULT">DEFAULT</option>
+                            <option value="HOME">HOME</option>
+                            <option value="COMPANY">COMPANY</option>
+                          </select>
                         </div>
                       </div>
                       <div
                         class="border-solid border border-indigo-black opacity-30"
                       ></div>
-                      <!-- <div class="form-check py-4">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          value=""
-                          id="flexCheckChecked"
-                          v-model="type"
-                        />
-
-                        <label
-                          class="form-check-label text-zinc-950 font-medium text-sm opacity-80"
-                          for="flexCheckChecked"
-                        >
-                          Set as Default Address
-                        </label>
-                      </div> -->
-                      <select
-                        class="form-select"
-                        aria-label="Default select example"
-                        v-model="type"
-                      >
-                        <option selected>Set as Default Address</option>
-                        <option value="DEFAULT">Default</option>
-                        <option value="HOME">HOME</option>
-                      </select>
                       <div class="my-1 pb-16">
                         <button
                           type="submit"
@@ -845,7 +1120,7 @@
                     <!-- Nav tabs -->
                     <div class="nav-order">
                       <ul
-                        class="nav nav-pills bg-white flex- gap-x-48 pl-20 py-3 text-base font-medium"
+                        class="nav nav-pills bg-white flex gap-x-20 pl-20 py-3 text-base font-medium"
                         role="tablist"
                       >
                         <li role="presentation" class="active">
@@ -863,7 +1138,7 @@
                             aria-controls="transport"
                             role="tab"
                             data-toggle="tab"
-                            >In Transport</a
+                            >Pending</a
                           >
                         </li>
                         <li role="presentation">
@@ -872,7 +1147,25 @@
                             aria-controls="completed"
                             role="tab"
                             data-toggle="tab"
-                            >Completed</a
+                            >Preparing</a
+                          >
+                        </li>
+                        <li role="presentation">
+                          <a
+                            href="#completed"
+                            aria-controls="completed"
+                            role="tab"
+                            data-toggle="tab"
+                            >Delivering</a
+                          >
+                        </li>
+                        <li role="presentation">
+                          <a
+                            href="#completed"
+                            aria-controls="completed"
+                            role="tab"
+                            data-toggle="tab"
+                            >Delivered</a
                           >
                         </li>
                         <li role="presentation">
@@ -889,18 +1182,414 @@
 
                     <!-- Tab panes -->
                     <div class="tab-content">
-                      <div role="tabpanel" class="tab-pane active" id="all">
+                      <div
+                        role="tabpanel"
+                        class="tab-pane active"
+                        id="all"
+                        v-if="orderAll.length"
+                      >
                         <div class="">
-                          <div clas="product">
-                            <div class="ibox-content mt-3 rounded-sm">
+                          <div
+                            clas="product"
+                            v-for="or in orderAll"
+                            :key="or.orderId"
+                          >
+                            <div class="ibox-content mt-3 rounded-md shadow-sm">
                               <div class="text-sm flex flex-cols-2">
-                                <div>ID Order: 234</div>
-                                <div class="date_order">Date: 9/5/2023</div>
+                                <div class="font-medium text-gray-600">
+                                  ID Order: {{ or.orderId }}
+                                </div>
+                                <div class="absolute right-36">
+                                  <div
+                                    v-if="or.status === 'Pending'"
+                                    class="bg-yellow-500 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
+                                  >
+                                    Pending
+                                  </div>
+                                  <div
+                                    v-if="or.status === 'Processing'"
+                                    class="bg-emerald-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
+                                  >
+                                    Processing
+                                  </div>
+                                  <div
+                                    v-if="or.status === 'Preparing'"
+                                    class="bg-red-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
+                                  >
+                                    Preparing
+                                  </div>
+                                  <div
+                                    v-if="or.status === 'Delivering'"
+                                    class="bg-amber-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
+                                  >
+                                    Delivering
+                                  </div>
+                                  <div
+                                    v-if="or.status === 'Delivered'"
+                                    class="flex gap-x-3"
+                                  >
+                                    <div
+                                      class="bg-lime-700 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
+                                    >
+                                      Delivered
+                                    </div>
+                                    <div
+                                      data-toggle="modal"
+                                      data-target="#exampleModalLong"
+                                      data-backdrop="false"
+                                      @click="opentModalOrder('guarantee', or)"
+                                      class="bg-red-700 px-2 py-1 text-white rounded-md text-sm mr-2 cursor-pointer"
+                                    >
+                                      Guarantee
+                                    </div>
+                                    <div
+                                      data-toggle="modal"
+                                      data-target="#exampleModalLong"
+                                      data-backdrop="false"
+                                      @click="opentModalOrder('feedback', or)"
+                                      class="bg-sky-600 px-2 py-1 text-white rounded-md text-sm mr-2 cursor-pointer"
+                                    >
+                                      Feedback
+                                    </div>
+                                  </div>
+                                </div>
+                                <modal
+                                  v-if="modalType == 'guarantee'"
+                                  @close="closeModal"
+                                  data-target="#myModal"
+                                >
+                                  <template v-slot:title>
+                                    <h5
+                                      class="modal-title font-semibold text-lg text-yellow-950"
+                                      id="exampleModalLabel"
+                                    >
+                                      Add Guarantee
+                                    </h5>
+                                  </template>
+                                  <template v-slot:body>
+                                    <!-- <div class="">
+                                      <label class="col-form-label fw-medium"
+                                        >Image</label
+                                      >
+                                      <div class="">
+                                        <div class="flex">
+                                          <div
+                                            v-for="url in arrayUrl"
+                                            :key="url"
+                                            class="avatar_upload ml-14 py-3"
+                                          >
+                                            <img
+                                              v-if="url"
+                                              :src="url"
+                                              alt="image"
+                                            />
+                                            <img
+                                              v-else
+                                              src="@/assets/images/assistant/image_default.jpeg"
+                                              alt="image"
+                                            />
+                                          </div>
+                                          <div class="avatar_edit">
+                                            <div class="hidden">
+                                              <input
+                                                id="imageUpload"
+                                                type="file"
+                                                accept=".png, .jpg, .jpeg"
+                                                :maxFileSize="1000000"
+                                                ref="file"
+                                                multiple
+                                                @change="onFileGuarantee"
+                                              />
+                                            </div>
+                                            <label
+                                              class="bi bi-pencil text-xs"
+                                              for="imageUpload"
+                                            ></label>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div> -->
+                                    <div
+                                      class="w-full items-center gap-x-6 pb-3"
+                                    >
+                                      <label
+                                        for="exampleFormControlInput1 font-semibold"
+                                        >Picture</label
+                                      >
+                                      <input
+                                        id="picture"
+                                        type="file"
+                                        accept=".png, .jpg, .jpeg"
+                                        :maxFileSize="1000000"
+                                        ref="file"
+                                        multiple
+                                        @change="onFile"
+                                        class="bg-slate-100 h-10 w-full rounded-md border border-input px-2 py-1 text-sm file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium"
+                                      />
+                                      <div class="image_upload flex gap-x-4">
+                                        <div
+                                          v-for="url in arrayUrl"
+                                          :key="url"
+                                          class="flex"
+                                        >
+                                          <img
+                                            class="object-contain h-48 w-96"
+                                            v-if="url"
+                                            :src="url"
+                                            alt="Avatar"
+                                          />
+                                          <label
+                                            @click="HandleRemoveImage(url)"
+                                            class="bi bi-x cursor-pointer"
+                                          ></label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="mt-3">
+                                      <label class="col-form-label fw-medium"
+                                        >Warranty Reasons
+                                      </label>
+                                      <div class="">
+                                        <input
+                                          v-model="reason"
+                                          type="text"
+                                          class="form-control border-none bg-neutral-100"
+                                          id="firstname"
+                                          aria-describedby="firstnameHelp"
+                                          required
+                                        />
+                                      </div>
+                                    </div>
+                                  </template>
+                                  <template v-slot:footer
+                                    ><div
+                                      class="bg-yellow-900 rounded-md cursor-pointer"
+                                    >
+                                      <span
+                                        type="button"
+                                        class="btn text-white"
+                                        data-dismiss="modal"
+                                        @click.prevent="CreateGuarantee"
+                                      >
+                                        Create
+                                      </span>
+                                    </div></template
+                                  >
+                                </modal>
+                                <modal
+                                  v-if="modalType == 'feedback'"
+                                  @close="closeModal"
+                                  data-target="#myModal"
+                                >
+                                  <template v-slot:title>
+                                    <h5
+                                      class="modal-title font-semibold text-base"
+                                      id="exampleModalLabel"
+                                    >
+                                      Feedback
+                                    </h5>
+                                  </template>
+                                  <template v-slot:body>
+                                    <div>
+                                      <label
+                                        for="exampleInputEmail1"
+                                        class="form-label font-medium"
+                                        >Furniture</label
+                                      >
+                                      <select
+                                        v-if="orderModel.furniture.length"
+                                        v-model="furSpeFeedback"
+                                        class="form-select text-sm"
+                                        aria-label="Default select example"
+                                      >
+                                        <option selected>Choose Label</option>
+                                        <option
+                                          v-for="furSpe in orderModel.furniture"
+                                          :key="furSpe.furnitureSpecificationId"
+                                          :value="
+                                            furSpe.furnitureSpecificationId
+                                          "
+                                        >
+                                          {{
+                                            furSpe.furnitureSpecificationname
+                                          }}
+                                        </option>
+                                      </select>
+                                    </div>
+                                    <div class="mt-3">
+                                      <label
+                                        for="exampleInputEmail1"
+                                        class="form-label font-medium"
+                                        >Image</label
+                                      >
+                                      <div
+                                        v-if="arrayUrl.length"
+                                        class="flex gap-x-2"
+                                      >
+                                        <div
+                                          v-for="url in arrayUrl"
+                                          :key="url"
+                                          class="flex gap-x-2"
+                                        >
+                                          <img
+                                            class="object-contain h-48 w-96"
+                                            v-if="url"
+                                            :src="url"
+                                            alt="Avatar"
+                                          />
+                                          <label
+                                            @click="HandleRemoveImage(url)"
+                                            class="bi bi-x cursor-pointer"
+                                          ></label>
+                                        </div>
+                                      </div>
+                                      <div v-else class="ml-24">
+                                        <label
+                                          class="custum-file-upload"
+                                          for="file"
+                                        >
+                                          <div class="icon">
+                                            <svg
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              fill=""
+                                              viewBox="0 0 24 24"
+                                            >
+                                              <g
+                                                stroke-width="0"
+                                                id="SVGRepo_bgCarrier"
+                                              ></g>
+                                              <g
+                                                stroke-linejoin="round"
+                                                stroke-linecap="round"
+                                                id="SVGRepo_tracerCarrier"
+                                              ></g>
+                                              <g id="SVGRepo_iconCarrier">
+                                                <path
+                                                  fill=""
+                                                  d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z"
+                                                  clip-rule="evenodd"
+                                                  fill-rule="evenodd"
+                                                ></path>
+                                              </g>
+                                            </svg>
+                                          </div>
+                                          <div class="text">
+                                            <span>Click to upload image</span>
+                                          </div>
+                                          <input
+                                            type="file"
+                                            accept=".png, .jpg, .jpeg"
+                                            :maxFileSize="1000000"
+                                            ref="file"
+                                            multiple
+                                            @change="onFile"
+                                            id="file"
+                                          />
+                                        </label>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="bg-white grid grid-cols-6 gap-2 rounded-xl p-2 text-sm"
+                                    >
+                                      <label class="font-medium text-sm"
+                                        >Content</label
+                                      >
+                                      <textarea
+                                        v-model="content"
+                                        placeholder="Your feedback..."
+                                        class="bg-slate-100 text-slate-600 h-28 placeholder:text-slate-600 placeholder:opacity-50 border border-slate-200 col-span-6 resize-none outline-none rounded-lg p-2 duration-300 focus:border-slate-600"
+                                      ></textarea>
+                                    </div>
+                                    <div
+                                      class="bg-white flex gap-2 rounded-xl p-2 text-sm mt-3"
+                                    >
+                                      <label class="font-medium text-sm"
+                                        >Vote Star</label
+                                      >
+                                      <div class="rating">
+                                        <input
+                                          v-model="star"
+                                          value="5"
+                                          name="rate"
+                                          id="star5"
+                                          type="radio"
+                                          required
+                                        />
+                                        <label title="text" for="star5"></label>
+                                        <input
+                                          value="4"
+                                          name="rate"
+                                          v-model="star"
+                                          id="star4"
+                                          type="radio"
+                                          required
+                                        />
+                                        <label title="text" for="star4"></label>
+                                        <input
+                                          value="3"
+                                          name="rate"
+                                          v-model="star"
+                                          id="star3"
+                                          type="radio"
+                                          checked=""
+                                          required
+                                        />
+                                        <label title="text" for="star3"></label>
+                                        <input
+                                          value="2"
+                                          name="rate"
+                                          v-model="star"
+                                          id="star2"
+                                          type="radio"
+                                          required
+                                        />
+                                        <label title="text" for="star2"></label>
+                                        <input
+                                          value="1"
+                                          name="rate"
+                                          v-model="star"
+                                          id="star1"
+                                          type="radio"
+                                          required
+                                        />
+                                        <label title="text" for="star1"></label>
+                                      </div>
+                                    </div>
+                                    <div class="ml-2 py-3">
+                                      <label class="font-medium">
+                                        <input
+                                          v-model="anonymous"
+                                          type="checkbox"
+                                          class="accent-pink-500"
+                                        />
+                                        Anonymous
+                                      </label>
+                                    </div>
+                                  </template>
+                                  <template v-slot:footer
+                                    ><div
+                                      class="bg-yellow-900 rounded-md cursor-pointer"
+                                    >
+                                      <span
+                                        type="button"
+                                        class="btn text-white"
+                                        data-dismiss="modal"
+                                        @click.prevent="HandleFeedback"
+                                      >
+                                        Feedback
+                                      </span>
+                                    </div></template
+                                  >
+                                </modal>
+                                <!-- <div class="date_order">Date: 9/5/2023</div> -->
                               </div>
-                              <hr class="my-3" />
+                              <hr class="my-3 h-px text-slate-300" />
                               <div class="table-responsive">
                                 <table class="table shoping-cart-table">
-                                  <tbody>
+                                  <tbody
+                                    v-for="fur in or.furniture"
+                                    :key="fur.furnitureId"
+                                  >
                                     <tr>
                                       <td width="90">
                                         <div class="cart-product-imitation">
@@ -911,3351 +1600,1067 @@
                                         </div>
                                       </td>
                                       <td class="desc">
-                                        <h3>
-                                          <a href="#" class="text-navy">
-                                            Solid 2m4 red oak wood TV shelf
-                                          </a>
+                                        <h3 class="mb-2 break-all mt-3">
+                                          <span class="text-navy font-bold">
+                                            {{ fur.furnitureName }}
+                                          </span>
                                         </h3>
-                                        <p class="small">
-                                          It is a long established fact that a
-                                          reader will be distracted by the
-                                          readable content of a page when
-                                          looking at its layout. The point of
-                                          using Lorem Ipsum is
-                                        </p>
-                                        <dl class="small m-b-none">
-                                          <dt>Description lists</dt>
-                                          <dd>
-                                            A description list is perfect for
-                                            defining terms.
-                                          </dd>
-                                        </dl>
-
-                                        <div class="m-t-sm">
-                                          <div
-                                            href="#"
-                                            class="text-muted cursor-pointer"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal"
-                                          >
-                                            <i
-                                              class="fa-solid fa-circle-info"
-                                            ></i>
-                                            Detail
-                                          </div>
-                                          <!-- Modal -->
-                                          <div
-                                            class="modal fade"
-                                            id="exampleModal"
-                                            tabindex="-1"
-                                            aria-labelledby="exampleModalLabel"
-                                            aria-hidden="true"
-                                          >
-                                            <div
-                                              class="modal-dialog modal-dialog-centered"
+                                        <h3>
+                                          <div class="specificationname">
+                                            <span
+                                              class="font-semibold info_customizeOrder"
                                             >
-                                              <div class="modal-content">
-                                                <div class="modal-header">
-                                                  <h5
-                                                    class="modal-title font-medium"
-                                                    id="exampleModalLabel"
-                                                  >
-                                                    Detail Order Transport
-                                                  </h5>
-                                                  <button
-                                                    type="button"
-                                                    class="btn-close"
-                                                    data-bs-dismiss="modal"
-                                                    aria-label="Close"
-                                                  ></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                  <div class="">
-                                                    <div class="container mb-3">
-                                                      <div
-                                                        class="row d-flex justify-content-center"
-                                                      >
-                                                        <div class="">
-                                                          <div class="card">
-                                                            <div
-                                                              class="invoice"
-                                                            >
-                                                              <span
-                                                                class="font-weight-bold d-block mt-4"
-                                                                >Infromation</span
-                                                              >
-                                                              <div class="py-2">
-                                                                <span
-                                                                  class="d-inlineblock pr-3 text-red-500"
-                                                                  ><i
-                                                                    class="fa-solid fa-location-dot pr-1"
-                                                                  ></i>
-                                                                  Shiping
-                                                                  Address:</span
-                                                                >
-                                                                <span
-                                                                  >12 Me Tri- Ha
-                                                                  Noi</span
-                                                                >
-                                                              </div>
-                                                              <div
-                                                                class="payment border-top mt-3 mb-3 border-bottom table-responsive"
-                                                              >
-                                                                <table
-                                                                  class="table table-borderless"
-                                                                >
-                                                                  <tbody>
-                                                                    <tr>
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Order
-                                                                            Date</span
-                                                                          >
-                                                                          <span
-                                                                            >12
-                                                                            Jan,2018</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Order
-                                                                            No</span
-                                                                          >
-                                                                          <span
-                                                                            >O1233</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Payment</span
-                                                                          >
-                                                                          <span
-                                                                            ><img
-                                                                              src="https://img.icons8.com/color/48/000000/mastercard.png"
-                                                                              width="20"
-                                                                          /></span>
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </tbody>
-                                                                </table>
-                                                              </div>
-
-                                                              <div
-                                                                class="product border-bottom table-responsive"
-                                                              >
-                                                                <table
-                                                                  class="table table-borderless"
-                                                                >
-                                                                  <tbody>
-                                                                    <tr>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <img
-                                                                          src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                                                          width="90"
-                                                                        />
-                                                                      </td>
-
-                                                                      <td
-                                                                        width="60%"
-                                                                      >
-                                                                        <span
-                                                                          class="font-weight-bold"
-                                                                          >Sofa
-                                                                          1</span
-                                                                        >
-                                                                        <div
-                                                                          class="product-qty"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block"
-                                                                            >Quantity:1</span
-                                                                          >
-                                                                          <span
-                                                                            >Color:Dark</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <div
-                                                                          class="text-right"
-                                                                        >
-                                                                          <span
-                                                                            class="font-weight-bold"
-                                                                            >$67.50</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-
-                                                                    <tr>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <img
-                                                                          src="@/assets/images/category/shelves_tv/shelves.png"
-                                                                          width="70"
-                                                                        />
-                                                                      </td>
-
-                                                                      <td
-                                                                        width="60%"
-                                                                      >
-                                                                        <span
-                                                                          class="font-weight-bold"
-                                                                          >Sofa
-                                                                          2</span
-                                                                        >
-                                                                        <div
-                                                                          class="product-qty"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block"
-                                                                            >Quantity:1</span
-                                                                          >
-                                                                          <span
-                                                                            >Color:Orange</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <div
-                                                                          class="text-right"
-                                                                        >
-                                                                          <span
-                                                                            class="font-weight-bold"
-                                                                            >$77.50</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </tbody>
-                                                                </table>
-                                                              </div>
-
-                                                              <div
-                                                                class="row d-flex justify-content-end"
-                                                              >
-                                                                <div
-                                                                  class="col-md-5"
-                                                                >
-                                                                  <table
-                                                                    class="table table-borderless"
-                                                                  >
-                                                                    <tbody
-                                                                      class="totals"
-                                                                    >
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Subtotal</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$168.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Shipping
-                                                                              Fee</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$22</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Tax
-                                                                              Fee</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$7.65</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Discount</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              class="text-success"
-                                                                              >$168.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr
-                                                                        class="border-top border-bottom"
-                                                                      >
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="font-weight-bold"
-                                                                              >Subtotal</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              class="font-weight-bold"
-                                                                              >$238.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-                                                                    </tbody>
-                                                                  </table>
-                                                                </div>
-                                                              </div>
-
-                                                              <p
-                                                                class="font-weight-bold mb-0"
-                                                              >
-                                                                Thanks for
-                                                                shopping with
-                                                                us!
-                                                              </p>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                  <div
-                                                    class="bg-gray-600 rounded-md"
-                                                  >
-                                                    <button
-                                                      type="button"
-                                                      class="btn text-white"
-                                                      data-bs-dismiss="modal"
-                                                    >
-                                                      Close
-                                                    </button>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
+                                              Specification name:
+                                            </span>
+                                            <span
+                                              class="font-medium info_customizeOrder"
+                                            >
+                                              {{
+                                                fur.furnitureSpecificationname
+                                              }}
+                                            </span>
                                           </div>
-                                        </div>
-                                      </td>
-
-                                      <td>
-                                        $180,00
-                                        <s class="small text-muted">$230,00</s>
+                                        </h3>
                                       </td>
                                       <td
                                         width="65"
                                         class="font-semibold text-center"
                                       >
-                                        1
+                                        <div class="flex gap-x-4 mt-3">
+                                          <label
+                                            class="quantity font-meidum info_customizeOrder"
+                                            >Quantity:</label
+                                          >
+                                          <span
+                                            class="font-medium info_customizeOrder mr-10 mt-1"
+                                            >x{{ fur.quantity }}</span
+                                          >
+                                        </div>
                                       </td>
-                                      <td>
-                                        <h4>$180,00</h4>
+                                      <td
+                                        width="65"
+                                        class="font-semibold text-center"
+                                      >
+                                        <div
+                                          class="flex gap-x-4 mt-1 mr-2 mt-3"
+                                        >
+                                          <label
+                                            class="quantity font-meidum info_customizeOrder"
+                                            >Cost:</label
+                                          >
+                                          <h4
+                                            class="font-medium text-red-500 mt-1 text-sm"
+                                          >
+                                            ${{ fur.cost }}
+                                          </h4>
+                                        </div>
                                       </td>
                                     </tr>
                                   </tbody>
                                 </table>
-                              </div>
-                              <hr class="my-3" />
-                              <div class="float-right flex gap-x-3">
-                                <div
-                                  class="bg-yellow-600 px-2 py-2 text-white rounded-md text-sm"
-                                >
-                                  Transpost
-                                </div>
-                                <div
-                                  class="bg-lime-700 px-2 py-2 text-white rounded-md text-sm"
-                                >
-                                  Completed
-                                </div>
-                                <div
-                                  class="bg-red-600 px-2 py-2 text-white rounded-md text-sm"
-                                >
-                                  Cancel
+                                <hr class="my-3 h-px text-slate-300" />
+                                <div class="flex">
+                                  <div class="m-t-sm my-2 ml-2">
+                                    <div
+                                      class="flex gap-x-2"
+                                      data-toggle="modal"
+                                      data-target="#exampleModalLong"
+                                      data-backdrop="false"
+                                      @click="opentModalOrder('detail', or)"
+                                    >
+                                      <i
+                                        class="fa-solid fa-circle-info text-sm text-gray-600"
+                                      ></i>
+                                      <span
+                                        class="font-medium text-sm cursor-pointer text-gray-900"
+                                        >Detail</span
+                                      >
+                                    </div>
+                                    <modal
+                                      v-if="modalType == 'detail'"
+                                      @close="closeModal"
+                                      data-target="#myModal"
+                                    >
+                                      <template v-slot:title>
+                                        <h5
+                                          class="modal-title font-semibold"
+                                          id="exampleModalLabel"
+                                        >
+                                          Detail Order Transport
+                                        </h5>
+                                      </template>
+                                      <template v-slot:body>
+                                        <div class="invoice mt-2">
+                                          <span class="font-weight-bold d-block"
+                                            >Infromation</span
+                                          >
+                                          <div class="py-2">
+                                            <span
+                                              class="d-inlineblock pr-3 text-red-500"
+                                              ><i
+                                                class="fa-solid fa-location-dot pr-1"
+                                              ></i>
+                                              Shiping Address:</span
+                                            >
+                                            <span>12 Me Tri- Ha Noi</span>
+                                          </div>
+                                          <div
+                                            class="payment border-top mt-3 mb-3 border-bottom table-responsive"
+                                          >
+                                            <table
+                                              class="table table-borderless"
+                                            >
+                                              <tbody>
+                                                <tr>
+                                                  <td>
+                                                    <div class="py-2">
+                                                      <span class="mr-3"
+                                                        >Order Id</span
+                                                      >
+                                                      <span>{{
+                                                        orderModel.orderId
+                                                      }}</span>
+                                                    </div>
+                                                  </td>
+                                                  <td>
+                                                    <div class="py-2">
+                                                      <span
+                                                        class="d-block text-muted"
+                                                        >Payment</span
+                                                      >
+                                                      <span
+                                                        ><img
+                                                          class="w-1/12"
+                                                          v-if="
+                                                            orderModel.paymentMethod ===
+                                                            'VNPAYQR'
+                                                          "
+                                                          src="@/assets/images/payment_method/bank.png"
+                                                          alt="image"
+                                                        />
+                                                        <img
+                                                          class="w-1/12"
+                                                          v-if="
+                                                            orderModel.paymentMethod ===
+                                                            'VNPAY'
+                                                          "
+                                                          src="@/assets/images/payment_method/vnpay.png"
+                                                          alt="image"
+                                                        />
+                                                      </span>
+                                                    </div>
+                                                  </td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                          </div>
+
+                                          <div
+                                            class="product border-bottom table-responsive"
+                                          >
+                                            <table
+                                              class="table table-borderless"
+                                            >
+                                              <tbody
+                                                v-for="fur in orderModel.furniture"
+                                                :key="fur.furnitureId"
+                                              >
+                                                <tr>
+                                                  <td width="20%">
+                                                    <img
+                                                      src="@/assets/images/category/shelves_tv/shelves_11.png"
+                                                      width="90"
+                                                    />
+                                                  </td>
+
+                                                  <td width="60%">
+                                                    <span
+                                                      class="font-weight-bold"
+                                                    >
+                                                      {{
+                                                        fur.furnitureSpecificationname
+                                                      }}</span
+                                                    >
+                                                    <div class="product-qty">
+                                                      <span class="d-block"
+                                                        >Quantity:{{
+                                                          fur.quantity
+                                                        }}</span
+                                                      >
+                                                    </div>
+                                                  </td>
+                                                  <td width="20%">
+                                                    <div class="text-right">
+                                                      <span
+                                                        class="font-weight-bold"
+                                                        >${{ fur.cost }}</span
+                                                      >
+                                                    </div>
+                                                  </td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                          </div>
+
+                                          <div
+                                            class="row d-flex justify-content-end"
+                                          >
+                                            <div class="col-md-5">
+                                              <table
+                                                class="table table-borderless"
+                                              >
+                                                <tbody class="totals">
+                                                  <tr>
+                                                    <td>
+                                                      <div class="text-left">
+                                                        <span class="text-muted"
+                                                          >Shipping Fee</span
+                                                        >
+                                                      </div>
+                                                    </td>
+                                                  </tr>
+
+                                                  <tr
+                                                    class="border-top border-bottom"
+                                                  >
+                                                    <td>
+                                                      <div class="text-left">
+                                                        <span
+                                                          class="font-weight-bold"
+                                                          >Subtotal</span
+                                                        >
+                                                      </div>
+                                                    </td>
+                                                    <td>
+                                                      <div class="text-right">
+                                                        <span
+                                                          class="font-weight-bold"
+                                                          >${{
+                                                            orderModel.totalCost
+                                                          }}</span
+                                                        >
+                                                      </div>
+                                                    </td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                            </div>
+                                          </div>
+                                          <p class="font-weight-bold mb-0">
+                                            Thanks for shopping with us!
+                                          </p>
+                                        </div>
+                                      </template>
+                                      <template v-slot:footer> </template>
+                                    </modal>
+                                  </div>
+
+                                  <div class="flex gap-x-4 absolute right-40">
+                                    <span
+                                      class="total_cost_order font-semibold mt-2"
+                                      >Total Cost:
+                                    </span>
+                                    <span
+                                      class="font-bold text-lg text-red-500 mt-1"
+                                      >${{ or.totalCost }}</span
+                                    >
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
                         <br />
-                        <div class="">
-                          <div clas="product">
-                            <div class="ibox-content mt-3 rounded-sm">
-                              <div class="text-sm flex flex-cols-2">
-                                <div>ID Order: 567</div>
-                                <div class="date_order">Date: 9/5/2023</div>
-                              </div>
-                              <hr class="my-3" />
-                              <div class="table-responsive">
-                                <table class="table shoping-cart-table">
-                                  <tbody>
-                                    <tr>
-                                      <td width="90">
-                                        <div class="cart-product-imitation">
-                                          <img
-                                            src="@/assets/images/category/shelves_tv/shelves.png"
-                                            alt=""
-                                          />
-                                        </div>
-                                      </td>
-                                      <td class="desc">
-                                        <h3>
-                                          <a href="#" class="text-navy">
-                                            Solid 2m4 red oak wood TV shelf
-                                          </a>
-                                        </h3>
-                                        <p class="small">
-                                          It is a long established fact that a
-                                          reader will be distracted by the
-                                          readable content of a page when
-                                          looking at its layout. The point of
-                                          using Lorem Ipsum is
-                                        </p>
-                                        <dl class="small m-b-none">
-                                          <dt>Description lists</dt>
-                                          <dd>
-                                            A description list is perfect for
-                                            defining terms.
-                                          </dd>
-                                        </dl>
-
-                                        <div class="m-t-sm">
-                                          <div
-                                            href="#"
-                                            class="text-muted cursor-pointer"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal_complete"
-                                          >
-                                            <i
-                                              class="fa-solid fa-circle-info"
-                                            ></i>
-                                            Detail
-                                          </div>
-                                          <!-- Modal -->
-                                          <div
-                                            class="modal fade"
-                                            id="exampleModal_complete"
-                                            tabindex="-1"
-                                            aria-labelledby="exampleModalLabel"
-                                            aria-hidden="true"
-                                          >
-                                            <div
-                                              class="modal-dialog modal-dialog-centered"
-                                            >
-                                              <div class="modal-content">
-                                                <div class="modal-header">
-                                                  <h5
-                                                    class="modal-title font-medium"
-                                                    id="exampleModalLabel"
-                                                  >
-                                                    Detail Order Compeleted
-                                                  </h5>
-                                                  <button
-                                                    type="button"
-                                                    class="btn-close"
-                                                    data-bs-dismiss="modal"
-                                                    aria-label="Close"
-                                                  ></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                  <div class="">
-                                                    <div class="container mb-3">
-                                                      <div
-                                                        class="row d-flex justify-content-center"
-                                                      >
-                                                        <div class="">
-                                                          <div class="card">
-                                                            <div
-                                                              class="invoice"
-                                                            >
-                                                              <div
-                                                                class="py-2 flex"
-                                                              >
-                                                                <span
-                                                                  class="d-block pr-3 text-lime-600"
-                                                                  >Cancel Date:
-                                                                </span>
-                                                                <span
-                                                                  >12
-                                                                  Jan,2018</span
-                                                                >
-                                                              </div>
-                                                              <span
-                                                                class="font-weight-bold d-block mt-4"
-                                                                >Infromation</span
-                                                              >
-                                                              <div class="py-2">
-                                                                <span
-                                                                  class="d-inlineblock pr-3 text-red-500"
-                                                                  ><i
-                                                                    class="fa-solid fa-location-dot pr-1"
-                                                                  ></i>
-                                                                  Shiping
-                                                                  Address:</span
-                                                                >
-                                                                <span
-                                                                  >12 Me Tri- Ha
-                                                                  Noi</span
-                                                                >
-                                                              </div>
-                                                              <div
-                                                                class="payment border-top mt-3 mb-3 border-bottom table-responsive"
-                                                              >
-                                                                <table
-                                                                  class="table table-borderless"
-                                                                >
-                                                                  <tbody>
-                                                                    <tr>
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Order
-                                                                            Date</span
-                                                                          >
-                                                                          <span
-                                                                            >12
-                                                                            Jan,2018</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Order
-                                                                            No</span
-                                                                          >
-                                                                          <span
-                                                                            >O1233</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Payment</span
-                                                                          >
-                                                                          <span
-                                                                            ><img
-                                                                              src="https://img.icons8.com/color/48/000000/mastercard.png"
-                                                                              width="20"
-                                                                          /></span>
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </tbody>
-                                                                </table>
-                                                              </div>
-
-                                                              <div
-                                                                class="product border-bottom table-responsive"
-                                                              >
-                                                                <table
-                                                                  class="table table-borderless"
-                                                                >
-                                                                  <tbody>
-                                                                    <tr>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <img
-                                                                          src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                                                          width="90"
-                                                                        />
-                                                                      </td>
-
-                                                                      <td
-                                                                        width="60%"
-                                                                      >
-                                                                        <span
-                                                                          class="font-weight-bold"
-                                                                          >Sofa
-                                                                          1</span
-                                                                        >
-                                                                        <div
-                                                                          class="product-qty"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block"
-                                                                            >Quantity:1</span
-                                                                          >
-                                                                          <span
-                                                                            >Color:Dark</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <div
-                                                                          class="text-right"
-                                                                        >
-                                                                          <span
-                                                                            class="font-weight-bold"
-                                                                            >$67.50</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-
-                                                                    <tr>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <img
-                                                                          src="@/assets/images/category/shelves_tv/shelves.png"
-                                                                          width="70"
-                                                                        />
-                                                                      </td>
-
-                                                                      <td
-                                                                        width="60%"
-                                                                      >
-                                                                        <span
-                                                                          class="font-weight-bold"
-                                                                          >Sofa
-                                                                          2</span
-                                                                        >
-                                                                        <div
-                                                                          class="product-qty"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block"
-                                                                            >Quantity:1</span
-                                                                          >
-                                                                          <span
-                                                                            >Color:Orange</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <div
-                                                                          class="text-right"
-                                                                        >
-                                                                          <span
-                                                                            class="font-weight-bold"
-                                                                            >$77.50</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </tbody>
-                                                                </table>
-                                                              </div>
-
-                                                              <div
-                                                                class="row d-flex justify-content-end"
-                                                              >
-                                                                <div
-                                                                  class="col-md-5"
-                                                                >
-                                                                  <table
-                                                                    class="table table-borderless"
-                                                                  >
-                                                                    <tbody
-                                                                      class="totals"
-                                                                    >
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Subtotal</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$168.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Shipping
-                                                                              Fee</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$22</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Tax
-                                                                              Fee</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$7.65</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Discount</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              class="text-success"
-                                                                              >$168.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr
-                                                                        class="border-top border-bottom"
-                                                                      >
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="font-weight-bold"
-                                                                              >Subtotal</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              class="font-weight-bold"
-                                                                              >$238.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-                                                                    </tbody>
-                                                                  </table>
-                                                                </div>
-                                                              </div>
-
-                                                              <p
-                                                                class="font-weight-bold mb-0"
-                                                              >
-                                                                Thanks for
-                                                                shopping with
-                                                                us!
-                                                              </p>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                  <div
-                                                    class="bg-gray-600 rounded-md"
-                                                  >
-                                                    <button
-                                                      type="button"
-                                                      class="btn text-white"
-                                                      data-bs-dismiss="modal"
-                                                    >
-                                                      Close
-                                                    </button>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </td>
-
-                                      <td>
-                                        $180,00
-                                        <s class="small text-muted">$230,00</s>
-                                      </td>
-                                      <td
-                                        width="65"
-                                        class="font-semibold text-center"
-                                      >
-                                        1
-                                      </td>
-                                      <td>
-                                        <h4>$180,00</h4>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
-                              <hr class="my-3" />
-                              <div class="float-right flex gap-x-3">
-                                <div
-                                  class="bg-yellow-600 px-2 py-2 text-white rounded-md text-sm"
-                                >
-                                  Transpost
-                                </div>
-                                <div
-                                  class="bg-lime-700 px-2 py-2 text-white rounded-md text-sm"
-                                >
-                                  Completed
-                                </div>
-                                <div
-                                  class="bg-red-600 px-2 py-2 text-white rounded-md text-sm"
-                                >
-                                  Cancel
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <br />
-                        <div class="">
-                          <div clas="product">
-                            <div class="ibox-content mt-3 rounded-sm">
-                              <div class="text-sm flex flex-cols-2">
-                                <div>ID Order: 789</div>
-                                <div class="date_order">Date: 9/5/2023</div>
-                              </div>
-                              <hr class="my-3" />
-                              <div class="table-responsive">
-                                <table class="table shoping-cart-table">
-                                  <tbody>
-                                    <tr>
-                                      <td width="90">
-                                        <div class="cart-product-imitation">
-                                          <img
-                                            src="@/assets/images/category/shelves_tv/shelves_12.png"
-                                            alt=""
-                                          />
-                                        </div>
-                                      </td>
-                                      <td class="desc">
-                                        <h3>
-                                          <a href="#" class="text-navy">
-                                            Solid 2m4 red oak wood TV shelf
-                                          </a>
-                                        </h3>
-                                        <p class="small">
-                                          It is a long established fact that a
-                                          reader will be distracted by the
-                                          readable content of a page when
-                                          looking at its layout. The point of
-                                          using Lorem Ipsum is
-                                        </p>
-                                        <dl class="small m-b-none">
-                                          <dt>Description lists</dt>
-                                          <dd>
-                                            A description list is perfect for
-                                            defining terms.
-                                          </dd>
-                                        </dl>
-
-                                        <div class="m-t-sm">
-                                          <div
-                                            href="#"
-                                            class="text-muted cursor-pointer"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal_cancel"
-                                          >
-                                            <i
-                                              class="fa-solid fa-circle-info"
-                                            ></i>
-                                            Detail
-                                          </div>
-                                          <!-- Modal -->
-                                          <div
-                                            class="modal fade"
-                                            id="exampleModal_cancel"
-                                            tabindex="-1"
-                                            aria-labelledby="exampleModalLabel"
-                                            aria-hidden="true"
-                                          >
-                                            <div
-                                              class="modal-dialog modal-dialog-centered"
-                                            >
-                                              <div class="modal-content">
-                                                <div class="modal-header">
-                                                  <h5
-                                                    class="modal-title font-medium"
-                                                    id="exampleModalLabel"
-                                                  >
-                                                    Detail Order Cancel
-                                                  </h5>
-                                                  <button
-                                                    type="button"
-                                                    class="btn-close"
-                                                    data-bs-dismiss="modal"
-                                                    aria-label="Close"
-                                                  ></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                  <div class="">
-                                                    <div class="container mb-3">
-                                                      <div
-                                                        class="row d-flex justify-content-center"
-                                                      >
-                                                        <div class="">
-                                                          <div class="card">
-                                                            <div
-                                                              class="invoice"
-                                                            >
-                                                              <div
-                                                                class="py-2 flex"
-                                                              >
-                                                                <span
-                                                                  class="d-block pr-3 text-red-500"
-                                                                  >Cancel Date:
-                                                                </span>
-                                                                <span
-                                                                  >12
-                                                                  Jan,2018</span
-                                                                >
-                                                              </div>
-                                                              <span
-                                                                class="font-weight-bold d-block mt-4"
-                                                                >Infromation</span
-                                                              >
-                                                              <div class="py-2">
-                                                                <span
-                                                                  class="d-inlineblock pr-3 text-red-500"
-                                                                  ><i
-                                                                    class="fa-solid fa-location-dot pr-1"
-                                                                  ></i>
-                                                                  Shiping
-                                                                  Address:</span
-                                                                >
-                                                                <span
-                                                                  >12 Me Tri- Ha
-                                                                  Noi</span
-                                                                >
-                                                              </div>
-                                                              <div
-                                                                class="payment border-top mt-3 mb-3 border-bottom table-responsive"
-                                                              >
-                                                                <table
-                                                                  class="table table-borderless"
-                                                                >
-                                                                  <tbody>
-                                                                    <tr>
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Order
-                                                                            Date</span
-                                                                          >
-                                                                          <span
-                                                                            >12
-                                                                            Jan,2018</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Order
-                                                                            No</span
-                                                                          >
-                                                                          <span
-                                                                            >O1233</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Payment</span
-                                                                          >
-                                                                          <span
-                                                                            ><img
-                                                                              src="https://img.icons8.com/color/48/000000/mastercard.png"
-                                                                              width="20"
-                                                                          /></span>
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </tbody>
-                                                                </table>
-                                                              </div>
-
-                                                              <div
-                                                                class="product border-bottom table-responsive"
-                                                              >
-                                                                <table
-                                                                  class="table table-borderless"
-                                                                >
-                                                                  <tbody>
-                                                                    <tr>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <img
-                                                                          src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                                                          width="90"
-                                                                        />
-                                                                      </td>
-
-                                                                      <td
-                                                                        width="60%"
-                                                                      >
-                                                                        <span
-                                                                          class="font-weight-bold"
-                                                                          >Sofa
-                                                                          1</span
-                                                                        >
-                                                                        <div
-                                                                          class="product-qty"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block"
-                                                                            >Quantity:1</span
-                                                                          >
-                                                                          <span
-                                                                            >Color:Dark</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <div
-                                                                          class="text-right"
-                                                                        >
-                                                                          <span
-                                                                            class="font-weight-bold"
-                                                                            >$67.50</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-
-                                                                    <tr>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <img
-                                                                          src="@/assets/images/category/shelves_tv/shelves.png"
-                                                                          width="70"
-                                                                        />
-                                                                      </td>
-
-                                                                      <td
-                                                                        width="60%"
-                                                                      >
-                                                                        <span
-                                                                          class="font-weight-bold"
-                                                                          >Sofa
-                                                                          2</span
-                                                                        >
-                                                                        <div
-                                                                          class="product-qty"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block"
-                                                                            >Quantity:1</span
-                                                                          >
-                                                                          <span
-                                                                            >Color:Orange</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <div
-                                                                          class="text-right"
-                                                                        >
-                                                                          <span
-                                                                            class="font-weight-bold"
-                                                                            >$77.50</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </tbody>
-                                                                </table>
-                                                              </div>
-
-                                                              <div
-                                                                class="row d-flex justify-content-end"
-                                                              >
-                                                                <div
-                                                                  class="col-md-5"
-                                                                >
-                                                                  <table
-                                                                    class="table table-borderless"
-                                                                  >
-                                                                    <tbody
-                                                                      class="totals"
-                                                                    >
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Subtotal</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$168.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Shipping
-                                                                              Fee</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$22</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Tax
-                                                                              Fee</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$7.65</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Discount</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              class="text-success"
-                                                                              >$168.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr
-                                                                        class="border-top border-bottom"
-                                                                      >
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="font-weight-bold"
-                                                                              >Subtotal</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              class="font-weight-bold"
-                                                                              >$238.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-                                                                    </tbody>
-                                                                  </table>
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                  <div
-                                                    class="bg-gray-600 rounded-md"
-                                                  >
-                                                    <button
-                                                      type="button"
-                                                      class="btn text-white"
-                                                      data-bs-dismiss="modal"
-                                                    >
-                                                      Close
-                                                    </button>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </td>
-
-                                      <td>
-                                        $180,00
-                                        <s class="small text-muted">$230,00</s>
-                                      </td>
-                                      <td
-                                        width="65"
-                                        class="font-semibold text-center"
-                                      >
-                                        1
-                                      </td>
-                                      <td>
-                                        <h4>$180,00</h4>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
-                              <hr class="my-3" />
-                              <div class="float-right flex gap-x-3">
-                                <div
-                                  class="bg-yellow-600 px-2 py-2 text-white rounded-md text-sm"
-                                >
-                                  Transpost
-                                </div>
-                                <div
-                                  class="bg-lime-700 px-2 py-2 text-white rounded-md text-sm"
-                                >
-                                  Completed
-                                </div>
-                                <div
-                                  class="bg-red-600 px-2 py-2 text-white rounded-md text-sm"
-                                >
-                                  Cancel
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
                       </div>
                       <div role="tabpanel" class="tab-pane" id="transport">
                         <div class="">
-                          <div clas="product">
-                            <div class="ibox-content mt-3 rounded-sm">
+                          <div
+                            clas="product"
+                            v-for="or in orderPending"
+                            :key="or.orderId"
+                          >
+                            <div class="ibox-content mt-3 rounded-md shadow-sm">
                               <div class="text-sm flex flex-cols-2">
-                                <div>ID Order: 123</div>
-                                <div class="date_order">Date: 9/5/2023</div>
+                                <div
+                                  class="font-semibold text-gray-600 orderId"
+                                >
+                                  ID Order: {{ or.orderId }}
+                                </div>
+                                <div class="absolute right-36">
+                                  <div
+                                    v-if="or.status === 'Delivering'"
+                                    class="bg-amber-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
+                                  >
+                                    Delivering
+                                  </div>
+                                </div>
+                                <!-- <div class="date_order">Date: 9/5/2023</div> -->
                               </div>
-                              <hr class="my-3" />
+                              <hr class="my-3 h-px text-slate-300" />
                               <div class="table-responsive">
                                 <table class="table shoping-cart-table">
-                                  <tbody>
+                                  <tbody
+                                    v-for="fur in or.furniture"
+                                    :key="fur.furnitureId"
+                                  >
                                     <tr>
                                       <td width="90">
                                         <div class="cart-product-imitation">
                                           <img
-                                            src="@/assets/images/category/shelves_tv/shelves.png"
+                                            src="@/assets/images/category/shelves_tv/shelves_11.png"
                                             alt=""
                                           />
                                         </div>
                                       </td>
                                       <td class="desc">
-                                        <h3>
-                                          <a href="#" class="text-navy">
-                                            Solid 2m4 red oak wood TV shelf
-                                          </a>
+                                        <h3 class="mb-2 mt-3">
+                                          <span class="text-navy font-bold">
+                                            {{ fur.furnitureName }}
+                                          </span>
                                         </h3>
-                                        <p class="small">
-                                          It is a long established fact that a
-                                          reader will be distracted by the
-                                          readable content of a page when
-                                          looking at its layout. The point of
-                                          using Lorem Ipsum is
-                                        </p>
-                                        <dl class="small m-b-none">
-                                          <dt>Description lists</dt>
-                                          <dd>
-                                            A description list is perfect for
-                                            defining terms.
-                                          </dd>
-                                        </dl>
-
-                                        <div class="m-t-sm">
-                                          <div
-                                            href="#"
-                                            class="text-muted cursor-pointer"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal_transform"
-                                          >
-                                            <i
-                                              class="fa-solid fa-circle-info"
-                                            ></i>
-                                            Detail
+                                        <h3>
+                                          <div class="specificationname">
+                                            <span class="font-semibold text-sm">
+                                              Specification name:
+                                            </span>
+                                            <span class="font-medium text-sm">
+                                              {{
+                                                fur.furnitureSpecificationname
+                                              }}
+                                            </span>
                                           </div>
-                                          <!-- Modal -->
-                                          <div
-                                            class="modal fade"
-                                            id="exampleModal_transform"
-                                            tabindex="-1"
-                                            aria-labelledby="exampleModalLabel"
-                                            aria-hidden="true"
-                                          >
-                                            <div
-                                              class="modal-dialog modal-dialog-centered"
-                                            >
-                                              <div class="modal-content">
-                                                <div class="modal-header">
-                                                  <h5
-                                                    class="modal-title"
-                                                    id="exampleModalLabel"
-                                                  >
-                                                    Detail Order
-                                                  </h5>
-                                                  <button
-                                                    type="button"
-                                                    class="btn-close"
-                                                    data-bs-dismiss="modal"
-                                                    aria-label="Close"
-                                                  ></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                  <section class="vh-100">
-                                                    <div class="h-100">
-                                                      <div
-                                                        class="row d-flex justify-content-center h-100"
-                                                      >
-                                                        <div class="col">
-                                                          <div
-                                                            class="card card-stepper"
-                                                            style="
-                                                              border-radius: 10px;
-                                                            "
-                                                          >
-                                                            <div
-                                                              class="card-body p-4"
-                                                            >
-                                                              <div
-                                                                class="d-flex justify-content-between align-items-center"
-                                                              >
-                                                                <div
-                                                                  class="d-flex flex-column"
-                                                                >
-                                                                  <span
-                                                                    class="lead fw-normal text-base"
-                                                                    >Your order
-                                                                    has been
-                                                                    delivered</span
-                                                                  >
-                                                                  <span
-                                                                    class="text-muted small"
-                                                                    >on 21 Jan,
-                                                                    2023</span
-                                                                  >
-                                                                </div>
-                                                              </div>
-                                                              <hr
-                                                                class="my-4"
-                                                              />
-                                                              <div
-                                                                class="bg-white rounded-md text-sm"
-                                                              >
-                                                                <span
-                                                                  class="text-red-600"
-                                                                  ><i
-                                                                    class="fa-solid fa-location-dot"
-                                                                  ></i>
-                                                                  Address</span
-                                                                >
-                                                                <br />
-                                                                <div
-                                                                  class="py-2 flex gap-x-4"
-                                                                >
-                                                                  <span
-                                                                    class="font-semibold"
-                                                                    >Luu Thi
-                                                                    Minh -
-                                                                    0398677620
-                                                                  </span>
-                                                                  <span
-                                                                    >Quang
-                                                                    Hung-Phu
-                                                                    Cu-Hung
-                                                                    Yen</span
-                                                                  >
-                                                                  <div
-                                                                    class="border-solid border-1 border-red-500 text-red-500 px-1 py-2 text-sm"
-                                                                  >
-                                                                    <span
-                                                                      >Default</span
-                                                                    >
-                                                                  </div>
-                                                                </div>
-                                                              </div>
-                                                              <div
-                                                                class="d-flex flex-row justify-content-between align-items-center align-content-center"
-                                                              >
-                                                                <span
-                                                                  class="dot"
-                                                                ></span>
-                                                                <hr
-                                                                  class="flex-fill track-line"
-                                                                />
-                                                                <span
-                                                                  class="dot"
-                                                                ></span>
-                                                                <hr
-                                                                  class="flex-fill track-line"
-                                                                />
-                                                                <span
-                                                                  class="dot"
-                                                                ></span>
-                                                                <hr
-                                                                  class="flex-fill track-line"
-                                                                />
-                                                                <span
-                                                                  class="dot"
-                                                                ></span>
-                                                                <hr
-                                                                  class="flex-fill track-line"
-                                                                />
-                                                                <span
-                                                                  class="d-flex justify-content-center align-items-center big-dot dot"
-                                                                >
-                                                                  <i
-                                                                    class="fa fa-check text-white"
-                                                                  ></i
-                                                                ></span>
-                                                              </div>
-
-                                                              <div
-                                                                class="d-flex flex-row justify-content-between align-items-center text-sm"
-                                                              >
-                                                                <div
-                                                                  class="d-flex flex-column align-items-start"
-                                                                >
-                                                                  <span
-                                                                    >15
-                                                                    Mar</span
-                                                                  ><span
-                                                                    >Order
-                                                                    placed</span
-                                                                  >
-                                                                </div>
-                                                                <div
-                                                                  class="d-flex flex-column justify-content-center"
-                                                                >
-                                                                  <span
-                                                                    >15
-                                                                    Mar</span
-                                                                  ><span
-                                                                    >Order
-                                                                    placed</span
-                                                                  >
-                                                                </div>
-                                                                <div
-                                                                  class="d-flex flex-column justify-content-center align-items-center"
-                                                                >
-                                                                  <span
-                                                                    >15
-                                                                    Mar</span
-                                                                  ><span
-                                                                    >Order
-                                                                    Dispatched</span
-                                                                  >
-                                                                </div>
-                                                                <div
-                                                                  class="d-flex flex-column align-items-center"
-                                                                >
-                                                                  <span
-                                                                    >15
-                                                                    Mar</span
-                                                                  ><span
-                                                                    >Out for
-                                                                    delivery</span
-                                                                  >
-                                                                </div>
-                                                                <div
-                                                                  class="d-flex flex-column align-items-end"
-                                                                >
-                                                                  <span
-                                                                    >15
-                                                                    Mar</span
-                                                                  ><span
-                                                                    >Delivered</span
-                                                                  >
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </section>
-                                                  <div
-                                                    class="product_transport"
-                                                  >
-                                                    <div
-                                                      class="bg-white rounded-md px-1"
-                                                    >
-                                                      <div>
-                                                        <div class="card mb-3">
-                                                          <div
-                                                            class="card-body"
-                                                          >
-                                                            <div
-                                                              class="d-flex justify-content-between"
-                                                            >
-                                                              <div
-                                                                class="d-flex flex-row align-items-center"
-                                                              >
-                                                                <div>
-                                                                  <img
-                                                                    src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                                                    class="img-fluid rounded-3"
-                                                                    alt="Shopping item"
-                                                                    style="
-                                                                      width: 65px;
-                                                                    "
-                                                                  />
-                                                                </div>
-                                                                <div
-                                                                  class="ms-3"
-                                                                >
-                                                                  <h5>
-                                                                    Sofa 1
-                                                                  </h5>
-                                                                  <p
-                                                                    class="small mb-0"
-                                                                  >
-                                                                    14 x 16m,
-                                                                    Yellow
-                                                                  </p>
-                                                                </div>
-                                                              </div>
-                                                              <div
-                                                                class="d-flex flex-row align-items-center"
-                                                              >
-                                                                <div
-                                                                  style="
-                                                                    width: 50px;
-                                                                  "
-                                                                >
-                                                                  <h5
-                                                                    class="fw-normal mb-0"
-                                                                  >
-                                                                    2
-                                                                  </h5>
-                                                                </div>
-                                                                <div
-                                                                  style="
-                                                                    width: 80px;
-                                                                  "
-                                                                >
-                                                                  <h5
-                                                                    class="mb-0"
-                                                                  >
-                                                                    $900
-                                                                  </h5>
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                        <div class="card mb-3">
-                                                          <div
-                                                            class="card-body"
-                                                          >
-                                                            <div
-                                                              class="d-flex justify-content-between"
-                                                            >
-                                                              <div
-                                                                class="d-flex flex-row align-items-center"
-                                                              >
-                                                                <div>
-                                                                  <img
-                                                                    src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                                                    class="img-fluid rounded-3"
-                                                                    alt="Shopping item"
-                                                                    style="
-                                                                      width: 65px;
-                                                                    "
-                                                                  />
-                                                                </div>
-                                                                <div
-                                                                  class="ms-3"
-                                                                >
-                                                                  <h5>
-                                                                    Sofa 1
-                                                                  </h5>
-                                                                  <p
-                                                                    class="small mb-0"
-                                                                  >
-                                                                    14 x 16m,
-                                                                    Yellow
-                                                                  </p>
-                                                                </div>
-                                                              </div>
-                                                              <div
-                                                                class="d-flex flex-row align-items-center"
-                                                              >
-                                                                <div
-                                                                  style="
-                                                                    width: 50px;
-                                                                  "
-                                                                >
-                                                                  <h5
-                                                                    class="fw-normal mb-0"
-                                                                  >
-                                                                    2
-                                                                  </h5>
-                                                                </div>
-                                                                <div
-                                                                  style="
-                                                                    width: 80px;
-                                                                  "
-                                                                >
-                                                                  <h5
-                                                                    class="mb-0"
-                                                                  >
-                                                                    $900
-                                                                  </h5>
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                        <div class="card mb-3">
-                                                          <div
-                                                            class="card-body"
-                                                          >
-                                                            <div
-                                                              class="d-flex justify-content-between"
-                                                            >
-                                                              <div
-                                                                class="d-flex flex-row align-items-center"
-                                                              >
-                                                                <div>
-                                                                  <img
-                                                                    src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                                                    class="img-fluid rounded-3"
-                                                                    alt="Shopping item"
-                                                                    style="
-                                                                      width: 65px;
-                                                                    "
-                                                                  />
-                                                                </div>
-                                                                <div
-                                                                  class="ms-3"
-                                                                >
-                                                                  <h5>
-                                                                    Sofa 1
-                                                                  </h5>
-                                                                  <p
-                                                                    class="small mb-0"
-                                                                  >
-                                                                    14 x 16m,
-                                                                    Yellow
-                                                                  </p>
-                                                                </div>
-                                                              </div>
-                                                              <div
-                                                                class="d-flex flex-row align-items-center"
-                                                              >
-                                                                <div
-                                                                  style="
-                                                                    width: 50px;
-                                                                  "
-                                                                >
-                                                                  <h5
-                                                                    class="fw-normal mb-0"
-                                                                  >
-                                                                    2
-                                                                  </h5>
-                                                                </div>
-                                                                <div
-                                                                  style="
-                                                                    width: 80px;
-                                                                  "
-                                                                >
-                                                                  <h5
-                                                                    class="mb-0"
-                                                                  >
-                                                                    $900
-                                                                  </h5>
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                        <div class="pt-3">
-                                                          <div class="">
-                                                            <table
-                                                              class="table table-borderless text-base"
-                                                            >
-                                                              <tbody
-                                                                class="totals"
-                                                              >
-                                                                <tr>
-                                                                  <td>
-                                                                    <div
-                                                                      class="text-left"
-                                                                    >
-                                                                      <span
-                                                                        class="text-muted"
-                                                                        >Subtotal</span
-                                                                      >
-                                                                    </div>
-                                                                  </td>
-                                                                  <td>
-                                                                    <div
-                                                                      class="text-right"
-                                                                    >
-                                                                      <span
-                                                                        >$168.50</span
-                                                                      >
-                                                                    </div>
-                                                                  </td>
-                                                                </tr>
-
-                                                                <tr>
-                                                                  <td>
-                                                                    <div
-                                                                      class="text-left"
-                                                                    >
-                                                                      <span
-                                                                        class="text-muted"
-                                                                        >Shipping
-                                                                        Fee</span
-                                                                      >
-                                                                    </div>
-                                                                  </td>
-                                                                  <td>
-                                                                    <div
-                                                                      class="text-right"
-                                                                    >
-                                                                      <span
-                                                                        >$22</span
-                                                                      >
-                                                                    </div>
-                                                                  </td>
-                                                                </tr>
-
-                                                                <tr>
-                                                                  <td>
-                                                                    <div
-                                                                      class="text-left"
-                                                                    >
-                                                                      <span
-                                                                        class="text-muted"
-                                                                        >Payment
-                                                                        Method</span
-                                                                      >
-                                                                    </div>
-                                                                  </td>
-                                                                  <td>
-                                                                    <div
-                                                                      class="ml-10"
-                                                                    >
-                                                                      <img
-                                                                        src="@/assets/images/vnp.png"
-                                                                        class="w-2/12 float-right"
-                                                                      />
-                                                                    </div>
-                                                                  </td>
-                                                                </tr>
-
-                                                                <tr>
-                                                                  <td>
-                                                                    <div
-                                                                      class="text-left"
-                                                                    >
-                                                                      <span
-                                                                        class="text-muted"
-                                                                        >Discount</span
-                                                                      >
-                                                                    </div>
-                                                                  </td>
-                                                                  <td>
-                                                                    <div
-                                                                      class="text-right"
-                                                                    >
-                                                                      <span
-                                                                        class="text-success"
-                                                                        >$168.50</span
-                                                                      >
-                                                                    </div>
-                                                                  </td>
-                                                                </tr>
-
-                                                                <tr
-                                                                  class="border-top border-bottom"
-                                                                >
-                                                                  <td>
-                                                                    <div
-                                                                      class="text-left"
-                                                                    >
-                                                                      <span
-                                                                        class="font-weight-bold"
-                                                                        >Subtotal</span
-                                                                      >
-                                                                    </div>
-                                                                  </td>
-                                                                  <td>
-                                                                    <div
-                                                                      class="text-right"
-                                                                    >
-                                                                      <span
-                                                                        class="font-weight-bold"
-                                                                        >$238.50</span
-                                                                      >
-                                                                    </div>
-                                                                  </td>
-                                                                </tr>
-                                                              </tbody>
-                                                            </table>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                  <div
-                                                    class="bg-gray-600 rounded-md"
-                                                  >
-                                                    <button
-                                                      type="button"
-                                                      class="btn text-white"
-                                                      data-bs-dismiss="modal"
-                                                    >
-                                                      Close
-                                                    </button>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </td>
-
-                                      <td>
-                                        $180,00
-                                        <s class="small text-muted">$230,00</s>
+                                        </h3>
                                       </td>
                                       <td
                                         width="65"
                                         class="font-semibold text-center"
                                       >
-                                        1
+                                        <div class="flex gap-x-4 mt-3">
+                                          <label
+                                            class="quantity font-meidum text-slate-600"
+                                            >Quantity:</label
+                                          >
+                                          <span
+                                            class="font-medium text-slate-600"
+                                            >x{{ fur.quantity }}</span
+                                          >
+                                        </div>
                                       </td>
                                       <td>
-                                        <h4>$180,00</h4>
+                                        <h4
+                                          class="font-medium text-red-500 mt-3"
+                                        >
+                                          ${{ fur.cost }}
+                                        </h4>
                                       </td>
                                     </tr>
                                   </tbody>
                                 </table>
+                                <hr class="my-3 h-px text-slate-300" />
+                                <div class="flex">
+                                  <div class="m-t-sm my-2 ml-2">
+                                    <div
+                                      class="flex gap-x-2"
+                                      data-toggle="modal"
+                                      data-target="#exampleModalLong"
+                                      data-backdrop="false"
+                                      @click="opentModalOrder('detail', or)"
+                                    >
+                                      <i
+                                        class="fa-solid fa-circle-info text-sm"
+                                      ></i>
+                                      <span class="font-medium text-sm"
+                                        >Detail</span
+                                      >
+                                    </div>
+                                    <modal
+                                      v-if="modalType == 'detail'"
+                                      @close="closeModal"
+                                      data-target="#myModal"
+                                    >
+                                      <template v-slot:title>
+                                        <h5
+                                          class="modal-title font-medium"
+                                          id="exampleModalLabel"
+                                        >
+                                          Detail Order Transport
+                                        </h5>
+                                      </template>
+                                      <template v-slot:body>
+                                        <div class="invoice mt-2">
+                                          <span class="font-weight-bold d-block"
+                                            >Infromation</span
+                                          >
+                                          <div class="py-2">
+                                            <span
+                                              class="d-inlineblock pr-3 text-red-500"
+                                              ><i
+                                                class="fa-solid fa-location-dot pr-1"
+                                              ></i>
+                                              Shiping Address:</span
+                                            >
+                                            <span>12 Me Tri- Ha Noi</span>
+                                          </div>
+                                          <div
+                                            class="payment border-top mt-3 mb-3 border-bottom table-responsive"
+                                          >
+                                            <table
+                                              class="table table-borderless"
+                                            >
+                                              <tbody>
+                                                <tr>
+                                                  <td>
+                                                    <div class="py-2">
+                                                      <span class="mr-3"
+                                                        >Order Id</span
+                                                      >
+                                                      <span>{{
+                                                        orderModel.orderId
+                                                      }}</span>
+                                                    </div>
+                                                  </td>
+                                                  <td>
+                                                    <div class="py-2">
+                                                      <span
+                                                        class="d-block text-muted"
+                                                        >Payment</span
+                                                      >
+                                                      <span
+                                                        ><img
+                                                          class="w-1/12"
+                                                          v-if="
+                                                            orderModel.paymentMethod ===
+                                                            'VNPAYQR'
+                                                          "
+                                                          src="@/assets/images/payment_method/bank.png"
+                                                          alt="image"
+                                                        />
+                                                        <img
+                                                          class="w-1/12"
+                                                          v-if="
+                                                            orderModel.paymentMethod ===
+                                                            'VNPAY'
+                                                          "
+                                                          src="@/assets/images/payment_method/vnpay.png"
+                                                          alt="image"
+                                                        />
+                                                      </span>
+                                                    </div>
+                                                  </td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                          </div>
+
+                                          <div
+                                            class="product border-bottom table-responsive"
+                                          >
+                                            <table
+                                              class="table table-borderless"
+                                            >
+                                              <tbody
+                                                v-for="fur in orderModel.furniture"
+                                                :key="fur.furnitureId"
+                                              >
+                                                <tr>
+                                                  <td width="20%">
+                                                    <img
+                                                      src="@/assets/images/category/shelves_tv/shelves_11.png"
+                                                      width="90"
+                                                    />
+                                                  </td>
+
+                                                  <td width="60%">
+                                                    <span
+                                                      class="font-weight-bold"
+                                                    >
+                                                      {{
+                                                        fur.furnitureSpecificationname
+                                                      }}</span
+                                                    >
+                                                    <div class="product-qty">
+                                                      <span class="d-block"
+                                                        >Quantity:{{
+                                                          fur.quantity
+                                                        }}</span
+                                                      >
+                                                    </div>
+                                                  </td>
+                                                  <td width="20%">
+                                                    <div class="text-right">
+                                                      <span
+                                                        class="font-weight-bold"
+                                                        >${{ fur.cost }}</span
+                                                      >
+                                                    </div>
+                                                  </td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                          </div>
+
+                                          <div
+                                            class="row d-flex justify-content-end"
+                                          >
+                                            <div class="col-md-5">
+                                              <table
+                                                class="table table-borderless"
+                                              >
+                                                <tbody class="totals">
+                                                  <tr>
+                                                    <td>
+                                                      <div class="text-left">
+                                                        <span class="text-muted"
+                                                          >Shipping Fee</span
+                                                        >
+                                                      </div>
+                                                    </td>
+                                                  </tr>
+
+                                                  <tr
+                                                    class="border-top border-bottom"
+                                                  >
+                                                    <td>
+                                                      <div class="text-left">
+                                                        <span
+                                                          class="font-weight-bold"
+                                                          >Subtotal</span
+                                                        >
+                                                      </div>
+                                                    </td>
+                                                    <td>
+                                                      <div class="text-right">
+                                                        <span
+                                                          class="font-weight-bold"
+                                                          >${{
+                                                            orderModel.totalCost
+                                                          }}</span
+                                                        >
+                                                      </div>
+                                                    </td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                            </div>
+                                          </div>
+                                          <p class="font-weight-bold mb-0">
+                                            Thanks for shopping with us!
+                                          </p>
+                                        </div>
+                                      </template>
+                                      <template v-slot:footer> </template>
+                                    </modal>
+                                  </div>
+
+                                  <div class="flex gap-x-4 absolute right-40">
+                                    <span class="font-semibold mt-1"
+                                      >Total Cost:
+                                    </span>
+                                    <span
+                                      class="font-medium text-xl text-red-500"
+                                      >${{ or.totalCost }}</span
+                                    >
+                                  </div>
+                                </div>
                               </div>
-                              <hr class="my-3" />
-                              <div class="float-right flex gap-x-3"></div>
                             </div>
                           </div>
                         </div>
+                        <br />
                       </div>
                       <div role="tabpanel" class="tab-pane" id="completed">
                         <div class="">
-                          <div clas="product">
-                            <div class="ibox-content mt-3 rounded-sm">
+                          <div
+                            clas="product"
+                            v-for="or in orderDeliveried"
+                            :key="or.orderId"
+                          >
+                            <div class="ibox-content mt-3 rounded-md shadow-sm">
                               <div class="text-sm flex flex-cols-2">
-                                <div>ID Order: 567</div>
-                                <div class="date_order">Date: 9/5/2023</div>
+                                <div class="font-semibold text-gray-600">
+                                  ID Order: {{ or.orderId }}
+                                </div>
+                                <div class="absolute right-36">
+                                  <div
+                                    v-if="or.status === 'Pending'"
+                                    class="bg-yellow-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
+                                  >
+                                    Pending
+                                  </div>
+                                  <div
+                                    v-if="or.status === 'Processing'"
+                                    class="bg-lime-700 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
+                                  >
+                                    Processing
+                                  </div>
+                                  <div
+                                    v-if="or.status === 'Preparing'"
+                                    class="bg-red-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
+                                  >
+                                    Preparing
+                                  </div>
+                                  <div
+                                    v-if="or.status === 'Delivering'"
+                                    class="bg-red-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
+                                  >
+                                    Delivering
+                                  </div>
+                                  <div
+                                    v-if="or.status === 'Delivered'"
+                                    class="bg-red-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
+                                  >
+                                    Delivered
+                                  </div>
+                                </div>
+                                <!-- <div class="date_order">Date: 9/5/2023</div> -->
                               </div>
-                              <hr class="my-3" />
+                              <hr class="my-3 h-px text-slate-300" />
                               <div class="table-responsive">
                                 <table class="table shoping-cart-table">
-                                  <tbody>
+                                  <tbody
+                                    v-for="fur in or.furniture"
+                                    :key="fur.furnitureId"
+                                  >
                                     <tr>
                                       <td width="90">
                                         <div class="cart-product-imitation">
                                           <img
-                                            src="@/assets/images/category/clock/clock_1.png"
+                                            src="@/assets/images/category/shelves_tv/shelves_11.png"
                                             alt=""
                                           />
                                         </div>
                                       </td>
                                       <td class="desc">
-                                        <h3>
-                                          <a href="#" class="text-navy">
-                                            Solid 2m4 red oak wood TV shelf
-                                          </a>
+                                        <h3 class="mb-2 mt-3">
+                                          <span class="text-navy font-bold">
+                                            {{ fur.furnitureName }}
+                                          </span>
                                         </h3>
-                                        <p class="small">
-                                          It is a long established fact that a
-                                          reader will be distracted by the
-                                          readable content of a page when
-                                          looking at its layout. The point of
-                                          using Lorem Ipsum is
-                                        </p>
-                                        <dl class="small m-b-none">
-                                          <dt>Description lists</dt>
-                                          <dd>
-                                            A description list is perfect for
-                                            defining terms.
-                                          </dd>
-                                        </dl>
-
-                                        <div class="m-t-sm">
-                                          <div
-                                            href="#"
-                                            class="text-muted cursor-pointer"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal_complete"
-                                          >
-                                            <i
-                                              class="fa-solid fa-circle-info"
-                                            ></i>
-                                            Detail
+                                        <h3>
+                                          <div class="specificationname">
+                                            <span class="font-semibold text-sm">
+                                              Specification name:
+                                            </span>
+                                            <span class="font-medium text-sm">
+                                              {{
+                                                fur.furnitureSpecificationname
+                                              }}
+                                            </span>
                                           </div>
-                                          <!-- Modal -->
-                                          <div
-                                            class="modal fade"
-                                            id="exampleModal_complete"
-                                            tabindex="-1"
-                                            aria-labelledby="exampleModalLabel"
-                                            aria-hidden="true"
-                                          >
-                                            <div
-                                              class="modal-dialog modal-dialog-centered"
-                                            >
-                                              <div class="modal-content">
-                                                <div class="modal-header">
-                                                  <h5
-                                                    class="modal-title font-medium"
-                                                    id="exampleModalLabel"
-                                                  >
-                                                    Detail Order Compeleted
-                                                  </h5>
-                                                  <button
-                                                    type="button"
-                                                    class="btn-close"
-                                                    data-bs-dismiss="modal"
-                                                    aria-label="Close"
-                                                  ></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                  <div class="">
-                                                    <div class="container mb-3">
-                                                      <div
-                                                        class="row d-flex justify-content-center"
-                                                      >
-                                                        <div class="">
-                                                          <div class="card">
-                                                            <div
-                                                              class="invoice"
-                                                            >
-                                                              <div
-                                                                class="py-2 flex"
-                                                              >
-                                                                <span
-                                                                  class="d-block pr-3 text-lime-600"
-                                                                  >Cancel Date:
-                                                                </span>
-                                                                <span
-                                                                  >12
-                                                                  Jan,2018</span
-                                                                >
-                                                              </div>
-                                                              <span
-                                                                class="font-weight-bold d-block mt-4"
-                                                                >Infromation</span
-                                                              >
-                                                              <div class="py-2">
-                                                                <span
-                                                                  class="d-inlineblock pr-3 text-red-500"
-                                                                  ><i
-                                                                    class="fa-solid fa-location-dot pr-1"
-                                                                  ></i>
-                                                                  Shiping
-                                                                  Address:</span
-                                                                >
-                                                                <span
-                                                                  >12 Me Tri- Ha
-                                                                  Noi</span
-                                                                >
-                                                              </div>
-                                                              <div
-                                                                class="payment border-top mt-3 mb-3 border-bottom table-responsive"
-                                                              >
-                                                                <table
-                                                                  class="table table-borderless"
-                                                                >
-                                                                  <tbody>
-                                                                    <tr>
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Order
-                                                                            Date</span
-                                                                          >
-                                                                          <span
-                                                                            >12
-                                                                            Jan,2018</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Order
-                                                                            No</span
-                                                                          >
-                                                                          <span
-                                                                            >O1233</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Payment</span
-                                                                          >
-                                                                          <span
-                                                                            ><img
-                                                                              src="https://img.icons8.com/color/48/000000/mastercard.png"
-                                                                              width="20"
-                                                                          /></span>
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </tbody>
-                                                                </table>
-                                                              </div>
-
-                                                              <div
-                                                                class="product border-bottom table-responsive"
-                                                              >
-                                                                <table
-                                                                  class="table table-borderless"
-                                                                >
-                                                                  <tbody>
-                                                                    <tr>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <img
-                                                                          src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                                                          width="90"
-                                                                        />
-                                                                      </td>
-
-                                                                      <td
-                                                                        width="60%"
-                                                                      >
-                                                                        <span
-                                                                          class="font-weight-bold"
-                                                                          >Sofa
-                                                                          1</span
-                                                                        >
-                                                                        <div
-                                                                          class="product-qty"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block"
-                                                                            >Quantity:1</span
-                                                                          >
-                                                                          <span
-                                                                            >Color:Dark</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <div
-                                                                          class="text-right"
-                                                                        >
-                                                                          <span
-                                                                            class="font-weight-bold"
-                                                                            >$67.50</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-
-                                                                    <tr>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <img
-                                                                          src="@/assets/images/category/shelves_tv/shelves.png"
-                                                                          width="70"
-                                                                        />
-                                                                      </td>
-
-                                                                      <td
-                                                                        width="60%"
-                                                                      >
-                                                                        <span
-                                                                          class="font-weight-bold"
-                                                                          >Sofa
-                                                                          2</span
-                                                                        >
-                                                                        <div
-                                                                          class="product-qty"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block"
-                                                                            >Quantity:1</span
-                                                                          >
-                                                                          <span
-                                                                            >Color:Orange</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <div
-                                                                          class="text-right"
-                                                                        >
-                                                                          <span
-                                                                            class="font-weight-bold"
-                                                                            >$77.50</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </tbody>
-                                                                </table>
-                                                              </div>
-
-                                                              <div
-                                                                class="row d-flex justify-content-end"
-                                                              >
-                                                                <div
-                                                                  class="col-md-5"
-                                                                >
-                                                                  <table
-                                                                    class="table table-borderless"
-                                                                  >
-                                                                    <tbody
-                                                                      class="totals"
-                                                                    >
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Subtotal</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$168.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Shipping
-                                                                              Fee</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$22</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Tax
-                                                                              Fee</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$7.65</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Discount</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              class="text-success"
-                                                                              >$168.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr
-                                                                        class="border-top border-bottom"
-                                                                      >
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="font-weight-bold"
-                                                                              >Subtotal</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              class="font-weight-bold"
-                                                                              >$238.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-                                                                    </tbody>
-                                                                  </table>
-                                                                </div>
-                                                              </div>
-
-                                                              <p
-                                                                class="font-weight-bold mb-0"
-                                                              >
-                                                                Thanks for
-                                                                shopping with
-                                                                us!
-                                                              </p>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                  <div
-                                                    class="bg-gray-600 rounded-md"
-                                                  >
-                                                    <button
-                                                      type="button"
-                                                      class="btn text-white"
-                                                      data-bs-dismiss="modal"
-                                                    >
-                                                      Close
-                                                    </button>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </td>
-
-                                      <td>
-                                        $180,00
-                                        <s class="small text-muted">$230,00</s>
+                                        </h3>
                                       </td>
                                       <td
                                         width="65"
                                         class="font-semibold text-center"
                                       >
-                                        1
+                                        <div class="flex gap-x-4 mt-3">
+                                          <label
+                                            class="quantity font-meidum text-slate-600"
+                                            >Quantity:</label
+                                          >
+                                          <span
+                                            class="font-medium text-slate-600"
+                                            >x{{ fur.quantity }}</span
+                                          >
+                                        </div>
                                       </td>
                                       <td>
-                                        <h4>$180,00</h4>
+                                        <h4
+                                          class="font-medium text-red-500 mt-3"
+                                        >
+                                          ${{ fur.cost }}
+                                        </h4>
                                       </td>
                                     </tr>
                                   </tbody>
                                 </table>
-                              </div>
-                              <hr class="my-3" />
-                              <div class="float-right flex gap-x-3"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div role="tabpanel" class="tab-pane" id="cancel">
-                        <div class="">
-                          <div clas="product">
-                            <div class="ibox-content mt-3 rounded-sm">
-                              <div class="text-sm flex flex-cols-2">
-                                <div>ID Order: 789</div>
-                                <div class="date_order">Date: 9/5/2023</div>
-                              </div>
-                              <hr class="my-3" />
-                              <div class="table-responsive">
-                                <table class="table shoping-cart-table">
-                                  <tbody>
-                                    <tr>
-                                      <td width="90">
-                                        <div class="cart-product-imitation">
-                                          <img
-                                            src="@/assets/images/category/shelves_tv/shelves_12.png"
-                                            alt=""
-                                          />
-                                        </div>
-                                      </td>
-                                      <td class="desc">
-                                        <h3>
-                                          <a href="#" class="text-navy">
-                                            Solid 2m4 red oak wood TV shelf
-                                          </a>
-                                        </h3>
-                                        <p class="small">
-                                          It is a long established fact that a
-                                          reader will be distracted by the
-                                          readable content of a page when
-                                          looking at its layout. The point of
-                                          using Lorem Ipsum is
-                                        </p>
-                                        <dl class="small m-b-none">
-                                          <dt>Description lists</dt>
-                                          <dd>
-                                            A description list is perfect for
-                                            defining terms.
-                                          </dd>
-                                        </dl>
-
-                                        <div class="m-t-sm">
-                                          <div
-                                            href="#"
-                                            class="text-muted cursor-pointer"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal_cancel"
+                                <hr class="my-3 h-px text-slate-300" />
+                                <div class="flex">
+                                  <div class="m-t-sm my-2 ml-2">
+                                    <div
+                                      class="flex gap-x-2"
+                                      data-toggle="modal"
+                                      data-target="#exampleModalLong"
+                                      data-backdrop="false"
+                                      @click="opentModalOrder('detail', or)"
+                                    >
+                                      <i
+                                        class="fa-solid fa-circle-info text-sm"
+                                      ></i>
+                                      <span class="font-medium text-sm"
+                                        >Detail</span
+                                      >
+                                    </div>
+                                    <modal
+                                      v-if="modalType == 'detail'"
+                                      @close="closeModal"
+                                      data-target="#myModal"
+                                    >
+                                      <template v-slot:title>
+                                        <h5
+                                          class="modal-title font-medium"
+                                          id="exampleModalLabel"
+                                        >
+                                          Detail Order Transport
+                                        </h5>
+                                      </template>
+                                      <template v-slot:body>
+                                        <div class="invoice mt-2">
+                                          <span class="font-weight-bold d-block"
+                                            >Infromation</span
                                           >
-                                            <i
-                                              class="fa-solid fa-circle-info"
-                                            ></i>
-                                            Detail
-                                          </div>
-                                          <!-- Modal -->
-                                          <div
-                                            class="modal fade"
-                                            id="exampleModal_cancel"
-                                            tabindex="-1"
-                                            aria-labelledby="exampleModalLabel"
-                                            aria-hidden="true"
-                                          >
-                                            <div
-                                              class="modal-dialog modal-dialog-centered"
+                                          <div class="py-2">
+                                            <span
+                                              class="d-inlineblock pr-3 text-red-500"
+                                              ><i
+                                                class="fa-solid fa-location-dot pr-1"
+                                              ></i>
+                                              Shiping Address:</span
                                             >
-                                              <div class="modal-content">
-                                                <div class="modal-header">
-                                                  <h5
-                                                    class="modal-title font-medium"
-                                                    id="exampleModalLabel"
-                                                  >
-                                                    Detail Order Cancel
-                                                  </h5>
-                                                  <button
-                                                    type="button"
-                                                    class="btn-close"
-                                                    data-bs-dismiss="modal"
-                                                    aria-label="Close"
-                                                  ></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                  <div class="">
-                                                    <div class="container mb-3">
-                                                      <div
-                                                        class="row d-flex justify-content-center"
+                                            <span>12 Me Tri- Ha Noi</span>
+                                          </div>
+                                          <div
+                                            class="payment border-top mt-3 mb-3 border-bottom table-responsive"
+                                          >
+                                            <table
+                                              class="table table-borderless"
+                                            >
+                                              <tbody>
+                                                <tr>
+                                                  <td>
+                                                    <div class="py-2">
+                                                      <span class="mr-3"
+                                                        >Order Id</span
                                                       >
-                                                        <div class="">
-                                                          <div class="card">
-                                                            <div
-                                                              class="invoice"
-                                                            >
-                                                              <div
-                                                                class="py-2 flex"
-                                                              >
-                                                                <span
-                                                                  class="d-block pr-3 text-red-500"
-                                                                  >Cancel Date:
-                                                                </span>
-                                                                <span
-                                                                  >12
-                                                                  Jan,2018</span
-                                                                >
-                                                              </div>
-                                                              <span
-                                                                class="font-weight-bold d-block mt-4"
-                                                                >Infromation</span
-                                                              >
-                                                              <div class="py-2">
-                                                                <span
-                                                                  class="d-inlineblock pr-3 text-red-500"
-                                                                  ><i
-                                                                    class="fa-solid fa-location-dot pr-1"
-                                                                  ></i>
-                                                                  Shiping
-                                                                  Address:</span
-                                                                >
-                                                                <span
-                                                                  >12 Me Tri- Ha
-                                                                  Noi</span
-                                                                >
-                                                              </div>
-                                                              <div
-                                                                class="payment border-top mt-3 mb-3 border-bottom table-responsive"
-                                                              >
-                                                                <table
-                                                                  class="table table-borderless"
-                                                                >
-                                                                  <tbody>
-                                                                    <tr>
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Order
-                                                                            Date</span
-                                                                          >
-                                                                          <span
-                                                                            >12
-                                                                            Jan,2018</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Order
-                                                                            No</span
-                                                                          >
-                                                                          <span
-                                                                            >O1233</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Payment</span
-                                                                          >
-                                                                          <span
-                                                                            ><img
-                                                                              src="https://img.icons8.com/color/48/000000/mastercard.png"
-                                                                              width="20"
-                                                                          /></span>
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </tbody>
-                                                                </table>
-                                                              </div>
-
-                                                              <div
-                                                                class="product border-bottom table-responsive"
-                                                              >
-                                                                <table
-                                                                  class="table table-borderless"
-                                                                >
-                                                                  <tbody>
-                                                                    <tr>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <img
-                                                                          src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                                                          width="90"
-                                                                        />
-                                                                      </td>
-
-                                                                      <td
-                                                                        width="60%"
-                                                                      >
-                                                                        <span
-                                                                          class="font-weight-bold"
-                                                                          >Sofa
-                                                                          1</span
-                                                                        >
-                                                                        <div
-                                                                          class="product-qty"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block"
-                                                                            >Quantity:1</span
-                                                                          >
-                                                                          <span
-                                                                            >Color:Dark</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <div
-                                                                          class="text-right"
-                                                                        >
-                                                                          <span
-                                                                            class="font-weight-bold"
-                                                                            >$67.50</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-
-                                                                    <tr>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <img
-                                                                          src="@/assets/images/category/shelves_tv/shelves.png"
-                                                                          width="70"
-                                                                        />
-                                                                      </td>
-
-                                                                      <td
-                                                                        width="60%"
-                                                                      >
-                                                                        <span
-                                                                          class="font-weight-bold"
-                                                                          >Sofa
-                                                                          2</span
-                                                                        >
-                                                                        <div
-                                                                          class="product-qty"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block"
-                                                                            >Quantity:1</span
-                                                                          >
-                                                                          <span
-                                                                            >Color:Orange</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <div
-                                                                          class="text-right"
-                                                                        >
-                                                                          <span
-                                                                            class="font-weight-bold"
-                                                                            >$77.50</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </tbody>
-                                                                </table>
-                                                              </div>
-
-                                                              <div
-                                                                class="row d-flex justify-content-end"
-                                                              >
-                                                                <div
-                                                                  class="col-md-5"
-                                                                >
-                                                                  <table
-                                                                    class="table table-borderless"
-                                                                  >
-                                                                    <tbody
-                                                                      class="totals"
-                                                                    >
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Subtotal</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$168.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Shipping
-                                                                              Fee</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$22</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Tax
-                                                                              Fee</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$7.65</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Discount</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              class="text-success"
-                                                                              >$168.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr
-                                                                        class="border-top border-bottom"
-                                                                      >
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="font-weight-bold"
-                                                                              >Subtotal</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              class="font-weight-bold"
-                                                                              >$238.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-                                                                    </tbody>
-                                                                  </table>
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </div>
+                                                      <span>{{
+                                                        orderModel.orderId
+                                                      }}</span>
                                                     </div>
-                                                  </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                  <div
-                                                    class="bg-gray-600 rounded-md"
-                                                  >
-                                                    <button
-                                                      type="button"
-                                                      class="btn text-white"
-                                                      data-bs-dismiss="modal"
+                                                  </td>
+                                                  <td>
+                                                    <div class="py-2">
+                                                      <span
+                                                        class="d-block text-muted"
+                                                        >Payment</span
+                                                      >
+                                                      <span
+                                                        ><img
+                                                          class="w-1/12"
+                                                          v-if="
+                                                            orderModel.paymentMethod ===
+                                                            'VNPAYQR'
+                                                          "
+                                                          src="@/assets/images/payment_method/bank.png"
+                                                          alt="image"
+                                                        />
+                                                        <img
+                                                          class="w-1/12"
+                                                          v-if="
+                                                            orderModel.paymentMethod ===
+                                                            'VNPAY'
+                                                          "
+                                                          src="@/assets/images/payment_method/vnpay.png"
+                                                          alt="image"
+                                                        />
+                                                      </span>
+                                                    </div>
+                                                  </td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                          </div>
+
+                                          <div
+                                            class="product border-bottom table-responsive"
+                                          >
+                                            <table
+                                              class="table table-borderless"
+                                            >
+                                              <tbody
+                                                v-for="fur in orderModel.furniture"
+                                                :key="fur.furnitureId"
+                                              >
+                                                <tr>
+                                                  <td width="20%">
+                                                    <img
+                                                      src="@/assets/images/category/shelves_tv/shelves_11.png"
+                                                      width="90"
+                                                    />
+                                                  </td>
+
+                                                  <td width="60%">
+                                                    <span
+                                                      class="font-weight-bold"
                                                     >
-                                                      Close
-                                                    </button>
-                                                  </div>
-                                                </div>
-                                              </div>
+                                                      {{
+                                                        fur.furnitureSpecificationname
+                                                      }}</span
+                                                    >
+                                                    <div class="product-qty">
+                                                      <span class="d-block"
+                                                        >Quantity:{{
+                                                          fur.quantity
+                                                        }}</span
+                                                      >
+                                                    </div>
+                                                  </td>
+                                                  <td width="20%">
+                                                    <div class="text-right">
+                                                      <span
+                                                        class="font-weight-bold"
+                                                        >${{ fur.cost }}</span
+                                                      >
+                                                    </div>
+                                                  </td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                          </div>
+
+                                          <div
+                                            class="row d-flex justify-content-end"
+                                          >
+                                            <div class="col-md-5">
+                                              <table
+                                                class="table table-borderless"
+                                              >
+                                                <tbody class="totals">
+                                                  <tr>
+                                                    <td>
+                                                      <div class="text-left">
+                                                        <span class="text-muted"
+                                                          >Shipping Fee</span
+                                                        >
+                                                      </div>
+                                                    </td>
+                                                  </tr>
+
+                                                  <tr
+                                                    class="border-top border-bottom"
+                                                  >
+                                                    <td>
+                                                      <div class="text-left">
+                                                        <span
+                                                          class="font-weight-bold"
+                                                          >Subtotal</span
+                                                        >
+                                                      </div>
+                                                    </td>
+                                                    <td>
+                                                      <div class="text-right">
+                                                        <span
+                                                          class="font-weight-bold"
+                                                          >${{
+                                                            orderModel.totalCost
+                                                          }}</span
+                                                        >
+                                                      </div>
+                                                    </td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
                                             </div>
                                           </div>
+                                          <p class="font-weight-bold mb-0">
+                                            Thanks for shopping with us!
+                                          </p>
                                         </div>
-                                      </td>
+                                      </template>
+                                      <template v-slot:footer> </template>
+                                    </modal>
+                                  </div>
 
-                                      <td>
-                                        $180,00
-                                        <s class="small text-muted">$230,00</s>
-                                      </td>
-                                      <td
-                                        width="65"
-                                        class="font-semibold text-center"
-                                      >
-                                        1
-                                      </td>
-                                      <td>
-                                        <h4>$180,00</h4>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
+                                  <div class="flex gap-x-4 absolute right-40">
+                                    <span class="font-semibold mt-1"
+                                      >Total Cost:
+                                    </span>
+                                    <span
+                                      class="font-medium text-xl text-red-500"
+                                      >${{ or.totalCost }}</span
+                                    >
+                                  </div>
+                                </div>
                               </div>
-                              <hr class="my-3" />
-                              <div class="float-right flex gap-x-3"></div>
                             </div>
                           </div>
                         </div>
+                        <br />
                       </div>
+                      <div role="tabpanel" class="tab-pane" id="cancel"></div>
                     </div>
                   </div>
                 </div>
               </div>
               <div role="tabpanel" class="tab-pane" id="wishlist">
-                <div>
-                  <nav class="bg-white px-3 py-3">
-                    <ul class="category nav nav-tabs">
-                      <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#"
-                          >Sofa</a
-                        >
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Clock</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Altar</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Bed</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Wardrobe</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Shelves TV</a>
-                      </li>
-                    </ul>
-                  </nav>
+                <div class="form bg-white">
+                  <div class="flex"></div>
+                  <h1
+                    class="py-3 font-semibold text-base pl-10 text-yellow-950"
+                  >
+                    All Guarantee
+                  </h1>
+                  <!-- <all-furniture
+                    v-if="wishlist.length"
+                    :furnitures="wishlist"
+                  ></all-furniture> -->
                 </div>
-                <div class="grid grid-cols-4 gap-x-4 px-3">
-                  <div
-                    class="product px-2 py-2 border border-indigo-100 rounded-md"
-                  >
-                    <div class="image_product">
-                      <router-link to="/detailfurniture">
-                        <img
-                          src="@/assets/images/category/shelves_tv/shelves_11.png"
-                          alt=""
-                        />
-                      </router-link>
-                      <div class="product_label bg-yellow-600">
-                        <span class="text-white">New</span>
-                      </div>
+              </div>
+              <div role="tabpanel" class="tab-pane" id="feedback">
+                <div class="form bg-white">
+                  <div class="flex">
+                    <h1
+                      class="py-3 font-semibold text-base pl-10 text-yellow-950"
+                    >
+                      All Feedback
+                    </h1>
+                    <div class="absolute right-36 flex gap-x-3">
+                      <span
+                        class="py-3 font-medium text-sm pl-10 text-yellow-950"
+                      >
+                        Total Feefack:
+                      </span>
+                      <span
+                        class="font-medium flex items-center text-yellow-950"
+                        >{{ feedbacks.length }}</span
+                      >
                     </div>
-                    <div class="pt-4 px-2">
-                      <div class="text-xs">
-                        <span class="text-gray-800 pr-2">$1500</span>
-                        <del class="text-gray-500">$2000</del>
+                  </div>
+                  <!-- <div class="feedbacks.length">
+                    <div v-for="fb in feedbacks" :key="fb" class="py-3">
+                      <div class="text-xl font-bold">
+                        {{ fb.furnitureName }}
                       </div>
-                      <div class="pt-2 text-base font-semibold">
-                        <span>Name Product</span>
-                      </div>
-                      <div>
-                        <span class="text-gray-600 text-xs">Description</span>
-                      </div>
-                      <div>
-                        <span class="text-sm"
-                          >Star: 5<i class="fa-solid fa-star pl-1 text-xs"></i
-                        ></span>
-                      </div>
-                      <div>
-                        <span class="text-sm">Quantity: 3</span>
-                      </div>
-                      <div class="button_buy py-3 px-2">
-                        <router-link to="/orderbill">
-                          <button
-                            class="btn text-sm font-medium border-1 border-slate-800 rounded-xl px-5 py-1 hover:bg-slate-700 hover:text-white"
-                          >
-                            Buy now
-                          </button>
-                        </router-link>
-                      </div>
-                      <div class="flex flex-cols-2 gap-x-4 text-xs">
-                        <div><i class="fa-regular fa-heart"></i></div>
-                        <div class="">
-                          <i class="fa-solid fa-cart-shopping"></i>
+                      <div class="">
+                        <div class="rating">
+                          <input
+                            value="5"
+                            name="rate"
+                            id="star5"
+                            type="radio"
+                          />
+                          <label title="text" for="star5"></label>
+                          <input
+                            value="4"
+                            name="rate"
+                            id="star4"
+                            type="radio"
+                          />
+                          <label title="text" for="star4"></label>
+                          <input
+                            value="3"
+                            name="rate"
+                            id="star3"
+                            type="radio"
+                            checked=""
+                          />
+                          <label title="text" for="star3"></label>
+                          <input
+                            value="2"
+                            name="rate"
+                            id="star2"
+                            type="radio"
+                          />
+                          <label title="text" for="star2"></label>
+                          <input
+                            value="1"
+                            name="rate"
+                            id="star1"
+                            type="radio"
+                          />
+                          <label title="text" for="star1"></label>
                         </div>
                       </div>
+                      <div class="">{{ fb.content }}</div>
+                      <div
+                        class=""
+                        v-for="urlFeed in fb.feedbackImages"
+                        :key="urlFeed"
+                      >
+                        <img :src="url" />
+                      </div>
                     </div>
-                  </div>
+                  </div> -->
                   <div
-                    class="product px-2 py-2 border border-indigo-100 rounded-md"
-                  >
-                    <div class="image_product">
-                      <router-link to="/detailfurniture">
-                        <img
-                          src="@/assets/images/category/shelves_tv/shelves_11.png"
-                          alt=""
-                        />
-                      </router-link>
-                      <div class="product_label bg-yellow-600">
-                        <span class="text-white">New</span>
-                      </div>
-                    </div>
-                    <div class="pt-4">
-                      <div class="text-xs">
-                        <span class="text-gray-800 pr-2">$1500</span>
-                        <del class="text-gray-500">$2000</del>
-                      </div>
-                      <div class="pt-2 text-base font-semibold">
-                        <span>Name Product</span>
-                      </div>
+                    class="border-dotted border-1 border-indigo-gray opacity-20"
+                  ></div>
+
+                  <div class="px-10 py-6">
+                    <div v-for="f in feedbacks" :key="f">
                       <div>
-                        <span class="text-gray-600 text-xs">Description</span>
-                      </div>
-                      <div>
-                        <span class="text-sm"
-                          >Star: 5<i class="fa-solid fa-star pl-1 text-xs"></i
-                        ></span>
-                      </div>
-                      <div>
-                        <span class="text-sm">Quantity: 3</span>
-                      </div>
-                      <div class="button_buy py-3 px-2">
-                        <button
-                          class="btn text-sm font-medium border-1 border-slate-800 rounded-xl px-5 py-1 hover:bg-slate-700 hover:text-white"
-                        >
-                          Buy now
-                        </button>
-                      </div>
-                      <div class="flex flex-cols-2 gap-x-4 text-xs">
-                        <div><i class="fa-regular fa-heart"></i></div>
-                        <div class="">
-                          <i class="fa-solid fa-cart-shopping"></i>
+                        <div class="text-gl font-semibold">
+                          {{ f.furnitureName }}
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="product px-2 py-2 border border-indigo-100 rounded-md"
-                  >
-                    <div class="image_product">
-                      <router-link to="/detailfurniture">
-                        <img
-                          src="@/assets/images/category/shelves_tv/shelves_11.png"
-                          alt=""
-                        />
-                      </router-link>
-                      <div class="product_label bg-yellow-600">
-                        <span class="text-white">New</span>
-                      </div>
-                    </div>
-                    <div class="pt-4">
-                      <div class="text-xs">
-                        <span class="text-gray-800 pr-2">$1500</span>
-                        <del class="text-gray-500">$2000</del>
-                      </div>
-                      <div class="pt-2 text-base font-semibold">
-                        <span>Name Product</span>
-                      </div>
-                      <div>
-                        <span class="text-gray-600 text-xs">Description</span>
-                      </div>
-                      <div>
-                        <span class="text-sm"
-                          >Star: 5<i class="fa-solid fa-star pl-1 text-xs"></i
-                        ></span>
-                      </div>
-                      <div>
-                        <span class="text-sm">Quantity: 3</span>
-                      </div>
-                      <div class="button_buy py-3 px-2">
-                        <button
-                          class="btn text-sm font-medium border-1 border-slate-800 rounded-xl px-5 py-1 hover:bg-slate-700 hover:text-white"
-                        >
-                          Buy now
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="product px-2 py-2 border border-indigo-100 rounded-md"
-                  >
-                    <div class="image_product">
-                      <router-link to="/detailfurniture">
-                        <img
-                          src="@/assets/images/category/shelves_tv/shelves_11.png"
-                          alt=""
-                        />
-                      </router-link>
-                      <div class="product_label bg-yellow-600">
-                        <span class="text-white">New</span>
-                      </div>
-                    </div>
-                    <div class="pt-4">
-                      <div class="text-xs">
-                        <span class="text-gray-800 pr-2">$1500</span>
-                        <del class="text-gray-500">$2000</del>
-                      </div>
-                      <div class="pt-2 text-base font-semibold">
-                        <span>Name Product</span>
-                      </div>
-                      <div>
-                        <span class="text-gray-600 text-xs">Description</span>
-                      </div>
-                      <div>
-                        <span class="text-sm"
-                          >Star: 5<i class="fa-solid fa-star pl-1 text-xs"></i
-                        ></span>
-                      </div>
-                      <div>
-                        <span class="text-sm">Quantity: 3</span>
-                      </div>
-                      <div class="button_buy py-3 px-2">
-                        <button
-                          class="btn text-sm font-medium border-1 border-slate-800 rounded-xl px-5 py-1 hover:bg-slate-700 hover:text-white"
-                        >
-                          Buy now
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <br />
-                <div class="grid grid-cols-4 gap-x-4 px-3">
-                  <div
-                    class="product px-2 py-2 border border-indigo-100 rounded-md"
-                  >
-                    <div class="image_product">
-                      <router-link to="/detailfurniture">
-                        <img
-                          src="@/assets/images/category/shelves_tv/shelves_11.png"
-                          alt=""
-                        />
-                      </router-link>
-                      <div class="product_label bg-yellow-600">
-                        <span class="text-white">New</span>
-                      </div>
-                    </div>
-                    <div class="pt-4 px-2">
-                      <div class="text-xs">
-                        <span class="text-gray-800 pr-2">$1500</span>
-                        <del class="text-gray-500">$2000</del>
-                      </div>
-                      <div class="pt-2 text-base font-semibold">
-                        <span>Name Product</span>
-                      </div>
-                      <div>
-                        <span class="text-gray-600 text-xs">Description</span>
-                      </div>
-                      <div>
-                        <span class="text-sm"
-                          >Star: 5<i class="fa-solid fa-star pl-1 text-xs"></i
-                        ></span>
-                      </div>
-                      <div>
-                        <span class="text-sm">Quantity: 3</span>
-                      </div>
-                      <div class="button_buy py-3 px-2">
-                        <router-link to="/orderbill">
-                          <button
-                            class="btn text-sm font-medium border-1 border-slate-800 rounded-xl px-5 py-1 hover:bg-slate-700 hover:text-white"
-                          >
-                            Buy now
-                          </button>
-                        </router-link>
-                      </div>
-                      <div class="flex flex-cols-2 gap-x-4 text-xs">
-                        <div><i class="fa-regular fa-heart"></i></div>
-                        <div class="">
-                          <i class="fa-solid fa-cart-shopping"></i>
+                        <div class="absolute left-54 mb-4">
+                          <div class="rating">
+                            <!-- <input
+                              :id="'star' + f.voteStar"
+                              name="rate"
+                              type="radio"
+                              :value="f.voteStar"
+                            />
+                            <label
+                              :for="'star' + f.voteStar"
+                              class="star-label"
+                            ></label> -->
+                            <div class="rating">
+                              <input
+                                value="5"
+                                name="rate"
+                                id="star5"
+                                type="radio"
+                              />
+                              <label title="text" for="star5"></label>
+                              <input
+                                value="4"
+                                name="rate"
+                                id="star4"
+                                type="radio"
+                              />
+                              <label title="text" for="star4"></label>
+                              <input
+                                value="3"
+                                name="rate"
+                                id="star3"
+                                type="radio"
+                                checked=""
+                              />
+                              <label title="text" for="star3"></label>
+                              <input
+                                value="2"
+                                name="rate"
+                                id="star2"
+                                type="radio"
+                              />
+                              <label title="text" for="star2"></label>
+                              <input
+                                value="1"
+                                name="rate"
+                                id="star1"
+                                type="radio"
+                              />
+                              <label title="text" for="star1"></label>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="product px-2 py-2 border border-indigo-100 rounded-md"
-                  >
-                    <div class="image_product">
-                      <router-link to="/detailfurniture">
-                        <img
-                          src="@/assets/images/category/shelves_tv/shelves_11.png"
-                          alt=""
-                        />
-                      </router-link>
-                      <div class="product_label bg-yellow-600">
-                        <span class="text-white">New</span>
-                      </div>
-                    </div>
-                    <div class="pt-4">
-                      <div class="text-xs">
-                        <span class="text-gray-800 pr-2">$1500</span>
-                        <del class="text-gray-500">$2000</del>
-                      </div>
-                      <div class="pt-2 text-base font-semibold">
-                        <span>Name Product</span>
-                      </div>
-                      <div>
-                        <span class="text-gray-600 text-xs">Description</span>
-                      </div>
-                      <div>
-                        <span class="text-sm"
-                          >Star: 5<i class="fa-solid fa-star pl-1 text-xs"></i
-                        ></span>
-                      </div>
-                      <div>
-                        <span class="text-sm">Quantity: 3</span>
-                      </div>
-                      <div class="button_buy py-3 px-2">
-                        <button
-                          class="btn text-sm font-medium border-1 border-slate-800 rounded-xl px-5 py-1 hover:bg-slate-700 hover:text-white"
-                        >
-                          Buy now
-                        </button>
-                      </div>
-                      <div class="flex flex-cols-2 gap-x-4 text-xs">
-                        <div><i class="fa-regular fa-heart"></i></div>
-                        <div class="">
-                          <i class="fa-solid fa-cart-shopping"></i>
+                        <div class="font-medium text-sm mt-10">
+                          {{ f.content }}
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="product px-2 py-2 border border-indigo-100 rounded-md"
-                  >
-                    <div class="image_product">
-                      <router-link to="/detailfurniture">
-                        <img
-                          src="@/assets/images/category/shelves_tv/shelves_11.png"
-                          alt=""
-                        />
-                      </router-link>
-                      <div class="product_label bg-yellow-600">
-                        <span class="text-white">New</span>
-                      </div>
-                    </div>
-                    <div class="pt-4">
-                      <div class="text-xs">
-                        <span class="text-gray-800 pr-2">$1500</span>
-                        <del class="text-gray-500">$2000</del>
-                      </div>
-                      <div class="pt-2 text-base font-semibold">
-                        <span>Name Product</span>
-                      </div>
-                      <div>
-                        <span class="text-gray-600 text-xs">Description</span>
-                      </div>
-                      <div>
-                        <span class="text-sm"
-                          >Star: 5<i class="fa-solid fa-star pl-1 text-xs"></i
-                        ></span>
-                      </div>
-                      <div>
-                        <span class="text-sm">Quantity: 3</span>
-                      </div>
-                      <div class="button_buy py-3 px-2">
-                        <button
-                          class="btn text-sm font-medium border-1 border-slate-800 rounded-xl px-5 py-1 hover:bg-slate-700 hover:text-white"
+                        <div
+                          class="grid grid-cols-5 gap-x-5 mt-3"
+                          v-for="img in f.feedbackImages"
+                          :key="img"
                         >
-                          Buy now
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="product px-2 py-2 border border-indigo-100 rounded-md"
-                  >
-                    <div class="image_product">
-                      <router-link to="/detailfurniture">
-                        <img
-                          src="@/assets/images/category/shelves_tv/shelves_11.png"
-                          alt=""
-                        />
-                      </router-link>
-                      <div class="product_label bg-yellow-600">
-                        <span class="text-white">New</span>
-                      </div>
-                    </div>
-                    <div class="pt-4">
-                      <div class="text-xs">
-                        <span class="text-gray-800 pr-2">$1500</span>
-                        <del class="text-gray-500">$2000</del>
-                      </div>
-                      <div class="pt-2 text-base font-semibold">
-                        <span>Name Product</span>
-                      </div>
-                      <div>
-                        <span class="text-gray-600 text-xs">Description</span>
-                      </div>
-                      <div>
-                        <span class="text-sm"
-                          >Star: 5<i class="fa-solid fa-star pl-1 text-xs"></i
-                        ></span>
-                      </div>
-                      <div>
-                        <span class="text-sm">Quantity: 3</span>
-                      </div>
-                      <div class="button_buy py-3 px-2">
-                        <button
-                          class="btn text-sm font-medium border-1 border-slate-800 rounded-xl px-5 py-1 hover:bg-slate-700 hover:text-white"
-                        >
-                          Buy now
-                        </button>
+                          <img
+                            class="rounded-full w-3/12 cursor-pointer"
+                            :src="img.url"
+                            alt="img"
+                          />
+                          <!-- <img
+                            class="rounded-md w-6/12 cursor-pointer"
+                            src="@/assets/images/category/bed/bed_8.png"
+                            alt="img"
+                          /> -->
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -4267,7 +2672,7 @@
                   <h1
                     class="py-3 font-semibold text-base pl-10 text-yellow-950"
                   >
-                    Edit Information
+                    All Guarantee
                   </h1>
                   <div v-if="warranties.length">
                     <div
@@ -4281,6 +2686,7 @@
                     </div>
                   </div>
                 </div>
+                <div class="form bg-white"></div>
                 <!-- <div class="nav-warranty">
                   <ul
                     class="nav nav-pills bg-white flex- gap-x-60 pl-20 py-3 text-base font-medium"
@@ -4390,13 +2796,13 @@
                 </div> -->
                 <div class="bg-white form"></div>
               </div>
-              <div role="tabpanel" class="tab-pane active" id="customize">
+              <div role="tabpanel" class="tab-pane" id="customize">
                 <div class="">
                   <div class="group-tabs ml-2">
                     <!-- Nav tabs -->
                     <div class="nav-order">
                       <ul
-                        class="nav nav-pills bg-white flex- gap-x-48 pl-20 py-3 text-base font-medium"
+                        class="nav nav-pills bg-white flex gap-x-20 pl-20 py-3 text-base font-medium"
                         role="tablist"
                       >
                         <li role="presentation" class="active">
@@ -4414,7 +2820,7 @@
                             aria-controls="transport"
                             role="tab"
                             data-toggle="tab"
-                            >In Transport</a
+                            >Processing</a
                           >
                         </li>
                         <li role="presentation">
@@ -4423,7 +2829,7 @@
                             aria-controls="completed"
                             role="tab"
                             data-toggle="tab"
-                            >Completed</a
+                            >Preparing</a
                           >
                         </li>
                         <li role="presentation">
@@ -4432,7 +2838,25 @@
                             aria-controls="cancel"
                             role="tab"
                             data-toggle="tab"
-                            >Cancel</a
+                            >Delivering</a
+                          >
+                        </li>
+                        <li role="presentation">
+                          <a
+                            href="#cancel"
+                            aria-controls="cancel"
+                            role="tab"
+                            data-toggle="tab"
+                            >Delivered</a
+                          >
+                        </li>
+                        <li role="presentation">
+                          <a
+                            href="#cancel"
+                            aria-controls="cancel"
+                            role="tab"
+                            data-toggle="tab"
+                            >Canceled</a
                           >
                         </li>
                       </ul>
@@ -4440,21 +2864,74 @@
 
                     <!-- Tab panes -->
                     <div class="tab-content">
-                      <div role="tabpanel" class="tab-pane active" id="all">
+                      <div
+                        role="tabpanel"
+                        class="tab-pane active"
+                        id="all"
+                        v-if="customizeOders.length"
+                      >
                         <div class="">
-                          <div clas="product">
-                            <div class="ibox-content mt-3 rounded-sm">
+                          <div
+                            clas="product"
+                            v-for="or in customizeOders"
+                            :key="or.customizeFurnitureId"
+                          >
+                            <div class="ibox-content mt-3 rounded-md shadow-sm">
                               <div class="text-sm flex flex-cols-2">
-                                <div>ID: {{}}</div>
-                                <div class="date_order">Date: 9/5/2023</div>
+                                <div
+                                  class="font-medium text-slate-600 text-xs mt-1"
+                                  v-if="or.result.status === 'Accepted'"
+                                >
+                                  This order has been confirmed by the shop
+                                </div>
+                                <div
+                                  class="font-medium text-slate-600 text-xs mt-1"
+                                  v-if="or.result.status === 'Pending'"
+                                >
+                                  This order is under review by the store
+                                </div>
+                                <div class="absolute right-36">
+                                  <div
+                                    v-if="or.result.status === 'Pending'"
+                                    class="bg-yellow-600 px-2 py-1 text-white rounded-md text-sm"
+                                  >
+                                    Pending
+                                  </div>
+                                  <div
+                                    v-if="or.result.status === 'Accepted'"
+                                    class="bg-lime-700 px-2 py-1 text-white rounded-md text-sm"
+                                  >
+                                    Accepted
+                                  </div>
+                                  <div
+                                    v-if="or.status === 'Preparing'"
+                                    class="bg-red-600 px-2 py-1 text-white rounded-md text-sm"
+                                  >
+                                    Preparing
+                                  </div>
+                                  <div
+                                    v-if="or.status === 'Delivering'"
+                                    class="bg-red-600 px-2 py-1 text-white rounded-md text-sm"
+                                  >
+                                    Delivering
+                                  </div>
+                                  <div
+                                    v-if="or.status === 'Delivered'"
+                                    class="bg-red-600 px-2 py-1 text-white rounded-md text-sm"
+                                  >
+                                    Delivered
+                                  </div>
+                                </div>
                               </div>
-                              <hr class="my-3" />
+                              <hr class="mt-4 mb-2 h-px text-slate-300" />
                               <div class="table-responsive">
                                 <table class="table shoping-cart-table">
                                   <tbody>
                                     <tr>
                                       <td width="90">
-                                        <div class="cart-product-imitation">
+                                        <div
+                                          class="cart-product-imitation mt-3"
+                                        >
                                           <img
                                             src="@/assets/images/category/shelves_tv/shelves_11.png"
                                             alt=""
@@ -4462,2955 +2939,224 @@
                                         </div>
                                       </td>
                                       <td class="desc">
-                                        <h3>
-                                          <a href="#" class="text-navy">
-                                            Solid 2m4 red oak wood TV shelf
-                                          </a>
+                                        <h3 class="mb-2 break-all">
+                                          <span class="text-navy font-bold">
+                                            {{ or.customizeFurnitureName }}
+                                          </span>
                                         </h3>
-                                        <p class="small">
-                                          It is a long established fact that a
-                                          reader will be distracted by the
-                                          readable content of a page when
-                                          looking at its layout. The point of
-                                          using Lorem Ipsum is
-                                        </p>
-                                        <dl class="small m-b-none">
-                                          <dt>Description lists</dt>
-                                          <dd>
-                                            A description list is perfect for
-                                            defining terms.
-                                          </dd>
-                                        </dl>
-
-                                        <div class="m-t-sm">
-                                          <div
-                                            href="#"
-                                            class="text-muted cursor-pointer"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal"
-                                          >
-                                            <i
-                                              class="fa-solid fa-circle-info"
-                                            ></i>
-                                            Detail
-                                          </div>
-                                          <!-- Modal -->
-                                          <div
-                                            class="modal fade"
-                                            id="exampleModal"
-                                            tabindex="-1"
-                                            aria-labelledby="exampleModalLabel"
-                                            aria-hidden="true"
-                                          >
-                                            <div
-                                              class="modal-dialog modal-dialog-centered"
+                                        <h3 class="pt-1">
+                                          <div class="specificationname">
+                                            <span
+                                              class="font-semibold info_customizeOrder"
                                             >
-                                              <div class="modal-content">
-                                                <div class="modal-header">
-                                                  <h5
-                                                    class="modal-title font-medium"
-                                                    id="exampleModalLabel"
-                                                  >
-                                                    Detail Order Transport
-                                                  </h5>
-                                                  <button
-                                                    type="button"
-                                                    class="btn-close"
-                                                    data-bs-dismiss="modal"
-                                                    aria-label="Close"
-                                                  ></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                  <div class="">
-                                                    <div class="container mb-3">
-                                                      <div
-                                                        class="row d-flex justify-content-center"
-                                                      >
-                                                        <div class="">
-                                                          <div class="card">
-                                                            <div
-                                                              class="invoice"
-                                                            >
-                                                              <span
-                                                                class="font-weight-bold d-block mt-4"
-                                                                >Infromation</span
-                                                              >
-                                                              <div class="py-2">
-                                                                <span
-                                                                  class="d-inlineblock pr-3 text-red-500"
-                                                                  ><i
-                                                                    class="fa-solid fa-location-dot pr-1"
-                                                                  ></i>
-                                                                  Shiping
-                                                                  Address:</span
-                                                                >
-                                                                <span
-                                                                  >12 Me Tri- Ha
-                                                                  Noi</span
-                                                                >
-                                                              </div>
-                                                              <div
-                                                                class="payment border-top mt-3 mb-3 border-bottom table-responsive"
-                                                              >
-                                                                <table
-                                                                  class="table table-borderless"
-                                                                >
-                                                                  <tbody>
-                                                                    <tr>
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Order
-                                                                            Date</span
-                                                                          >
-                                                                          <span
-                                                                            >12
-                                                                            Jan,2018</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Order
-                                                                            No</span
-                                                                          >
-                                                                          <span
-                                                                            >O1233</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Payment</span
-                                                                          >
-                                                                          <span
-                                                                            ><img
-                                                                              src="https://img.icons8.com/color/48/000000/mastercard.png"
-                                                                              width="20"
-                                                                          /></span>
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </tbody>
-                                                                </table>
-                                                              </div>
-
-                                                              <div
-                                                                class="product border-bottom table-responsive"
-                                                              >
-                                                                <table
-                                                                  class="table table-borderless"
-                                                                >
-                                                                  <tbody>
-                                                                    <tr>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <img
-                                                                          src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                                                          width="90"
-                                                                        />
-                                                                      </td>
-
-                                                                      <td
-                                                                        width="60%"
-                                                                      >
-                                                                        <span
-                                                                          class="font-weight-bold"
-                                                                          >Sofa
-                                                                          1</span
-                                                                        >
-                                                                        <div
-                                                                          class="product-qty"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block"
-                                                                            >Quantity:1</span
-                                                                          >
-                                                                          <span
-                                                                            >Color:Dark</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <div
-                                                                          class="text-right"
-                                                                        >
-                                                                          <span
-                                                                            class="font-weight-bold"
-                                                                            >$67.50</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-
-                                                                    <tr>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <img
-                                                                          src="@/assets/images/category/shelves_tv/shelves.png"
-                                                                          width="70"
-                                                                        />
-                                                                      </td>
-
-                                                                      <td
-                                                                        width="60%"
-                                                                      >
-                                                                        <span
-                                                                          class="font-weight-bold"
-                                                                          >Sofa
-                                                                          2</span
-                                                                        >
-                                                                        <div
-                                                                          class="product-qty"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block"
-                                                                            >Quantity:1</span
-                                                                          >
-                                                                          <span
-                                                                            >Color:Orange</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <div
-                                                                          class="text-right"
-                                                                        >
-                                                                          <span
-                                                                            class="font-weight-bold"
-                                                                            >$77.50</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </tbody>
-                                                                </table>
-                                                              </div>
-
-                                                              <div
-                                                                class="row d-flex justify-content-end"
-                                                              >
-                                                                <div
-                                                                  class="col-md-5"
-                                                                >
-                                                                  <table
-                                                                    class="table table-borderless"
-                                                                  >
-                                                                    <tbody
-                                                                      class="totals"
-                                                                    >
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Subtotal</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$168.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Shipping
-                                                                              Fee</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$22</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Tax
-                                                                              Fee</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$7.65</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Discount</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              class="text-success"
-                                                                              >$168.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr
-                                                                        class="border-top border-bottom"
-                                                                      >
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="font-weight-bold"
-                                                                              >Subtotal</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              class="font-weight-bold"
-                                                                              >$238.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-                                                                    </tbody>
-                                                                  </table>
-                                                                </div>
-                                                              </div>
-
-                                                              <p
-                                                                class="font-weight-bold mb-0"
-                                                              >
-                                                                Thanks for
-                                                                shopping with
-                                                                us!
-                                                              </p>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                  <div
-                                                    class="bg-gray-600 rounded-md"
-                                                  >
-                                                    <button
-                                                      type="button"
-                                                      class="btn text-white"
-                                                      data-bs-dismiss="modal"
-                                                    >
-                                                      Close
-                                                    </button>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
+                                              Height:
+                                            </span>
+                                            <span
+                                              class="font-medium info_customizeOrder"
+                                            >
+                                              {{ or.height }}m
+                                            </span>
                                           </div>
-                                        </div>
-                                      </td>
+                                        </h3>
+                                        <h3 class="pt-1">
+                                          <div class="specificationname">
+                                            <span
+                                              class="font-semibold info_customizeOrder"
+                                            >
+                                              Width:
+                                            </span>
+                                            <span
+                                              class="font-medium info_customizeOrder"
+                                            >
+                                              {{ or.width }}m
+                                            </span>
+                                          </div>
+                                        </h3>
+                                        <h3 class="pt-1">
+                                          <div class="specificationname">
+                                            <span
+                                              class="font-semibold info_customizeOrder"
+                                            >
+                                              Length:
+                                            </span>
+                                            <span
+                                              class="font-medium info_customizeOrder"
+                                            >
+                                              {{ or.length }}m
+                                            </span>
+                                          </div>
+                                        </h3>
 
+                                        <h3 class="pt-1">
+                                          <div class="specificationname">
+                                            <span
+                                              class="font-semibold info_customizeOrder"
+                                            >
+                                              Desired Completion Date:
+                                            </span>
+                                            <span
+                                              class="font-medium info_customizeOrder"
+                                            >
+                                              {{ or.desiredCompletionDate }}
+                                            </span>
+                                          </div>
+                                        </h3>
+                                      </td>
                                       <td>
-                                        $180,00
-                                        <s class="small text-muted">$230,00</s>
+                                        <h3>
+                                          <div class="specificationname">
+                                            <span
+                                              class="font-semibold info_customizeOrder"
+                                            >
+                                              Color:
+                                            </span>
+                                            <span
+                                              class="font-medium info_customizeOrder"
+                                            >
+                                              {{ or.color }}
+                                            </span>
+                                          </div>
+                                        </h3>
+                                      </td>
+                                      <td>
+                                        <h3>
+                                          <div class="specificationname">
+                                            <span
+                                              class="font-semibold info_customizeOrder"
+                                            >
+                                              Wood:
+                                            </span>
+                                            <span
+                                              class="font-medium info_customizeOrder"
+                                            >
+                                              {{ or.wood }}
+                                            </span>
+                                          </div>
+                                        </h3>
                                       </td>
                                       <td
                                         width="65"
                                         class="font-semibold text-center"
                                       >
-                                        1
-                                      </td>
-                                      <td>
-                                        <h4>$180,00</h4>
+                                        <div class="flex">
+                                          <label
+                                            class="quantity font-meidum info_customizeOrder mr-1"
+                                            >Quantity:</label
+                                          >
+                                          <span
+                                            class="font-medium info_customizeOrder text-sm mt-1"
+                                            >x{{ or.quantity }}</span
+                                          >
+                                        </div>
                                       </td>
                                     </tr>
                                   </tbody>
                                 </table>
-                              </div>
-                              <hr class="my-3" />
-                              <div class="float-right flex gap-x-3">
-                                <div
-                                  class="bg-yellow-600 px-2 py-2 text-white rounded-md text-sm"
-                                >
-                                  Transpost
-                                </div>
-                                <div
-                                  class="bg-lime-700 px-2 py-2 text-white rounded-md text-sm"
-                                >
-                                  Completed
-                                </div>
-                                <div
-                                  class="bg-red-600 px-2 py-2 text-white rounded-md text-sm"
-                                >
-                                  Cancel
+                                <hr class="my-3 h-px text-slate-300" />
+                                <div class="flex">
+                                  <div class="m-t-sm my-2 ml-2">
+                                    <div
+                                      class="date_orderCustomize text-xs font-medium text-slate-600"
+                                    >
+                                      Date: {{ or.creationDate }}
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="flex gap-x-2 absolute right-40 mt-1 cursor-pointer"
+                                    data-toggle="modal"
+                                    data-target="#exampleModalLong"
+                                    data-backdrop="false"
+                                    @click="opentModalOrder('result', or)"
+                                  >
+                                    <i
+                                      class="bi bi-check-square text-sm text-red-700"
+                                    ></i>
+                                    <span
+                                      class="font-medium text-sm text-red-700"
+                                      >Detailed Response</span
+                                    >
+                                  </div>
+                                  <modal
+                                    v-if="modalType == 'result'"
+                                    @close="modalType == null"
+                                    data-target="#myModal"
+                                  >
+                                    <template v-slot:title>
+                                      <h5
+                                        class="modal-title font-semibold px-2"
+                                        id="exampleModalLabel"
+                                      >
+                                        Detailed Response
+                                      </h5>
+                                    </template>
+                                    <template v-slot:body>
+                                      <div class="px-2">
+                                        <div class="py-2">
+                                          <span
+                                            class="font-semibold mt-1 mr-2 text_customize detail_response"
+                                            >Reason:</span
+                                          >
+                                          <span
+                                            class="font-medium mb-0 text_customize mt-4 text-zinc-600"
+                                            >{{
+                                              customizeModal.result.reason
+                                            }}</span
+                                          >
+                                        </div>
+                                        <div class="py-2">
+                                          <span
+                                            class="font-semibold mt-1 mr-2 text_customize detail_response"
+                                            >Expected Price:</span
+                                          >
+                                          <span
+                                            class="font-medium text-red-600 text_customize"
+                                            >${{
+                                              customizeModal.result
+                                                .expectedPrice
+                                            }}</span
+                                          >
+                                        </div>
+                                        <div class="py-2">
+                                          <span
+                                            class="font-semibold mt-1 mr-2 text_customize detail_response"
+                                            >Actual Completion Date:</span
+                                          >
+                                          <span
+                                            class="font-medium text_customize text-zinc-600"
+                                          >
+                                            {{
+                                              customizeModal.result
+                                                .actualCompletionDate
+                                            }}</span
+                                          >
+                                        </div>
+                                        <p
+                                          class="font-weight-bold mb-0 text_customize mt-4"
+                                        >
+                                          Thanks for shopping with us!
+                                        </p>
+                                      </div>
+                                    </template>
+                                    <template v-slot:footer></template>
+                                  </modal>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
                         <br />
-                        <div class="">
-                          <div clas="product">
-                            <div class="ibox-content mt-3 rounded-sm">
-                              <div class="text-sm flex flex-cols-2">
-                                <div>ID Order: 567</div>
-                                <div class="date_order">Date: 9/5/2023</div>
-                              </div>
-                              <hr class="my-3" />
-                              <div class="table-responsive">
-                                <table class="table shoping-cart-table">
-                                  <tbody>
-                                    <tr>
-                                      <td width="90">
-                                        <div class="cart-product-imitation">
-                                          <img
-                                            src="@/assets/images/category/shelves_tv/shelves.png"
-                                            alt=""
-                                          />
-                                        </div>
-                                      </td>
-                                      <td class="desc">
-                                        <h3>
-                                          <a href="#" class="text-navy">
-                                            Solid 2m4 red oak wood TV shelf
-                                          </a>
-                                        </h3>
-                                        <p class="small">
-                                          It is a long established fact that a
-                                          reader will be distracted by the
-                                          readable content of a page when
-                                          looking at its layout. The point of
-                                          using Lorem Ipsum is
-                                        </p>
-                                        <dl class="small m-b-none">
-                                          <dt>Description lists</dt>
-                                          <dd>
-                                            A description list is perfect for
-                                            defining terms.
-                                          </dd>
-                                        </dl>
-
-                                        <div class="m-t-sm">
-                                          <div
-                                            href="#"
-                                            class="text-muted cursor-pointer"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal_complete"
-                                          >
-                                            <i
-                                              class="fa-solid fa-circle-info"
-                                            ></i>
-                                            Detail
-                                          </div>
-                                          <!-- Modal -->
-                                          <div
-                                            class="modal fade"
-                                            id="exampleModal_complete"
-                                            tabindex="-1"
-                                            aria-labelledby="exampleModalLabel"
-                                            aria-hidden="true"
-                                          >
-                                            <div
-                                              class="modal-dialog modal-dialog-centered"
-                                            >
-                                              <div class="modal-content">
-                                                <div class="modal-header">
-                                                  <h5
-                                                    class="modal-title font-medium"
-                                                    id="exampleModalLabel"
-                                                  >
-                                                    Detail Order Compeleted
-                                                  </h5>
-                                                  <button
-                                                    type="button"
-                                                    class="btn-close"
-                                                    data-bs-dismiss="modal"
-                                                    aria-label="Close"
-                                                  ></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                  <div class="">
-                                                    <div class="container mb-3">
-                                                      <div
-                                                        class="row d-flex justify-content-center"
-                                                      >
-                                                        <div class="">
-                                                          <div class="card">
-                                                            <div
-                                                              class="invoice"
-                                                            >
-                                                              <div
-                                                                class="py-2 flex"
-                                                              >
-                                                                <span
-                                                                  class="d-block pr-3 text-lime-600"
-                                                                  >Cancel Date:
-                                                                </span>
-                                                                <span
-                                                                  >12
-                                                                  Jan,2018</span
-                                                                >
-                                                              </div>
-                                                              <span
-                                                                class="font-weight-bold d-block mt-4"
-                                                                >Infromation</span
-                                                              >
-                                                              <div class="py-2">
-                                                                <span
-                                                                  class="d-inlineblock pr-3 text-red-500"
-                                                                  ><i
-                                                                    class="fa-solid fa-location-dot pr-1"
-                                                                  ></i>
-                                                                  Shiping
-                                                                  Address:</span
-                                                                >
-                                                                <span
-                                                                  >12 Me Tri- Ha
-                                                                  Noi</span
-                                                                >
-                                                              </div>
-                                                              <div
-                                                                class="payment border-top mt-3 mb-3 border-bottom table-responsive"
-                                                              >
-                                                                <table
-                                                                  class="table table-borderless"
-                                                                >
-                                                                  <tbody>
-                                                                    <tr>
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Order
-                                                                            Date</span
-                                                                          >
-                                                                          <span
-                                                                            >12
-                                                                            Jan,2018</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Order
-                                                                            No</span
-                                                                          >
-                                                                          <span
-                                                                            >O1233</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Payment</span
-                                                                          >
-                                                                          <span
-                                                                            ><img
-                                                                              src="https://img.icons8.com/color/48/000000/mastercard.png"
-                                                                              width="20"
-                                                                          /></span>
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </tbody>
-                                                                </table>
-                                                              </div>
-
-                                                              <div
-                                                                class="product border-bottom table-responsive"
-                                                              >
-                                                                <table
-                                                                  class="table table-borderless"
-                                                                >
-                                                                  <tbody>
-                                                                    <tr>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <img
-                                                                          src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                                                          width="90"
-                                                                        />
-                                                                      </td>
-
-                                                                      <td
-                                                                        width="60%"
-                                                                      >
-                                                                        <span
-                                                                          class="font-weight-bold"
-                                                                          >Sofa
-                                                                          1</span
-                                                                        >
-                                                                        <div
-                                                                          class="product-qty"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block"
-                                                                            >Quantity:1</span
-                                                                          >
-                                                                          <span
-                                                                            >Color:Dark</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <div
-                                                                          class="text-right"
-                                                                        >
-                                                                          <span
-                                                                            class="font-weight-bold"
-                                                                            >$67.50</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-
-                                                                    <tr>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <img
-                                                                          src="@/assets/images/category/shelves_tv/shelves.png"
-                                                                          width="70"
-                                                                        />
-                                                                      </td>
-
-                                                                      <td
-                                                                        width="60%"
-                                                                      >
-                                                                        <span
-                                                                          class="font-weight-bold"
-                                                                          >Sofa
-                                                                          2</span
-                                                                        >
-                                                                        <div
-                                                                          class="product-qty"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block"
-                                                                            >Quantity:1</span
-                                                                          >
-                                                                          <span
-                                                                            >Color:Orange</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <div
-                                                                          class="text-right"
-                                                                        >
-                                                                          <span
-                                                                            class="font-weight-bold"
-                                                                            >$77.50</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </tbody>
-                                                                </table>
-                                                              </div>
-
-                                                              <div
-                                                                class="row d-flex justify-content-end"
-                                                              >
-                                                                <div
-                                                                  class="col-md-5"
-                                                                >
-                                                                  <table
-                                                                    class="table table-borderless"
-                                                                  >
-                                                                    <tbody
-                                                                      class="totals"
-                                                                    >
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Subtotal</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$168.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Shipping
-                                                                              Fee</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$22</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Tax
-                                                                              Fee</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$7.65</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Discount</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              class="text-success"
-                                                                              >$168.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr
-                                                                        class="border-top border-bottom"
-                                                                      >
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="font-weight-bold"
-                                                                              >Subtotal</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              class="font-weight-bold"
-                                                                              >$238.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-                                                                    </tbody>
-                                                                  </table>
-                                                                </div>
-                                                              </div>
-
-                                                              <p
-                                                                class="font-weight-bold mb-0"
-                                                              >
-                                                                Thanks for
-                                                                shopping with
-                                                                us!
-                                                              </p>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                  <div
-                                                    class="bg-gray-600 rounded-md"
-                                                  >
-                                                    <button
-                                                      type="button"
-                                                      class="btn text-white"
-                                                      data-bs-dismiss="modal"
-                                                    >
-                                                      Close
-                                                    </button>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </td>
-
-                                      <td>
-                                        $180,00
-                                        <s class="small text-muted">$230,00</s>
-                                      </td>
-                                      <td
-                                        width="65"
-                                        class="font-semibold text-center"
-                                      >
-                                        1
-                                      </td>
-                                      <td>
-                                        <h4>$180,00</h4>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
-                              <hr class="my-3" />
-                              <div class="float-right flex gap-x-3">
-                                <div
-                                  class="bg-yellow-600 px-2 py-2 text-white rounded-md text-sm"
-                                >
-                                  Transpost
-                                </div>
-                                <div
-                                  class="bg-lime-700 px-2 py-2 text-white rounded-md text-sm"
-                                >
-                                  Completed
-                                </div>
-                                <div
-                                  class="bg-red-600 px-2 py-2 text-white rounded-md text-sm"
-                                >
-                                  Cancel
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <br />
-                        <div class="">
-                          <div clas="product">
-                            <div class="ibox-content mt-3 rounded-sm">
-                              <div class="text-sm flex flex-cols-2">
-                                <div>ID Order: 789</div>
-                                <div class="date_order">Date: 9/5/2023</div>
-                              </div>
-                              <hr class="my-3" />
-                              <div class="table-responsive">
-                                <table class="table shoping-cart-table">
-                                  <tbody>
-                                    <tr>
-                                      <td width="90">
-                                        <div class="cart-product-imitation">
-                                          <img
-                                            src="@/assets/images/category/shelves_tv/shelves_12.png"
-                                            alt=""
-                                          />
-                                        </div>
-                                      </td>
-                                      <td class="desc">
-                                        <h3>
-                                          <a href="#" class="text-navy">
-                                            Solid 2m4 red oak wood TV shelf
-                                          </a>
-                                        </h3>
-                                        <p class="small">
-                                          It is a long established fact that a
-                                          reader will be distracted by the
-                                          readable content of a page when
-                                          looking at its layout. The point of
-                                          using Lorem Ipsum is
-                                        </p>
-                                        <dl class="small m-b-none">
-                                          <dt>Description lists</dt>
-                                          <dd>
-                                            A description list is perfect for
-                                            defining terms.
-                                          </dd>
-                                        </dl>
-
-                                        <div class="m-t-sm">
-                                          <div
-                                            href="#"
-                                            class="text-muted cursor-pointer"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal_cancel"
-                                          >
-                                            <i
-                                              class="fa-solid fa-circle-info"
-                                            ></i>
-                                            Detail
-                                          </div>
-                                          <!-- Modal -->
-                                          <div
-                                            class="modal fade"
-                                            id="exampleModal_cancel"
-                                            tabindex="-1"
-                                            aria-labelledby="exampleModalLabel"
-                                            aria-hidden="true"
-                                          >
-                                            <div
-                                              class="modal-dialog modal-dialog-centered"
-                                            >
-                                              <div class="modal-content">
-                                                <div class="modal-header">
-                                                  <h5
-                                                    class="modal-title font-medium"
-                                                    id="exampleModalLabel"
-                                                  >
-                                                    Detail Order Cancel
-                                                  </h5>
-                                                  <button
-                                                    type="button"
-                                                    class="btn-close"
-                                                    data-bs-dismiss="modal"
-                                                    aria-label="Close"
-                                                  ></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                  <div class="">
-                                                    <div class="container mb-3">
-                                                      <div
-                                                        class="row d-flex justify-content-center"
-                                                      >
-                                                        <div class="">
-                                                          <div class="card">
-                                                            <div
-                                                              class="invoice"
-                                                            >
-                                                              <div
-                                                                class="py-2 flex"
-                                                              >
-                                                                <span
-                                                                  class="d-block pr-3 text-red-500"
-                                                                  >Cancel Date:
-                                                                </span>
-                                                                <span
-                                                                  >12
-                                                                  Jan,2018</span
-                                                                >
-                                                              </div>
-                                                              <span
-                                                                class="font-weight-bold d-block mt-4"
-                                                                >Infromation</span
-                                                              >
-                                                              <div class="py-2">
-                                                                <span
-                                                                  class="d-inlineblock pr-3 text-red-500"
-                                                                  ><i
-                                                                    class="fa-solid fa-location-dot pr-1"
-                                                                  ></i>
-                                                                  Shiping
-                                                                  Address:</span
-                                                                >
-                                                                <span
-                                                                  >12 Me Tri- Ha
-                                                                  Noi</span
-                                                                >
-                                                              </div>
-                                                              <div
-                                                                class="payment border-top mt-3 mb-3 border-bottom table-responsive"
-                                                              >
-                                                                <table
-                                                                  class="table table-borderless"
-                                                                >
-                                                                  <tbody>
-                                                                    <tr>
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Order
-                                                                            Date</span
-                                                                          >
-                                                                          <span
-                                                                            >12
-                                                                            Jan,2018</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Order
-                                                                            No</span
-                                                                          >
-                                                                          <span
-                                                                            >O1233</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Payment</span
-                                                                          >
-                                                                          <span
-                                                                            ><img
-                                                                              src="https://img.icons8.com/color/48/000000/mastercard.png"
-                                                                              width="20"
-                                                                          /></span>
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </tbody>
-                                                                </table>
-                                                              </div>
-
-                                                              <div
-                                                                class="product border-bottom table-responsive"
-                                                              >
-                                                                <table
-                                                                  class="table table-borderless"
-                                                                >
-                                                                  <tbody>
-                                                                    <tr>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <img
-                                                                          src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                                                          width="90"
-                                                                        />
-                                                                      </td>
-
-                                                                      <td
-                                                                        width="60%"
-                                                                      >
-                                                                        <span
-                                                                          class="font-weight-bold"
-                                                                          >Sofa
-                                                                          1</span
-                                                                        >
-                                                                        <div
-                                                                          class="product-qty"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block"
-                                                                            >Quantity:1</span
-                                                                          >
-                                                                          <span
-                                                                            >Color:Dark</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <div
-                                                                          class="text-right"
-                                                                        >
-                                                                          <span
-                                                                            class="font-weight-bold"
-                                                                            >$67.50</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-
-                                                                    <tr>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <img
-                                                                          src="@/assets/images/category/shelves_tv/shelves.png"
-                                                                          width="70"
-                                                                        />
-                                                                      </td>
-
-                                                                      <td
-                                                                        width="60%"
-                                                                      >
-                                                                        <span
-                                                                          class="font-weight-bold"
-                                                                          >Sofa
-                                                                          2</span
-                                                                        >
-                                                                        <div
-                                                                          class="product-qty"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block"
-                                                                            >Quantity:1</span
-                                                                          >
-                                                                          <span
-                                                                            >Color:Orange</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <div
-                                                                          class="text-right"
-                                                                        >
-                                                                          <span
-                                                                            class="font-weight-bold"
-                                                                            >$77.50</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </tbody>
-                                                                </table>
-                                                              </div>
-
-                                                              <div
-                                                                class="row d-flex justify-content-end"
-                                                              >
-                                                                <div
-                                                                  class="col-md-5"
-                                                                >
-                                                                  <table
-                                                                    class="table table-borderless"
-                                                                  >
-                                                                    <tbody
-                                                                      class="totals"
-                                                                    >
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Subtotal</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$168.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Shipping
-                                                                              Fee</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$22</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Tax
-                                                                              Fee</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$7.65</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Discount</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              class="text-success"
-                                                                              >$168.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr
-                                                                        class="border-top border-bottom"
-                                                                      >
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="font-weight-bold"
-                                                                              >Subtotal</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              class="font-weight-bold"
-                                                                              >$238.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-                                                                    </tbody>
-                                                                  </table>
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                  <div
-                                                    class="bg-gray-600 rounded-md"
-                                                  >
-                                                    <button
-                                                      type="button"
-                                                      class="btn text-white"
-                                                      data-bs-dismiss="modal"
-                                                    >
-                                                      Close
-                                                    </button>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </td>
-
-                                      <td>
-                                        $180,00
-                                        <s class="small text-muted">$230,00</s>
-                                      </td>
-                                      <td
-                                        width="65"
-                                        class="font-semibold text-center"
-                                      >
-                                        1
-                                      </td>
-                                      <td>
-                                        <h4>$180,00</h4>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
-                              <hr class="my-3" />
-                              <div class="float-right flex gap-x-3">
-                                <div
-                                  class="bg-yellow-600 px-2 py-2 text-white rounded-md text-sm"
-                                >
-                                  Transpost
-                                </div>
-                                <div
-                                  class="bg-lime-700 px-2 py-2 text-white rounded-md text-sm"
-                                >
-                                  Completed
-                                </div>
-                                <div
-                                  class="bg-red-600 px-2 py-2 text-white rounded-md text-sm"
-                                >
-                                  Cancel
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
                       </div>
-                      <div role="tabpanel" class="tab-pane" id="transport">
-                        <div class="">
-                          <div clas="product">
-                            <div class="ibox-content mt-3 rounded-sm">
-                              <div class="text-sm flex flex-cols-2">
-                                <div>ID Order: 123</div>
-                                <div class="date_order">Date: 9/5/2023</div>
-                              </div>
-                              <hr class="my-3" />
-                              <div class="table-responsive">
-                                <table class="table shoping-cart-table">
-                                  <tbody>
-                                    <tr>
-                                      <td width="90">
-                                        <div class="cart-product-imitation">
-                                          <img
-                                            src="@/assets/images/category/shelves_tv/shelves.png"
-                                            alt=""
-                                          />
-                                        </div>
-                                      </td>
-                                      <td class="desc">
-                                        <h3>
-                                          <a href="#" class="text-navy">
-                                            Solid 2m4 red oak wood TV shelf
-                                          </a>
-                                        </h3>
-                                        <p class="small">
-                                          It is a long established fact that a
-                                          reader will be distracted by the
-                                          readable content of a page when
-                                          looking at its layout. The point of
-                                          using Lorem Ipsum is
-                                        </p>
-                                        <dl class="small m-b-none">
-                                          <dt>Description lists</dt>
-                                          <dd>
-                                            A description list is perfect for
-                                            defining terms.
-                                          </dd>
-                                        </dl>
-
-                                        <div class="m-t-sm">
-                                          <div
-                                            href="#"
-                                            class="text-muted cursor-pointer"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal_transform"
-                                          >
-                                            <i
-                                              class="fa-solid fa-circle-info"
-                                            ></i>
-                                            Detail
-                                          </div>
-                                          <!-- Modal -->
-                                          <div
-                                            class="modal fade"
-                                            id="exampleModal_transform"
-                                            tabindex="-1"
-                                            aria-labelledby="exampleModalLabel"
-                                            aria-hidden="true"
-                                          >
-                                            <div
-                                              class="modal-dialog modal-dialog-centered"
-                                            >
-                                              <div class="modal-content">
-                                                <div class="modal-header">
-                                                  <h5
-                                                    class="modal-title"
-                                                    id="exampleModalLabel"
-                                                  >
-                                                    Detail Order
-                                                  </h5>
-                                                  <button
-                                                    type="button"
-                                                    class="btn-close"
-                                                    data-bs-dismiss="modal"
-                                                    aria-label="Close"
-                                                  ></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                  <section class="vh-100">
-                                                    <div class="h-100">
-                                                      <div
-                                                        class="row d-flex justify-content-center h-100"
-                                                      >
-                                                        <div class="col">
-                                                          <div
-                                                            class="card card-stepper"
-                                                            style="
-                                                              border-radius: 10px;
-                                                            "
-                                                          >
-                                                            <div
-                                                              class="card-body p-4"
-                                                            >
-                                                              <div
-                                                                class="d-flex justify-content-between align-items-center"
-                                                              >
-                                                                <div
-                                                                  class="d-flex flex-column"
-                                                                >
-                                                                  <span
-                                                                    class="lead fw-normal text-base"
-                                                                    >Your order
-                                                                    has been
-                                                                    delivered</span
-                                                                  >
-                                                                  <span
-                                                                    class="text-muted small"
-                                                                    >on 21 Jan,
-                                                                    2023</span
-                                                                  >
-                                                                </div>
-                                                              </div>
-                                                              <hr
-                                                                class="my-4"
-                                                              />
-                                                              <div
-                                                                class="bg-white rounded-md text-sm"
-                                                              >
-                                                                <span
-                                                                  class="text-red-600"
-                                                                  ><i
-                                                                    class="fa-solid fa-location-dot"
-                                                                  ></i>
-                                                                  Address</span
-                                                                >
-                                                                <br />
-                                                                <div
-                                                                  class="py-2 flex gap-x-4"
-                                                                >
-                                                                  <span
-                                                                    class="font-semibold"
-                                                                    >Luu Thi
-                                                                    Minh -
-                                                                    0398677620
-                                                                  </span>
-                                                                  <span
-                                                                    >Quang
-                                                                    Hung-Phu
-                                                                    Cu-Hung
-                                                                    Yen</span
-                                                                  >
-                                                                  <div
-                                                                    class="border-solid border-1 border-red-500 text-red-500 px-1 py-2 text-sm"
-                                                                  >
-                                                                    <span
-                                                                      >Default</span
-                                                                    >
-                                                                  </div>
-                                                                </div>
-                                                              </div>
-                                                              <div
-                                                                class="d-flex flex-row justify-content-between align-items-center align-content-center"
-                                                              >
-                                                                <span
-                                                                  class="dot"
-                                                                ></span>
-                                                                <hr
-                                                                  class="flex-fill track-line"
-                                                                />
-                                                                <span
-                                                                  class="dot"
-                                                                ></span>
-                                                                <hr
-                                                                  class="flex-fill track-line"
-                                                                />
-                                                                <span
-                                                                  class="dot"
-                                                                ></span>
-                                                                <hr
-                                                                  class="flex-fill track-line"
-                                                                />
-                                                                <span
-                                                                  class="dot"
-                                                                ></span>
-                                                                <hr
-                                                                  class="flex-fill track-line"
-                                                                />
-                                                                <span
-                                                                  class="d-flex justify-content-center align-items-center big-dot dot"
-                                                                >
-                                                                  <i
-                                                                    class="fa fa-check text-white"
-                                                                  ></i
-                                                                ></span>
-                                                              </div>
-
-                                                              <div
-                                                                class="d-flex flex-row justify-content-between align-items-center text-sm"
-                                                              >
-                                                                <div
-                                                                  class="d-flex flex-column align-items-start"
-                                                                >
-                                                                  <span
-                                                                    >15
-                                                                    Mar</span
-                                                                  ><span
-                                                                    >Order
-                                                                    placed</span
-                                                                  >
-                                                                </div>
-                                                                <div
-                                                                  class="d-flex flex-column justify-content-center"
-                                                                >
-                                                                  <span
-                                                                    >15
-                                                                    Mar</span
-                                                                  ><span
-                                                                    >Order
-                                                                    placed</span
-                                                                  >
-                                                                </div>
-                                                                <div
-                                                                  class="d-flex flex-column justify-content-center align-items-center"
-                                                                >
-                                                                  <span
-                                                                    >15
-                                                                    Mar</span
-                                                                  ><span
-                                                                    >Order
-                                                                    Dispatched</span
-                                                                  >
-                                                                </div>
-                                                                <div
-                                                                  class="d-flex flex-column align-items-center"
-                                                                >
-                                                                  <span
-                                                                    >15
-                                                                    Mar</span
-                                                                  ><span
-                                                                    >Out for
-                                                                    delivery</span
-                                                                  >
-                                                                </div>
-                                                                <div
-                                                                  class="d-flex flex-column align-items-end"
-                                                                >
-                                                                  <span
-                                                                    >15
-                                                                    Mar</span
-                                                                  ><span
-                                                                    >Delivered</span
-                                                                  >
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </section>
-                                                  <div
-                                                    class="product_transport"
-                                                  >
-                                                    <div
-                                                      class="bg-white rounded-md px-1"
-                                                    >
-                                                      <div>
-                                                        <div class="card mb-3">
-                                                          <div
-                                                            class="card-body"
-                                                          >
-                                                            <div
-                                                              class="d-flex justify-content-between"
-                                                            >
-                                                              <div
-                                                                class="d-flex flex-row align-items-center"
-                                                              >
-                                                                <div>
-                                                                  <img
-                                                                    src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                                                    class="img-fluid rounded-3"
-                                                                    alt="Shopping item"
-                                                                    style="
-                                                                      width: 65px;
-                                                                    "
-                                                                  />
-                                                                </div>
-                                                                <div
-                                                                  class="ms-3"
-                                                                >
-                                                                  <h5>
-                                                                    Sofa 1
-                                                                  </h5>
-                                                                  <p
-                                                                    class="small mb-0"
-                                                                  >
-                                                                    14 x 16m,
-                                                                    Yellow
-                                                                  </p>
-                                                                </div>
-                                                              </div>
-                                                              <div
-                                                                class="d-flex flex-row align-items-center"
-                                                              >
-                                                                <div
-                                                                  style="
-                                                                    width: 50px;
-                                                                  "
-                                                                >
-                                                                  <h5
-                                                                    class="fw-normal mb-0"
-                                                                  >
-                                                                    2
-                                                                  </h5>
-                                                                </div>
-                                                                <div
-                                                                  style="
-                                                                    width: 80px;
-                                                                  "
-                                                                >
-                                                                  <h5
-                                                                    class="mb-0"
-                                                                  >
-                                                                    $900
-                                                                  </h5>
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                        <div class="card mb-3">
-                                                          <div
-                                                            class="card-body"
-                                                          >
-                                                            <div
-                                                              class="d-flex justify-content-between"
-                                                            >
-                                                              <div
-                                                                class="d-flex flex-row align-items-center"
-                                                              >
-                                                                <div>
-                                                                  <img
-                                                                    src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                                                    class="img-fluid rounded-3"
-                                                                    alt="Shopping item"
-                                                                    style="
-                                                                      width: 65px;
-                                                                    "
-                                                                  />
-                                                                </div>
-                                                                <div
-                                                                  class="ms-3"
-                                                                >
-                                                                  <h5>
-                                                                    Sofa 1
-                                                                  </h5>
-                                                                  <p
-                                                                    class="small mb-0"
-                                                                  >
-                                                                    14 x 16m,
-                                                                    Yellow
-                                                                  </p>
-                                                                </div>
-                                                              </div>
-                                                              <div
-                                                                class="d-flex flex-row align-items-center"
-                                                              >
-                                                                <div
-                                                                  style="
-                                                                    width: 50px;
-                                                                  "
-                                                                >
-                                                                  <h5
-                                                                    class="fw-normal mb-0"
-                                                                  >
-                                                                    2
-                                                                  </h5>
-                                                                </div>
-                                                                <div
-                                                                  style="
-                                                                    width: 80px;
-                                                                  "
-                                                                >
-                                                                  <h5
-                                                                    class="mb-0"
-                                                                  >
-                                                                    $900
-                                                                  </h5>
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                        <div class="card mb-3">
-                                                          <div
-                                                            class="card-body"
-                                                          >
-                                                            <div
-                                                              class="d-flex justify-content-between"
-                                                            >
-                                                              <div
-                                                                class="d-flex flex-row align-items-center"
-                                                              >
-                                                                <div>
-                                                                  <img
-                                                                    src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                                                    class="img-fluid rounded-3"
-                                                                    alt="Shopping item"
-                                                                    style="
-                                                                      width: 65px;
-                                                                    "
-                                                                  />
-                                                                </div>
-                                                                <div
-                                                                  class="ms-3"
-                                                                >
-                                                                  <h5>
-                                                                    Sofa 1
-                                                                  </h5>
-                                                                  <p
-                                                                    class="small mb-0"
-                                                                  >
-                                                                    14 x 16m,
-                                                                    Yellow
-                                                                  </p>
-                                                                </div>
-                                                              </div>
-                                                              <div
-                                                                class="d-flex flex-row align-items-center"
-                                                              >
-                                                                <div
-                                                                  style="
-                                                                    width: 50px;
-                                                                  "
-                                                                >
-                                                                  <h5
-                                                                    class="fw-normal mb-0"
-                                                                  >
-                                                                    2
-                                                                  </h5>
-                                                                </div>
-                                                                <div
-                                                                  style="
-                                                                    width: 80px;
-                                                                  "
-                                                                >
-                                                                  <h5
-                                                                    class="mb-0"
-                                                                  >
-                                                                    $900
-                                                                  </h5>
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                        <div class="pt-3">
-                                                          <div class="">
-                                                            <table
-                                                              class="table table-borderless text-base"
-                                                            >
-                                                              <tbody
-                                                                class="totals"
-                                                              >
-                                                                <tr>
-                                                                  <td>
-                                                                    <div
-                                                                      class="text-left"
-                                                                    >
-                                                                      <span
-                                                                        class="text-muted"
-                                                                        >Subtotal</span
-                                                                      >
-                                                                    </div>
-                                                                  </td>
-                                                                  <td>
-                                                                    <div
-                                                                      class="text-right"
-                                                                    >
-                                                                      <span
-                                                                        >$168.50</span
-                                                                      >
-                                                                    </div>
-                                                                  </td>
-                                                                </tr>
-
-                                                                <tr>
-                                                                  <td>
-                                                                    <div
-                                                                      class="text-left"
-                                                                    >
-                                                                      <span
-                                                                        class="text-muted"
-                                                                        >Shipping
-                                                                        Fee</span
-                                                                      >
-                                                                    </div>
-                                                                  </td>
-                                                                  <td>
-                                                                    <div
-                                                                      class="text-right"
-                                                                    >
-                                                                      <span
-                                                                        >$22</span
-                                                                      >
-                                                                    </div>
-                                                                  </td>
-                                                                </tr>
-
-                                                                <tr>
-                                                                  <td>
-                                                                    <div
-                                                                      class="text-left"
-                                                                    >
-                                                                      <span
-                                                                        class="text-muted"
-                                                                        >Payment
-                                                                        Method</span
-                                                                      >
-                                                                    </div>
-                                                                  </td>
-                                                                  <td>
-                                                                    <div
-                                                                      class="ml-10"
-                                                                    >
-                                                                      <img
-                                                                        src="@/assets/images/vnp.png"
-                                                                        class="w-2/12 float-right"
-                                                                      />
-                                                                    </div>
-                                                                  </td>
-                                                                </tr>
-
-                                                                <tr>
-                                                                  <td>
-                                                                    <div
-                                                                      class="text-left"
-                                                                    >
-                                                                      <span
-                                                                        class="text-muted"
-                                                                        >Discount</span
-                                                                      >
-                                                                    </div>
-                                                                  </td>
-                                                                  <td>
-                                                                    <div
-                                                                      class="text-right"
-                                                                    >
-                                                                      <span
-                                                                        class="text-success"
-                                                                        >$168.50</span
-                                                                      >
-                                                                    </div>
-                                                                  </td>
-                                                                </tr>
-
-                                                                <tr
-                                                                  class="border-top border-bottom"
-                                                                >
-                                                                  <td>
-                                                                    <div
-                                                                      class="text-left"
-                                                                    >
-                                                                      <span
-                                                                        class="font-weight-bold"
-                                                                        >Subtotal</span
-                                                                      >
-                                                                    </div>
-                                                                  </td>
-                                                                  <td>
-                                                                    <div
-                                                                      class="text-right"
-                                                                    >
-                                                                      <span
-                                                                        class="font-weight-bold"
-                                                                        >$238.50</span
-                                                                      >
-                                                                    </div>
-                                                                  </td>
-                                                                </tr>
-                                                              </tbody>
-                                                            </table>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                  <div
-                                                    class="bg-gray-600 rounded-md"
-                                                  >
-                                                    <button
-                                                      type="button"
-                                                      class="btn text-white"
-                                                      data-bs-dismiss="modal"
-                                                    >
-                                                      Close
-                                                    </button>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </td>
-
-                                      <td>
-                                        $180,00
-                                        <s class="small text-muted">$230,00</s>
-                                      </td>
-                                      <td
-                                        width="65"
-                                        class="font-semibold text-center"
-                                      >
-                                        1
-                                      </td>
-                                      <td>
-                                        <h4>$180,00</h4>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
-                              <hr class="my-3" />
-                              <div class="float-right flex gap-x-3"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div role="tabpanel" class="tab-pane" id="completed">
-                        <div class="">
-                          <div clas="product">
-                            <div class="ibox-content mt-3 rounded-sm">
-                              <div class="text-sm flex flex-cols-2">
-                                <div>ID Order: 567</div>
-                                <div class="date_order">Date: 9/5/2023</div>
-                              </div>
-                              <hr class="my-3" />
-                              <div class="table-responsive">
-                                <table class="table shoping-cart-table">
-                                  <tbody>
-                                    <tr>
-                                      <td width="90">
-                                        <div class="cart-product-imitation">
-                                          <img
-                                            src="@/assets/images/category/clock/clock_1.png"
-                                            alt=""
-                                          />
-                                        </div>
-                                      </td>
-                                      <td class="desc">
-                                        <h3>
-                                          <a href="#" class="text-navy">
-                                            Solid 2m4 red oak wood TV shelf
-                                          </a>
-                                        </h3>
-                                        <p class="small">
-                                          It is a long established fact that a
-                                          reader will be distracted by the
-                                          readable content of a page when
-                                          looking at its layout. The point of
-                                          using Lorem Ipsum is
-                                        </p>
-                                        <dl class="small m-b-none">
-                                          <dt>Description lists</dt>
-                                          <dd>
-                                            A description list is perfect for
-                                            defining terms.
-                                          </dd>
-                                        </dl>
-
-                                        <div class="m-t-sm">
-                                          <div
-                                            href="#"
-                                            class="text-muted cursor-pointer"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal_complete"
-                                          >
-                                            <i
-                                              class="fa-solid fa-circle-info"
-                                            ></i>
-                                            Detail
-                                          </div>
-                                          <!-- Modal -->
-                                          <div
-                                            class="modal fade"
-                                            id="exampleModal_complete"
-                                            tabindex="-1"
-                                            aria-labelledby="exampleModalLabel"
-                                            aria-hidden="true"
-                                          >
-                                            <div
-                                              class="modal-dialog modal-dialog-centered"
-                                            >
-                                              <div class="modal-content">
-                                                <div class="modal-header">
-                                                  <h5
-                                                    class="modal-title font-medium"
-                                                    id="exampleModalLabel"
-                                                  >
-                                                    Detail Order Compeleted
-                                                  </h5>
-                                                  <button
-                                                    type="button"
-                                                    class="btn-close"
-                                                    data-bs-dismiss="modal"
-                                                    aria-label="Close"
-                                                  ></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                  <div class="">
-                                                    <div class="container mb-3">
-                                                      <div
-                                                        class="row d-flex justify-content-center"
-                                                      >
-                                                        <div class="">
-                                                          <div class="card">
-                                                            <div
-                                                              class="invoice"
-                                                            >
-                                                              <div
-                                                                class="py-2 flex"
-                                                              >
-                                                                <span
-                                                                  class="d-block pr-3 text-lime-600"
-                                                                  >Cancel Date:
-                                                                </span>
-                                                                <span
-                                                                  >12
-                                                                  Jan,2018</span
-                                                                >
-                                                              </div>
-                                                              <span
-                                                                class="font-weight-bold d-block mt-4"
-                                                                >Infromation</span
-                                                              >
-                                                              <div class="py-2">
-                                                                <span
-                                                                  class="d-inlineblock pr-3 text-red-500"
-                                                                  ><i
-                                                                    class="fa-solid fa-location-dot pr-1"
-                                                                  ></i>
-                                                                  Shiping
-                                                                  Address:</span
-                                                                >
-                                                                <span
-                                                                  >12 Me Tri- Ha
-                                                                  Noi</span
-                                                                >
-                                                              </div>
-                                                              <div
-                                                                class="payment border-top mt-3 mb-3 border-bottom table-responsive"
-                                                              >
-                                                                <table
-                                                                  class="table table-borderless"
-                                                                >
-                                                                  <tbody>
-                                                                    <tr>
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Order
-                                                                            Date</span
-                                                                          >
-                                                                          <span
-                                                                            >12
-                                                                            Jan,2018</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Order
-                                                                            No</span
-                                                                          >
-                                                                          <span
-                                                                            >O1233</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Payment</span
-                                                                          >
-                                                                          <span
-                                                                            ><img
-                                                                              src="https://img.icons8.com/color/48/000000/mastercard.png"
-                                                                              width="20"
-                                                                          /></span>
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </tbody>
-                                                                </table>
-                                                              </div>
-
-                                                              <div
-                                                                class="product border-bottom table-responsive"
-                                                              >
-                                                                <table
-                                                                  class="table table-borderless"
-                                                                >
-                                                                  <tbody>
-                                                                    <tr>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <img
-                                                                          src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                                                          width="90"
-                                                                        />
-                                                                      </td>
-
-                                                                      <td
-                                                                        width="60%"
-                                                                      >
-                                                                        <span
-                                                                          class="font-weight-bold"
-                                                                          >Sofa
-                                                                          1</span
-                                                                        >
-                                                                        <div
-                                                                          class="product-qty"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block"
-                                                                            >Quantity:1</span
-                                                                          >
-                                                                          <span
-                                                                            >Color:Dark</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <div
-                                                                          class="text-right"
-                                                                        >
-                                                                          <span
-                                                                            class="font-weight-bold"
-                                                                            >$67.50</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-
-                                                                    <tr>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <img
-                                                                          src="@/assets/images/category/shelves_tv/shelves.png"
-                                                                          width="70"
-                                                                        />
-                                                                      </td>
-
-                                                                      <td
-                                                                        width="60%"
-                                                                      >
-                                                                        <span
-                                                                          class="font-weight-bold"
-                                                                          >Sofa
-                                                                          2</span
-                                                                        >
-                                                                        <div
-                                                                          class="product-qty"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block"
-                                                                            >Quantity:1</span
-                                                                          >
-                                                                          <span
-                                                                            >Color:Orange</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <div
-                                                                          class="text-right"
-                                                                        >
-                                                                          <span
-                                                                            class="font-weight-bold"
-                                                                            >$77.50</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </tbody>
-                                                                </table>
-                                                              </div>
-
-                                                              <div
-                                                                class="row d-flex justify-content-end"
-                                                              >
-                                                                <div
-                                                                  class="col-md-5"
-                                                                >
-                                                                  <table
-                                                                    class="table table-borderless"
-                                                                  >
-                                                                    <tbody
-                                                                      class="totals"
-                                                                    >
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Subtotal</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$168.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Shipping
-                                                                              Fee</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$22</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Tax
-                                                                              Fee</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$7.65</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Discount</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              class="text-success"
-                                                                              >$168.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr
-                                                                        class="border-top border-bottom"
-                                                                      >
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="font-weight-bold"
-                                                                              >Subtotal</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              class="font-weight-bold"
-                                                                              >$238.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-                                                                    </tbody>
-                                                                  </table>
-                                                                </div>
-                                                              </div>
-
-                                                              <p
-                                                                class="font-weight-bold mb-0"
-                                                              >
-                                                                Thanks for
-                                                                shopping with
-                                                                us!
-                                                              </p>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                  <div
-                                                    class="bg-gray-600 rounded-md"
-                                                  >
-                                                    <button
-                                                      type="button"
-                                                      class="btn text-white"
-                                                      data-bs-dismiss="modal"
-                                                    >
-                                                      Close
-                                                    </button>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </td>
-
-                                      <td>
-                                        $180,00
-                                        <s class="small text-muted">$230,00</s>
-                                      </td>
-                                      <td
-                                        width="65"
-                                        class="font-semibold text-center"
-                                      >
-                                        1
-                                      </td>
-                                      <td>
-                                        <h4>$180,00</h4>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
-                              <hr class="my-3" />
-                              <div class="float-right flex gap-x-3"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div role="tabpanel" class="tab-pane" id="cancel">
-                        <div class="">
-                          <div clas="product">
-                            <div class="ibox-content mt-3 rounded-sm">
-                              <div class="text-sm flex flex-cols-2">
-                                <div>ID Order: 789</div>
-                                <div class="date_order">Date: 9/5/2023</div>
-                              </div>
-                              <hr class="my-3" />
-                              <div class="table-responsive">
-                                <table class="table shoping-cart-table">
-                                  <tbody>
-                                    <tr>
-                                      <td width="90">
-                                        <div class="cart-product-imitation">
-                                          <img
-                                            src="@/assets/images/category/shelves_tv/shelves_12.png"
-                                            alt=""
-                                          />
-                                        </div>
-                                      </td>
-                                      <td class="desc">
-                                        <h3>
-                                          <a href="#" class="text-navy">
-                                            Solid 2m4 red oak wood TV shelf
-                                          </a>
-                                        </h3>
-                                        <p class="small">
-                                          It is a long established fact that a
-                                          reader will be distracted by the
-                                          readable content of a page when
-                                          looking at its layout. The point of
-                                          using Lorem Ipsum is
-                                        </p>
-                                        <dl class="small m-b-none">
-                                          <dt>Description lists</dt>
-                                          <dd>
-                                            A description list is perfect for
-                                            defining terms.
-                                          </dd>
-                                        </dl>
-
-                                        <div class="m-t-sm">
-                                          <div
-                                            href="#"
-                                            class="text-muted cursor-pointer"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal_cancel"
-                                          >
-                                            <i
-                                              class="fa-solid fa-circle-info"
-                                            ></i>
-                                            Detail
-                                          </div>
-                                          <!-- Modal -->
-                                          <div
-                                            class="modal fade"
-                                            id="exampleModal_cancel"
-                                            tabindex="-1"
-                                            aria-labelledby="exampleModalLabel"
-                                            aria-hidden="true"
-                                          >
-                                            <div
-                                              class="modal-dialog modal-dialog-centered"
-                                            >
-                                              <div class="modal-content">
-                                                <div class="modal-header">
-                                                  <h5
-                                                    class="modal-title font-medium"
-                                                    id="exampleModalLabel"
-                                                  >
-                                                    Detail Order Cancel
-                                                  </h5>
-                                                  <button
-                                                    type="button"
-                                                    class="btn-close"
-                                                    data-bs-dismiss="modal"
-                                                    aria-label="Close"
-                                                  ></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                  <div class="">
-                                                    <div class="container mb-3">
-                                                      <div
-                                                        class="row d-flex justify-content-center"
-                                                      >
-                                                        <div class="">
-                                                          <div class="card">
-                                                            <div
-                                                              class="invoice"
-                                                            >
-                                                              <div
-                                                                class="py-2 flex"
-                                                              >
-                                                                <span
-                                                                  class="d-block pr-3 text-red-500"
-                                                                  >Cancel Date:
-                                                                </span>
-                                                                <span
-                                                                  >12
-                                                                  Jan,2018</span
-                                                                >
-                                                              </div>
-                                                              <span
-                                                                class="font-weight-bold d-block mt-4"
-                                                                >Infromation</span
-                                                              >
-                                                              <div class="py-2">
-                                                                <span
-                                                                  class="d-inlineblock pr-3 text-red-500"
-                                                                  ><i
-                                                                    class="fa-solid fa-location-dot pr-1"
-                                                                  ></i>
-                                                                  Shiping
-                                                                  Address:</span
-                                                                >
-                                                                <span
-                                                                  >12 Me Tri- Ha
-                                                                  Noi</span
-                                                                >
-                                                              </div>
-                                                              <div
-                                                                class="payment border-top mt-3 mb-3 border-bottom table-responsive"
-                                                              >
-                                                                <table
-                                                                  class="table table-borderless"
-                                                                >
-                                                                  <tbody>
-                                                                    <tr>
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Order
-                                                                            Date</span
-                                                                          >
-                                                                          <span
-                                                                            >12
-                                                                            Jan,2018</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Order
-                                                                            No</span
-                                                                          >
-                                                                          <span
-                                                                            >O1233</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-
-                                                                      <td>
-                                                                        <div
-                                                                          class="py-2"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block text-muted"
-                                                                            >Payment</span
-                                                                          >
-                                                                          <span
-                                                                            ><img
-                                                                              src="https://img.icons8.com/color/48/000000/mastercard.png"
-                                                                              width="20"
-                                                                          /></span>
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </tbody>
-                                                                </table>
-                                                              </div>
-
-                                                              <div
-                                                                class="product border-bottom table-responsive"
-                                                              >
-                                                                <table
-                                                                  class="table table-borderless"
-                                                                >
-                                                                  <tbody>
-                                                                    <tr>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <img
-                                                                          src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                                                          width="90"
-                                                                        />
-                                                                      </td>
-
-                                                                      <td
-                                                                        width="60%"
-                                                                      >
-                                                                        <span
-                                                                          class="font-weight-bold"
-                                                                          >Sofa
-                                                                          1</span
-                                                                        >
-                                                                        <div
-                                                                          class="product-qty"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block"
-                                                                            >Quantity:1</span
-                                                                          >
-                                                                          <span
-                                                                            >Color:Dark</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <div
-                                                                          class="text-right"
-                                                                        >
-                                                                          <span
-                                                                            class="font-weight-bold"
-                                                                            >$67.50</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-
-                                                                    <tr>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <img
-                                                                          src="@/assets/images/category/shelves_tv/shelves.png"
-                                                                          width="70"
-                                                                        />
-                                                                      </td>
-
-                                                                      <td
-                                                                        width="60%"
-                                                                      >
-                                                                        <span
-                                                                          class="font-weight-bold"
-                                                                          >Sofa
-                                                                          2</span
-                                                                        >
-                                                                        <div
-                                                                          class="product-qty"
-                                                                        >
-                                                                          <span
-                                                                            class="d-block"
-                                                                            >Quantity:1</span
-                                                                          >
-                                                                          <span
-                                                                            >Color:Orange</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                      <td
-                                                                        width="20%"
-                                                                      >
-                                                                        <div
-                                                                          class="text-right"
-                                                                        >
-                                                                          <span
-                                                                            class="font-weight-bold"
-                                                                            >$77.50</span
-                                                                          >
-                                                                        </div>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </tbody>
-                                                                </table>
-                                                              </div>
-
-                                                              <div
-                                                                class="row d-flex justify-content-end"
-                                                              >
-                                                                <div
-                                                                  class="col-md-5"
-                                                                >
-                                                                  <table
-                                                                    class="table table-borderless"
-                                                                  >
-                                                                    <tbody
-                                                                      class="totals"
-                                                                    >
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Subtotal</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$168.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Shipping
-                                                                              Fee</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$22</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Tax
-                                                                              Fee</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              >$7.65</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="text-muted"
-                                                                              >Discount</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              class="text-success"
-                                                                              >$168.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-
-                                                                      <tr
-                                                                        class="border-top border-bottom"
-                                                                      >
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-left"
-                                                                          >
-                                                                            <span
-                                                                              class="font-weight-bold"
-                                                                              >Subtotal</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                        <td>
-                                                                          <div
-                                                                            class="text-right"
-                                                                          >
-                                                                            <span
-                                                                              class="font-weight-bold"
-                                                                              >$238.50</span
-                                                                            >
-                                                                          </div>
-                                                                        </td>
-                                                                      </tr>
-                                                                    </tbody>
-                                                                  </table>
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                  <div
-                                                    class="bg-gray-600 rounded-md"
-                                                  >
-                                                    <button
-                                                      type="button"
-                                                      class="btn text-white"
-                                                      data-bs-dismiss="modal"
-                                                    >
-                                                      Close
-                                                    </button>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </td>
-
-                                      <td>
-                                        $180,00
-                                        <s class="small text-muted">$230,00</s>
-                                      </td>
-                                      <td
-                                        width="65"
-                                        class="font-semibold text-center"
-                                      >
-                                        1
-                                      </td>
-                                      <td>
-                                        <h4>$180,00</h4>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
-                              <hr class="my-3" />
-                              <div class="float-right flex gap-x-3"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      <div
+                        role="tabpanel"
+                        class="tab-pane"
+                        id="transport"
+                      ></div>
+                      <div
+                        role="tabpanel"
+                        class="tab-pane"
+                        id="completed"
+                      ></div>
+                      <div role="tabpanel" class="tab-pane" id="cancel"></div>
                     </div>
                   </div>
                 </div>
@@ -7432,14 +3178,17 @@
 
 <script>
 import axios from "axios";
+import { format } from "date-fns";
 import modal from "@/components/ModalPage.vue";
 import alertError from "@/components/AlertError.vue";
 import alertSuccess from "@/components/AlertSuccess.vue";
 import alertWanning from "@/components/AlertWanning.vue";
+// import AllFurniture from "./AllFurniture.vue";
 
 export default {
   components: {
     modal,
+    // AllFurniture,
     alertError,
     alertSuccess,
     alertWanning,
@@ -7449,10 +3198,16 @@ export default {
       info: {},
       orderAll: [],
       orderPending: [],
+      address: [],
       orderDeliveried: [],
+      orderDelivering: [],
       wishlist: [],
       warranties: [],
-      customizeOder: [],
+      customizeOders: [],
+      arrayUrl: [],
+      feedbacks: [],
+      provinces: [],
+      avatar: "",
       modalType: null,
       status: "",
       phoneNumber: "",
@@ -7465,15 +3220,16 @@ export default {
       messageSuccess: null,
       messageWanning: null,
       otp: "",
-      address: [],
       url: "",
       updateInfo: {},
       nameFile: {},
       file: "",
       DoB: "",
       statusOrder: "",
-      avatar: [],
       type: "",
+      orderModel: {},
+      customizeModal: {},
+      addressModal: {},
     };
   },
   created() {
@@ -7485,6 +3241,10 @@ export default {
     this.getWishList();
     this.getWarranties();
     this.getCustomizeOrder();
+    this.getFeedback();
+    this.getOrderDelivering();
+    // this.getDistrict();
+    this.getProvices();
   },
   methods: {
     async getOrderAll() {
@@ -7513,6 +3273,31 @@ export default {
         console.error(error);
       }
     },
+    async getOrderDelivering() {
+      try {
+        const response = await axios.get(
+          "customer/get-order?status=Delivering"
+        );
+        this.orderDelivering = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getProvices() {
+      try {
+        const response = await axios.get(
+          "https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
+          {
+            headers: {
+              token: "8644b872-8774-11ee-96dc-de6f804954c9",
+            },
+          }
+        );
+        this.provinces = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async getInfor() {
       try {
         const response = await axios.get("user/detail");
@@ -7527,18 +3312,115 @@ export default {
         console.error(error);
       }
     },
+    async handleDisable() {
+      try {
+        const response = await axios.put(
+          "user/individual/disable-account?password=" + this.disablePassword
+        );
+        if (response.status === 200) {
+          this.modalType = null;
+          this.isAlertSuccess = true;
+          this.messageSuccess = "Disable account successfully";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 5000);
+        }
+      } catch (error) {
+        this.isAlertError = true;
+        this.messageError = error.response.data.message;
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 5000);
+        console.error(error);
+      }
+    },
+    async handleEnableOtp() {
+      try {
+        const response = await axios.get(
+          "user/individual/enable-account-otp?email=" + this.email
+        );
+        if (response.status === 200) {
+          this.isAlertSuccess = true;
+          this.messageSuccess = "Please check your email";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 5000);
+        }
+      } catch (error) {
+        this.isAlertError = true;
+        this.messageError = error.response.data.message;
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 5000);
+        console.error(error);
+      }
+    },
+    async handleEnable() {
+      try {
+        const response = await axios.put(
+          "user/individual/enable-account?email=" +
+            this.email +
+            "&totpCode=" +
+            this.otp
+        );
+        if (response.status === 200) {
+          this.modalType = null;
+          this.isAlertSuccess = true;
+          this.messageSuccess = "Disable account successfully";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 5000);
+          this.getInfor();
+        }
+      } catch (error) {
+        this.isAlertError = true;
+        this.messageError = error.response.data.message;
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 5000);
+        console.error(error);
+      }
+    },
+    async getFeedback() {
+      try {
+        const response = await axios.get("customer/feedbacks");
+        this.feedbacks = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    opentModalOrder(type, or) {
+      this.modalType = type;
+      this.customizeModal = or;
+      this.orderModel = or;
+    },
     async getCustomizeOrder() {
       try {
         const response = await axios.get(
           "customer/customize-furnitures?status=All"
         );
-        this.customizeOrder = response.data;
+        if (response.status === 200) {
+          this.customizeOders = response.data;
+          this.customizeOders = response.data.map((item) => ({
+            ...item,
+            creationDate: item.creationDate
+              ? format(new Date(item.creationDate), "dd/MM/yyyy")
+              : "",
+            desiredCompletionDate: item.desiredCompletionDate
+              ? format(new Date(item.desiredCompletionDate), "dd/MM/yyyy")
+              : "",
+            actualCompletionDate: item.result.actualCompletionDate
+              ? format(new Date(item.result.actualCompletionDate), "dd/MM/yyyy")
+              : "",
+          }));
+        }
       } catch (error) {
         console.error(error);
       }
     },
-    async opentModal(type) {
+    opentModal(type, ad) {
       this.modalType = type;
+      this.addressModal = ad;
     },
     closeModal() {
       this.modalType = null;
@@ -7634,12 +3516,12 @@ export default {
         console.error(error);
       }
     },
-    async HandleDelete(ad) {
+    async HandleDelete() {
       try {
         const response = await axios.delete(
-          "user/customer-infor/address/remove/" + ad.id
+          "user/customer-infor/address/remove/" + this.addressModal.id
         );
-        if (response.status === 204) {
+        if (response.status === 200) {
           this.modalType = null;
           this.isSuccess = true;
           this.isAlertSuccess = true;
@@ -7675,8 +3557,20 @@ export default {
             },
           }
         );
-        console.log(response);
+        if (response.status === 200) {
+          this.isAlertSuccess = true;
+          this.messageSuccess = "Add new successfully";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 5000);
+          this.getAddress();
+        }
       } catch (error) {
+        this.isAlertError = true;
+        this.messageError = error.response.data.message;
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 5000);
         console.error(error);
       }
     },
@@ -7733,33 +3627,100 @@ export default {
         console.error("Error sending link your email:", error);
       }
     },
+    onFile(event) {
+      this.file = event.target.files[0];
+      if (this.file) {
+        this.url = URL.createObjectURL(this.file);
+      }
+    },
+    HandleRemoveImage(url) {
+      this.arrayUrl = this.arrayUrl.filter((item) => item !== url);
+    },
+    async CreateGuarantee() {
+      console.log("Đã cho image vào array");
+      const formData = new FormData();
+      formData.append("orderId", this.orderModel.orderId);
+      formData.append("uploadFiles", this.file);
+      formData.append("warrantyReasons", this.reason);
+      try {
+        const response = await axios.post(
+          "customer/warranties/create",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        if (response.status === 200) {
+          alert("Create guarantee success!");
+        }
+        console.log("This arrayFile", this.arrayFile);
+      } catch (error) {
+        console.log("This arrayFile", this.file);
+        this.message = error.response.data.message;
+        console.error(error.response.data.message);
+      }
+    },
+    async HandleFeedback() {
+      console.log("Đã cho image vào array");
+      const formData = new FormData();
+      formData.append("orderId", this.orderModel.orderId);
+      formData.append("furnitureSpecificationId", this.furSpeFeedback);
+      formData.append("content", this.content);
+      formData.append("voteStar", this.star);
+      formData.append("anonymous", this.anonymous);
+      formData.append("files", this.arrayFile);
+      console.log(this.arrayFile);
+      try {
+        const response = await axios.post(
+          "customer/create-feedback",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        if (response.status === 200) {
+          alert("Create guarantee success!");
+        }
+      } catch (error) {
+        console.log("This arrayFile", this.arrayFile);
+        this.message = error.response.data.message;
+        console.error(error.response.data.message);
+      }
+    },
+    async HandleToggole2fa() {
+      try {
+        const response = await axios.put("user/individual/toggle-2fa");
+        if (response.status === 200) {
+          this.isAlertSuccess = true;
+          this.messageSuccess = response.data;
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 5000);
+        }
+      } catch (error) {
+        this.message = error.response.data.message;
+        console.error(error.response.data.message);
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
-/* body {
-  background: #f9f9fb;
-} */
 .profile_customer {
   background: #eaedf330;
 }
 .view-account {
   margin-top: 17px;
   margin-bottom: 2em;
-  /* border: 1px solid rgb(240 239 239); */
 }
-/* h1 {
-  border-bottom: 1px solid rgb(236 234 234);
-} */
+
 .side-bar {
   box-shadow: 1px 1px 3px #ccc7c7;
-}
-.tab-content.col-span-5 .tab-pane.order,
-.tab-content.col-span-5 .tab-pane.wishlist {
-  overflow: scroll;
-  overflow-x: hidden;
-  height: 43em;
 }
 .tab-content.col-span-5
   .tab-pane.order::-webkit-scrollbar-track
@@ -7886,17 +3847,17 @@ export default {
   text-decoration: none;
 }
 .nav.nav-pills li {
-  color: #9499a3;
+  color: #37393d;
 }
 .nav.nav-pills > li.active a {
-  color: #40babd;
-  border-bottom: 2px solid #40babd;
+  color: #bc874b;
+  border-bottom: 2px solid #bc874b;
   background: none;
   border-right: none;
 }
 .view-account .side-bar .side-menu .nav > li.active a {
-  color: #40babd;
-  border-bottom: 2px solid #40babd;
+  color: #a67640;
+  border-bottom: 2px solid #9f7142;
   background: none;
   border-right: none;
 }
@@ -8422,7 +4383,7 @@ export default {
   }
   .view-account .side-bar .side-menu .nav > li.active a {
     background: #f9f9fb;
-    border-right: 4px solid #40babd;
+    border-right: 4px solid #9f7142;
     border-bottom: none;
   }
   .theme-2 .view-account .side-bar .side-menu .nav > li.active a {
@@ -8489,7 +4450,6 @@ h3 {
 }
 .cart-product-imitation {
   text-align: center;
-  padding-top: 30px;
   height: 80px;
   width: 80px;
   background-color: #f8f8f9;
@@ -8510,7 +4470,7 @@ table.shoping-cart-table tr td:last-child {
 .ibox-content {
   background-color: #ffffff;
   color: inherit;
-  padding: 15px 20px 20px 20px;
+  padding: 16px 25px 1px 25px;
   border-color: #e7eaec;
   border-image: none;
   border-style: solid solid none;
@@ -8657,9 +4617,6 @@ hr .my-4 {
   background-color: #fff;
   color: #000;
 }
-/* .container {
-  background-color: rgb(250 250 250);
-} */
 .moon .container {
   background-color: transparent;
 }
@@ -8677,7 +4634,6 @@ hr .my-4 {
   background-color: #f2f1f0;
 }
 .side-bar {
-  /* border: 1px solid rgb(236 234 234); */
   border-radius: 7px;
 }
 .nav {
@@ -8697,37 +4653,17 @@ hr .my-4 {
 }
 .moon .side-bar.col-span-1,
 .moon .tab-content.col-span-5 {
-  /* border: 1px solid #f1ebe4; */
   border: 1px solid rgb(240 239 239);
 }
-/* .moon .view-account .side-bar .user-info .meta li.activity,
-.moon .view-account .side-bar .user-info .meta li {
-  color: white;
-} */
 .moon h1 {
   border-bottom: 1px solid #dcdbdb;
 }
 .moon .view-account .side-bar .side-menu .nav > li.active a {
   background: #504f4c;
-  border-right: 4px solid #81ccb7;
+  border-right: 4px solid #a67640;
   color: white;
 }
-/* .image-input.image-input-outline .image-input-wrapper {
-  border: 3px solid #ffffff;
-  box-shadow: 0 0.5rem 1.5rem 0.5rem rgba(0, 0, 0, 0.075);
-}
-.image-input {
-  position: relative;
-  display: inline-block;
-  border-radius: 0.475rem;
-  background-repeat: no-repeat;
-  background-size: cover;
-} */
-/* .image-input-empty {
-  background-image: url(/metronic8/demo7/assets/media/svg/avatars/blank.svg);
-} */
 .avatar_upload {
-  /* background-image: url("@/assets/images/avatar.jpg"); */
   position: relative;
   display: inline-block;
   border-radius: 0.475rem;
@@ -8738,11 +4674,121 @@ hr .my-4 {
   width: 6em;
 }
 .form {
-  /* background: #eaedf330; */
   border-radius: 7px;
   box-shadow: 1px 1px 3px #c0c0c0;
 }
-/* .tab-content.col-span-5.ml-10 {
-  box-shadow: 1px 1px 3px #c0c0c0;
-} */
+.table-responsive {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.text-navy {
+  color: #6c5935;
+}
+.quantity {
+  font-size: 14px;
+  margin-top: 3px;
+}
+.nav-order .nav.nav-pills li {
+  margin-left: 2.1em;
+}
+.info_customizeOrder {
+  font-size: 13px;
+  color: #4d525e;
+}
+.text_customize {
+  font-size: 15px;
+}
+
+/* Updload image */
+.custum-file-upload {
+  height: 180px;
+  width: 270px;
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+  gap: 20px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #cacaca;
+  background-color: rgba(255, 255, 255, 1);
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0px 48px 35px -48px rgba(0, 0, 0, 0.1);
+}
+
+.custum-file-upload .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custum-file-upload .icon svg {
+  height: 80px;
+  fill: rgba(75, 85, 99, 1);
+}
+
+.custum-file-upload .text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custum-file-upload .text span {
+  font-weight: 400;
+  color: rgba(75, 85, 99, 1);
+}
+
+.custum-file-upload input {
+  display: none;
+}
+.form-select {
+  background-color: #cecfd442;
+}
+
+/* voteStar */
+.rating:not(:checked) > input {
+  position: absolute;
+  appearance: none;
+}
+
+.rating:not(:checked) > label {
+  float: right;
+  cursor: pointer;
+  font-size: 24px;
+  color: #666;
+}
+
+.rating:not(:checked) > label:before {
+  content: "★";
+}
+
+.rating > input:checked + label:hover,
+.rating > input:checked + label:hover ~ label,
+.rating > input:checked ~ label:hover,
+.rating > input:checked ~ label:hover ~ label,
+.rating > label:hover ~ input:checked ~ label {
+  color: #e58e09;
+}
+
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
+  color: #ff9e0b;
+}
+
+.rating > input:checked ~ label {
+  color: #ffa723;
+}
+.total_cost_order {
+  font-size: 14px;
+}
+.orderId {
+  font-size: 12px;
+}
+.detail_response {
+  color: #4d525e;
+}
+.form-select.address {
+  background-color: #e8eef387;
+}
 </style>

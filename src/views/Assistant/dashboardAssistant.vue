@@ -25,10 +25,10 @@
               </p>
             </div>
             <div
-              class="bg-gradient-to-r from-cyan-600 to-blue-600 h-10 text-center font-semibold text-white pt-2"
+              class="bg-gradient-to-r from-cyan-200 to-blue-200 h-10 text-center font-semibold pt-2 text-yellow-950"
             >
               <i
-                class="bi bi-arrow-up text-center font-semibold text-white"
+                class="bi bi-arrow-up text-center font-semibold text-yellow-950"
               ></i>
               2.2%
             </div>
@@ -60,16 +60,16 @@
             <p class="text-xs font-medium text-gray-400">(in the warehouse)</p>
           </div>
           <!-- <div
-            class="bg-gradient-to-r from-cyan-600 to-blue-600 h-10 text-center font-semibold text-white pt-2"
+            class="bg-gradient-to-r from-cyan-200 to-blue-200 h-10 text-center font-semibold pt-2 text-yellow-950"
           >
-            <i class="bi bi-arrow-up text-center font-semibold text-white"></i>
+            <i class="bi bi-arrow-up text-center font-semibold text-yellow-950"></i>
             2.2%
           </div> -->
           <div
-            class="bg-gradient-to-r from-yellow-600 to-red-600 h-10 text-center font-semibold text-white pt-2"
+            class="bg-gradient-to-r from-yellow-200 to-red-200 h-10 text-center font-semibold pt-2 text-yellow-950"
           >
             <i
-              class="bi bi-arrow-down text-center font-semibold text-white"
+              class="bi bi-arrow-down text-center font-semibold text-yellow-950"
             ></i>
             2.2%
           </div>
@@ -96,9 +96,11 @@
             <p class="text-xs font-medium text-gray-400">(material)</p>
           </div>
           <div
-            class="bg-gradient-to-r from-cyan-600 to-blue-600 h-10 text-center font-semibold text-white pt-2"
+            class="bg-gradient-to-r from-cyan-200 to-blue-200 h-10 text-center font-semibold pt-2 text-yellow-950"
           >
-            <i class="bi bi-arrow-up text-center font-semibold text-white"></i>
+            <i
+              class="bi bi-arrow-up text-center font-semibold text-yellow-950"
+            ></i>
             2.2%
           </div>
         </div>
@@ -125,10 +127,10 @@
               <!-- <p class="text-xs font-medium text-gray-400">(material)</p> -->
             </div>
             <div
-              class="bg-gradient-to-r from-cyan-600 to-blue-600 h-10 text-center font-semibold text-white pt-2"
+              class="bg-gradient-to-r from-cyan-200 to-blue-200 h-10 text-center font-semibold pt-2 text-yellow-950"
             >
               <i
-                class="bi bi-arrow-up text-center font-semibold text-white"
+                class="bi bi-arrow-up text-center font-semibold text-yellow-950"
               ></i>
               2.2%
             </div>
@@ -158,16 +160,16 @@
             </p>
           </div>
           <!-- <div
-            class="bg-gradient-to-r from-cyan-600 to-blue-600 h-10 text-center font-semibold text-white pt-2"
+            class="bg-gradient-to-r from-cyan-200 to-blue-200 h-10 text-center font-semibold pt-2 text-yellow-950"
           >
-            <i class="bi bi-arrow-up text-center font-semibold text-white"></i>
+            <i class="bi bi-arrow-up text-center font-semibold text-yellow-950"></i>
             2.2%
           </div> -->
           <div
-            class="bg-gradient-to-r from-yellow-600 to-red-600 h-10 text-center font-semibold text-white pt-2"
+            class="bg-gradient-to-r from-yellow-200 to-red-200 h-10 text-center font-semibold pt-2 text-yellow-950"
           >
             <i
-              class="bi bi-arrow-down text-center font-semibold text-white"
+              class="bi bi-arrow-down text-center font-semibold text-yellow-950"
             ></i>
             2.2%
           </div>
@@ -184,7 +186,11 @@
             Users from all channels
           </p>
           <div class="line_static mt-10">
-            <Line :data="lineData2" :options="lineOptions2" />
+            <Line
+              v-if="loaded"
+              :data="lineDataMaterial"
+              :options="lineOptionsMaterial"
+            />
           </div>
         </div>
       </div>
@@ -230,7 +236,7 @@
           <p class="text-sm font-medium text-gray-400">Orders This Month</p>
         </div>
         <div class="px-9 py-2">
-          <Bar :data="barData" :options="barOptions" />
+          <Bar v-if="loaded" :data="barDataOrder" :options="barOptionsOrder" />
         </div>
       </div>
       <div class="mb-5 mb-xl-10 border-none bg-white shadow-md rounded-xl">
@@ -242,7 +248,11 @@
             Users from all channels
           </p>
           <div class="line_static mt-10">
-            <Line :data="lineData2" :options="lineOptions2" />
+            <Line
+              v-if="loaded"
+              :data="lineDataFurniture"
+              :options="lineOptionsFurnitrue"
+            />
           </div>
         </div>
       </div>
@@ -723,100 +733,105 @@ export default {
   data() {
     return {
       dataNumber: {},
+      loaded: false,
+      lineDataMaterial: null,
+      barDataOrder: null,
+      lineDataFurniture: null,
       title: "Furniture Dashboard",
-      barData: {
-        labels: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Des",
-          "Nov",
-          "Dec",
-        ],
-        datasets: [
-          {
-            label: "My First Dataset",
-            data: [400, 100, 300, 500, 600, 700, 800, 900, 900, 1000, 500],
-            backgroundColor: [
-              "rgba(62, 151, 255, 0.85)",
-              "rgba(241, 65, 108, 0.85)",
-              "rgba(80, 205, 137, 0.85)",
-              "rgba(255, 199, 0, 0.85)",
-              "rgba(114, 57, 234, 0.85)",
-              "rgba(63, 66, 84, 0.85)",
-            ],
-            // borderWidth: 1,
-            borderColor: "#777",
-            hoverBorderWidth: 3,
-            // hoverBorderColor: "#000",
-            borderRadius: 2,
-            barPercentage: 1.0,
-            categoryPercentage: 0.2,
-          },
-        ],
-      },
-      lineData: {
-        labels: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Des",
-          "Nov",
-          "Dec",
-        ],
-        datasets: [
-          {
-            label: "Looping tension",
-            data: [65, 59, 80, 81, 26, 55, 40, 9, 19, 100, 11, 12],
-            fill: false,
-            // borderColor: "rgb(75, 192, 192)"
-            borderColor: "rgb(163, 117, 57)",
-          },
-        ],
-      },
-      lineData2: {
-        labels: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Des",
-          "Nov",
-          "Dec",
-        ],
-        datasets: [
-          {
-            label: "Looping tension",
-            data: [650, 590, 800, 810, 260, 550, 400, 900, 190, 100, 110, 120],
-            fill: false,
-            borderColor: "rgb(163, 117, 57)",
-          },
-          {
-            label: "Looping tension",
-            data: [650, 590, 900, 110, 460, 750, 400, 90, 190, 1000, 110, 120],
-            fill: false,
-            borderColor: "rgb(247, 219, 183)",
-          },
-        ],
-      },
-      lineOptions2: {
+
+      // barData: {
+      //   labels: [
+      //     "Jan",
+      //     "Feb",
+      //     "Mar",
+      //     "Apr",
+      //     "May",
+      //     "Jun",
+      //     "Jul",
+      //     "Aug",
+      //     "Sep",
+      //     "Des",
+      //     "Nov",
+      //     "Dec",
+      //   ],
+      //   datasets: [
+      //     {
+      //       label: "My First Dataset",
+      //       data: [400, 100, 300, 500, 600, 700, 800, 900, 900, 1000, 500],
+      //       backgroundColor: [
+      //         "rgba(62, 151, 255, 0.85)",
+      //         "rgba(241, 65, 108, 0.85)",
+      //         "rgba(80, 205, 137, 0.85)",
+      //         "rgba(255, 199, 0, 0.85)",
+      //         "rgba(114, 57, 234, 0.85)",
+      //         "rgba(63, 66, 84, 0.85)",
+      //       ],
+      //       // borderWidth: 1,
+      //       borderColor: "#777",
+      //       hoverBorderWidth: 3,
+      //       // hoverBorderColor: "#000",
+      //       borderRadius: 2,
+      //       barPercentage: 1.0,
+      //       categoryPercentage: 0.2,
+      //     },
+      //   ],
+      // },
+      // lineData: {
+      //   labels: [
+      //     "Jan",
+      //     "Feb",
+      //     "Mar",
+      //     "Apr",
+      //     "May",
+      //     "Jun",
+      //     "Jul",
+      //     "Aug",
+      //     "Sep",
+      //     "Des",
+      //     "Nov",
+      //     "Dec",
+      //   ],
+      //   datasets: [
+      //     {
+      //       label: "Looping tension",
+      //       data: [65, 59, 80, 81, 26, 55, 40, 9, 19, 100, 11, 12],
+      //       fill: false,
+      //       // borderColor: "rgb(75, 192, 192)"
+      //       borderColor: "rgb(163, 117, 57)",
+      //     },
+      //   ],
+      // },
+      // lineData2: {
+      //   labels: [
+      //     "Jan",
+      //     "Feb",
+      //     "Mar",
+      //     "Apr",
+      //     "May",
+      //     "Jun",
+      //     "Jul",
+      //     "Aug",
+      //     "Sep",
+      //     "Des",
+      //     "Nov",
+      //     "Dec",
+      //   ],
+      //   datasets: [
+      //     {
+      //       label: "Looping tension",
+      //       data: [650, 590, 800, 810, 260, 550, 400, 900, 190, 100, 110, 120],
+      //       fill: false,
+      //       borderColor: "rgb(163, 117, 57)",
+      //     },
+      //     {
+      //       label: "Looping tension",
+      //       data: [650, 590, 900, 110, 460, 750, 400, 90, 190, 1000, 110, 120],
+      //       fill: false,
+      //       borderColor: "rgb(247, 219, 183)",
+      //     },
+      //   ],
+      // },
+      lineOptionsMaterial: {
         // animations: {
         //   tension: {
         //     duration: 1000,
@@ -852,7 +867,7 @@ export default {
           },
         },
       },
-      lineOptions: {
+      lineOptionsFurniture: {
         animations: {
           tension: {
             duration: 1000,
@@ -869,7 +884,7 @@ export default {
           },
         },
       },
-      barOptions: {
+      barOptionsOrder: {
         indexAxis: "y",
         elements: {
           bar: {
@@ -894,31 +909,31 @@ export default {
           },
         },
       },
-      pieData: {
-        labels: ["Red", "Blue", "Yellow"],
-        datasets: [
-          {
-            label: "My First Dataset",
-            data: [300, 50, 100],
-            backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
-            ],
-            hoverOffset: 4,
-          },
-        ],
-      },
-      doughnutData: {
-        labels: ["Mục 1", "Mục 2", "Mục 3"],
-        data: [300, 50, 100],
-        backgroundColor: [
-          "rgb(255, 99, 132)",
-          "rgb(54, 162, 235)",
-          "rgb(255, 205, 86)",
-        ],
-        hoverOffset: 4,
-      },
+      // pieData: {
+      //   labels: ["Red", "Blue", "Yellow"],
+      //   datasets: [
+      //     {
+      //       label: "My First Dataset",
+      //       data: [300, 50, 100],
+      //       backgroundColor: [
+      //         "rgb(255, 99, 132)",
+      //         "rgb(54, 162, 235)",
+      //         "rgb(255, 205, 86)",
+      //       ],
+      //       hoverOffset: 4,
+      //     },
+      //   ],
+      // },
+      // doughnutData: {
+      //   labels: ["Mục 1", "Mục 2", "Mục 3"],
+      //   data: [300, 50, 100],
+      //   backgroundColor: [
+      //     "rgb(255, 99, 132)",
+      //     "rgb(54, 162, 235)",
+      //     "rgb(255, 205, 86)",
+      //   ],
+      //   hoverOffset: 4,
+      // },
     };
   },
   created() {
@@ -934,48 +949,147 @@ export default {
       }
     },
   },
-  mounted() {
-    const doughnutChart = document.getElementById("doughnut");
-    const dn = new Chart(doughnutChart, {
-      type: "doughnut",
-      data: {
-        labels: ["Red", "Blue", "Yellow"],
+  async mounted() {
+    this.loaded = false;
+    try {
+      const responseChart = await axios.get("dashboard/assistant/charts");
+      const responseSup = await axios.get("shopOwner/shop-data/suppliers");
+      const listSup = responseSup.data.map((item) => item.supplierName);
+      const dataTopSup = responseChart.data.topSupplier.map(
+        (item) => item.data
+      );
+      console.log(listSup);
+      this.loaded = true;
+      this.barDataOrder = {
+        labels: [
+          "Processing",
+          "Preparing",
+          "Delivering",
+          "Delivered",
+          "Canceled",
+        ],
         datasets: [
           {
             label: "My First Dataset",
-            data: [300, 50, 100],
-            backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
+            data: [
+              responseChart.data.orderStatus.Processing,
+              responseChart.data.orderStatus.Preparing,
+              responseChart.data.orderStatus.Delivering,
+              responseChart.data.orderStatus.Delivered,
+              responseChart.data.orderStatus.Canceled,
             ],
-            hoverOffset: 4,
+            backgroundColor: [
+              "rgba(62, 151, 255, 0.85)",
+              "rgba(241, 65, 108, 0.85)",
+              "rgba(80, 205, 137, 0.85)",
+              "rgba(255, 199, 0, 0.85)",
+              "rgba(114, 57, 234, 0.85)",
+              "rgba(63, 66, 84, 0.85)",
+            ],
+            // borderWidth: 1,
+            borderColor: "#777",
+            hoverBorderWidth: 3,
+            // hoverBorderColor: "#000",
+            borderRadius: 2,
+            barPercentage: 1.0,
+            categoryPercentage: 0.2,
           },
         ],
-      },
-    });
-    dn;
+      };
+      this.lineDataMaterial = {
+        labels: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Des",
+          "Nov",
+          "Dec",
+        ],
+        datasets: [
+          {
+            label: "Looping tension",
+            data: responseChart.data.materialImportTimeAnnually,
+            fill: false,
+            // borderColor: "rgb(75, 192, 192)"
+            borderColor: "rgb(163, 117, 57)",
+          },
+        ],
+      };
+      this.lineDataFurniture = {
+        labels: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Des",
+          "Nov",
+          "Dec",
+        ],
+        datasets: [
+          {
+            label: "Looping tension",
+            data: responseChart.data.furnitureImportTimeAnnually,
+            fill: false,
+            borderColor: "rgb(163, 117, 57)",
+          },
+        ],
+      };
 
-    // Tạo kết nối SignalR khi thành phần được tải
-    this.connection = new signalR.HubConnectionBuilder()
-      .configureLogging(signalR.LogLevel.Debug)
-      .withUrl("https://landlstore.azurewebsites.net/signalHub", {
-        skipNegotiation: true,
-        transport: signalR.HttpTransportType.WebSockets,
-      })
-      .build();
+      const doughnutChart = document.getElementById("doughnut");
+      const dn = new Chart(doughnutChart, {
+        type: "doughnut",
+        data: {
+          labels: listSup,
+          datasets: [
+            {
+              label: "My First Dataset",
+              data: dataTopSup,
+              backgroundColor: [
+                "rgb(255, 99, 132)",
+                "rgb(54, 162, 235)",
+                "rgb(255, 205, 86)",
+              ],
+              hoverOffset: 4,
+            },
+          ],
+        },
+      });
+      dn;
 
-    this.connection
-      .start()
-      .then(() => {
-        console.log("Connected to hub");
+      // Tạo kết nối SignalR khi thành phần được tải
+      this.connection = new signalR.HubConnectionBuilder()
+        .configureLogging(signalR.LogLevel.Debug)
+        .withUrl("https://landlstore.azurewebsites.net/signalHub", {
+          skipNegotiation: true,
+          transport: signalR.HttpTransportType.WebSockets,
+        })
+        .build();
 
-        // Đăng ký sự kiện "ReceiveJWTToken"
-        this.connection.on("ReceiveJWTToken", (message) => {
-          console.log("Received message from hub:", message);
-        });
-      })
-      .catch((err) => console.error(err));
+      this.connection
+        .start()
+        .then(() => {
+          console.log("Connected to hub");
+
+          // Đăng ký sự kiện "ReceiveJWTToken"
+          this.connection.on("ReceiveJWTToken", (message) => {
+            console.log("Received message from hub:", message);
+          });
+        })
+        .catch((err) => console.error(err));
+    } catch (error) {
+      console.error(error);
+    }
   },
 };
 </script>

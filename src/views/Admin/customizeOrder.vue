@@ -349,7 +349,7 @@
   </div>
   <p class="text-sm font-medium mb-5">Total users: 5</p>
 
-  <div class="loader"></div>
+  <!-- <div class="loader"></div> -->
 </template>
 <script>
 import axios from "axios";
@@ -716,5 +716,8 @@ form h1 {
 
 .custum-file-upload input {
   display: none;
+}
+table {
+  width: 128em;
 }
 </style>

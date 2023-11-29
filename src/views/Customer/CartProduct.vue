@@ -68,7 +68,4 @@
   height: 60%;
   font-weight: 500;
 }
-/* .menu_order li {
-  border-bottom: 1px solid rgb(217, 213, 213);
-} */
 </style>

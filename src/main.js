@@ -4,11 +4,9 @@ import locale from "view-ui-plus/dist/locale/en-US";
 import App from "./App.vue";
 import router from "./router";
 import axios from "axios";
+import store from "./store";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
-// import VueSocketIO from "vue-socket.io";
-
-// Vue.config.productionTip = false;
 
 window.axios = axios;
 
@@ -30,19 +28,9 @@ axios.defaults.headers.common["Authorization"] =
 const app = createApp(App);
 registerGlobalComponents(app);
 
-app.use(router);
+app.use(router).use(store);
 app.use(ViewUIPlus, {
   locale,
 });
-// app.use(
-//   new VueSocketIO({
-//     debug: true,
-//     connection: "http://localhost:3000",
-//   })
-// );
-
-// new Vue({
-//   render: (h) => h(App),
-// }).$mount("#app");
 
 app.mount("#app");

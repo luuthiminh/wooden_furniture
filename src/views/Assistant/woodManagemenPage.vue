@@ -252,6 +252,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click="HandleAdd"
                       >
                         Add
@@ -295,6 +296,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click.prevent="HandleUpdate"
                       >
                         Update
@@ -322,6 +324,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click="HandleDelete"
                       >
                         Delete
@@ -493,6 +496,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click="HandleAdd"
                       >
                         Add
@@ -536,6 +540,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click.prevent="HandleUpdate"
                       >
                         Update
@@ -559,36 +564,16 @@
                     </p>
                   </template>
                   <template v-slot:footer>
-                    <!-- <button
-                      type="button"
-                      class="btn btn-primary my-8"
-                      data-bs-target="#exampleModalToggle2"
-                      data-bs-toggle="modal"
-                      data-bs-dismiss="modal"
-                      @click.prevent="HandleDelete"
-                    >
-                      Yes
-                    </button> -->
                     <div class="bg-red-900 rounded-md">
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click="HandleDelete"
                       >
                         Delete
                       </span>
                     </div>
-                    <!-- <button
-                      type="button"
-                      class="btn btn-primary my-8"
-                      data-bs-target="#exampleModalToggle2"
-                      data-bs-toggle="modal"
-                      data-bs-dismiss="modal"
-                      @click="opentModal('notification', w)"
-                      @click.prevent="HandleDelete"
-                    >
-                      Yes
-                    </button> -->
                   </template>
                 </modal>
               </tr>

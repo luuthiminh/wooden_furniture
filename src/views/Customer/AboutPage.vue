@@ -1,4 +1,17 @@
 <template>
+  <div class="nav pt-36 pb-3 mb-2 max-md:pt-24">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb flex bg-none ml-28 max-sm:ml-3 max-md:ml-4">
+        <li class="breadcrumb-item font-semibold text-yellow-950">
+          <router-link to="customerIndex">Home</router-link>
+        </li>
+
+        <li class="breadcrumb-item active font-medium" aria-current="page">
+          About
+        </li>
+      </ol>
+    </nav>
+  </div>
   <div class="all py-36">
     <div class="grid grid-cols-4 mx-40">
       <div class="menu_about">

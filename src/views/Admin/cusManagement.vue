@@ -23,46 +23,6 @@
             <template v-slot:message>{{ messageSuccess }}</template>
           </alert-success>
         </div>
-
-        <div
-          class="dropdown bg-orange-50 shadow-lg bg-orange-100/100 px-2 py-2 rounded-lg"
-        >
-          <button
-            class="btn_action flex"
-            type="button"
-            id="dropdownMenuButton1"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-4 h-4 text-orange-500 mt-1 mr-1"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z"
-              />
-            </svg>
-
-            <span class="text-orange-500 font-medium">Filter</span>
-          </button>
-          <ul
-            class="dropdown-menu text-sm"
-            aria-labelledby="dropdownMenuButton1"
-          >
-            <li>
-              <a class="dropdown-item font-medium" href="#">Latest User</a>
-            </li>
-            <li>
-              <a class="dropdown-item font-medium" href="#">Old User</a>
-            </li>
-          </ul>
-        </div>
       </div>
       <div v-if="users.length">
         <div class="py-4">
@@ -94,7 +54,7 @@
                     <div class="avatar">
                       <router-link to="/profileManagement">
                         <img
-                          class="rounded-full cursor-pointer"
+                          class="rounded-md cursor-pointer"
                           :src="u.avatar"
                           alt="avatar"
                         />
@@ -371,6 +331,12 @@ export default {
       dobModal: null,
       genderModal: null,
       avatarModal: null,
+      isAlertSuccess: false,
+      isAlertError: false,
+      isAlertWanning: false,
+      messageError: null,
+      messageSuccess: null,
+      messageWanning: null,
     };
   },
   created() {
