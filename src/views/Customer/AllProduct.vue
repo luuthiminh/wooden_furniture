@@ -33,7 +33,7 @@
           <!-- <img class="pt-4" src="@/assets/images/advertisement/2.png" alt="" /> -->
           <div class="menu_category mb-1 rounded-md max-sm:hidden pb-4">
             <div class="header px-2 py-2 rounded-t-md">
-              <h1 class="font-medium text-sm">ALL PRODUCT</h1>
+              <h1 class="font-medium text-sm">ALL Furniture</h1>
             </div>
             <ul class="sort px-3 leading-9 text-sm">
               <div v-if="filterRoom.length">

@@ -14,122 +14,29 @@
   </div>
   <div @mouseover="HandleHeader">
     <div class="px-3 pt-4">
-      <!-- <div class="filter_category w-12/12 pb-4"></div> -->
       <div class="flex gap-x-5">
         <div class="flex-none w-96">
-          <div class="dropdown dropdow">
-            <div
-              class="dropdown-toggle text-black text-base font-medium"
-              type="button"
-              id="dropdownMenuButton1"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
+          <div>
+            <label
+              for="exampleInputEmail1"
+              class="form-label w-10/12 font-semibold"
+              >Color</label
             >
-              Select Furniture Category
-            </div>
-            <!-- <div class="border-solid border-1 border-gray rounded-full">
-            <i
-              @click.prevent="toggleShowHeader"
-              class="bi bi-chevron-double-up items-center flex px-1 py-1"
-            ></i>
-          </div> -->
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <li
-                  class="dropdown-item nav-link active"
-                  id="nav-home-tab"
-                  data-bs-toggle="tab"
-                  data-bs-target="#nav-bed"
-                  type="button"
-                  role="tab"
-                  aria-controls="nav-bed"
-                  aria-selected="true"
-                >
-                  Bed
-                </li>
-                <li
-                  class="nav-link dropdown-item"
-                  id="nav-profile-tab"
-                  data-bs-toggle="tab"
-                  data-bs-target="#nav-sofa"
-                  type="button"
-                  role="tab"
-                  aria-controls="nav-sofa"
-                  aria-selected="false"
-                >
-                  Sofa
-                </li>
-                <li
-                  class="nav-link dropdown-item"
-                  id="nav-profile-tab"
-                  data-bs-toggle="tab"
-                  data-bs-target="#nav-clock"
-                  type="button"
-                  role="tab"
-                  aria-controls="nav-clock"
-                  aria-selected="false"
-                >
-                  Clock
-                </li>
-              </div>
-            </ul>
+            <br />
+            <span class="font-medium text-sm">Please choose room!</span>
+            <select
+              v-if="filterRoom.length"
+              class="form-select text-xs mt-3"
+              aria-label="Default select example"
+              v-model="furFill"
+              @change="onRoomSelected"
+            >
+              <option v-for="ro in filterRoom" :key="ro" :value="ro">
+                {{ ro }}
+              </option>
+            </select>
           </div>
-          <div class="flex flex-cols-2 gap-x-4 mt-3">
-            <!-- <form class="form">
-              <label for="search" class="mt-2">
-                <input
-                  required=""
-                  autocomplete="off"
-                  placeholder="search your chats"
-                  id="search"
-                  type="text"
-                />
-                <div class="icon">
-                  <svg
-                    stroke-width="2"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="swap-on"
-                  >
-                    <path
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                      stroke-linejoin="round"
-                      stroke-linecap="round"
-                    ></path>
-                  </svg>
-                  <svg
-                    stroke-width="2"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="swap-off"
-                  >
-                    <path
-                      d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                      stroke-linejoin="round"
-                      stroke-linecap="round"
-                    ></path>
-                  </svg>
-                </div>
-                <button type="reset" class="close-btn">
-                  <svg
-                    viewBox="0 0 20 20"
-                    class="h-5 w-5"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      clip-rule="evenodd"
-                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                      fill-rule="evenodd"
-                    ></path>
-                  </svg>
-                </button>
-              </label>
-            </form> -->
-          </div>
+          <div class="flex flex-cols-2 gap-x-4 mt-3"></div>
           <div class="tab-content" id="nav-tabContent">
             <div
               class="tab-pane fade show active"
@@ -140,128 +47,27 @@
               <div class="img furniture">
                 <div class="overflow-y-scroll snap-x pb-40">
                   <div
-                    v-if="furnitures.length"
+                    v-if="filterResult.length"
                     class="grid grid-cols-3 max-sm:grid-cols-2 max-md:grid-cols-2 mt-4"
                   >
-                    <drag v-for="f in furnitures" :key="f.id" draggable="true">
+                    <drag
+                      v-for="f in filterResult"
+                      :key="f.furnitureId"
+                      draggable="true"
+                    >
                       <div class="scroll-ml-6 snap-start">
                         <div
                           class="target"
                           :style="{
-                            'background-image': `url(${require(`@/assets/images/category/bed/${f.url}.png`)})`,
+                            'background-image': `url(${f.image})`,
                           }"
                           draggable="true"
                           @dragstart="onDragstart"
                           @dragleave="onDragleave"
-                          :id="f.id"
+                          :id="f.furnitureId"
                         ></div>
                       </div>
-
-                      <!-- <div class="scroll-ml-6 snap-start ...">
-                    <img src="@/assets/images/category/bed/bed_2.png" />
-                  </div>
-                  <div class="scroll-ml-6 snap-start ...">
-                    <img src="@/assets/images/category/bed/bed_3.png" />
-                  </div>
-                  <div class="scroll-ml-6 snap-start ...">
-                    <img src="@/assets/images/category/bed/bed_4.png" />
-                  </div>
-                  <div class="scroll-ml-6 snap-start ...">
-                    <img src="@/assets/images/category/bed/bed_5.png" />
-                  </div> -->
                     </drag>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="tab-pane fade"
-              id="nav-sofa"
-              role="tabpanel"
-              aria-labelledby="nav-profile-tab"
-            >
-              <div class="img furniture">
-                <div class="overflow-y-scroll snap-x">
-                  <div class="scroll-ml-6 snap-start ...">
-                    <img
-                      src="@/assets/images/category/sofa/sofa_1.png"
-                      class="target"
-                      draggable="true"
-                      @dragstart="onDragstart"
-                      @dragleave="onDragleave"
-                      @dragenter.prevent="onDragenter"
-                      id="6"
-                    />
-                  </div>
-                  <div class="scroll-ml-6 snap-start ...">
-                    <img
-                      src="@/assets/images/category/sofa/sofa_2.png"
-                      class="target"
-                      draggable="true"
-                      @dragstart="onDragstart"
-                      @dragleave="onDragleave"
-                      @dragenter.prevent="onDragenter"
-                      id="7"
-                    />
-                  </div>
-                  <div class="scroll-ml-6 snap-start ...">
-                    <img
-                      src="@/assets/images/category/sofa/sofa_3.png"
-                      class="target"
-                      draggable="true"
-                      @dragstart="onDragstart"
-                      @dragleave="onDragleave"
-                      @dragenter.prevent="onDragenter"
-                      id="8"
-                    />
-                  </div>
-                  <div class="scroll-ml-6 snap-start ...">
-                    <img
-                      src="@/assets/images/category/sofa/sofa_4.png"
-                      class="target"
-                      draggable="true"
-                      @dragstart="onDragstart"
-                      @dragleave="onDragleave"
-                      @dragenter.prevent="onDragenter"
-                      id=""
-                    />
-                  </div>
-                  <div class="scroll-ml-6 snap-start ...">
-                    <img
-                      src="@/assets/images/category/sofa/sofa_5.png"
-                      class="target"
-                      draggable="true"
-                      @dragstart="onDragstart"
-                      @dragleave="onDragleave"
-                      @dragenter.prevent="onDragenter"
-                      id="10"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="tab-pane fade"
-              id="nav-clock"
-              role="tabpanel"
-              aria-labelledby="nav-contact-tab"
-            >
-              <div class="img furniture">
-                <div class="overflow-y-scroll snap-x px-4">
-                  <div class="scroll-ml-6 snap-start ...">
-                    <img src="@/assets/images/category/clock/clock_1.png" />
-                  </div>
-                  <div class="scroll-ml-6 snap-start ...">
-                    <img src="@/assets/images/category/clock/clock_2.png" />
-                  </div>
-                  <div class="scroll-ml-6 snap-start ...">
-                    <img src="@/assets/images/category/clock/clock_3.png" />
-                  </div>
-                  <div class="scroll-ml-6 snap-start ...">
-                    <img src="@/assets/images/category/clock/clock_4.png" />
-                  </div>
-                  <div class="scroll-ml-6 snap-start ...">
-                    <img src="@/assets/images/category/clock/clock_5.png" />
                   </div>
                 </div>
               </div>
@@ -269,74 +75,7 @@
           </div>
         </div>
         <div class="grow z-0">
-          <div class="dropdown">
-            <!-- <button
-              class="dropdown-toggle text-black text-base font-medium"
-              type="button"
-              id="dropdownMenuButton1"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Backgrounds Category
-            </button> -->
-            <!-- <div class="flex gap-x-4">
-              <Button
-                @click.prevent="HandlePlus"
-                class="w-10 h-10 rounded bg-white relative before:w-full before:h-full before:bg-primary-hover-container before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center sm+:hover:border-primary border text-base-content-secondary sm+:hover:text-primary hover:before:opacity-100 group"
-                ><i class="bi bi-plus-lg"></i>
-              </Button>
-              <Button
-                class="w-10 h-10 rounded bg-white relative before:w-full before:h-full before:bg-primary-hover-container before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center sm+:hover:border-primary border text-base-content-secondary sm+:hover:text-primary hover:before:opacity-100 group"
-              >
-                <i class="bi bi-dash-lg"></i>
-              </Button>
-              <Button
-                class="w-10 h-10 rounded bg-white relative before:w-full before:h-full before:bg-primary-hover-container before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center sm+:hover:border-primary border text-base-content-secondary sm+:hover:text-primary hover:before:opacity-100 group"
-              >
-                <i class="bi bi-arrow-clockwise"></i>
-              </Button>
-            </div> -->
-            <!-- <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <li
-                  class="dropdown-item nav-link active"
-                  id="nav-home-tab"
-                  data-bs-toggle="tab"
-                  data-bs-target="#nav-home"
-                  type="button"
-                  role="tab"
-                  aria-controls="nav-home"
-                  aria-selected="true"
-                >
-                  Bedroom
-                </li>
-                <li
-                  class="nav-link dropdown-item"
-                  id="nav-profile-tab"
-                  data-bs-toggle="tab"
-                  data-bs-target="#nav-profile"
-                  type="button"
-                  role="tab"
-                  aria-controls="nav-profile"
-                  aria-selected="false"
-                >
-                  Livingroom 1
-                </li>
-                <li
-                  class="nav-link dropdown-item"
-                  id="nav-profile-tab"
-                  data-bs-toggle="tab"
-                  data-bs-target="#nav-profile"
-                  type="button"
-                  role="tab"
-                  aria-controls="nav-profile"
-                  aria-selected="false"
-                >
-                  Livingroom 2
-                </li>
-              </div>
-            </ul> -->
-          </div>
+          <div class="dropdown"></div>
           <div class="tab-content mt-3" id="nav-tabContent">
             <div
               class="tab-pane fade show active"
@@ -350,29 +89,13 @@
                 @drop="onDrop"
                 @dragleave="onDragleave"
               ></div>
+              <div
+                class="box2 rotate-0"
+                @dragover.prevent="onDragover"
+                @drop="onDrop"
+                @dragleave="onDragleave"
+              ></div>
             </div>
-            <!-- <div
-              class="tab-pane fade"
-              id="nav-profile"
-              role="tabpanel"
-              aria-labelledby="nav-profile-tab"
-            >
-              <img
-                src="@/assets/images/mix/bg-livingroom.jpg"
-                alt="background"
-              />
-            </div>
-            <div
-              class="tab-pane fade"
-              id="nav-contact"
-              role="tabpanel"
-              aria-labelledby="nav-contact-tab"
-            >
-              <img
-                src="@/assets/images/mix/bg_livingrom2.jpg"
-                alt="background"
-              />
-            </div> -->
           </div>
         </div>
       </div>
@@ -380,23 +103,30 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "App",
 
   components: {},
   data() {
     return {
-      furnitures: [
-        {
-          id: 1,
-          url: "bed_1",
-        },
-        { id: 2, url: "bed_2" },
-        { id: 3, url: "bed_3" },
-        { id: 4, url: "bed_4" },
-        { id: 5, url: "bed_5" },
-      ],
+      furnitures: [],
+      filteredFurnitures: [],
+      filterResult: [],
+      // furnitures: [
+      //   {
+      //     id: 1,
+      //     url: "bed_1",
+      //   },
+      //   { id: 2, url: "bed_2" },
+      //   { id: 3, url: "bed_3" },
+      //   { id: 4, url: "bed_4" },
+      //   { id: 5, url: "bed_5" },
+      // ],
     };
+  },
+  created() {
+    this.getFurnitures();
   },
   methods: {
     onDragstart(event) {
@@ -415,6 +145,30 @@ export default {
           event.target.appendChild(document.getElementById(newData));
         }
       }
+    },
+    async getFurnitures() {
+      try {
+        const response = await axios.get("customer/furnitures");
+        this.furnitures = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    onRoomSelected() {
+      console.log("Xin chao");
+      this.filterResult = this.furnitures.filter(
+        (furniture) => furniture.appropriateRoom === this.furFill
+      );
+      console.log(this.filterResult);
+      console.log(this.filterRoom);
+      console.log(this.furFill);
+    },
+  },
+  computed: {
+    filterRoom() {
+      return this.furnitures
+        .map((furniture) => furniture.appropriateRoom)
+        .filter((value, index, furs) => furs.indexOf(value) === index);
     },
   },
 };
@@ -521,19 +275,37 @@ export default {
   width: 67em;
   height: 36em;
   margin-bottom: 10em;
-  background-image: url("@/assets/images/mix/bg_be2.jpg");
+  background-image: url("@/assets/images/mix/bg_livingrom2.jpg");
   background-size: contain;
   background-repeat: none;
 }
 .box {
   width: 20em;
-  height: 13em;
-  background: transparent;
+  border-radius: 20px;
+  height: 9em;
+  background: #e3dede9c;
   position: absolute;
-  top: 70%;
+  top: 75%;
   left: 30%;
-  border: 1px solid white;
-  animation: impess 500ms infinite;
+  animation: impess 1000ms infinite;
+}
+@keyframes impess {
+  from {
+    border: 1px solid white;
+  }
+  to {
+    border: 1px solid black;
+  }
+}
+.box2 {
+  width: 20em;
+  border-radius: 20px;
+  height: 9em;
+  background: #e3dede9c;
+  position: absolute;
+  top: 75%;
+  left: 70%;
+  animation: impess 1000ms infinite;
 }
 @keyframes impess {
   from {
