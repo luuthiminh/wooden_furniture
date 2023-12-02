@@ -71,14 +71,6 @@
                                     src="@/assets/images/category/shelves_tv/shelves_11.png"
                                     alt=""
                                   />
-                                  <!-- <div v-for="im in furniture.images" :key="im">
-                                    <img
-                                      :src="im.path"
-                                      alt="furniture"
-                                      class="img-fluid rounded-3"
-                                      style="width: 65px"
-                                    />
-                                  </div> -->
                                 </div>
                               </td>
                               <td class="desc">
