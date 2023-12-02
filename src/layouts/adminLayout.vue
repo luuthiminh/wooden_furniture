@@ -9,6 +9,12 @@
       </div>
       <ul class="nav leading-9 text-center nav nav-stacked" role="tablist">
         <li role="presentation" class="w-full">
+          <router-link to="/dashboardFurniture">
+            <i class="bi bi-columns-gap"></i>
+            <p class="font-normal">Dashboard</p>
+          </router-link>
+        </li>
+        <li role="presentation" class="w-full">
           <a
             href="#users"
             aria-controls="users"
@@ -32,26 +38,6 @@
             <p>Furniture</p>
           </a>
         </li>
-        <!-- <li role="presentation" class="w-full"> -->
-        <!-- <router-link to="/materialView">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-6 h-6 ml-9"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"
-              />
-            </svg>
-
-            <p>Material</p></router-link
-          > -->
-        <!-- </li> -->
         <li class="w-full">
           <router-link to="/suppliersManager">
             <i class="bi bi-person-check"></i>
@@ -71,15 +57,6 @@
           </router-link>
         </li>
         <li role="presentation" class="w-full">
-          <!-- <a
-            href="#collections"
-            aria-controls="collections"
-            role="tab"
-            data-toggle="tab"
-          >
-            <i class="bi bi-collection"></i>
-            <p>Collection</p>
-          </a> -->
           <router-link to="/collectionManagement">
             <i class="bi bi-collection"></i>
             <p>Collection</p>
@@ -87,15 +64,6 @@
         </li>
 
         <li role="presentation" class="w-full">
-          <!-- <a
-            href="#categories"
-            aria-controls="categories"
-            role="tab"
-            data-toggle="tab"
-          >
-            <i class="bi bi-tags"></i>
-            <p>Category</p>
-          </a> -->
           <router-link to="/categoryManagement">
             <i class="bi bi-tags"></i>
             <p>Category</p>
@@ -123,15 +91,8 @@
           <div>
             <SearchAdmin />
           </div>
-          <!-- <hr class="my-6" /> -->
           <div>
             <ul class="task_user leading-10 text-stone-600 mt-4">
-              <!-- <li class="py-2">
-                <router-link to="/dashboardUser" class="flex">
-                  <i class="bi bi-columns-gap pr-3"></i>
-                  <p class="font-normal">Dashboard</p>
-                </router-link>
-              </li> -->
               <li class="py-2">
                 <router-link to="/adManagement" class="flex">
                   <i class="bi bi-person pr-3"></i>
@@ -163,92 +124,14 @@
           <div>
             <ul class="task_user leading-10 text-stone-600 mt-4">
               <li class="py-2">
-                <router-link to="/dashboardFurniture" class="flex">
-                  <i class="bi bi-columns-gap pr-3"></i>
-                  <p class="font-normal">Dashboard</p>
-                </router-link>
-              </li>
-              <li class="py-2">
                 <router-link to="/furnitureManagementAd" class="flex">
-                  <i class="bi bi-person-check pr-3"></i>
+                  <i class="bi bi-house pr-3"></i>
                   <p class="font-normal">All Furniture</p>
                 </router-link>
               </li>
             </ul>
           </div>
         </div>
-        <!-- <div role="tabpanel" class="tab-pane" id="materials">
-          <h1 class="text-yellow-950 font-semibold mb-6 mt-2 text-lg">
-            Material Management
-          </h1>
-          <div>
-            <SearchAdmin />
-          </div>
-          <div>
-            <ul class="task_user leading-10 text-stone-600 mt-4">
-              <li class="py-2">
-                <router-link to="/materialView" class="flex">
-                  <i class="bi bi-columns-gap pr-3"></i>
-                  <p class="font-normal">All Material</p>
-                </router-link>
-              </li>
-              <li class="py-2">
-                <router-link to="/furnitureManagement" class="flex">
-                  <i class="bi bi-person-check pr-3"></i>
-                  <p class="font-normal"></p>
-                </router-link>
-              </li>
-            </ul>
-          </div>
-        </div> -->
-        <!-- <div role="tabpanel" class="tab-pane" id="collections">
-          <h1 class="text-yellow-950 font-semibold mb-6 mt-2 text-lg">
-            Management Furniture
-          </h1>
-          <div>
-            <SearchAdmin />
-          </div>
-          <div>
-            <ul class="task_user leading-10 text-stone-600 mt-4">
-              <li class="py-2">
-                <router-link to="/dashboardFurniture" class="flex">
-                  <i class="bi bi-columns-gap pr-3"></i>
-                  <p class="font-normal">Dashboard</p>
-                </router-link>
-              </li>
-              <li class="py-2">
-                <router-link to="/furnitureManagement" class="flex">
-                  <i class="bi bi-person-check pr-3"></i>
-                  <p class="font-normal">All Furniture</p>
-                </router-link>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div role="tabpanel" class="tab-pane" id="categories">
-          <h1 class="text-yellow-950 font-semibold mb-6 mt-2 text-lg">
-            Management Furniture
-          </h1>
-          <div>
-            <SearchAdmin />
-          </div>
-          <div>
-            <ul class="task_user leading-10 text-stone-600 mt-4">
-              <li class="py-2">
-                <router-link to="/dashboardFurniture" class="flex">
-                  <i class="bi bi-columns-gap pr-3"></i>
-                  <p class="font-normal">Dashboard</p>
-                </router-link>
-              </li>
-              <li class="py-2">
-                <router-link to="/furnitureManagement" class="flex">
-                  <i class="bi bi-person-check pr-3"></i>
-                  <p class="font-normal">All Furniture</p>
-                </router-link>
-              </li>
-            </ul>
-          </div>
-        </div> -->
       </div>
     </nav>
     <div class="content grow z-0">

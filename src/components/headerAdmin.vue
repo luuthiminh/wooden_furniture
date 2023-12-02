@@ -4,17 +4,10 @@
       <h1 class="font-semibold text-xl">{{ title }}</h1>
       <ul class="bar flex text-sm pt-2">
         <li>
-          <router-link to="/userManaegment" class="text-decoration-none">
-            User /
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/adManagement" class="text-decoration-none">
-            Roles /
-          </router-link>
-        </li>
-        <li class="font-medium">
-          <router-link to="/adManagement" class="text-decoration-none">
+          <router-link
+            to="/userManaegment"
+            class="text-decoration-none font-medium"
+          >
             Admin
           </router-link>
         </li>
