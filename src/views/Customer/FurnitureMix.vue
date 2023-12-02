@@ -113,16 +113,6 @@ export default {
       furnitures: [],
       filteredFurnitures: [],
       filterResult: [],
-      // furnitures: [
-      //   {
-      //     id: 1,
-      //     url: "bed_1",
-      //   },
-      //   { id: 2, url: "bed_2" },
-      //   { id: 3, url: "bed_3" },
-      //   { id: 4, url: "bed_4" },
-      //   { id: 5, url: "bed_5" },
-      // ],
     };
   },
   created() {

@@ -94,17 +94,9 @@
       </div>
 
       <div class="nav_header py-3">
-        <!-- <div
-          :style="{
-            'margin-top': !isShowHeader ? '0px' : '-70px',
-            position: !isShowHeader ? 'relative' : 'fixed',
-            background: !isShowHeader ? 'transparent' : 'white',
-            'z-index': !isShowHeader ? '0' : '101',
-          }"
-        > -->
         <div class="grid mg-left-0 grid-cols-2">
           <div class="logo flex mx-5 items-center w-3/12">
-            <router-link to="/customerIndex">
+            <router-link to="/">
               <img src="@/assets/images/logo.png" alt="logo" />
             </router-link>
             <div class="px-3">
@@ -119,57 +111,35 @@
       <div v-if="isBell">
         <div v-if="notifications.length">
           <div
-            v-for="(notification, index) in notifications"
-            :key="index"
-            class="bell w-80 bg-white absolute right-0 border border-1-black mr-4 rounded-lg"
+            class="w-96 bg-white float-right z-10 border border-1-black mr-4 rounded-md shadow-lg"
           >
-            <div class="pl-4 font-medium text-lg text-center py-2">
-              Notifications
+            <div
+              class="noti pl-4 font-semibold text-lg text-center py-2 bg-slate-50 text-yellow-950"
+            >
+              Notifications ({{ notifications.length }})
             </div>
-            <ul class="message bg-slate-50 mb-px rounded-b-lg">
-              <li class="card_bell">
-                <hr />
-                <div class="textBox px-4 py-2">
-                  <div class="textContent flex py-3">
-                    <p class="font-semibold text-sm pr-24">
-                      {{ notification.title }}
-                    </p>
-                    <span class="text-xs">{{ notification.date }}</span>
-                  </div>
-                  <p class="text-sm">{{ notification.content }}</p>
+            <div
+              v-for="(notification, index) in notifications"
+              :key="index"
+              class="bell p-4 max-w-sm mx-auto bg-white flex items-center space-x-4"
+            >
+              <div class="shrink-0">
+                <img
+                  class="h-12 w-12"
+                  src="@/assets/images/logo.png"
+                  alt="Logo"
+                />
+              </div>
+              <div>
+                <div class="text-base font-medium text-yellow-950">
+                  {{ notification.title }}
                 </div>
-              </li>
-              <li class="card_bell">
-                <hr />
-                <div class="textBox px-4 py-2">
-                  <div class="textContent flex py-3">
-                    <p class="font-semibold text-sm pr-24">Clans of Clash</p>
-                    <span class="text-xs">12 min ago</span>
-                  </div>
-                  <p class="text-sm">Xhattmahs is not attacking your base!</p>
-                </div>
-              </li>
-              <li class="card_bell">
-                <hr />
-                <div class="textBox px-4 py-2">
-                  <div class="textContent flex py-3">
-                    <p class="font-semibold text-sm pr-24">Clans of Clash</p>
-                    <span class="text-xs">12 min ago</span>
-                  </div>
-                  <p class="text-sm">Xhattmahs is not attacking your base!</p>
-                </div>
-              </li>
-              <li class="card_bell">
-                <hr />
-                <div class="textBox px-4 py-2">
-                  <div class="textContent flex py-3">
-                    <p class="font-semibold text-sm pr-24">Clans of Clash</p>
-                    <span class="text-xs">12 min ago</span>
-                  </div>
-                  <p class="text-sm">Xhattmahs is not attacking your base!</p>
-                </div>
-              </li>
-            </ul>
+                <p class="text-slate-500 text-sm py-2">
+                  {{ notification.content }}
+                </p>
+                <span class="text-xs">{{ notification.date }}</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -951,6 +921,7 @@
 </template>
 <script>
 import axios from "axios";
+import { format } from "date-fns";
 import Navigation from "@/components/NavCustomer.vue";
 import AllFurniture from "./AllFurniture.vue";
 export default {
@@ -980,6 +951,7 @@ export default {
     };
   },
   created() {
+    this.getCheckToken();
     this.getFurnitureAll();
     this.getAllAnnouncements();
     this.getFeedback();
@@ -988,6 +960,13 @@ export default {
     this.getAllWoods();
   },
   methods: {
+    getCheckToken() {
+      console.log(this.$route.query.token);
+      if (this.$route.query.token !== undefined) {
+        const token = this.$route.query.token.trim().split(" ").join("+");
+        localStorage.setItem("token", token);
+      }
+    },
     async getFurnitureAll() {
       try {
         const response = await axios.get("customer/furnitures");
@@ -1040,6 +1019,10 @@ export default {
         const response = await axios.get("customer/announcements");
         if (response.status === 200) {
           this.notifications = response.data;
+          this.notifications = this.notifications.map((noti) => ({
+            ...noti,
+            date: format(new Date(noti.date), "dd/MM/yyyy"),
+          }));
         }
       } catch (error) {
         console.error(error);

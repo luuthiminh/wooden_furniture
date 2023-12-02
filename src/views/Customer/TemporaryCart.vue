@@ -743,7 +743,6 @@ export default {
         this.furnitureOrder.splice(furniture);
         this.cartIdList.splice(furniture);
       }
-      // console.log(this.furnitureOrder);
       console.log(this.cartIdList);
     },
     opentModal(type, ad) {
@@ -819,6 +818,7 @@ export default {
           usedPoint: this.userpoint,
           note: this.note,
           items: itemsArray,
+          deliveryCost: 0,
         });
         if (response.status === 200) {
           if (

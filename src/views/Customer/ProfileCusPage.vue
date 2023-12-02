@@ -3230,6 +3230,7 @@ export default {
       orderModel: {},
       customizeModal: {},
       addressModal: {},
+      arrayFile: [],
     };
   },
   created() {
@@ -3628,9 +3629,16 @@ export default {
       }
     },
     onFile(event) {
-      this.file = event.target.files[0];
-      if (this.file) {
-        this.url = URL.createObjectURL(this.file);
+      // this.file = event.target.files[0];
+      // if (this.file) {
+      //   this.url = URL.createObjectURL(this.file);
+      // }
+      this.arrayFile = event.target.files;
+      if (this.arrayFile) {
+        for (let i = 0; i < event.target.files.length; i++) {
+          this.url = URL.createObjectURL(event.target.files[i]);
+          this.arrayUrl.push(this.url);
+        }
       }
     },
     HandleRemoveImage(url) {

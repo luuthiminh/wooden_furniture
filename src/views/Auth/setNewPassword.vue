@@ -139,7 +139,6 @@ export default {
       try {
         const response = await axios.post("authentication/reset-password", {
           email: this.$route.query.email,
-          // token: this.$route.query.token.trim().split(" ").join("+"),
           token: this.$route.query.token.trim().split(" ").join("+"),
           password: this.password,
           confirmPassword: this.confirmPasswod,

@@ -222,8 +222,8 @@
                   <!-- <option value="1" selected>--Choose Color--</option> -->
                   <option
                     v-for="co in colors"
-                    :key="co.colorId"
-                    :value="co.colorId"
+                    :key="co.colorsId"
+                    :value="co.colorsId"
                   >
                     {{ co.colorName }}
                   </option>

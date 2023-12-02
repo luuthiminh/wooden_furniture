@@ -3,7 +3,7 @@ import Otp from "../views/Auth/OTP.vue";
 import NotFound from "../views/About/404PageAbout";
 const routes = [
   {
-    path: "/",
+    path: "/login",
     name: "login",
     component: () =>
       import(/* webpackChunkName: "login" */ "../views/Auth/LoginView.vue"),
@@ -56,7 +56,7 @@ const routes = [
       ),
   },
   {
-    path: "/customerIndex",
+    path: "/",
     name: "Customer",
     component: () =>
       import(

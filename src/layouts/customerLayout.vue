@@ -3,12 +3,7 @@
   <div v-show="isNavBar">
     <div class="bg-black h-96 w-32"></div>
   </div>
-  <!-- <div v-if="furnitureSearch.length">
-    <search-result :furnitureSearch="furnitureSearch"></search-result>
-  </div> -->
-  <!-- <div v-else> -->
   <slot />
-  <!-- </div> -->
   <footer>
     <div class="footer w-full">
       <div class="background w-full">
@@ -91,27 +86,8 @@ export default {
       notifications: [],
     };
   },
-  created() {
-    // this.getAllAnnouncements();
-  },
+  created() {},
   methods: {
-    // async search() {
-    //   try {
-    //     const response = await axios.get(
-    //       "customer/furnitures/search?keyword=" + this.keyword
-    //     );
-    //     if (response.status === 200) {
-    //       this.furnitureSearch = response.data;
-    //     }
-    //   } catch (error) {
-    //     console.error(error);
-    //     // alert("Furniture not found!");
-    //   }
-    // },
-    // clear() {
-    //   this.keyword = "";
-    //   this.furnitureSearch = "";
-    // },
     handleChange(event) {
       localStorage.setItem("lang", event.target.value);
       window.location.reload();
@@ -123,25 +99,6 @@ export default {
     handelBell() {
       this.isBell = !this.isBell;
     },
-    // async getAllAnnouncements() {
-    //   try {
-    //     const response = await axios.get("customer/announcements");
-    //     if (response.status === 200) {
-    //       this.notifications = response.data;
-    //       console.log(this.allAnnouncements);
-    //     }
-    //   } catch (error) {
-    //     console.error(error);
-    //     // alert("Furniture not found!");
-    //   }
-    // },
-    // darkMode() {
-    //   if (localStorage.theme === "dark") {
-    //     this.isDark = true;
-    //   } else if (localStorage.theme === "light") {
-    //     this.isDark = false;
-    //   }
-    // },
   },
   mounted() {},
 };

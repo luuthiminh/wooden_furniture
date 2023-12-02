@@ -755,6 +755,7 @@ export default {
           paymentId: this.paymentId,
           usedPoint: this.userpoint,
           note: this.note,
+          deliveryCost: 0,
           items: [
             {
               itemId: order.furnitureSpecificationId,

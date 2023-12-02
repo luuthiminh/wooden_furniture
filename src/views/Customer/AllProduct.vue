@@ -190,10 +190,10 @@
           :furnitures="filterFurnitures"
         ></all-furniture>
         <all-furniture
-          :furnitures="filteredFurnitures"
           v-else-if="filteredFurnitures"
+          :furnitures="filteredFurnitures"
         ></all-furniture>
-        <all-furniture :furnitures="furnitures" v-else></all-furniture>
+        <all-furniture v-else :furnitures="furnitures"></all-furniture>
       </div>
     </div>
   </div>
@@ -280,7 +280,7 @@ export default {
             star: this.selectedStar,
           },
         });
-        if (response.status === 200 && response.data !== null) {
+        if (response.status === 200 && response.data !== "") {
           this.modalType = null;
           this.isAlertWanning = true;
           this.messageWanning = "Furniture not found";

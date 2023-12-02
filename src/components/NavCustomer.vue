@@ -2,14 +2,9 @@
   <navigation />
   <nav class="text-right max-sm:hidden font-medium">
     <ul class="flex gap-x-7 items-center">
-      <router-link
-        to="/customerIndex"
-        class="text-decoration-none"
-      ></router-link>
+      <router-link to="/" class="text-decoration-none"></router-link>
       <li>
-        <router-link to="/customerIndex" class="text-decoration-none">
-          Home</router-link
-        >
+        <router-link to="/" class="text-decoration-none"> Home</router-link>
       </li>
       <li>
         <router-link to="/StoreIntroduction" class="text-decoration-none"
@@ -38,64 +33,9 @@
                     ca.categoryName
                   }}</span>
                   <ul class="block list-outside list-disc leading-10 ml-3">
-                    <li>
-                      <!-- <router-link
-                        to="/allproduct"
-                        class="font-medium text-base"
-                      >
-                        Shelves TV</router-link
-                      > -->
-                      <!-- <span @clik="HandleCategoryDetail">{{
-                        ca.categoryName
-                      }}</span> -->
-                    </li>
-                    <!-- <li>
-                      <router-link
-                        to="/allproduct"
-                        class="font-medium text-base"
-                      >
-                        Clock</router-link
-                      >
-                    </li>
-                    <li>
-                      <router-link
-                        to="/allproduct"
-                        class="font-medium text-base"
-                      >
-                        Shelves TV</router-link
-                      >
-                    </li>
-                    <li>
-                      <router-link
-                        to="/allproduct"
-                        class="font-medium text-base"
-                      >
-                        Shelves TV</router-link
-                      >
-                    </li> -->
+                    <li></li>
                   </ul>
                 </li>
-
-                <!-- <li>
-                <router-link to="/allproduct" class="font-medium text-base">
-                  Bedroom Furniture</router-link
-                >
-                <ul>
-                  <router-link to="/allproduct" class="font-medium text-base">
-                    Bed</router-link
-                  >
-                </ul>
-              </li>
-              <li>
-                <router-link to="/allproduct" class="font-medium text-base">
-                  Kitchen Furniture</router-link
-                >
-              </li>
-              <li>
-                <router-link to="/allproduct" class="font-medium text-base">
-                  Worship Room Furniture</router-link
-                >
-              </li> -->
               </ul>
             </div>
           </div>

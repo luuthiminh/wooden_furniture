@@ -5,7 +5,7 @@
         <div
           class="logo flex large--four-twelfths ml-28 max-sm:ml-3 max-md:ml-3 max-md:pb-2"
         >
-          <router-link to="/customerIndex">
+          <router-link to="/">
             <img
               src="@/assets/images/logo.png"
               alt="logo"
@@ -176,7 +176,7 @@
         <ul class="flex px-28 gap-x-9 py-2 items-center pt-2">
           <li>
             <router-link
-              to="/customerIndex"
+              to="/"
               class="font-medium text-decoration-none hover:underline"
             >
               Home</router-link
@@ -658,7 +658,6 @@ export default {
         }
       } catch (error) {
         console.error(error);
-        // alert("Furniture not found!");
       }
     },
     toggleDark() {
