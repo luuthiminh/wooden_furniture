@@ -875,7 +875,7 @@ export default {
     async getFurnitureSpecification() {
       try {
         const response = await axios.get(
-          "shopOwner/shop-data/furniures/" + this.$route.params.id
+          "customer/furnitures/" + this.$route.params.id
         );
         this.furnitureSpecifications = response.data;
       } catch (error) {

@@ -203,7 +203,7 @@
                 type="text"
                 class="form-control w-10/12"
                 id="exampleFormControlInput1"
-                placeholder="10m"
+                required
               />
             </div>
             <div class="grid grid-cols-3 gap-x-4">
@@ -218,6 +218,7 @@
                   v-model="colorId"
                   class="form-select text-sm"
                   aria-label="Default select example"
+                  required
                 >
                   <!-- <option value="1" selected>--Choose Color--</option> -->
                   <option
@@ -236,6 +237,7 @@
                   v-model="categoryId"
                   class="form-select w-10/12"
                   id="exampleFormControlSelect1"
+                  required
                 >
                   <option
                     v-for="ca in categories"
@@ -257,6 +259,7 @@
                   v-model="woodId"
                   class="form-select text-sm"
                   aria-label="Default select example"
+                  required
                 >
                   <option v-for="w in woods" :key="w.woodId" :value="w.woodId">
                     {{ w.woodType }}
@@ -273,7 +276,8 @@
                     type="text"
                     class="form-control"
                     id="exampleFormControlInput1"
-                    placeholder="10"
+                    placeholder="1"
+                    required
                   />
                   <p class="flex items-center font-medium">m</p>
                 </div>
@@ -286,7 +290,8 @@
                     type="text"
                     class="form-control"
                     id="exampleFormControlInput1"
-                    placeholder="10"
+                    placeholder="1"
+                    required
                   />
                   <p class="flex items-center font-medium">m</p>
                 </div>
@@ -299,7 +304,8 @@
                     type="text"
                     class="form-control"
                     id="exampleFormControlInput1"
-                    placeholder="10"
+                    placeholder="1"
+                    required
                   />
                   <p class="flex items-center font-medium">m</p>
                 </div>
@@ -313,7 +319,8 @@
                   type="text"
                   class="form-control"
                   id="exampleFormControlInput1"
-                  placeholder="1.."
+                  placeholder="1"
+                  required
                 />
               </div>
               <div class="form-group">
@@ -326,6 +333,7 @@
                   class="form-control"
                   id="exampleFormControlInput1"
                   placeholder="name@example.com"
+                  required
                 />
               </div>
             </div>
@@ -336,7 +344,7 @@
                 type="text"
                 class="form-control"
                 id="exampleFormControlInput1"
-                placeholder="...."
+                required
               />
             </div>
             <div class="button_order float-right rounded-md my-2">
@@ -520,5 +528,9 @@ label {
 }
 /*laptop*/
 @media only screen and (min-width: 73em) and (max-width: 81.25em) {
+}
+.list-decimal li {
+  font-size: 15px;
+  font-weight: 500;
 }
 </style>

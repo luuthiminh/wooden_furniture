@@ -917,6 +917,11 @@
         </div>
       </footer>
     </div>
+    <!-- Messenger Chat Plugin Code -->
+    <div id="fb-root"></div>
+
+    <!-- Your Chat Plugin code -->
+    <div id="fb-customer-chat" class="fb-customerchat"></div>
   </div>
 </template>
 <script>
@@ -961,7 +966,6 @@ export default {
   },
   methods: {
     getCheckToken() {
-      console.log(this.$route.query.token);
       if (this.$route.query.token !== undefined) {
         const token = this.$route.query.token.trim().split(" ").join("+");
         localStorage.setItem("token", token);
@@ -1101,7 +1105,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 /* header */
 .container-fluid {

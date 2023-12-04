@@ -181,7 +181,7 @@
             </div>
             <!-- Tab panes -->
             <div class="tab-content col-span-5 ml-10 max-md:col-span-3">
-              <div role="tabpanel" class="tab-pane active" id="profile">
+              <div role="tabpanel" class="tab-pane" id="profile">
                 <div class="bg-white form">
                   <div class="flex">
                     <h1
@@ -952,7 +952,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="form bg-white mt-10">
+                <div class="form add_address bg-white mt-10">
                   <h1
                     class="py-3 font-semibold text-base pl-10 text-yellow-950"
                   >
@@ -978,20 +978,28 @@
                           />
                         </div>
                       </div>
-
                       <div class="row mb-6">
                         <label class="col-lg-4 col-form-label fw-medium"
-                          >Ward</label
+                          >Province</label
                         >
                         <div class="col-lg-8">
-                          <input
-                            v-model="ward"
-                            type="text"
-                            class="form-control border-none bg-neutral-100"
-                            id="firstname"
-                            aria-describedby="firstnameHelp"
-                            required
-                          />
+                          <select
+                            v-if="provinces"
+                            v-model="province"
+                            class="form-select text-sm"
+                            aria-label="Default select example"
+                            @change="handleDistrict"
+                          >
+                            <option selected>Choose Province</option>
+                            <option
+                              v-for="p in provinces.data"
+                              :key="p.ProvinceID"
+                              :value="p.ProvinceID"
+                              required
+                            >
+                              {{ p.ProvinceName }}
+                            </option>
+                          </select>
                         </div>
                       </div>
                       <div class="row mb-6">
@@ -999,89 +1007,50 @@
                           >District</label
                         >
                         <div class="col-lg-8">
-                          <input
+                          <select
+                            v-if="districts"
                             v-model="district"
-                            type="text"
-                            class="form-control border-none bg-neutral-100"
-                            id="firstname"
-                            aria-describedby="firstnameHelp"
-                            required
-                          />
+                            class="form-select text-sm"
+                            aria-label="Default select example"
+                            @change="handleWard"
+                          >
+                            <option selected>Choose District</option>
+                            <option
+                              v-for="d in districts.data"
+                              :key="d.DistrictID"
+                              :value="d.DistrictID"
+                              required
+                            >
+                              {{ d.DistrictName }}
+                            </option>
+                          </select>
                         </div>
                       </div>
                       <div class="row mb-6">
                         <label class="col-lg-4 col-form-label fw-medium"
-                          >Province</label
+                          >Ward</label
                         >
                         <div class="col-lg-8">
-                          <input
-                            v-model="province"
-                            type="text"
-                            class="form-control border-none bg-neutral-100"
-                            id="firstname"
-                            aria-describedby="firstnameHelp"
-                            required
-                          />
+                          <select
+                            v-if="ward"
+                            v-model="WardCode"
+                            class="form-select text-sm"
+                            aria-label="Default select example"
+                            @change="HandleChooseWard"
+                          >
+                            <option selected>Choose Ward</option>
+                            <option
+                              v-for="w in ward.data"
+                              :key="w.WardCode"
+                              :value="w.WardCode"
+                              required
+                            >
+                              {{ w.WardName }}
+                            </option>
+                          </select>
                         </div>
                       </div>
-                      <!-- <div>
-                        <label
-                          for="exampleInputEmail1"
-                          class="form-label font-medium"
-                          >Province</label
-                        >
-                        <select
-                          v-model="district"
-                          class="form-select text-sm"
-                          aria-label="Default select example"
-                        >
-                          <option selected>Choose Province</option>
-                          <div v-for="province in provinces" :key="province">
-                            <option
-                              v-for="d in province.data"
-                              :key="d.ProvinceID"
-                              :value="d.ProvinceID"
-                            >
-                              {{ d.ProvinceName }}
-                            </option>
-                          </div>
-                        </select> -->
-                      <!-- </div>
-                       <div>
-                        <label
-                          for="exampleInputEmail1"
-                          class="form-label font-medium"
-                          >Province</label
-                        >
-                        <select
-                          v-model="selectedProvinceID"
-                          class="form-select text-sm"
-                          aria-label="Default select example"
-                        >
-                          <option value="" selected>Choose Province</option>
-                          <optgroup
-                            v-for="province in provinces"
-                            :key="province.CountryID"
-                            :label="province.ProvinceName"
-                          >
-                            <option
-                              v-for="d in province.data"
-                              :key="d.ProvinceID"
-                              :value="d.ProvinceID"
-                            >
-                              {{ d.ProvinceName }}
-                            </option>
-                          </optgroup>
-                        </select> -->
-                      <!-- Hiển thị thông tin của province được chọn -->
-                      <!-- <div v-if="selectedProvinceID">
-                          <p>Province ID: {{ selectedProvinceID }}</p>
-                          <p>
-                            Province Name:
-                            {{ getProvinceName(selectedProvinceID) }}
-                          </p>
-                        </div> -->
-                      <!-- </div> -->
+
                       <div class="row mb-6">
                         <label class="col-lg-4 col-form-label fw-medium"
                           >Label As</label
@@ -1114,7 +1083,7 @@
                   </div>
                 </div>
               </div>
-              <div role="tabpanel" class="tab-pane" id="order">
+              <div role="tabpanel" class="tab-pane active" id="order">
                 <div class="">
                   <div class="group-tabs ml-2">
                     <!-- Nav tabs -->
@@ -1202,15 +1171,35 @@
                                 <div class="absolute right-36">
                                   <div
                                     v-if="or.status === 'Pending'"
-                                    class="bg-yellow-500 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
+                                    class="flex gap-x-3"
                                   >
-                                    Pending
+                                    <div
+                                      class="bg-yellow-500 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
+                                    >
+                                      Pending
+                                    </div>
+                                    <div
+                                      @click="HandleCancelOrder(or.orderId)"
+                                      class="bg-red-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
+                                    >
+                                      Cancel
+                                    </div>
                                   </div>
                                   <div
                                     v-if="or.status === 'Processing'"
-                                    class="bg-emerald-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
+                                    class="flex gap-x-3"
                                   >
-                                    Processing
+                                    <div
+                                      class="bg-emerald-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
+                                    >
+                                      Processing
+                                    </div>
+                                    <div
+                                      @click="HandleCancelOrder(or.orderId)"
+                                      class="bg-red-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
+                                    >
+                                      Cancel
+                                    </div>
                                   </div>
                                   <div
                                     v-if="or.status === 'Preparing'"
@@ -1267,48 +1256,6 @@
                                     </h5>
                                   </template>
                                   <template v-slot:body>
-                                    <!-- <div class="">
-                                      <label class="col-form-label fw-medium"
-                                        >Image</label
-                                      >
-                                      <div class="">
-                                        <div class="flex">
-                                          <div
-                                            v-for="url in arrayUrl"
-                                            :key="url"
-                                            class="avatar_upload ml-14 py-3"
-                                          >
-                                            <img
-                                              v-if="url"
-                                              :src="url"
-                                              alt="image"
-                                            />
-                                            <img
-                                              v-else
-                                              src="@/assets/images/assistant/image_default.jpeg"
-                                              alt="image"
-                                            />
-                                          </div>
-                                          <div class="avatar_edit">
-                                            <div class="hidden">
-                                              <input
-                                                id="imageUpload"
-                                                type="file"
-                                                accept=".png, .jpg, .jpeg"
-                                                :maxFileSize="1000000"
-                                                ref="file"
-                                                multiple
-                                                @change="onFileGuarantee"
-                                              />
-                                            </div>
-                                            <label
-                                              class="bi bi-pencil text-xs"
-                                              for="imageUpload"
-                                            ></label>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div> -->
                                     <div
                                       class="w-full items-center gap-x-6 pb-3"
                                     >
@@ -2802,10 +2749,10 @@
                     <!-- Nav tabs -->
                     <div class="nav-order">
                       <ul
-                        class="nav nav-pills bg-white flex gap-x-20 pl-20 py-3 text-base font-medium"
+                        class="nav nav-pills bg-white flex gap-x-52 pl-20 py-3 text-base font-medium"
                         role="tablist"
                       >
-                        <li role="presentation" class="active">
+                        <!-- <li role="presentation" class="active">
                           <a
                             href="#all"
                             aria-controls="all"
@@ -2813,55 +2760,461 @@
                             data-toggle="tab"
                             >All</a
                           >
-                        </li>
-                        <li role="presentation">
+                        </li> -->
+                        <!-- <li role="presentation">
                           <a
-                            href="#transport"
-                            aria-controls="transport"
+                            href="#all"
+                            aria-controls="all"
                             role="tab"
                             data-toggle="tab"
-                            >Processing</a
+                            >Accepted</a
                           >
                         </li>
                         <li role="presentation">
                           <a
-                            href="#completed"
-                            aria-controls="completed"
+                            href="#all"
+                            aria-controls="all"
                             role="tab"
                             data-toggle="tab"
-                            >Preparing</a
+                            >Rejected</a
                           >
-                        </li>
-                        <li role="presentation">
-                          <a
-                            href="#cancel"
-                            aria-controls="cancel"
-                            role="tab"
-                            data-toggle="tab"
-                            >Delivering</a
-                          >
-                        </li>
-                        <li role="presentation">
-                          <a
-                            href="#cancel"
-                            aria-controls="cancel"
-                            role="tab"
-                            data-toggle="tab"
-                            >Delivered</a
-                          >
-                        </li>
-                        <li role="presentation">
-                          <a
-                            href="#cancel"
-                            aria-controls="cancel"
-                            role="tab"
-                            data-toggle="tab"
-                            >Canceled</a
-                          >
-                        </li>
+                        </li> -->
+
+                        <li @click="selectStatus('All')" class="active">All</li>
+                        <li @click="selectStatus('Accepted')">Accepted</li>
+                        <li @click="selectStatus('Rejected')">Rejected</li>
+                        <li @click="selectStatus('Pending')">Pending</li>
                       </ul>
                     </div>
+                    <div
+                      @click="HandleCheckOut"
+                      data-toggle="modal"
+                      data-target="#exampleModalLong"
+                      data-backdrop="false"
+                      class="bg-slate-700 px-2 text-white rounded-md text-sm cursor-pointer w-2/12 right-40 text-center my-4 py-2"
+                    >
+                      Check Out
+                    </div>
+                    <modal
+                      v-if="modalType == 'orderCustomize'"
+                      @close="closeModal"
+                      data-target="#myModal"
+                    >
+                      <template v-slot:title>
+                        <div>
+                          <h1 class="font-semibold text-lg">Check Out</h1>
+                        </div>
+                      </template>
+                      <template v-slot:body>
+                        <div class="mt-1 mb-2" v-if="order">
+                          <div class="bg-white rounded-md px-3 py-2 text-left">
+                            <span
+                              class="text-red-600 font-medium text-sm text-left"
+                              ><i class="fa-solid fa-location-dot"></i>
+                              Address</span
+                            >
+                            <br />
+                            <div class="py-2 flex gap-x-4">
+                              <span
+                                v-if="adChange"
+                                class="font-semibold text-sm"
+                                >{{ order.deliveryAddress }}
+                              </span>
+                              <span v-else class="font-semibold text-sm"
+                                >{{ adChange.street }} {{ adChange.ward }}
+                                {{ adChange.district }}
+                                {{ adChange.provine }}
+                              </span>
+                              <div class="text-sm">
+                                <div class="span_address">
+                                  <div class="">
+                                    <span
+                                      class="px-2 py-1 font-medium text-red-600 text-xs"
+                                      >Default</span
+                                    >
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="font-semibold text-amber-900 cursor-pointer"
+                                data-toggle="modal"
+                                data-target="#exampleModalLong"
+                                @click="opentModal('address')"
+                              >
+                                Change
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="bg-white rounded-md px-3 pt-2">
+                          <div>
+                            <div>
+                              <div class="card mb-3">
+                                <div class="card-body">
+                                  <div class="d-flex justify-content-between">
+                                    <div
+                                      class="d-flex flex-row align-items-center"
+                                    >
+                                      <div>
+                                        <img
+                                          src="@/assets/images/category/shelves_tv/shelves_11.png"
+                                          class="img-fluid rounded-3"
+                                          alt="Shopping item"
+                                          style="width: 65px"
+                                        />
+                                      </div>
+                                      <div class="ms-3">
+                                        <h5>
+                                          {{ order.customizeFurnitureName }}
+                                        </h5>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="d-flex flex-row align-items-center"
+                                    >
+                                      <div style="width: 50px">
+                                        <h5 class="fw-normal mb-0">
+                                          x{{ order.quantity }}
+                                        </h5>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="card bg-white rounded-md px-3 py-2 my-3 mx-3"
+                        >
+                          <div class="flex gap-x-1 mt-3 mb-3">
+                            <span class="font-medium label_payment mt-2 mr-3"
+                              >Point</span
+                            >
+                            <div class="input-group">
+                              <input
+                                v-model="userpoint"
+                                type="text"
+                                class="form-control border border-slate-200"
+                                aria-label="Dollar amount (with dot and two decimal places)"
+                                :maxlength="info.point"
+                              />
+                              <span class="input-group-text">
+                                <i
+                                  class="bi bi-currency-dollar text-yellow-500 text-sm"
+                                ></i
+                              ></span>
+                              <span class="input-group-text">{{
+                                info.point
+                              }}</span>
+                            </div>
+                          </div>
 
+                          <div class="">
+                            <div
+                              class="d-flex justify-content-between align-items-center mb-4"
+                            >
+                              <h5 class="label_payment mb-0 font-medium mt-2">
+                                Payment Method
+                              </h5>
+                            </div>
+
+                            <div>
+                              <div>
+                                <select
+                                  v-if="order.payments"
+                                  v-model="paymentId"
+                                  class="form-select text-sm border border-slate-200"
+                                  aria-label="Default select example"
+                                >
+                                  <option selected>Choose Payment</option>
+
+                                  <option
+                                    v-for="md in order.payments"
+                                    :key="md"
+                                    :value="md.paymentId"
+                                  >
+                                    {{ md.paymentMethod }}
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="">
+                              <div
+                                class="d-flex justify-content-between align-items-center mb-4"
+                              >
+                                <h5 class="label_payment mb-0 font-medium mt-2">
+                                  Delivery Method
+                                </h5>
+                              </div>
+
+                              <div>
+                                <div>
+                                  <select
+                                    v-model="delivery"
+                                    class="form-select text-sm border border-slate-200"
+                                    aria-label="Default select example"
+                                    @change="CalculateDeliveryFee"
+                                  >
+                                    <option selected>Choose Delivery</option>
+                                    <option
+                                      v-for="ship in methodDelevery.data"
+                                      :key="ship"
+                                      :value="ship.service_id"
+                                    >
+                                      {{ ship.short_name }}
+                                    </option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              class="grid grid-cols-6 gap-4 rounded-xl text-sm pb-3"
+                            >
+                              <label class="label_payment">Note</label>
+                              <textarea
+                                v-model="note"
+                                placeholder="Your note..."
+                                class="bg-slate-100 text-slate-600 h-28 placeholder:text-slate-600 placeholder:opacity-50 border border-slate-200 col-span-6 resize-none outline-none rounded-lg p-2 duration-300 focus:border-slate-600"
+                              ></textarea>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="absolute right-8 flex gap-x-10">
+                          <p class="text-sm">Shipping Fee</p>
+                          <p class="text-sm">${{ shipCost }}</p>
+                        </div>
+                        <br />
+                        <div class="absolute right-8 flex gap-x-10 mt-6">
+                          <p class="text-sm">Point</p>
+                          <p class="text-sm">{{ userpoint }}</p>
+                        </div>
+                        <br />
+                        <div class="absolute right-8 flex gap-x-10 mt-10">
+                          <p class="text-sm">Subtotal</p>
+                          <p class="text-sm">${{ order.totalCost }}</p>
+                        </div>
+                        <div class="d-flex justify-content-between mt-20 px-4">
+                          <p class="font-semibold text-base">Subtotal</p>
+                          <p class="font-bold text-base text-red-600">
+                            ${{ totalCost }}
+                          </p>
+                        </div>
+                      </template>
+                      <template v-slot:footer>
+                        <button
+                          @click="HandleOrder(order)"
+                          data-dismiss="modal"
+                          class="ml-3 my-4 text-center px-4 py-2 text-white hover:ring-offset-2 hover:ring-2 bg-slate-600 text-sm rounded-md transition duration-700 ease-in-out font-medium"
+                        >
+                          Order
+                        </button>
+                      </template>
+                    </modal>
+                    <modal
+                      v-if="modalType == 'address'"
+                      @close="closeModal"
+                      data-target="#myModal"
+                    >
+                      <template v-slot:title>
+                        <div
+                          class="flex items-center text-base font-semibold text-yellow-950"
+                        >
+                          All Address
+                        </div>
+                      </template>
+                      <template v-slot:body>
+                        <div class="py-3" v-if="address.length">
+                          <div
+                            class="flex gap-x-2 py-3"
+                            v-for="ad in address"
+                            :key="ad.id"
+                          >
+                            <div class="flex gap-x-1">
+                              <input
+                                v-model="ad.addressChange"
+                                @change="changeAddress(ad)"
+                                class="w-px/12"
+                                type="radio"
+                                name="flexRadioDefault"
+                                id="flexRadioDefault1"
+                              />
+                              <span
+                                class="span_address font-medium list-decimal"
+                                >{{ ad.street }} {{ ad.ward }}
+                                {{ ad.district }} {{ ad.provine }}</span
+                              >
+                            </div>
+                            <div
+                              v-if="ad.addressType === 'DEFAULT'"
+                              class="span_address"
+                            >
+                              <div
+                                class="border-solid border-2 border-red-600 rounded-full"
+                              >
+                                <span
+                                  class="px-2 py-1 font-medium text-red-600 text-xs"
+                                  >Default</span
+                                >
+                              </div>
+                            </div>
+                            <div class="absolute right-4 flex gap-x-5">
+                              <button
+                                data-toggle="modal"
+                                data-target="#exampleModalLong"
+                                data-backdrop="false"
+                                @click="opentModal('editAddress', ad)"
+                                class="px-2 py-1 text-white hover:ring-offset-2 hover:ring-2 bg-slate-600 text-sm rounded-md transition duration-700 ease-in-out font-medium"
+                              >
+                                Edit
+                              </button>
+                              <button
+                                data-toggle="modal"
+                                data-target="#exampleModalLong"
+                                data-backdrop="false"
+                                @click="opentModal('deleteAddress', ad)"
+                                class="px-2 py-1 text-white hover:ring-offset-2 hover:ring-2 bg-red-600 hover:ring-red-200 text-sm rounded-md transition duration-700 ease-in-out font-medium"
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </template>
+                      <template v-slot:footer>
+                        <button
+                          data-toggle="modal"
+                          data-target="#exampleModalLong"
+                          data-backdrop="false"
+                          @click="confirmChangeAddress"
+                          class="px-2 py-1 text-white hover:ring-offset-2 hover:ring-2 bg-red-600 hover:ring-red-200 text-sm rounded-md transition duration-700 ease-in-out font-medium"
+                        >
+                          Confirm
+                        </button>
+                      </template>
+                    </modal>
+                    <modal
+                      v-if="modalType == 'editAddress'"
+                      @close="modalType == null"
+                      data-target="#myModal"
+                    >
+                      <template v-slot:title>
+                        <div class="flex items-center text-lg font-semibold">
+                          Edit Address
+                        </div>
+                      </template>
+                      <template v-slot:body>
+                        <div class="row mb-6">
+                          <label class="col-lg-4 col-form-label fw-medium"
+                            >Stress</label
+                          >
+                          <div class="col-lg-8">
+                            <input
+                              v-model="addressModal.street"
+                              type="text"
+                              class="form-control border-none bg-neutral-100"
+                              id="firstname"
+                              aria-describedby="firstnameHelp"
+                            />
+                          </div>
+                        </div>
+                        <div class="row mb-6">
+                          <label class="col-lg-4 col-form-label fw-medium"
+                            >Ward</label
+                          >
+                          <div class="col-lg-8">
+                            <input
+                              v-model="addressModal.ward"
+                              type="text"
+                              class="form-control border-none bg-neutral-100"
+                              id="firstname"
+                              aria-describedby="firstnameHelp"
+                            />
+                          </div>
+                        </div>
+                        <div class="row mb-6">
+                          <label class="col-lg-4 col-form-label fw-medium"
+                            >District</label
+                          >
+                          <div class="col-lg-8">
+                            <input
+                              v-model="addressModal.district"
+                              type="text"
+                              class="form-control border-none bg-neutral-100"
+                              id="firstname"
+                              aria-describedby="firstnameHelp"
+                            />
+                          </div>
+                        </div>
+                        <div class="row mb-6">
+                          <label class="col-lg-4 col-form-label fw-medium"
+                            >Province</label
+                          >
+                          <div class="col-lg-8">
+                            <input
+                              v-model="addressModal.provine"
+                              type="text"
+                              class="form-control border-none bg-neutral-100"
+                              id="firstname"
+                              aria-describedby="firstnameHelp"
+                            />
+                          </div>
+                        </div>
+                        <select
+                          class="form-select"
+                          aria-label="Default select example"
+                          v-model="addressModal.type"
+                        >
+                          <option selected>{{ addressModal.type }}</option>
+                          <option value="DEFAULT">Default</option>
+                          <option value="HOME">Home</option>
+                        </select>
+                      </template>
+                      <template v-slot:footer
+                        ><div class="bg-yellow-900 rounded-md">
+                          <span
+                            type="button"
+                            class="px-2 py-2 text-white"
+                            @click.prevent="HandleUpdateAddress()"
+                          >
+                            Update
+                          </span>
+                        </div></template
+                      >
+                    </modal>
+                    <modal
+                      v-if="modalType == 'deleteAddress'"
+                      @close="modalType == null"
+                      data-target="#myModal"
+                    >
+                      <template v-slot:title>
+                        <div class="flex items-center text-lg font-semibold">
+                          Delete
+                        </div>
+                      </template>
+                      <template v-slot:body>
+                        <p class="text-base py-3">
+                          Are you sure detete
+                          <b>
+                            {{ addressModal.street }} {{ addressModal.ward }}
+                            {{ addressModal.district }}
+                            {{ addressModal.provine }} ?</b
+                          >
+                        </p>
+                      </template>
+                      <template v-slot:footer>
+                        <div class="bg-red-900 rounded-md">
+                          <span
+                            type="button"
+                            class="px-2 py-2 text-white"
+                            data-dismiss="modal"
+                            @click="HandleDelete()"
+                          >
+                            Delete
+                          </span>
+                        </div>
+                      </template>
+                    </modal>
                     <!-- Tab panes -->
                     <div class="tab-content">
                       <div
@@ -2890,36 +3243,38 @@
                                 >
                                   This order is under review by the store
                                 </div>
-                                <div class="absolute right-36">
-                                  <div
-                                    v-if="or.result.status === 'Pending'"
-                                    class="bg-yellow-600 px-2 py-1 text-white rounded-md text-sm"
-                                  >
-                                    Pending
-                                  </div>
-                                  <div
-                                    v-if="or.result.status === 'Accepted'"
-                                    class="bg-lime-700 px-2 py-1 text-white rounded-md text-sm"
-                                  >
-                                    Accepted
-                                  </div>
-                                  <div
-                                    v-if="or.status === 'Preparing'"
-                                    class="bg-red-600 px-2 py-1 text-white rounded-md text-sm"
-                                  >
-                                    Preparing
-                                  </div>
-                                  <div
-                                    v-if="or.status === 'Delivering'"
-                                    class="bg-red-600 px-2 py-1 text-white rounded-md text-sm"
-                                  >
-                                    Delivering
-                                  </div>
-                                  <div
-                                    v-if="or.status === 'Delivered'"
-                                    class="bg-red-600 px-2 py-1 text-white rounded-md text-sm"
-                                  >
-                                    Delivered
+                                <div class="absolute right-36 flex gap-x-4">
+                                  <div class="order_status">
+                                    <div
+                                      v-if="or.result.status === 'Pending'"
+                                      class="bg-yellow-600 px-2 py-1 text-white rounded-md text-sm"
+                                    >
+                                      Pending
+                                    </div>
+                                    <div
+                                      v-if="or.result.status === 'Accepted'"
+                                      class="bg-lime-700 px-2 py-1 text-white rounded-md text-sm"
+                                    >
+                                      Accepted
+                                    </div>
+                                    <div
+                                      v-if="or.status === 'Preparing'"
+                                      class="bg-red-600 px-2 py-1 text-white rounded-md text-sm"
+                                    >
+                                      Preparing
+                                    </div>
+                                    <div
+                                      v-if="or.status === 'Delivering'"
+                                      class="bg-red-600 px-2 py-1 text-white rounded-md text-sm"
+                                    >
+                                      Delivering
+                                    </div>
+                                    <div
+                                      v-if="or.status === 'Delivered'"
+                                      class="bg-red-600 px-2 py-1 text-white rounded-md text-sm"
+                                    >
+                                      Delivered
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -2928,6 +3283,18 @@
                                 <table class="table shoping-cart-table">
                                   <tbody>
                                     <tr>
+                                      <td
+                                        v-if="or.result.status === 'Accepted'"
+                                      >
+                                        <div class="mt-14">
+                                          <input
+                                            type="checkbox"
+                                            id="checkbox"
+                                            v-model="or.isSelected"
+                                            @change="handleCartId(or)"
+                                          />
+                                        </div>
+                                      </td>
                                       <td width="90">
                                         <div
                                           class="cart-product-imitation mt-3"
@@ -3167,13 +3534,6 @@
       </div>
     </div>
   </div>
-  <!-- </div> -->
-  <!-- <div v-if="!customer / customer - infor">
-    <div class="pt-24 px-40">
-      <h1>You are not logged in!</h1>
-      <img src="@/assets/images/error.png" />
-    </div>
-  </div> -->
 </template>
 
 <script>
@@ -3204,9 +3564,10 @@ export default {
       wishlist: [],
       warranties: [],
       customizeOders: [],
+      adChange: {},
       arrayUrl: [],
       feedbacks: [],
-      provinces: [],
+      provinces: {},
       avatar: "",
       modalType: null,
       status: "",
@@ -3231,6 +3592,25 @@ export default {
       customizeModal: {},
       addressModal: {},
       arrayFile: [],
+      provinceName: [],
+      districts: {},
+      ward: {},
+      inputProvince: "",
+      inputDistrict: "",
+      inputWard: "",
+      customizeFurnitureIdList: [],
+      furnitureOrder: [],
+      shipFee: "",
+      provinceCode: "",
+      districtCode: "",
+      wardCode: "",
+      methodShip: [],
+      methodDelevery: [],
+      shipCost: 0,
+      userpoint: 0,
+      note: "",
+      shipfee: 0,
+      order: "",
     };
   },
   created() {
@@ -3244,7 +3624,6 @@ export default {
     this.getCustomizeOrder();
     this.getFeedback();
     this.getOrderDelivering();
-    // this.getDistrict();
     this.getProvices();
   },
   methods: {
@@ -3294,10 +3673,60 @@ export default {
             },
           }
         );
+
         this.provinces = response.data;
+        console.log(this.provinceName);
       } catch (error) {
         console.error(error);
       }
+    },
+    async handleDistrict(e) {
+      try {
+        const response = await axios.get(
+          "https://online-gateway.ghn.vn/shiip/public-api/master-data/district",
+          {
+            headers: {
+              token: "8644b872-8774-11ee-96dc-de6f804954c9",
+            },
+            params: {
+              province_id: this.province,
+            },
+          }
+        );
+        this.districts = response.data;
+        this.inputProvince =
+          e.target.options[e.target.options.selectedIndex].text;
+        console.log(this.inputProvince);
+        console.log(response.data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async handleWard(e) {
+      try {
+        const response = await axios.get(
+          "https://online-gateway.ghn.vn/shiip/public-api/master-data/ward",
+          {
+            headers: {
+              token: "8644b872-8774-11ee-96dc-de6f804954c9",
+            },
+            params: {
+              district_id: this.district,
+            },
+          }
+        );
+        this.ward = response.data;
+        console.log(this.ward);
+        this.inputDistrict =
+          e.target.options[e.target.options.selectedIndex].text;
+        console.log(this.inputDistrict);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    HandleChooseWard(e) {
+      this.inputWard = e.target.options[e.target.options.selectedIndex].text;
+      console.log(this.inputWard);
     },
     async getInfor() {
       try {
@@ -3415,6 +3844,223 @@ export default {
               : "",
           }));
         }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    handleCartId(or) {
+      if (or.isSelected) {
+        this.furnitureOrder.push(or.customizeFurnitureId);
+        this.customizeFurnitureIdList.push(or.customizeFurnitureId);
+      } else {
+        this.furnitureOrder.splice(or);
+        this.customizeFurnitureIdList.splice(or);
+      }
+      console.log(this.customizeFurnitureIdList);
+    },
+    async HandleCheckOut() {
+      this.opentModal("orderCustomize");
+      this.cartId = "";
+      for (let i = 0; i < this.customizeFurnitureIdList.length; i++) {
+        if (i === this.customizeFurnitureIdList.length) {
+          this.cartId = this.cartId.concat(
+            `customizeFurnitureIdList=${this.customizeFurnitureIdList[i]}`
+          );
+        } else {
+          this.cartId = this.cartId.concat(
+            `customizeFurnitureIdList=${this.customizeFurnitureIdList[i]}&`
+          );
+        }
+      }
+      try {
+        const response = await axios.get(
+          `customer/checkout-customize-furniture?${this.cartId}`
+        );
+        if (response.status === 200) {
+          this.order = response.data;
+          let deliveryAddress = response.data.deliveryAddress;
+          let address = deliveryAddress.split(",");
+          let ward = address[1].trim();
+          let district = address[2].trim();
+          let province = address[3].trim();
+          await this.getProvinceCode(province);
+          await this.getDistrictCode(district);
+          await this.getWardCode(ward);
+          await this.getAvailableServices();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    confirmChangeAddress() {
+      this.opentModal("orderCustomize");
+    },
+    //HàmCheckout
+    async getProvinceCode(province) {
+      try {
+        const response = await axios.get(
+          "https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
+          {
+            headers: {
+              token: "8644b872-8774-11ee-96dc-de6f804954c9",
+            },
+          }
+        );
+
+        let provinceList = response.data.data;
+        let proviceCode = 0;
+        for (let i = 0; i < provinceList.length; i++) {
+          if (provinceList[i].ProvinceName === province) {
+            proviceCode = provinceList[i].ProvinceID;
+            break;
+          }
+        }
+        console.log(proviceCode);
+        // return proviceCode + "";
+        this.provinceCode = proviceCode;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getDistrictCode(district) {
+      try {
+        const response = await axios.get(
+          "https://online-gateway.ghn.vn/shiip/public-api/master-data/district",
+          {
+            headers: {
+              token: "8644b872-8774-11ee-96dc-de6f804954c9",
+            },
+            params: {
+              province_id: this.provinceCode,
+            },
+          }
+        );
+
+        let districtList = response.data.data;
+        let districtCode = 0;
+        for (let i = 0; i < districtList.length; i++) {
+          if (districtList[i].DistrictName === district) {
+            districtCode = districtList[i].DistrictID;
+            break;
+          }
+        }
+        console.log(districtCode);
+        this.districtCode = districtCode;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getWardCode(ward) {
+      try {
+        const response = await axios.get(
+          "https://online-gateway.ghn.vn/shiip/public-api/master-data/ward",
+          {
+            headers: {
+              token: "8644b872-8774-11ee-96dc-de6f804954c9",
+            },
+            params: {
+              district_id: this.districtCode,
+            },
+          }
+        );
+
+        let wardList = response.data.data;
+        let wardCode = 0;
+        for (let i = 0; i < wardList.length; i++) {
+          if (wardList[i].WardName === ward) {
+            wardCode = wardList[i].WardCode;
+            break;
+          }
+        }
+        console.log(wardCode);
+        this.wardCode = wardCode;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getAvailableServices() {
+      try {
+        const response = await axios.get(
+          "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services",
+          {
+            headers: {
+              token: "8644b872-8774-11ee-96dc-de6f804954c9",
+            },
+            params: {
+              shop_id: 4710217,
+              from_district: 2194,
+              to_district: this.districtCode,
+            },
+          }
+        );
+        this.methodDelevery = response.data;
+        console.log(this.methodDelevery);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    async CalculateDeliveryFee(e) {
+      let service_id = e.target.value;
+      try {
+        const response = await axios.get(
+          "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee",
+          {
+            headers: {
+              token: "8644b872-8774-11ee-96dc-de6f804954c9",
+              shop_id: 4710217,
+            },
+            params: {
+              from_district_id: 2194,
+              from_ward_code: "220710",
+              service_id: service_id,
+              to_district_id: this.districtCode,
+              to_ward_code: this.wardCode,
+              height: 50,
+              length: 20,
+              width: 20,
+              weight: 50,
+              coupon: null,
+            },
+          }
+        );
+        this.shipCost = response.data.data.service_fee;
+        console.log(response);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    async HandleOrder(order) {
+      let point = this.userpoint * 100;
+      const id = this.addressId || order.deliveryAddressId;
+      const itemsArray = order.items.map((item) => ({
+        itemId: item.customizeFurnitureId,
+        quantity: item.quantity,
+      }));
+      try {
+        const response = await axios.post("customer/order", {
+          addressId: id,
+          paymentId: this.paymentId,
+          usedPoint: point,
+          note: this.note,
+          total: this.totalCost,
+          items: itemsArray,
+        });
+        if (response.status === 200) {
+          if (
+            response.data !== null &&
+            response.data !== "Order successfully"
+          ) {
+            this.paymentOline = response.data;
+            window.location.href = this.paymentOline;
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async HandleCancelOrder(id) {
+      try {
+        await axios.put("customer/cancel-order?orderId=" + id);
       } catch (error) {
         console.error(error);
       }
@@ -3544,9 +4190,9 @@ export default {
     async HandleAddAddress() {
       const formData = new FormData();
       formData.append("Street", this.street);
-      formData.append("Ward", this.ward);
-      formData.append("District", this.district);
-      formData.append("Provine", this.province);
+      formData.append("Ward", this.inputWard);
+      formData.append("District", this.inputDistrict);
+      formData.append("Provine", this.inputProvince);
       formData.append("Type", this.type);
       try {
         const response = await axios.post(
@@ -3629,10 +4275,6 @@ export default {
       }
     },
     onFile(event) {
-      // this.file = event.target.files[0];
-      // if (this.file) {
-      //   this.url = URL.createObjectURL(this.file);
-      // }
       this.arrayFile = event.target.files;
       if (this.arrayFile) {
         for (let i = 0; i < event.target.files.length; i++) {
@@ -3648,8 +4290,13 @@ export default {
       console.log("Đã cho image vào array");
       const formData = new FormData();
       formData.append("orderId", this.orderModel.orderId);
-      formData.append("uploadFiles", this.file);
       formData.append("warrantyReasons", this.reason);
+      if (this.arrayFile.length > 0) {
+        for (var i = 0; i < this.arrayFile.length > 0; i++) {
+          formData.append("uploadFiles", this.arrayFile[i]);
+        }
+      }
+      console.log("Đã sua cho ban minh vào array");
       try {
         const response = await axios.post(
           "customer/warranties/create",
@@ -3678,7 +4325,11 @@ export default {
       formData.append("content", this.content);
       formData.append("voteStar", this.star);
       formData.append("anonymous", this.anonymous);
-      formData.append("files", this.arrayFile);
+      if (this.arrayFile.length > 0) {
+        for (var i = 0; i < this.arrayFile.length > 0; i++) {
+          formData.append("files", this.arrayFile[i]);
+        }
+      }
       console.log(this.arrayFile);
       try {
         const response = await axios.post(
@@ -3713,6 +4364,15 @@ export default {
         this.message = error.response.data.message;
         console.error(error.response.data.message);
       }
+    },
+  },
+  computed: {
+    totalCost() {
+      let point = this.userpoint * 100;
+      console.log(this.order.totalCost);
+      let sum = this.order.totalCost + this.shipCost - point;
+      let cost = parseFloat(sum.toFixed(2));
+      return cost;
     },
   },
 };
@@ -4569,7 +5229,8 @@ hr .my-4 {
 .address .form-control {
   font-size: 97%;
 }
-.form-control {
+.form-control,
+.add_address .form-select {
   background-color: #e8eef387;
   border: none;
 }
@@ -4798,5 +5459,12 @@ hr .my-4 {
 }
 .form-select.address {
   background-color: #e8eef387;
+}
+option {
+  text-transform: capitalize;
+}
+#customize .form-control,
+#customize .form-selected {
+  background-color: rgb(238 238 243 / 58%);
 }
 </style>

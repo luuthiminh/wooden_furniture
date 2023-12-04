@@ -22,6 +22,22 @@
       </div>
     </div>
     <div class="float-right flex max-sm:hidden max-md:hidden cursor-pointer">
+      <a
+        class="download-btn_download"
+        href="https://landlstore.azurewebsites.net/api/User/customer-infor/csv"
+      >
+        <svg
+          id="download_svg"
+          viewBox="0 0 24 24"
+          data-name="Layer 1"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14.29,17.29,13,18.59V13a1,1,0,0,0-2,0v5.59l-1.29-1.3a1,1,0,0,0-1.42,1.42l3,3a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l3-3a1,1,0,0,0-1.42-1.42ZM18.42,6.22A7,7,0,0,0,5.06,8.11,4,4,0,0,0,6,16a1,1,0,0,0,0-2,2,2,0,0,1,0-4A1,1,0,0,0,7,9a5,5,0,0,1,9.73-1.61,1,1,0,0,0,.78.67,3,3,0,0,1,.24,5.84,1,1,0,1,0,.5,1.94,5,5,0,0,0,.17-9.62Z"
+          ></path>
+        </svg>
+      </a>
+
       <div>
         <div class="new member">
           <div
@@ -256,6 +272,53 @@
       </div>
     </div>
   </header>
+  <!-- <div class="card_download">
+    <div class="icon_download">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <g stroke-width="0" id="SVGRepo_bgCarrier"></g>
+        <g
+          stroke-linejoin="round"
+          stroke-linecap="round"
+          id="SVGRepo_tracerCarrier"
+        ></g>
+        <g id="SVGRepo_iconCarrier">
+          <path
+            stroke-linejoin="round"
+            stroke-linecap="round"
+            stroke-width="1.5"
+            stroke="#ffffff"
+            d="M20 14V17.5C20 20.5577 16 20.5 12 20.5C8 20.5 4 20.5577 4 17.5V14M12 15L12 3M12 15L8 11M12 15L16 11"
+          ></path>
+        </g>
+      </svg>
+    </div>
+    <div class="content">
+      <span class="title">Good news Mac users!</span>
+      <div class="desc">This software is now available for download.</div>
+      <div class="actions">
+        <div>
+          <a href="#" class="download">Try it free</a>
+        </div>
+        <div>
+          <a href="#" class="notnow">Not now</a>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="close">
+      <svg
+        aria-hidden="true"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+          clip-rule="evenodd"
+        ></path>
+      </svg>
+    </button>
+  </div> -->
   <div v-show="isNavBar">
     <div class="overlay">
       <div class="nav_bar">
@@ -458,5 +521,142 @@ li {
 }
 .success {
   color: green;
+}
+
+.download-btn_download {
+  border: 2px solid rgb(168, 38, 255);
+  background-color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  position: relative;
+  z-index: 1;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.download-btn_download svg {
+  width: 25px;
+  height: 25px;
+  transition: all 0.3s ease;
+}
+.download-btn_download:hover svg {
+  fill: white;
+}
+.download-btn_download:hover {
+  background-color: rgb(168, 38, 255);
+}
+.card_download {
+  max-width: 320px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-radius: 0.5rem;
+  background: #606c88;
+  background: -webkit-linear-gradient(to right, #3f4c6b, #606c88);
+  background: linear-gradient(to right top, #3f4c6b, #606c88);
+  padding: 1rem;
+  color: rgb(107, 114, 128);
+  box-shadow: 0px 87px 78px -39px rgba(0, 0, 0, 0.4);
+}
+
+.icon_download {
+  height: 2rem;
+  width: 2rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  background-color: #153586;
+  color: rgb(59, 130, 246);
+}
+
+.icon_download svg {
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+.card_download .content {
+  margin-left: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+}
+
+.card_download .title {
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  color: rgb(255, 255, 255);
+}
+
+.card_download .desc {
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  color: rgb(202, 200, 200);
+}
+
+.card_download .actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-gap: 0.5rem;
+  gap: 0.5rem;
+}
+
+.card_download .download,
+.card_download .notnow {
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+  border-radius: 0.5rem;
+  padding: 0.375rem 0.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: rgb(255, 255, 255);
+  outline: 2px solid transparent;
+  border: 1px solid rgba(253, 253, 253, 0.363);
+}
+
+.card_download .download {
+  background-color: #284385;
+  font-weight: 600;
+}
+
+.card_download .download:hover {
+  background-color: #153586;
+}
+
+.card_download .notnow {
+  background-color: #606c88;
+  font-weight: 500;
+}
+
+.card_download .notnow:hover {
+  background-color: #3f4c6b;
+}
+
+.card_download .close {
+  margin: -0.375rem -0.375rem -0.375rem auto;
+  height: 2rem;
+  width: 2rem;
+  display: inline-flex;
+  border-radius: 0.5rem;
+  background-color: #606c88;
+  padding: 0.375rem;
+  color: rgba(255, 255, 255, 1);
+  border: none;
+}
+
+.card_download .close svg {
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+.card_download .close:hover {
+  background-color: rgb(58, 69, 83);
 }
 </style>

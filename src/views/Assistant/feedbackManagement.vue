@@ -3,9 +3,11 @@
     <div class="nav">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent text-sm pt-4 px-4">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item font-semibold"><a href="#">Home</a></li>
 
-          <li class="breadcrumb-item active" aria-current="page">Feedback</li>
+          <li class="breadcrumb-item font-medium active" aria-current="page">
+            Feedback
+          </li>
         </ol>
       </nav>
     </div>
@@ -32,6 +34,7 @@
                 <th scope="col">Content</th>
                 <th scope="col">Vote Star</th>
                 <th scope="col">CreationDate</th>
+                <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody v-for="f in feedbacks" :key="f.feedbackId">
@@ -43,6 +46,128 @@
                 <td>{{ f.content }}</td>
                 <td>{{ f.voteStar }}</td>
                 <td>{{ f.creationDate }}</td>
+                <td>
+                  <button
+                    class="button_delete ring-offset-2 ring-2 ring-red-300 hover:ring-red-600 rounded-md"
+                    type="button"
+                    data-toggle="modal"
+                    data-target="#exampleModalLong"
+                    data-dismiss="modal"
+                    data-backdrop="false"
+                    @click="opentModal('delete', l)"
+                  >
+                    <span class="button__text text-xs">Delete</span>
+                    <span class="button__icon"
+                      ><svg
+                        class="svg"
+                        height="512"
+                        viewBox="0 0 512 512"
+                        width="512"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <title></title>
+                        <path
+                          d="M112,112l20,320c.95,18.49,14.4,32,32,32H348c17.67,0,30.87-13.51,32-32l20-320"
+                          style="
+                            fill: none;
+                            stroke: #fff;
+                            stroke-linecap: round;
+                            stroke-linejoin: round;
+                            stroke-width: 32px;
+                          "
+                        ></path>
+                        <line
+                          style="
+                            stroke: #fff;
+                            stroke-linecap: round;
+                            stroke-miterlimit: 10;
+                            stroke-width: 32px;
+                          "
+                          x1="80"
+                          x2="432"
+                          y1="112"
+                          y2="112"
+                        ></line>
+                        <path
+                          d="M192,112V72h0a23.93,23.93,0,0,1,24-24h80a23.93,23.93,0,0,1,24,24h0v40"
+                          style="
+                            fill: none;
+                            stroke: #fff;
+                            stroke-linecap: round;
+                            stroke-linejoin: round;
+                            stroke-width: 32px;
+                          "
+                        ></path>
+                        <line
+                          style="
+                            fill: none;
+                            stroke: #fff;
+                            stroke-linecap: round;
+                            stroke-linejoin: round;
+                            stroke-width: 32px;
+                          "
+                          x1="256"
+                          x2="256"
+                          y1="176"
+                          y2="400"
+                        ></line>
+                        <line
+                          style="
+                            fill: none;
+                            stroke: #fff;
+                            stroke-linecap: round;
+                            stroke-linejoin: round;
+                            stroke-width: 32px;
+                          "
+                          x1="184"
+                          x2="192"
+                          y1="176"
+                          y2="400"
+                        ></line>
+                        <line
+                          style="
+                            fill: none;
+                            stroke: #fff;
+                            stroke-linecap: round;
+                            stroke-linejoin: round;
+                            stroke-width: 32px;
+                          "
+                          x1="328"
+                          x2="320"
+                          y1="176"
+                          y2="400"
+                        ></line></svg
+                    ></span>
+                  </button>
+                </td>
+                <modal
+                  v-if="modalType == 'delete'"
+                  @close="modalType == null"
+                  data-target="#myModal"
+                >
+                  <template v-slot:title>
+                    <div class="flex items-center text-lg font-semibold">
+                      Delete
+                    </div>
+                  </template>
+                  <template v-slot:body>
+                    <p class="text-base py-3">
+                      Are you sure detete <b> {{ nameLabelModal }}</b
+                      >?
+                    </p>
+                  </template>
+                  <template v-slot:footer>
+                    <div class="bg-red-900 rounded-md">
+                      <span
+                        type="button"
+                        class="btn text-white"
+                        @click="HandleDelete"
+                      >
+                        Delete
+                      </span>
+                    </div>
+                  </template>
+                </modal>
               </tr>
             </tbody>
           </table>
@@ -53,7 +178,12 @@
 </template>
 <script>
 import axios from "axios";
+import modal from "@/components/ModalPage.vue";
+import { format } from "date-fns";
 export default {
+  components: {
+    modal,
+  },
   data() {
     return {
       modalType: null,
@@ -71,48 +201,20 @@ export default {
       try {
         const response = await axios.get("assistant/feedbacks");
         this.feedbacks = response.data;
+        for (let i = 0; i < this.feedbacks.length; i++) {
+          const date = new Date(this.feedbacks[i].creationDate);
+          this.feedbacks[i].creationDate = format(date, "dd/MM/yyyy");
+        }
         console.log(response.data);
       } catch (error) {
         console.error(error);
       }
     },
-    async opentModal(type, l) {
+    async opentModal(type) {
       this.modalType = type;
-      this.nameLabelModal = l.labelName;
-      this.idLabelModal = l.labelId;
     },
     closeModal() {
       this.modalType = null;
-    },
-    async HandleAdd() {
-      try {
-        const response = await axios.post(
-          "assistant/shop-data/labels/add?labelName=" + this.labelName
-        );
-        if (response.status === 201) {
-          this.modalType = null;
-          alert("Add was successful!");
-        }
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    async HandleUpdate() {
-      try {
-        const response = await axios.put(
-          "Assistant/shop-data/labels/update?labelId=" +
-            this.idLabelModal +
-            "&labelName=" +
-            this.nameLabelModal
-        );
-        if (response.status === 200) {
-          this.modalType = null;
-          alert("Update was successful!");
-        }
-      } catch (error) {
-        console.error(error);
-      }
     },
     async HandleDelete() {
       try {

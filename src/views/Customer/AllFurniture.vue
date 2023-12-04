@@ -323,6 +323,7 @@
                                 type="text"
                                 class="form-control border border-slate-200"
                                 aria-label="Dollar amount (with dot and two decimal places)"
+                                :maxlength="info.point"
                               />
                               <span class="input-group-text">
                                 <i
@@ -353,6 +354,7 @@
                                   aria-label="Default select example"
                                 >
                                   <option selected>Choose Payment</option>
+
                                   <option
                                     v-for="md in order.payments"
                                     :key="md"
@@ -363,7 +365,35 @@
                                 </select>
                               </div>
                             </div>
+                            <div class="">
+                              <div
+                                class="d-flex justify-content-between align-items-center mb-4"
+                              >
+                                <h5 class="label_payment mb-0 font-medium mt-2">
+                                  Delivery Method
+                                </h5>
+                              </div>
 
+                              <div>
+                                <div>
+                                  <select
+                                    v-model="delivery"
+                                    class="form-select text-sm border border-slate-200"
+                                    aria-label="Default select example"
+                                    @change="CalculateDeliveryFee"
+                                  >
+                                    <option selected>Choose Delivery</option>
+                                    <option
+                                      v-for="ship in methodDelevery.data"
+                                      :key="ship"
+                                      :value="ship.service_id"
+                                    >
+                                      {{ ship.short_name }}
+                                    </option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
                             <div
                               class="grid grid-cols-6 gap-4 rounded-xl text-sm pb-3"
                             >
@@ -376,10 +406,24 @@
                             </div>
                           </div>
                         </div>
-                        <div class="d-flex justify-content-between mt-7 px-4">
-                          <p class="font-semibold text-base">Total Cost</p>
+                        <div class="absolute right-8 flex gap-x-10">
+                          <p class="text-sm">Shipping Fee</p>
+                          <p class="text-sm">${{ shipCost }}</p>
+                        </div>
+                        <br />
+                        <div class="absolute right-8 flex gap-x-10 mt-6">
+                          <p class="text-sm">Point</p>
+                          <p class="text-sm">{{ userpoint }}</p>
+                        </div>
+                        <br />
+                        <div class="absolute right-8 flex gap-x-10 mt-10">
+                          <p class="text-sm">Subtotal</p>
+                          <p class="text-sm">${{ order.totalCost }}</p>
+                        </div>
+                        <div class="d-flex justify-content-between mt-20 px-4">
+                          <p class="font-semibold text-base">Subtotal</p>
                           <p class="font-bold text-base text-red-600">
-                            ${{ order.totalCost }}
+                            ${{ totalCost }}
                           </p>
                         </div>
                       </template>
@@ -643,9 +687,9 @@ export default {
       order: {},
       modalType: null,
       info: {},
+      addreltAddress: {},
       addressModal: {},
-      defaultAddress: {},
-      addressId: null,
+      defaussId: null,
       adChange: {},
       address: [],
       isFavorite: false,
@@ -654,6 +698,17 @@ export default {
       messageError: null,
       messageSuccess: null,
       isLogin: false,
+      shipFee: "",
+      provinceCode: "",
+      districtCode: "",
+      wardCode: "",
+      methodShip: [],
+      methodDelevery: [],
+      shipCost: 0,
+      userpoint: 0,
+      note: "",
+      shipfee: 0,
+      // totalCost: 0,
     };
   },
   created() {
@@ -730,10 +785,122 @@ export default {
           );
           if (response.status === 200) {
             this.order = response.data;
+            let deliveryAddress = response.data.deliveryAddress;
+            let address = deliveryAddress.split(",");
+            let ward = address[1].trim();
+            let district = address[2].trim();
+            let province = address[3].trim();
+            await this.getProvinceCode(province);
+            await this.getDistrictCode(district);
+            await this.getWardCode(ward);
+            await this.getAvailableServices();
           }
         } catch (error) {
           console.error(error);
         }
+      }
+    },
+    async getProvinceCode(province) {
+      try {
+        const response = await axios.get(
+          "https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
+          {
+            headers: {
+              token: "8644b872-8774-11ee-96dc-de6f804954c9",
+            },
+          }
+        );
+
+        let provinceList = response.data.data;
+        let proviceCode = 0;
+        for (let i = 0; i < provinceList.length; i++) {
+          if (provinceList[i].ProvinceName === province) {
+            proviceCode = provinceList[i].ProvinceID;
+            break;
+          }
+        }
+        console.log(proviceCode);
+        // return proviceCode + "";
+        this.provinceCode = proviceCode;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getDistrictCode(district) {
+      try {
+        const response = await axios.get(
+          "https://online-gateway.ghn.vn/shiip/public-api/master-data/district",
+          {
+            headers: {
+              token: "8644b872-8774-11ee-96dc-de6f804954c9",
+            },
+            params: {
+              province_id: this.provinceCode,
+            },
+          }
+        );
+
+        let districtList = response.data.data;
+        let districtCode = 0;
+        for (let i = 0; i < districtList.length; i++) {
+          if (districtList[i].DistrictName === district) {
+            districtCode = districtList[i].DistrictID;
+            break;
+          }
+        }
+        console.log(districtCode);
+        this.districtCode = districtCode;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getWardCode(ward) {
+      try {
+        const response = await axios.get(
+          "https://online-gateway.ghn.vn/shiip/public-api/master-data/ward",
+          {
+            headers: {
+              token: "8644b872-8774-11ee-96dc-de6f804954c9",
+            },
+            params: {
+              district_id: this.districtCode,
+            },
+          }
+        );
+
+        let wardList = response.data.data;
+        let wardCode = 0;
+        for (let i = 0; i < wardList.length; i++) {
+          if (wardList[i].WardName === ward) {
+            wardCode = wardList[i].WardCode;
+            break;
+          }
+        }
+        console.log(wardCode);
+        this.wardCode = wardCode;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getAvailableServices() {
+      try {
+        const response = await axios.get(
+          "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services",
+          {
+            headers: {
+              token: "8644b872-8774-11ee-96dc-de6f804954c9",
+            },
+            params: {
+              shop_id: 4710217,
+              from_district: 2194,
+              to_district: this.districtCode,
+            },
+          }
+        );
+        this.methodDelevery = response.data;
+        console.log(this.methodDelevery);
+      } catch (e) {
+        console.error(e);
       }
     },
     closeModal() {
@@ -748,14 +915,17 @@ export default {
     },
     async HandleOrder(order) {
       //Chang idAddress if have change
+      let exchangeRate = 0.04126;
+      let shipfee = this.shipCost / 23000;
+      let point = this.userpoint * exchangeRate;
       const id = this.addressId || order.deliveryAddressId;
       try {
         const response = await axios.post("customer/order", {
           addressId: id,
           paymentId: this.paymentId,
-          usedPoint: this.userpoint,
+          usedPoint: point,
           note: this.note,
-          deliveryCost: 0,
+          deliveryCost: shipfee,
           items: [
             {
               itemId: order.furnitureSpecificationId,
@@ -835,6 +1005,49 @@ export default {
         }, 3000);
         console.error(error);
       }
+    },
+    async CalculateDeliveryFee(e) {
+      let service_id = e.target.value;
+      try {
+        const response = await axios.get(
+          "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee",
+          {
+            headers: {
+              token: "8644b872-8774-11ee-96dc-de6f804954c9",
+              shop_id: 4710217,
+            },
+            params: {
+              from_district_id: 2194,
+              from_ward_code: "220710",
+              service_id: service_id,
+              to_district_id: this.districtCode,
+              to_ward_code: this.wardCode,
+              height: 50,
+              length: 20,
+              width: 20,
+              weight: 50,
+              coupon: null,
+            },
+          }
+        );
+        this.shipCost = response.data.data.service_fee;
+        console.log(response);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+  },
+  computed: {
+    totalCost() {
+      let exchangeRate = 0.04126;
+      let shipfee = this.shipCost / 23000;
+      let point = this.userpoint * exchangeRate;
+      console.log(this.order.totalCost);
+      console.log(shipfee);
+      console.log(point);
+      let sum = this.order.totalCost + shipfee - point;
+      let cost = parseFloat(sum.toFixed(2));
+      return cost;
     },
   },
 };

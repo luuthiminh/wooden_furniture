@@ -827,7 +827,7 @@ export default {
   methods: {
     async getFurnitures() {
       try {
-        const response = await axios.get("shopOwner/shop-data/furniures");
+        const response = await axios.get("customer/furnitures");
         this.furnitures = response.data;
       } catch (error) {
         console.error(error);
@@ -835,7 +835,7 @@ export default {
     },
     async getAllCategories() {
       try {
-        const response = await axios.get("shopOwner/shop-data/categories");
+        const response = await axios.get("customer/categories");
         this.categories = response.data;
         console.log(response.data);
       } catch (error) {

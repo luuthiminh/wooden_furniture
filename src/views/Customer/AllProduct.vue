@@ -185,14 +185,46 @@
         </div>
       </div>
       <div class="col-span-4 mb-5">
+        <!-- <all-furniture :furnitures="furnitures"></all-furniture> -->
+        <!-- <div v-if="selectedFurPrice"> -->
         <all-furniture
           v-if="selectedFurPrice"
           :furnitures="filterFurnitures"
         ></all-furniture>
+        <!-- <div v-else>
+            <div class="hourglassBackground">
+              <div class="hourglassContainer">
+                <div class="hourglassCurves"></div>
+                <div class="hourglassCapTop"></div>
+                <div class="hourglassGlassTop"></div>
+                <div class="hourglassSand"></div>
+                <div class="hourglassSandStream"></div>
+                <div class="hourglassCapBottom"></div>
+                <div class="hourglassGlass"></div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <!-- <div v-else-if="filteredFurnitures.length"> -->
         <all-furniture
-          v-else-if="filteredFurnitures"
+          v-if="selectedFurPrice"
           :furnitures="filteredFurnitures"
         ></all-furniture>
+        <!-- <div v-else>
+            <div class="hourglassBackground">
+              <div class="hourglassContainer">
+                <div class="hourglassCurves"></div>
+                <div class="hourglassCapTop"></div>
+                <div class="hourglassGlassTop"></div>
+                <div class="hourglassSand"></div>
+                <div class="hourglassSandStream"></div>
+                <div class="hourglassCapBottom"></div>
+                <div class="hourglassGlass"></div>
+              </div>
+            </div>
+          </div> -->
+        <!-- </div> -->
+
         <all-furniture v-else :furnitures="furnitures"></all-furniture>
       </div>
     </div>
@@ -280,16 +312,18 @@ export default {
             star: this.selectedStar,
           },
         });
-        if (response.status === 200 && response.data !== "") {
-          this.modalType = null;
-          this.isAlertWanning = true;
-          this.messageWanning = "Furniture not found";
-          setTimeout(() => {
-            this.isAlertWanning = false;
-          }, 5000);
-          this.getFurnitures();
-        } else {
-          this.filterFurnitures = response.data;
+        if (response.status === 200) {
+          if (response.data !== "") {
+            this.modalType = null;
+            this.isAlertWanning = true;
+            this.messageWanning = "Furniture not found";
+            setTimeout(() => {
+              this.isAlertWanning = false;
+            }, 5000);
+            this.getFurnitures();
+          }
+          this.filteredFurnitures = response.data;
+          console.log(this.filteredFurnitures);
         }
       } catch (error) {
         this.isAlertError = true;
@@ -398,5 +432,8 @@ hr {
 .form-select {
   border: none;
   background-color: rgb(242, 246, 249);
+}
+.sort li {
+  text-transform: uppercase;
 }
 </style>

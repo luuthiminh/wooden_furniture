@@ -39,34 +39,42 @@
         >
           <thead>
             <tr class="text-sm text-center">
+              <th scope="col">Order ID</th>
+              <th scope="col">Customer</th>
+              <th scope="col">Payment Method</th>
+              <th scope="col">Address</th>
+              <th scope="col">Point</th>
+              <th scope="col">Note</th>
+              <th scope="col">Status</th>
+              <th scope="col">Total Cost</th>
+              <th scope="col">Date</th>
               <th scope="col">Furniture</th>
-              <th></th>
-              <th scope="col">Collection</th>
-              <th scope="col">Label</th>
-              <th scope="col">Sold</th>
-              <th scope="col">Appropriate Room</th>
-              <th scope="col">Vote Star</th>
-              <th scope="col">Avaliable</th>
-              <th scope="col">Price</th>
-              <th scope="col">Action</th>
+              <th scope="col">IsPaid</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="or in order" :key="or.furnitureId">
-              <td class="img">
-                <img :src="or.image" alt="image furniture" />
-              </td>
+            <tr v-for="or in orders" :key="or.orderId">
+              <td>{{ or.orderId }}</td>
               <td class="text-start">
-                <span class="font-semibold block">{{ or.furnitureName }}</span>
-                <span class="text-xs">{{ or.furnitureId }}</span>
+                <span class="font-semibold block">{{ or.customerName }}</span>
               </td>
-              <td>{{ or.collection }}</td>
-              <td>{{ or.label }}</td>
-              <td>{{ or.sold }}</td>
+              <td>{{ or.customerName }}</td>
+              <td>{{ or.paymentMethod }}</td>
+              <td>{{ or.deliveryAddress }}</td>
               <td>{{ or.appropriateRoom }}</td>
-              <td>{{ or.voteStar }}</td>
-              <td>{{ or.available }}</td>
-              <td>{{ or.price }}</td>
+              <td>{{ or.userPoint }}</td>
+              <td>{{ or.note }}</td>
+              <td>{{ or.status }}</td>
+              <td>{{ or.totalCost }}</td>
+              <td>{{ or.orderDate }}</td>
+              <td>
+                <div v-for="fur in or.furnitureOrderItems" :key="fur">
+                  <span>{{ fur.furnitureSpecificationId }}</span>
+                  <span>{{ fur.quantity }}</span>
+                  <span>{{ fur.cost }}</span>
+                </div>
+              </td>
+              <td>{{ or.isPaid }}</td>
             </tr>
           </tbody>
         </table>

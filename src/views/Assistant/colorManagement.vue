@@ -331,17 +331,6 @@
                         Delete
                       </span>
                     </div>
-                    <!-- <button
-                        type="button"
-                        class="btn btn-primary my-8"
-                        data-bs-target="#exampleModalToggle2"
-                        data-bs-toggle="modal"
-                        data-bs-dismiss="modal"
-                        @click="opentModal('notification', w)"
-                        @click.prevent="HandleDelete"
-                      >
-                        Yes
-                      </button> -->
                   </template>
                 </modal>
               </tr>

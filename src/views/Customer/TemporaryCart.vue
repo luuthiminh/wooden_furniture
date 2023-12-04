@@ -731,10 +731,10 @@ export default {
         console.error(error);
       }
     },
-    totalPrice(furniture) {
-      const price = furniture.cost * furniture.quantity;
-      this.total = price;
-    },
+    // totalPrice(furniture) {
+    //   const price = furniture.cost * furniture.quantity;
+    //   this.total = price;
+    // },
     handleCartId(furniture) {
       if (furniture.isSelected) {
         this.furnitureOrder.push(furniture.furnitureId);

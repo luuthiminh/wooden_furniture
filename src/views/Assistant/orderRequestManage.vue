@@ -3,9 +3,11 @@
     <div class="nav">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent text-sm pt-4 px-4">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item font-semibold"><a href="#">Home</a></li>
 
-          <li class="breadcrumb-item active" aria-current="page">Order</li>
+          <li class="breadcrumb-item font-medium active" aria-current="page">
+            Order
+          </li>
         </ol>
       </nav>
     </div>
@@ -29,10 +31,10 @@
         <div class="pt-10">
           <table
             v-if="requestOrders.length"
-            class="table table-borderless text-yellow-950 font-medium text-center bg-white round-md"
+            class="table table-borderless text-yellow-950 font-medium bg-white round-md"
           >
             <thead class="table-light">
-              <tr class="text-sm text-center">
+              <tr class="text-sm">
                 <th scope="col">ID</th>
                 <th scope="col">Customer Name</th>
                 <th scope="col">Payment Method</th>
@@ -53,18 +55,74 @@
                 <td>{{ order.customerName }}</td>
                 <td>{{ order.paymentMethod }}</td>
                 <td>{{ order.deliveryAddress }}</td>
-                <td>{{ order.status }}</td>
+                <td v-if="order.status === 'Pending'">
+                  <button
+                    class="bg-yellow-100 text-yellow-500 px-1 py-1 rounded-md"
+                  >
+                    Pending
+                  </button>
+                </td>
+
+                <td v-if="order.status === 'Preparing'">
+                  <button class="bg-sky-100 text-sky-500 px-1 py-1 rounded-md">
+                    Preparing
+                  </button>
+                </td>
+                <td v-if="order.status === 'Processing'">
+                  <button
+                    class="bg-teal-100 text-teal-500 px-1 py-1 rounded-md"
+                  >
+                    Processing
+                  </button>
+                </td>
+
+                <td v-if="order.status === 'Delivering'">
+                  <button
+                    class="bg-orange-100 text-orange-500 px-1 py-1 rounded-md"
+                  >
+                    Delivering
+                  </button>
+                </td>
+
+                <td v-if="order.status === 'Canceled'">
+                  <button class="bg-red-100 text-red-500 px-1 py-1 rounded-md">
+                    Canceled
+                  </button>
+                </td>
+                <td v-if="order.status === 'Delivered'">
+                  <button
+                    class="bg-green-100 text-green-500 px-1 py-1 rounded-md"
+                  >
+                    Delivered
+                  </button>
+                </td>
                 <td>{{ order.isPaid }}</td>
                 <td>
-                  <div v-for="or in order.furnitureOrderItems" :key="or">
-                    {{ or.furnitureSpecificationId }}
+                  <div
+                    v-for="or in order.furnitureOrderItems"
+                    :key="or"
+                    class="mb-3"
+                  >
+                    <span>
+                      {{ or.furnitureSpecificationId }}
+                    </span>
                     <br />
-                    <div class="pt-2">Quantity: {{ or.quantity }}</div>
-                    <div class="pt-2">Cost: {{ or.cost }}</div>
+                    <div class="pt-2">
+                      <b class="text-gray-600">Quantity: </b>{{ or.quantity }}
+                    </div>
+                    <div class="pt-2">
+                      <b class="mr-2 text-gray-600">Cost:</b>
+                      <span class="text-red-500">{{ or.cost }}</span>
+                    </div>
                   </div>
                 </td>
                 <td>
-                  {{ order.CustomizeFurnitureOrderItems }}
+                  <div
+                    v-for="cus in order.customizeFurnitureOrderItems"
+                    :key="cus"
+                  >
+                    {{ cus.customizeFunitureId }}
+                  </div>
                 </td>
                 <td>{{ order.orderDate }}</td>
                 <td>{{ order.totalCost }}</td>
@@ -96,25 +154,23 @@
                     </div>
                   </template>
                   <template v-slot:body>
-                    <div class="mt-3">
-                      <label
-                        for="exampleInputEmail1"
-                        class="col-form-label font-medium"
-                        >Status</label
-                      >
-                      <select
-                        v-model="status"
-                        class="form-select text-sm"
-                        aria-label="Default select example"
-                        required
-                      >
-                        <option selected>Choose status</option>
-                        <option value="Processing">Processing</option>
-                        <option value="Canceled">Canceled</option>
-                        <option value="Preparing">Preparing</option>
-                        <option value="Delivering">Delivering</option>
-                        <option value="Delivered">Delivered</option>
-                      </select>
+                    <div class="row py-3">
+                      <label class="col-lg-2 text-base">Status</label>
+                      <div class="col-lg-9">
+                        <select
+                          v-model="status"
+                          class="form-select text-sm"
+                          aria-label="Default select example"
+                          required
+                        >
+                          <option selected>Choose status</option>
+                          <option value="Processing">Processing</option>
+                          <option value="Canceled">Canceled</option>
+                          <option value="Preparing">Preparing</option>
+                          <option value="Delivering">Delivering</option>
+                          <option value="Delivered">Delivered</option>
+                        </select>
+                      </div>
                     </div>
                   </template>
                   <template v-slot:footer>

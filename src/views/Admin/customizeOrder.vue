@@ -88,6 +88,7 @@
               <th scope="col">Quantity</th>
               <th scope="col">Completion Date</th>
               <th scope="col">CreationDate</th>
+              <th scope="col">Status</th>
               <th scope="col"></th>
             </tr>
           </thead>
@@ -111,6 +112,57 @@
               <td>{{ or.quantity }}</td>
               <td>{{ or.desiredCompletionDate }}</td>
               <td>{{ or.creationDate }}</td>
+              <td v-if="or.status === 'Canceled'">
+                <button class="bg-red-100 text-red-500 px-1 py-1 rounded-md">
+                  Canceled
+                </button>
+              </td>
+              <td v-if="or.status === 'Accepted'">
+                <button
+                  class="bg-green-100 text-green-500 px-1 py-1 rounded-md"
+                >
+                  Accepted
+                </button>
+              </td>
+              <td v-if="or.status === 'Pending'">
+                <button
+                  class="bg-yellow-100 text-yellow-500 px-1 py-1 rounded-md"
+                >
+                  Pending
+                </button>
+              </td>
+
+              <td v-if="or.status === 'Preparing'">
+                <button class="bg-sky-100 text-sky-500 px-1 py-1 rounded-md">
+                  Preparing
+                </button>
+              </td>
+              <td v-if="or.status === 'Processing'">
+                <button class="bg-teal-100 text-teal-500 px-1 py-1 rounded-md">
+                  Processing
+                </button>
+              </td>
+
+              <td v-if="or.status === 'Delivering'">
+                <button
+                  class="bg-orange-100 text-orange-500 px-1 py-1 rounded-md"
+                >
+                  Delivering
+                </button>
+              </td>
+
+              <td v-if="or.status === 'Canceled'">
+                <button class="bg-red-100 text-red-500 px-1 py-1 rounded-md">
+                  Canceled
+                </button>
+              </td>
+              <td v-if="or.status === 'Delivered'">
+                <button
+                  class="bg-green-100 text-green-500 px-1 py-1 rounded-md"
+                >
+                  Delivered
+                </button>
+              </td>
               <td class="td_action text-sm">
                 <div class="px-2 py-2 bg-orange-50 rounded-md">
                   <button
@@ -118,9 +170,8 @@
                     type="button"
                     data-toggle="modal"
                     data-target="#exampleModalLong"
-                    data-dismiss="modal"
                     data-backdrop="false"
-                    @click="opentModal('edit')"
+                    @click="opentModal('edit', or)"
                   >
                     Confirm
                   </button>
@@ -138,7 +189,7 @@
                 </template>
                 <template v-slot:body>
                   <div class="pb-3 px-2 text-sm text-left">
-                    <p class="py-4 font-semibold">
+                    <p class="pb-4 font-semibold">
                       Customize Order: {{ or.customizeFurnitureName }}
                     </p>
                     <div>
@@ -178,7 +229,7 @@
                         >Status</label
                       >
                       <select
-                        class="form-select form-select-sm"
+                        class="form-select form-select-sm py-2"
                         aria-label=".form-select-sm example"
                         v-model="status"
                         required
@@ -206,14 +257,16 @@
                   </div>
                 </template>
                 <template v-slot:footer>
-                  <button
-                    data-dismiss="modal"
-                    @click.prevent="HandleConfirm(or)"
-                    type="button"
-                    class="button_addfurniture text-white bg-yellow-900 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-black dark:hover:bg-gray-600 dark:focus:ring-gray-600"
-                  >
-                    Update
-                  </button>
+                  <div class="bg-yellow-900 rounded-md">
+                    <span
+                      type="button"
+                      class="btn text-white"
+                      data-dismiss="modal"
+                      @click.prevent="HandleConfirm"
+                    >
+                      Set
+                    </span>
+                  </div>
                 </template>
               </modal>
             </tr>
@@ -247,7 +300,7 @@
                     data-target="#exampleModalLong"
                     data-dismiss="modal"
                     data-backdrop="false"
-                    @click="opentModal('edit')"
+                    @click="opentModal('edit', or)"
                   >
                     Confirm
                   </button>
@@ -334,7 +387,7 @@
                 <template v-slot:footer>
                   <button
                     data-dismiss="modal"
-                    @click.prevent="HandleConfirm(or)"
+                    @click.prevent="HandleConfirm"
                     type="button"
                     class="button_addfurniture text-white bg-yellow-900 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-black dark:hover:bg-gray-600 dark:focus:ring-gray-600"
                   >
@@ -374,6 +427,7 @@ export default {
       modalType: null,
       title: "All Customize Orders",
       status: "All",
+      idFurniture: "",
     };
   },
   created() {
@@ -416,19 +470,21 @@ export default {
         console.error(error);
       }
     },
-    opentModal(type) {
+    opentModal(type, or) {
       this.modalType = type;
+      this.idFurniture = or.customizeFurnitureId;
     },
     closeModal() {
       this.modalType = null;
     },
     async HandleConfirm(or) {
       const formData = new FormData();
-      formData.append("CustomizeFurnitureId", or.customizeFurnitureId);
+      formData.append("CustomizeFurnitureId", this.idFurniture);
       formData.append("ActualCompletionDate", this.actualCompletionDate);
       formData.append("ExpectedPrice", this.expectedPrice);
       formData.append("Status", this.status);
       formData.append("Reason", this.reason);
+      console.log(this.idFurniture);
       try {
         const response = await axios.put(
           "shopOwner/customize-requests/customize-furniture/confirm",
@@ -515,7 +571,8 @@ td {
 td img {
   margin-top: -18px;
 }
-.form-control {
+.form-control,
+.form-select {
   border: none !important;
   background-color: #cecfd442;
 }

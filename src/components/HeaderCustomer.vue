@@ -194,7 +194,7 @@
           </li>
           <li class="font-medium">
             <router-link to="/allproduct" class="text-decoration-none"
-              >Al Furniture
+              >All Furniture
             </router-link>
           </li>
           <li class="font-medium">
@@ -539,26 +539,28 @@
           >
             Notifications ({{ notifications.length }})
           </div>
-          <div
-            v-for="(notification, index) in notifications"
-            :key="index"
-            class="bell p-4 max-w-sm mx-auto bg-white flex items-center space-x-4"
-          >
-            <div class="shrink-0">
-              <img
-                class="h-12 w-12"
-                src="@/assets/images/logo.png"
-                alt="Logo"
-              />
-            </div>
-            <div>
-              <div class="text-base font-medium text-yellow-950">
-                {{ notification.title }}
+          <div class="scoll_notification">
+            <div
+              v-for="(notification, index) in notifications"
+              :key="index"
+              class="bell p-4 max-w-sm mx-auto bg-white flex items-center space-x-4"
+            >
+              <div class="shrink-0">
+                <img
+                  class="h-12 w-12"
+                  src="@/assets/images/logo.png"
+                  alt="Logo"
+                />
               </div>
-              <p class="text-slate-500 text-sm py-2">
-                {{ notification.content }}
-              </p>
-              <span class="text-xs">{{ notification.date }}</span>
+              <div>
+                <div class="text-base font-medium text-yellow-950">
+                  {{ notification.title }}
+                </div>
+                <p class="text-slate-500 text-sm py-2">
+                  {{ notification.content }}
+                </p>
+                <span class="text-xs">{{ notification.date }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -615,20 +617,6 @@ export default {
         console.error(error);
       }
     },
-    // async search() {
-    //   try {
-    //     const response = await axios.get(
-    //       "customer/furnitures/search?keyword=" + this.keyword
-    //     );
-    //     if (response.status === 200) {
-    //       this.furnitureSearch = response.data;
-    //       this.$router.push("/searchResult");
-    //     }
-    //   } catch (error) {
-    //     console.error(error);
-    //     alert("Furniture not found!");
-    //   }
-    // },
     search() {
       this.$store.dispatch("searchBooks", this.keyword).then(() => {
         this.$router.push({ name: "SearchResult" }); // Chuyển hướng đến trang tìm kiếm
@@ -978,6 +966,11 @@ nav li {
 }
 .moon .header_first {
   border-bottom: 1px solid #504e4e;
+}
+.scoll_notification {
+  overflow: scroll;
+  height: 27em;
+  overflow-x: hidden;
 }
 /*Mobile & tablet: width<1024px*/
 @media only screen and (max-width: 63.9375em) {
