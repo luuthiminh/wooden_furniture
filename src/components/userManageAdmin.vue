@@ -537,25 +537,6 @@ td {
   height: 35em;
   width: 65em;
 }
-.pt-6.px-6::-webkit-scrollbar-track,
-.table_order::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
-  background-color: #f5f5f5;
-}
-
-.pt-6.px-6::-webkit-scrollbar,
-.table_order::-webkit-scrollbar {
-  width: 6px;
-  background-color: #f5f5f5;
-}
-
-.pt-6.px-6::-webkit-scrollbar-thumb,
-.table_order::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #cdc0aa;
-}
 table {
   overflow: scroll;
   width: 174em;

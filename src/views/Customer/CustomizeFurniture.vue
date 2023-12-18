@@ -60,7 +60,7 @@
         </div>
       </div>
       <div
-        class="grid grid-cols-2 bg-white border border-indigo-600 rounded-lg max-sm:block max-sm:w-8/12 mb-10"
+        class="grid grid-cols-2 bg-white rounded-lg max-sm:block max-sm:w-8/12 mb-10"
       >
         <div class="img max-sm:hidden">
           <div
@@ -169,19 +169,26 @@
           </div>
         </div>
         <div class="">
-          <form class="px-10 pt-3 max-sm:px-3" @submit.prevent="customizeOrder">
+          <form class="px-10 max-sm:px-3" @submit.prevent="customizeOrder">
             <div class="w-full items-center gap-x-6 pb-3">
               <label for="exampleFormControlInput1">Picture</label>
-              <input
-                id="picture"
-                type="file"
-                accept=".png, .jpg, .jpeg"
-                :maxFileSize="1000000"
-                ref="file"
-                multiple
-                @change="onFile"
-                class="bg-slate-100 h-10 w-full rounded-md border border-input px-2 py-1 text-sm file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium"
-              />
+              <div class="flex">
+                <input
+                  id="picture"
+                  type="file"
+                  accept=".png, .jpg, .jpeg, video/mp4,video/mkv, video/x-m4v,video/*"
+                  :maxFileSize="1000000"
+                  ref="file"
+                  multiple
+                  @change="onFile"
+                  required
+                  class="bg-slate-100 h-10 w-full rounded-md border border-input px-2 py-1 text-sm file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium"
+                />
+                <i class="bi bi-exclamation text-yellow-400"></i>
+              </div>
+              <p class="text-xs mt-1 font-mediudm ml-1 opacity-90">
+                You can upload image or video
+              </p>
               <div class="image_upload flex gap-x-4">
                 <div v-if="url" class="grid grid-cols-4 gap-x-4">
                   <div v-for="url in arrayUrl" :key="url" class="flex">
@@ -196,17 +203,50 @@
                 </div>
               </div>
             </div>
-            <div class="form-group">
-              <label for="exampleFormControlInput1">Name Furniture</label>
-              <input
-                v-model="cusfurnitureName"
-                type="text"
-                class="form-control w-10/12"
-                id="exampleFormControlInput1"
-                required
-              />
+            <div class="grid grid-cols-2 gap-x-9">
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Name Furniture</label>
+                <input
+                  v-model="cusfurnitureName"
+                  type="text"
+                  class="form-control w-10/12"
+                  id="exampleFormControlInput1"
+                  required
+                  @input="validateName"
+                />
+                <p
+                  v-if="!messageErrorName"
+                  class="text-xs mt-1 font-mediudm ml-1 opacity-90"
+                >
+                  The name of the furniture cannot be less than
+                  <b>2</b> characters or exceed <b>50</b> characters
+                </p>
+                <p
+                  v-else-if="messageSucessName"
+                  class="success text-xs mt-1 font-mediudm ml-1 opacity-90"
+                >
+                  {{ messageSucessName }}
+                </p>
+                <p
+                  v-else
+                  class="error text-xs mt-1 font-mediudm ml-1 opacity-90"
+                >
+                  {{ messageErrorName }}
+                </p>
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Quantity</label>
+                <input
+                  v-model="quantityFurniture"
+                  type="number"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  :min="1"
+                  required
+                />
+              </div>
             </div>
-            <div class="grid grid-cols-3 gap-x-4">
+            <div class="grid grid-cols-3 gap-x-4 mt-3">
               <div>
                 <label
                   for="exampleInputEmail1"
@@ -267,16 +307,16 @@
                 </select>
               </div>
             </div>
-            <div class="grid grid-cols-3 gap-x-24">
+            <div class="grid grid-cols-3 gap-x-24 mt-3">
               <div class="form-group">
                 <label for="exampleFormControlInput1">Height</label>
                 <div class="flex gap-x-4">
                   <input
                     v-model="height"
-                    type="text"
+                    type="number"
                     class="form-control"
                     id="exampleFormControlInput1"
-                    placeholder="1"
+                    :min="1"
                     required
                   />
                   <p class="flex items-center font-medium">m</p>
@@ -287,10 +327,10 @@
                 <div class="flex gap-x-4">
                   <input
                     v-model="length"
-                    type="text"
+                    type="number"
                     class="form-control"
                     id="exampleFormControlInput1"
-                    placeholder="1"
+                    :min="1"
                     required
                   />
                   <p class="flex items-center font-medium">m</p>
@@ -301,28 +341,17 @@
                 <div class="flex gap-x-4">
                   <input
                     v-model="width"
-                    type="text"
+                    type="number"
                     class="form-control"
                     id="exampleFormControlInput1"
-                    placeholder="1"
+                    :min="1"
                     required
                   />
                   <p class="flex items-center font-medium">m</p>
                 </div>
               </div>
             </div>
-            <div class="grid grid-cols-2 gap-x-6">
-              <div class="form-group">
-                <label for="exampleFormControlInput1">Quantity</label>
-                <input
-                  v-model="quantityFurniture"
-                  type="text"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  placeholder="1"
-                  required
-                />
-              </div>
+            <div class="mt-3">
               <div class="form-group">
                 <label for="exampleFormControlInput1"
                   >Desired Completion Date</label
@@ -334,10 +363,29 @@
                   id="exampleFormControlInput1"
                   placeholder="name@example.com"
                   required
+                  @input="validateDate"
                 />
+                <p
+                  v-if="!messageErrorDate"
+                  class="text-xs mt-1 font-mediudm ml-1 opacity-90"
+                >
+                  Desired completion date must be greater than current time
+                </p>
+                <p
+                  v-else-if="messageSucessName"
+                  class="success text-xs mt-1 font-mediudm ml-1 opacity-90"
+                >
+                  {{ messageSucessName }}
+                </p>
+                <p
+                  v-else
+                  class="error text-xs mt-1 font-mediudm ml-1 opacity-90"
+                >
+                  {{ messageErrorDate }}
+                </p>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-3">
               <label for="exampleFormControlInput1">Description</label>
               <input
                 v-model="description"
@@ -345,9 +393,27 @@
                 class="form-control"
                 id="exampleFormControlInput1"
                 required
+                @input="validateDescription"
               />
+              <p
+                v-if="!messageErrorDescription"
+                class="text-xs mt-1 font-mediudm ml-1 opacity-90"
+              >
+                Description cannot be less than <b>2</b> characters or exceed
+                <b>500</b>
+                characters
+              </p>
+              <p
+                v-else-if="messageErrorDescription"
+                class="success text-xs mt-1 font-mediudm ml-1 opacity-90"
+              >
+                {{ messageErrorDescription }}
+              </p>
+              <p v-else class="error text-xs mt-1 font-mediudm ml-1 opacity-90">
+                {{ messageErrorDescription }}
+              </p>
             </div>
-            <div class="button_order float-right rounded-md my-2">
+            <div class="button_order rounded-md mt-4 text-center">
               <button type="submit" class="btn text-white">Order</button>
             </div>
           </form>
@@ -366,12 +432,20 @@ export default {
       colors: [],
       categories: [],
       woods: [],
+      messageErrorName: "",
+      messageSucessName: "",
+      messageErrorDate: "",
+      messageErrorDesciption: "",
+      messageSucessDescription: "",
+      messageSucessDate: "",
+      isMsgError: false,
     };
   },
   created() {
     this.getAllColors();
     this.getAllCategories();
     this.getAllWoods();
+    // this.validateForm();
   },
   methods: {
     async getAllColors() {
@@ -412,19 +486,66 @@ export default {
     HandleRemoveImage(url) {
       this.arrayUrl = this.arrayUrl.filter((item) => item !== url);
     },
+    validateName() {
+      if (
+        !this.cusfurnitureName ||
+        this.cusfurnitureName.length < 2 ||
+        this.cusfurnitureName.length > 50
+      ) {
+        this.messageErrorName = "Name Furniture is invalid.";
+        return false;
+      } else {
+        this.messageSucessName = "Name Furniture is valid.";
+        return true;
+      }
+    },
+    validateDescription() {
+      if (
+        !this.description ||
+        this.description.length < 2 ||
+        this.description.length > 500
+      ) {
+        this.messageErrorDescription = "Description is invalid.";
+        return false;
+      } else {
+        this.messageSucessDescription = "Description is valid";
+        return true;
+      }
+    },
+    validateDate() {
+      if (!this.completionDate || new Date(this.completionDate) <= new Date()) {
+        this.messageErrorDate = "Desired completion date is not valid";
+        return false;
+      } else {
+        this.messageSucessDate = "Desired completion date is valid";
+        return true;
+      }
+    },
     async customizeOrder() {
+      // if (
+      //   !this.validateName ||
+      //   !this.validateDate ||
+      //   !this.validateDescription
+      // ) {
+      //   console.error("Vui lòng kiểm tra lại thông tin đặt hàng.");
+      //   return;
+      // }
       const formData = new FormData();
-      formData.append("Attachmens", this.arrayFile);
-      formData.append("CustomizeFurnitureName", this.cusfurnitureName);
-      formData.append("CategoryId", this.categoryId);
-      formData.append("ColorId", this.colorId);
-      formData.append("Height", this.height);
-      formData.append("Length", this.length);
-      formData.append("Width", this.width);
-      formData.append("WoodId", this.woodId);
-      formData.append("Quantity", "10");
-      formData.append("Description", this.description);
-      formData.append("DesiredCompletionDate", this.completionDate);
+      if (this.arrayFile.length > 0) {
+        for (var i = 0; i < this.arrayFile.length > 0; i++) {
+          formData.append("attachments", this.arrayFile[i]);
+        }
+      }
+      formData.append("customizeFurnitureName", this.cusfurnitureName);
+      formData.append("categoryId", this.categoryId);
+      formData.append("colorId", this.colorId);
+      formData.append("height", this.height);
+      formData.append("length", this.length);
+      formData.append("width", this.width);
+      formData.append("woodId", this.woodId);
+      formData.append("quantity", "10");
+      formData.append("description", this.description);
+      formData.append("desiredCompletionDate", this.completionDate);
       try {
         const response = await axios.post(
           "customer/customize-furnitures/create",
@@ -448,9 +569,9 @@ export default {
 </script>
 <style scoped>
 .button_order {
-  background-color: #7c5434;
+  background-color: #4c3b25ed;
   font-weight: 400;
-  color: white;
+  color: #fff2dd;
   font-size: smaller;
 }
 .nav {
@@ -488,7 +609,9 @@ span {
   border: 1px solid #918e8e;
 }
 label {
-  font-weight: 500;
+  color: #472307;
+  font-weight: 600;
+  font-size: 14px;
 }
 .moon h1 {
   /* color: #dd973c; */
@@ -532,5 +655,18 @@ label {
 .list-decimal li {
   font-size: 15px;
   font-weight: 500;
+}
+input {
+  height: 80%;
+}
+.form-control {
+  height: 32%;
+  font-size: 15px;
+}
+.form-group {
+  margin-bottom: 0rem;
+}
+select {
+  font-size: 14px;
 }
 </style>

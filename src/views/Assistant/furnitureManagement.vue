@@ -7,7 +7,7 @@
             <router-link to="/indexAssistant">Home</router-link>
           </li>
           <li class="breadcrumb-item text-sm active" aria-current="page">
-            Furniture Manager
+            Manage Furniture
           </li>
         </ol>
       </nav>
@@ -64,8 +64,6 @@
   <!-- </div> -->
 </template>
 <script>
-import axios from "axios";
-// import modal from "@/components/ModalPage.vue";
 export default {
   components: {
     // modal,
@@ -80,39 +78,9 @@ export default {
     };
   },
   created() {
-    this.getFurnitures();
+    this.furnitures = this.$store.state.furnitures;
   },
-  methods: {
-    async getFurnitures() {
-      try {
-        const response = await axios.get("shopOwner/shop-data/furniures");
-        this.furnitures = response.data;
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    closeModal() {
-      this.isShowFurnitureSpecification = false;
-      this.isEditModal = false;
-      this.isAddFurniture = false;
-    },
-    async showModal(furniture) {
-      this.isShowFurnitureSpecification = true;
-      try {
-        const response = await axios.get(
-          "customer/furnitures/" + furniture.furnitureId
-        );
-        this.furnitureModel = response.data;
-        console.log(furniture);
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    saveChanges() {
-      // Xử lý khi nhấn nút "Lưu thay đổi" trong modal
-      this.closeModal(); // Đóng modal sau khi lưu thay đổi (có thể sửa đổi thành xử lý lưu thay đổi thực tế)
-    },
-  },
+  methods: {},
 };
 </script>
 <style scoped>

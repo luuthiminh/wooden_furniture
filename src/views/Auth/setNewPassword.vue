@@ -3,15 +3,15 @@
     <div
       class="shadow-sm border border-red-100 px-7 pt-2 pb-10 w-3/12 rounded-2xl bg-white"
     >
-      <div class="pb-10">
-        <div class="logo w-6/12">
+      <div class="logoforgot mb-3 pb-4">
+        <div class="w-6/12">
           <img
             src="@/assets/images/logo.png"
             alt="logo"
             class="w-6/12 ml-10 mb-2 mt-10"
           />
         </div>
-        <p class="font-bold text-2xl text-center text-yellow-950">L & L</p>
+        <p class="font-bold text-2xl text-center text-yellow-900">L & L</p>
       </div>
       <!-- <hr class="mb-2 h-px bg-slate-100" /> -->
       <span class="font-medium text-sm text-gray-500 mt-1"
@@ -19,10 +19,10 @@
       >
       <form @submit.prevent="setNewPassword">
         <div class="mb-3">
-          <div class="pt-4">
+          <div class="pt-2">
             <label
               for="exampleInputEmail1"
-              class="form-label font-medium text-sm"
+              class="font-semibold text-yellow-950 text-sm"
               >Password</label
             >
             <div class="flex relative">
@@ -51,7 +51,7 @@
           <div class="mt-3">
             <label
               for="exampleInputEmail1"
-              class="form-label font-medium text-sm"
+              class="font-semibold text-yellow-950 text-sm"
               >Comfirm Password</label
             >
             <div class="flex relative">
@@ -81,18 +81,32 @@
           </div>
         </div>
       </form>
-      <button
-        @click.prevent="setNewPassword"
-        class="btn btn_save text-white pl-32 md:max-lg:pl-48 lg:max-xl:pl-36 font-medium my-3"
-        type="submit"
-      >
-        Save Change
-      </button>
+
+      <div class="grid grid-cols-2 gap-x-1 mt-4 mb-2">
+        <button
+          @click.prevent="setNewPassword"
+          class="btn_save text-white md:max-lg:pl-48 lg:max-xl:pl-36 font-medium rounded-md text-base"
+          type="submit"
+        >
+          Save Change
+        </button>
+        <router-link to="/login" class="text-decoration-none">
+          <div class="bg-yellow-800 rounded-md text-center">
+            <span type="button" class="px-4 py-1 text-white text-base">
+              Cancel
+            </span>
+          </div>
+        </router-link>
+      </div>
+
+      <p class="signup-link text-center mt-3">
+        Don't have an account?
+        <a href="/register" class="signup-link link"> Sign up now</a>
+      </p>
     </div>
   </div>
 </template>
 <script>
-// import * as signalR from "@microsoft/signalr";
 import axios from "axios";
 export default {
   data() {
@@ -113,28 +127,6 @@ export default {
     this.handleToken();
   },
   methods: {
-    // mounted() {
-    //   this.connection = new signalR.HubConnectionBuilder()
-    //     .configureLogging(signalR.LogLevel.Debug)
-    //     .withUrl("https://landlstore.azurewebsites.net/signalHub", {
-    //       skipNegotiation: true,
-    //       transport: signalR.HttpTransportType.WebSockets,
-    //     })
-    //     .build();
-
-    //   this.connection
-    //     .start()
-    //     .then(() => {
-    //       console.log("Connected to hub");
-    //       // Đăng ký sự kiện "ReceiveJWTToken"
-    //       this.connection.on("ReceiveResetPassword", (model) => {
-    //         console.log("Received message from hub:", model);
-    //         this.email = model.email;
-    //         this.token = model.token;
-    //       });
-    //     })
-    //     .catch((err) => console.error(err));
-    // },
     async setNewPassword() {
       try {
         const response = await axios.post("authentication/reset-password", {
@@ -173,13 +165,16 @@ export default {
 };
 </script>
 <style scoped>
-.border {
-  position: absolute;
-  top: 5%;
-  left: 38%;
+.forgot_password {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #2d2c2cd9;
 }
 .btn_save {
-  background-color: #4f4c3d;
+  background-color: royalblue;
   width: 100%;
   border-radius: 7px;
 }
@@ -191,5 +186,21 @@ export default {
 }
 .success {
   color: green;
+}
+.signup-link {
+  align-self: center;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.signup-link .link {
+  font-weight: 500;
+  color: #2d79f3;
+}
+.logoforgot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px dashed gray;
 }
 </style>

@@ -12,11 +12,14 @@
       </nav>
     </div>
     <div class="px-7">
-      <h1 class="font-semibold text-xl py-6">Management Post</h1>
+      <h1 class="font-semibold text-xl py-6">Managet Post</h1>
+      <span class="font-medium text-xs"
+        >You can search, update, delete width post!
+      </span>
       <div class="flex gap-x-40 pt-10">
         <div class="flex items-center gap-x-4 text-sm">
-          <p class="gap-x-2 font-semibold">Total Posts:</p>
-          <!-- {{ posts.length }} -->
+          <p class="gap-x-2 font-semibold">Totally Posts:</p>
+          {{ posts.length }}
         </div>
         <!-- <div class="search">
             <div class="search-box">
@@ -76,26 +79,35 @@
       <div class="content_table scroll">
         <div class="pt-10">
           <table
-            class="table table-borderless text-yellow-950 font-medium text-center bg-white round-md"
+            v-if="posts.length"
+            class="table table-borderless text-yellow-950 font-medium bg-white round-md"
           >
             <thead class="table-light">
-              <tr class="text-sm text-center">
+              <tr class="text-sm">
                 <th scope="col">ID</th>
                 <th scope="col">Image</th>
+                <th scope="col">Author</th>
+                <th scope="col">Type</th>
                 <th scope="col">Title</th>
                 <th scope="col">Content</th>
                 <th scope="col">CreationDate</th>
+                <th scope="col">LastestUpdate</th>
                 <th></th>
                 <th></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody v-for="p in posts" :key="p.postId">
               <tr class="text-sm">
-                <!-- <th scope="row">{{ p.PostId }}</th>
-                <td>{{ p.Image }}</td>
-                <td>{{ p.Title }}</td>
-                <td>{{ p.Content }}</td>
-                <td>{{ p.CreationDate }}</td>
+                <th scope="row">{{ p.postId }}</th>
+                <td>
+                  <img :src="p.postImage" alt="image" class="w-20" />
+                </td>
+                <td>{{ p.author }}</td>
+                <td>{{ p.posType }}</td>
+                <td>{{ p.postTitle }}</td>
+                <td>{{ p.posContent }}</td>
+                <td>{{ p.creationDate }}</td>
+                <td>{{ p.latestUpdate }}</td>
                 <td class="flex gap-x-4">
                   <button
                     class="button_edit ring-offset-2 ring-2 ring-blue-300 hover:ring-blue-600 rounded-md"
@@ -117,7 +129,7 @@
                     data-target="#exampleModalLong"
                     data-dismiss="modal"
                     data-backdrop="false"
-                    @click="opentModal('delete', l)"
+                    @click="opentModal('delete', p)"
                   >
                     <span class="button__text text-xs">Delete</span>
                     <span class="button__icon"
@@ -202,115 +214,7 @@
                         ></line></svg
                     ></span>
                   </button>
-                </td> -->
-                <!-- <modal
-                  v-if="modalType == 'add'"
-                  @close="isShowAddModal = false"
-                  data-target="#myModal"
-                >
-                  <template v-slot:title>
-                    <div
-                      class="flex items-center text-base font-semibold text-yellow-950"
-                    >
-                      Add New Post
-                    </div>
-                  </template>
-                  <template v-slot:body>
-                    <div class="py-3 pr-36 text-sm">
-                      <div class="grid grid-cols-12 gap-x-10">
-                        <div class="avatar_upload">
-                          <img v-if="url" :src="url" alt="Avatar" />
-                          <img
-                            v-else
-                            src="@/assets/images/avatar_default.jpg"
-                            alt="Avatar"
-                          />
-                        </div>
-                        <div class="avatar_edit">
-                          <div class="hidden">
-                            <input
-                              type="file"
-                              name="image"
-                              id="imageUpload"
-                              accept=".png, .jpg, .jpeg"
-                              :maxFileSize="1000000"
-                              ref="file"
-                              multiple
-                              @change="onFileChange"
-                            />
-                          </div>
-                          <label
-                            class="bi bi-pencil text-xs"
-                            for="imageUpload"
-                          ></label>
-                        </div>
-                        <label
-                          for="exampleInputEmail1"
-                          class="col-span-4 form-label text-semibold text-base pt-2 border-none"
-                          >Title</label
-                        >
-                        <input
-                          v-model="postTitle"
-                          type="text"
-                          class="col-span-8 form-control"
-                          id="exampleInpuName1"
-                          aria-describedby="nameHelp"
-                          required
-                        />
-                        <label
-                          for="exampleInputEmail1"
-                          class="col-span-4 form-label text-semibold text-base pt-2 border-none"
-                          >Content</label
-                        >
-                        <input
-                          v-model="postContent"
-                          type="text"
-                          class="col-span-8 form-control"
-                          id="exampleInpuName1"
-                          aria-describedby="nameHelp"
-                          required
-                        />
-                        <label
-                          for="exampleInputEmail1"
-                          class="col-span-4 form-label text-semibold text-base pt-2 border-none"
-                          >Author</label
-                        >
-                        <input
-                          v-model="postAuthor"
-                          type="text"
-                          class="col-span-8 form-control"
-                          id="exampleInpuName1"
-                          aria-describedby="nameHelp"
-                          required
-                        />
-                        <label
-                          for="exampleInputEmail1"
-                          class="col-span-4 form-label text-semibold text-base pt-2 border-none"
-                          >CreationDate</label
-                        >
-                        <input
-                          v-model="postCD"
-                          type="text"
-                          class="col-span-8 form-control"
-                          id="exampleInpuName1"
-                          aria-describedby="nameHelp"
-                          required
-                        />
-                      </div>
-                    </div>
-                  </template>
-                  <template v-slot:footer>
-                    <div class="bg-yellow-900 rounded-md">
-                      <span
-                        type="button"
-                        class="btn text-white"
-                        @click="HandleAdd"
-                      >
-                        Add
-                      </span>
-                    </div>
-                  </template>
-                </modal> -->
+                </td>
                 <modal
                   v-if="modalType == 'add'"
                   @close="modalType == null"
@@ -320,7 +224,7 @@
                     <div
                       class="flex items-center text-base font-semibold text-yellow-950"
                     >
-                      Add New Material
+                      Add New Post
                     </div>
                   </template>
                   <template v-slot:body>
@@ -403,7 +307,7 @@
                             class="form-select text-sm"
                             aria-label="Default select example"
                           >
-                            <option selected>Choose type</option>
+                            <option disabled>Choose type</option>
                             <option value="TIP">Tip</option>
                             <option value="NEW">News</option>
                           </select>
@@ -433,25 +337,112 @@
                     <div
                       class="flex items-center text-base font-semibold text-yellow-950"
                     >
-                      Edit This Label
+                      Edit Post
                     </div>
                   </template>
                   <template v-slot:body>
-                    <div class="py-3 pr-36 text-sm">
-                      <div class="grid grid-cols-12 gap-x-10">
-                        <label
-                          for="exampleInputEmail1"
-                          class="col-span-4 form-label text-semibold text-base pt-2 border-none"
-                          >Name Lable</label
-                        >
-                        <input
-                          v-model="nameLabelModal"
-                          type="text"
-                          class="col-span-8 form-control"
-                          id="exampleInpuName1"
-                          aria-describedby="nameHelp"
-                          required
-                        />
+                    <div class="text-sm text-left">
+                      <div class="mx-4 mb-6 mt-2">
+                        <div class="">
+                          <label class="col-form-label fw-medium">Image</label>
+                          <div class="">
+                            <div class="flex">
+                              <div class="avatar_upload py-3">
+                                <div v-if="postModal.postImage">
+                                  <img
+                                    v-if="!url"
+                                    :src="postModal.postImage"
+                                    alt="image"
+                                    class="w-8/12"
+                                  />
+                                  <img
+                                    v-else-if="url"
+                                    :src="url"
+                                    alt="image"
+                                    class="w-8/12"
+                                  />
+                                </div>
+                                <div v-else>
+                                  <img
+                                    v-if="!url"
+                                    src="@/assets/images/assistant/image_default.jpeg"
+                                    alt="image"
+                                  />
+                                  <img
+                                    v-else
+                                    :src="url"
+                                    alt="image"
+                                    class="w-8/12"
+                                  />
+                                </div>
+                              </div>
+
+                              <div class="avatar_edit">
+                                <div class="hidden">
+                                  <input
+                                    type="file"
+                                    name="avatar"
+                                    id="imageUpload"
+                                    accept=".png, .jpg, .jpeg"
+                                    :maxFileSize="1000000"
+                                    ref="file"
+                                    @change="onFileChange"
+                                    required
+                                  />
+                                </div>
+                                <label
+                                  class="bi bi-pencil text-xs"
+                                  for="imageUpload"
+                                ></label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="mt-3">
+                          <label class="col-form-label fw-medium">Title</label>
+                          <div class="">
+                            <input
+                              v-model="postModal.postTitle"
+                              type="text"
+                              class="form-control border-none bg-neutral-100"
+                              id="firstname"
+                              aria-describedby="firstnameHelp"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div class="mt-3">
+                          <label class="col-form-label fw-medium"
+                            >Content</label
+                          >
+                          <div class="">
+                            <input
+                              v-model="postModal.posContent"
+                              type="text"
+                              class="form-control border-none bg-neutral-100"
+                              id="firstname"
+                              aria-describedby="firstnameHelp"
+                              required
+                            />
+                          </div>
+                        </div>
+
+                        <div class="mt-3">
+                          <label
+                            for="exampleInputEmail1"
+                            class="col-form-label font-medium"
+                            >Type</label
+                          >
+                          <select
+                            required
+                            v-model="type"
+                            class="form-select text-sm"
+                            aria-label="Default select example"
+                          >
+                            <option value="TIP">Tip</option>
+                            <option value="NEW">News</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
                   </template>
@@ -460,7 +451,8 @@
                       <span
                         type="button"
                         class="btn text-white"
-                        @click.prevent="HandleUpdate"
+                        data-dismiss="modal"
+                        @click.prevent="HandleUpdate(p)"
                       >
                         Update
                       </span>
@@ -478,8 +470,8 @@
                     </div>
                   </template>
                   <template v-slot:body>
-                    <p class="text-base py-3">
-                      Are you sure detete <b> {{ nameLabelModal }}</b
+                    <p class="text-base py-3 text-center">
+                      Are you sure detete <b> {{ postModal.postId }}</b
                       >?
                     </p>
                   </template>
@@ -488,7 +480,8 @@
                       <span
                         type="button"
                         class="btn text-white"
-                        @click="HandleDelete"
+                        data-dismiss="modal"
+                        @click="HandleDelete(postModal.postId)"
                       >
                         Delete
                       </span>
@@ -509,6 +502,7 @@ import modal from "@/components/ModalPage.vue";
 import alertError from "@/components/AlertError.vue";
 import alertSuccess from "@/components/AlertSuccess.vue";
 import alertWanning from "@/components/AlertWanning.vue";
+import { format } from "date-fns";
 export default {
   components: {
     modal,
@@ -532,6 +526,7 @@ export default {
       messageError: null,
       messageSuccess: null,
       messageWanning: null,
+      postModal: {},
     };
   },
   created() {
@@ -542,15 +537,23 @@ export default {
       try {
         const response = await axios.get("assistant/shop-data/posts");
         this.posts = response.data;
+        this.posts = response.data.map((item) => ({
+          ...item,
+          creationDate: item.creationDate
+            ? format(new Date(item.creationDate), "dd/MM/yyyy")
+            : "",
+          latestUpdate: item.latestUpdate
+            ? format(new Date(item.latestUpdate), "dd/MM/yyyy")
+            : "",
+        }));
         console.log(response.data);
       } catch (error) {
         console.error(error);
       }
     },
-    async opentModal(type, l) {
+    async opentModal(type, p) {
       this.modalType = type;
-      this.namePostModal = l.postlName;
-      this.idPostModal = l.postId;
+      this.postModal = p;
     },
     closeModal() {
       this.modalType = null;
@@ -595,32 +598,67 @@ export default {
         console.error(error);
       }
     },
-    async HandleUpdate() {
+    async HandleUpdate(p) {
+      const formData = new FormData();
+      formData.append("title", p.postTitle);
+      formData.append("content", p.posContent);
+      formData.append("type", this.type);
+      formData.append("image", this.file);
       try {
         const response = await axios.put(
-          "Assistant/shop-data/posts?labelId=" +
-            this.idLabelModal +
-            "&labelName=" +
-            this.nameLabelModal +
-            "/edit"
+          "Assistant/shop-data/posts?postId=" + this.idPostModal + "/edit",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
         );
-        if (response.status === 200) {
+        if (response.status === 201) {
           this.modalType = null;
-          alert("Update was successful!");
+          this.messageSuccess = "Edit post successful!";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 1000);
+          this.getAllPosts();
         }
+        console.log(response.data);
       } catch (error) {
+        this.isAlertError = true;
+        this.messageError = error.response.data.message;
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 5000);
         console.error(error);
       }
     },
-    async HandleDelete() {
+    // async HandleUpdate() {
+    //   try {
+    //     const response = await axios.put(
+    //       "Assistant/shop-data/posts?labelId=" +
+    //         this.idLabelModal +
+    //         "&labelName=" +
+    //         this.nameLabelModal +
+    //         "/edit"
+    //     );
+    //     if (response.status === 200) {
+    //       this.modalType = null;
+    //       alert("Update was successful!");
+    //     }
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // },
+    async HandleDelete(id) {
       try {
         const response = await axios.delete(
-          "Assistant/shop-data/posts/" + this.idLabelModal + "/remove"
+          "Assistant/shop-data/posts/" + id + "/remove"
         );
         if (response.status === 204) {
           this.modalType = null;
           this.isSuccess = true;
-          alert("Delete was successful!");
+          // alert("Delete was successful!");
+          this.getAllPosts();
         } else {
           this.isSuccess = false;
         }
@@ -761,5 +799,15 @@ td {
 .form-select {
   border: none;
   background-color: #dde4e794;
+}
+td {
+  text-align: justify;
+  word-wrap: break-word;
+  border-bottom: none;
+  height: 7.7em;
+  white-space: break-spaces;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 5;
 }
 </style>

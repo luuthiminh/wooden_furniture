@@ -57,11 +57,16 @@
                       aria-label="Default select example"
                       required
                     >
-                      <option value="">--Please choose your gender--</option>
-                      <option value="Male">Male</option>
+                      <option selected="selected" value="Male">Male</option>
                       <option value="Female">Female</option>
                       <option value="Other">Other</option>
                     </select>
+                    <span v-if="emailError" class="error text-xs">{{
+                      emailError
+                    }}</span>
+                    <span v-else class="success text-xs">{{
+                      emailSuccess
+                    }}</span>
                   </div>
                   <div>
                     <label for="dob" class="form-label">Dob</label>
@@ -71,7 +76,6 @@
                       class="form-control"
                       id="dob"
                       aria-describedby="dobHelp"
-                      required
                     />
                   </div>
                 </div>

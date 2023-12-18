@@ -1038,10 +1038,7 @@ export default {
         datasets: [
           {
             label: "Revenue",
-            // data: this.income,
-            data: [
-              1000, 8000, 3000, 2000, 3000, 10000, 20000, 30000, 40000, 5000,
-            ],
+            data: this.income,
             fill: false,
             borderColor: "rgb(163, 117, 57)",
           },

@@ -6,16 +6,16 @@
           <li class="breadcrumb-item font-semibold"><a href="#">Home</a></li>
 
           <li class="breadcrumb-item font-medium active" aria-current="page">
-            Feedback
+            Manage Feedback
           </li>
         </ol>
       </nav>
     </div>
     <div class="px-7">
-      <h1 class="font-semibold text-xl py-6">All Feedback</h1>
+      <h1 class="font-semibold text-xl py-6">All Feedbacks</h1>
       <div class="flex gap-x-40 pt-10">
         <div class="flex items-center gap-x-4 text-sm">
-          <p class="gap-x-2 font-semibold">Total Feedbacks:</p>
+          <p class="gap-x-2 font-semibold">Totally Feedbacks:</p>
           {{ feedbacks.length }}
         </div>
       </div>

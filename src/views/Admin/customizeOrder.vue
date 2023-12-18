@@ -63,9 +63,6 @@
             >
               <li @click="selectStatus('All')">All</li>
               <li @click="selectStatus('Pending')">Pending</li>
-              {{
-                status
-              }}
             </ul>
           </div>
         </div>
@@ -553,21 +550,6 @@ td {
   height: 35em;
   width: 67em;
 }
-.pt-6.px-6.scroll::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
-  background-color: #f5f5f5;
-}
-.pt-6.px-6.scroll::-webkit-scrollbar {
-  width: 6px;
-  background-color: #f5f5f5;
-}
-
-.pt-6.px-6.scroll::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #cdc0aa;
-}
 td img {
   margin-top: -18px;
 }
@@ -589,6 +571,10 @@ form h1 {
   background: #fff;
   border-radius: 4px;
   overflow: hidden;
+}
+.dropdown-menu li {
+  font-weight: 500;
+  padding: 0px 0px 8px 12px;
 }
 
 .loader_img_furniture:before {
@@ -771,7 +757,6 @@ form h1 {
   font-weight: 400;
   color: rgba(75, 85, 99, 1);
 }
-
 .custum-file-upload input {
   display: none;
 }

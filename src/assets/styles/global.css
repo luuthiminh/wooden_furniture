@@ -446,3 +446,10 @@ ol li {
 .search_admin svg .dashboard {
   margin-left: 28px;
 }
+/* Validation */
+.error {
+  color: #c10606;
+}
+.success {
+  color: green;
+}

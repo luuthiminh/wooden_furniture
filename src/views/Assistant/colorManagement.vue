@@ -3,10 +3,10 @@
     <div class="nav">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent text-sm pt-4 px-4">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item font-semibold"><a href="#">Home</a></li>
 
           <li class="breadcrumb-item active" aria-current="page">
-            Color Management
+            Manage Color
           </li>
         </ol>
       </nav>
@@ -24,9 +24,12 @@
     </div>
     <div class="px-7">
       <h1 class="font-semibold text-xl py-6">Management Colors</h1>
+      <span class="font-medium text-xs"
+        >You can search, update, delete width color!
+      </span>
       <div class="flex gap-x-40 pt-10">
         <div class="flex items-center gap-x-4 text-sm">
-          <p class="gap-x-2 font-semibold">Total colors:</p>
+          <p class="gap-x-2 font-semibold">Totally colors:</p>
           {{ colors.length }}
         </div>
         <div class="search_assistant">
@@ -463,12 +466,12 @@
                 </td>
                 <modal
                   v-if="modalType == 'add'"
-                  @close="isShowAddModal = false"
+                  @close="closeModal"
                   data-target="#myModal"
                 >
                   <template v-slot:title>
                     <div
-                      class="flex items-center text-base font-semibold text-yellow-950"
+                      class="flex items-center text-lg font-semibold text-yellow-950"
                     >
                       Add New Color
                     </div>
@@ -481,23 +484,52 @@
                           class="col-span-4 form-label text-semibold text-base pt-2 border-none"
                           >Name Color</label
                         >
-                        <input
-                          v-model="colorName"
-                          type="text"
-                          class="col-span-8 form-control"
-                          id="exampleInpuName1"
-                          aria-describedby="nameHelp"
-                          required
-                        />
+                        <div class="col-span-8 text-left">
+                          <input
+                            v-model="colorName"
+                            type="text"
+                            class="form-control"
+                            id="exampleInpuName1"
+                            aria-describedby="nameHelp"
+                            required
+                            @change="ValidationAddColor"
+                          />
+                          <div v-if="!isShowMessage">
+                            <span class="text-slate-600 text-xs"
+                              >Color name must be greater than 1
+                              character!</span
+                            >
+                          </div>
+                          <div v-else>
+                            {{ isColorNameUnique }}
+                            <span
+                              v-if="!isDismissModal"
+                              class="error text-xs"
+                              >{{ messageError }}</span
+                            >
+                            <span v-else class="success text-xs">{{
+                              message
+                            }}</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </template>
                   <template v-slot:footer>
                     <div class="bg-yellow-900 rounded-md">
                       <span
+                        v-if="!isDismissModal"
                         type="button"
                         class="btn text-white"
+                        @click="HandleAdd"
+                      >
+                        Add
+                      </span>
+                      <span
+                        v-else
                         data-dismiss="modal"
+                        type="button"
+                        class="btn text-white"
                         @click="HandleAdd"
                       >
                         Add
@@ -620,11 +652,14 @@ export default {
       isSuccess: false,
       isAlertSuccess: false,
       isAlertError: false,
-      messageError: null,
-      messageSuccess: null,
+      messageError: "",
+      messageSuccess: "",
       messageWanning: null,
       searchResults: [],
       keyword: "",
+      message: "",
+      isDismissModal: false,
+      isShowMessage: false,
     };
   },
   created() {
@@ -661,27 +696,44 @@ export default {
     closeModal() {
       this.modalType = null;
     },
+    ValidationAddColor() {
+      this.isShowMessage = true;
+      if (!this.colorName) {
+        this.messageError = "Name Color required!";
+        this.isDismissModal = false;
+      } else if (this.colorName.length < 2) {
+        this.messageError = "Color name must be greater than 1 character!";
+        this.isDismissModal = false;
+      } else {
+        this.message = "Color name valid";
+        this.isDismissModal = true;
+      }
+    },
     async HandleAdd() {
-      try {
-        const response = await axios.post(
-          "Assistant/shop-data/colors/add?colorName=" + this.colorName
-        );
-        if (response.status === 201) {
-          this.modalType = null;
-          this.isAlertSuccess = true;
-          this.messageSuccess = "Add new color successfully";
-          setTimeout(() => {
-            this.isAlertSuccess = false;
-          }, 5000);
-          this.getAllColors();
+      console.log(this.colorName);
+      if (this.colorName === undefined) {
+        this.ValidationAddColor();
+        this.isDismissModal = false;
+      } else {
+        this.isDismissModal = true;
+        try {
+          const response = await axios.post(
+            "assistant/shop-data/colors/add?colorName=" + this.colorName
+          );
+          if (response.status === 201) {
+            this.modalType = null;
+            this.isAlertSuccess = true;
+            this.messageSuccess = "Add new wood successfully";
+            setTimeout(() => {
+              this.isAlertSuccess = false;
+            }, 3000);
+            this.getAllColors();
+          }
+        } catch (error) {
+          this.isDismissModal = false;
+          this.messageError = error.response.data.message;
+          console.log(error);
         }
-      } catch (error) {
-        this.isAlertError = true;
-        this.messageError = error.response.data.message;
-        setTimeout(() => {
-          this.isAlertError = false;
-        }, 5000);
-        console.error(error);
       }
     },
     async HandleUpdate() {
@@ -704,7 +756,7 @@ export default {
         }
       } catch (error) {
         this.isAlertError = true;
-        this.messageError = error.response.data.message;
+        this.messageError = error.response.data.message + "!";
         setTimeout(() => {
           this.isAlertError = false;
         }, 5000);
@@ -737,6 +789,14 @@ export default {
       }
     },
   },
+  // computed: {
+  //   isColorNameUnique() {
+  //     console.log(this.colorName);
+  //     return !this.colors.findIndex(
+  //       (color) => color.colorName === this.colorName
+  //     );
+  //   },
+  // },
 };
 </script>
 <style scoped>
@@ -752,5 +812,11 @@ th {
 td {
   padding-top: 0.7em;
   padding-bottom: 0.7em;
+}
+.error {
+  color: #c10606;
+}
+.success {
+  color: green;
 }
 </style>

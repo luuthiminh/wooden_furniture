@@ -46,7 +46,7 @@
           >Mix
         </router-link>
       </li>
-      <li class="dark:text-red">
+      <li>
         <router-link to="/about" class="text-decoration-none"
           >About</router-link
         >
@@ -56,70 +56,68 @@
           >Contact</router-link
         >
       </li>
+      <!-- <li><input v-model="keywordTest" @keyup.enter="searchTest" /></li> -->
       <li>
-        <form>
-          <div class="flex flex-cols-6 gap-x-3">
-            <div class="col-span-4 font-normal">
-              <div class="form">
-                <label for="search">
-                  <input
-                    required=""
-                    class="mt-1 text-sm ml-1 w-10/12"
-                    autocomplete="off"
-                    placeholder="search your chats"
-                    id="search"
-                    type="text"
-                    v-model="keyword"
-                    @change="search"
-                  />
-                  <div class="icon">
-                    <svg
-                      stroke-width="2"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="swap-on mt-2"
-                    >
-                      <path
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        stroke-linejoin="round"
-                        stroke-linecap="round"
-                      ></path>
-                    </svg>
-                    <svg
-                      stroke-width="2"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="swap-off mt-2"
-                    >
-                      <path
-                        d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                        stroke-linejoin="round"
-                        stroke-linecap="round"
-                      ></path>
-                    </svg>
-                  </div>
-                  <button @click="clear" type="reset" class="close-btn">
-                    <svg
-                      viewBox="0 0 20 20"
-                      class="h-5 w-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        clip-rule="evenodd"
-                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                        fill-rule="evenodd"
-                      ></path>
-                    </svg>
-                  </button>
-                </label>
-              </div>
+        <div class="flex flex-cols-6 gap-x-3">
+          <div class="col-span-4 font-normal">
+            <div class="form">
+              <label for="search">
+                <input
+                  class="mt-1 text-sm ml-1 w-10/12"
+                  autocomplete="off"
+                  placeholder="search your chats"
+                  id="search"
+                  type="text"
+                  v-model="keyword"
+                  @keyup.enter="search"
+                />
+                <div class="icon">
+                  <svg
+                    stroke-width="2"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="swap-on mt-2"
+                  >
+                    <path
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                      stroke-linejoin="round"
+                      stroke-linecap="round"
+                    ></path>
+                  </svg>
+                  <svg
+                    stroke-width="2"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="swap-off mt-2"
+                  >
+                    <path
+                      d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                      stroke-linejoin="round"
+                      stroke-linecap="round"
+                    ></path>
+                  </svg>
+                </div>
+                <button @click="clear" type="reset" class="close-btn">
+                  <svg
+                    viewBox="0 0 20 20"
+                    class="h-5 w-5"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      fill-rule="evenodd"
+                    ></path>
+                  </svg>
+                </button>
+              </label>
             </div>
           </div>
-        </form>
+        </div>
       </li>
       <ul class="flex gap-x-4">
         <li
@@ -165,7 +163,7 @@
     >
       <li class="px-3 pb-2 pt-2">
         <router-link
-          to="/"
+          to="/login"
           style="text-decoration: none"
           class="flex gap-x-4 items-center font-medium"
           >Login</router-link
@@ -213,68 +211,67 @@
           </div>
         </div>
         <div class="search px-3 pt-4 pb-2">
-          <form>
-            <div class="flex flex-cols-6 gap-x-3">
-              <div class="col-span-4 font-normal">
-                <div class="form w-1/12">
-                  <label for="search">
-                    <input
-                      required=""
-                      autocomplete="off"
-                      placeholder="search your chats"
-                      id="search"
-                      type="text"
-                      v-model="keyword"
-                      @keyup.enter="search"
-                    />
-                    <div class="icon">
-                      <svg
-                        stroke-width="2"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="swap-on"
-                      >
-                        <path
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                          stroke-linejoin="round"
-                          stroke-linecap="round"
-                        ></path>
-                      </svg>
-                      <svg
-                        stroke-width="2"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="swap-off"
-                      >
-                        <path
-                          d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                          stroke-linejoin="round"
-                          stroke-linecap="round"
-                        ></path>
-                      </svg>
-                    </div>
-                    <button @click="clear" type="reset" class="close-btn">
-                      <svg
-                        viewBox="0 0 20 20"
-                        class="h-5 w-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          clip-rule="evenodd"
-                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                          fill-rule="evenodd"
-                        ></path>
-                      </svg>
-                    </button>
-                  </label>
-                </div>
+          <div class="flex flex-cols-6 gap-x-3">
+            <div class="col-span-4 font-normal">
+              <div class="form w-1/12">
+                <label for="search">
+                  <input
+                    required=""
+                    autocomplete="off"
+                    placeholder="search your chats"
+                    id="search"
+                    type="text"
+                    v-model="keyword"
+                    @keyup.enter="search"
+                  />
+                  <div class="icon">
+                    <svg
+                      stroke-width="2"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="swap-on"
+                    >
+                      <path
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                      ></path>
+                    </svg>
+                    <svg
+                      stroke-width="2"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="swap-off"
+                    >
+                      <path
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                      ></path>
+                    </svg>
+                  </div>
+                  <button @click="clear" type="reset" class="close-btn">
+                    <svg
+                      viewBox="0 0 20 20"
+                      class="h-5 w-5"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        fill-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                </label>
+                <ul id="filter-select" class="filter-select no-value"></ul>
               </div>
             </div>
-          </form>
+          </div>
         </div>
         <ul v-show="isLogin" class="flex gap-x-10 right-2 items-center">
           <li class="items-center px-3" @click.prevent="closeNavBar">
@@ -468,11 +465,14 @@ export default {
       }
     },
     search() {
-      // this.$store.dispatch("searchBooks", this.keyword).then(() => {
-      //   this.$router.push({ name: "SearchResult" }); // Chuyển hướng đến trang tìm kiếm
-      // });
-      this.$router.push({ name: "login" });
-      console.log("Đã chueyenr hướng");
+      this.$router
+        .push({ name: "SearchResult" })
+        .then(() => {
+          this.$store.dispatch("searchFurnitures", { keyword: this.keyword });
+        })
+        .catch((error) => {
+          console.error("Lỗi khi thực hiện tìm kiếm:", error);
+        });
     },
     async getAllCategory() {
       try {

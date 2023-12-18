@@ -1,24 +1,16 @@
 <template>
   <div class="bg-neutral-100 text-slate-700">
     <div class="pt-36 px-28">
-      <!-- 
-      <div class="bg-white">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb bg-neutral-100 text-xs">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">All Product</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Sofa</li>
-          </ol>
-        </nav>
-      </div> -->
       <div class="nav pb-3 mb-2">
         <nav aria-label="breadcrumb">
           <ol class="flex bg-none text-xs max-sm:ml-3">
             <li class="breadcrumb-item">
-              <router-link to="customerIndex">Home </router-link>
+              <router-link to="customerIndex" class="font-semibold"
+                >Home
+              </router-link>
             </li>
             <li class="breadcrumb-item">
-              <router-link to="#">All Product</router-link>
+              <router-link to="#">Cart</router-link>
             </li>
           </ol>
         </nav>
@@ -121,11 +113,6 @@
                                   </div>
                                 </div>
                               </td>
-
-                              <!-- <td width="80" class="py-4 flex gap-x-2">
-                                <label class="font-medium">Quantity</label>
-                                <span>{{ furniture.quantity }}</span>
-                              </td> -->
                               <td
                                 class="mt-14 flex gap-x-2 w-40 absolute right-14 text-sm"
                               >
@@ -236,7 +223,9 @@
                     >
                     <br />
                     <div class="py-2 flex gap-x-4">
-                      <span v-if="!adChange" class="font-semibold text-sm"
+                      <span
+                        v-if="Object.keys(adChange).length === 0"
+                        class="font-semibold text-sm"
                         >{{ order.deliveryAddress }}
                       </span>
                       <span v-else class="font-semibold text-sm"
@@ -255,7 +244,7 @@
                         </div>
                       </div>
                       <div
-                        class="font-semibold text-amber-900 cursor-pointer"
+                        class="font-semibold text-amber-900 cursor-pointer text-sm"
                         data-toggle="modal"
                         data-target="#exampleModalLong"
                         @click="opentModal('address')"
@@ -351,17 +340,42 @@
                           aria-label="Default select example"
                         >
                           <option selected>Choose Payment</option>
-                          <option
-                            v-for="md in order.payments"
-                            :key="md"
-                            :value="md.paymentId"
-                          >
-                            {{ md.paymentMethod }}
-                          </option>
+                          <option value="1">Cash on Delivery</option>
+                          <option value="2">QR Code</option>
+                          <option value="3">Domestic Card</option>
+                          <option value="4">International Card</option>
                         </select>
                       </div>
                     </div>
+                    <div class="">
+                      <div
+                        class="d-flex justify-content-between align-items-center mb-4"
+                      >
+                        <h5 class="label_payment mb-0 font-medium mt-2">
+                          Delivery Method
+                        </h5>
+                      </div>
 
+                      <div>
+                        <div>
+                          <select
+                            v-model="delivery"
+                            class="form-select text-sm border border-slate-200"
+                            aria-label="Default select example"
+                            @change="CalculateDeliveryFee"
+                          >
+                            <option selected>Choose Delivery</option>
+                            <option
+                              v-for="ship in methodDelevery.data"
+                              :key="ship"
+                              :value="ship.service_id"
+                            >
+                              {{ ship.short_name }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
                     <div
                       class="bg-white grid grid-cols-6 gap-2 rounded-xl text-sm pb-3"
                     >
@@ -374,11 +388,44 @@
                     </div>
                   </div>
                 </div>
-                <div class="d-flex justify-content-between mt-7 px-4">
+                <!-- <div class="d-flex justify-content-between mt-7 px-4">
                   <p class="font-semibold text-base">Total Cost</p>
                   <p class="font-bold text-base text-red-600">
                     ${{ order.totalCost }}
                   </p>
+                </div> -->
+                <div class="mx-3 mt-4 text-sm">
+                  <span class="font-semibold">TOTAL ORDER </span>
+                  <span class="font-medium"
+                    >| {{ customOrder.length }} CUSTOM FURNITURE</span
+                  >
+                </div>
+                <div
+                  class="mx-3 flex flex-col-reverse divide-y divide-y-reverse divide-dashed divide-slate-300"
+                >
+                  <div class="d-flex justify-content-between mt-2">
+                    <p class="font-semibold text-sm">SUBTOTAL</p>
+                    <p class="font-bold text-base text-red-600">
+                      {{ totalCost }} VND
+                    </p>
+                  </div>
+                  <br />
+                  <div class="flex gap-x-10 mt-4 font-medium">
+                    <p class="text-sm">Point</p>
+                    <p class="text-sm absolute right-10">
+                      {{ userpoint }}
+                    </p>
+                  </div>
+                  <div class="flex gap-x-10 mt-4 font-medium">
+                    <p class="text-sm">Shipping Fee</p>
+                    <p class="text-sm absolute right-10">{{ shipCost }} VND</p>
+                  </div>
+                  <div class="flex gap-x-10 mt-4 font-semibold">
+                    <p class="text-sm">Subtotal</p>
+                    <p class="text-sm absolute right-10">
+                      {{ order.totalCost }} VND
+                    </p>
+                  </div>
                 </div>
               </template>
               <template v-slot:footer>
@@ -410,30 +457,33 @@
                     v-for="ad in address"
                     :key="ad.id"
                   >
-                    <div class="flex gap-x-1">
-                      <input
-                        v-model="ad.addressChange"
-                        @change="changeAddress(ad)"
-                        class="w-px/12"
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault1"
-                      />
-                      <span class="span_address font-medium list-decimal"
-                        >{{ ad.street }} {{ ad.ward }} {{ ad.district }}
-                        {{ ad.provine }}</span
-                      >
-                    </div>
-                    <div
-                      v-if="ad.addressType === 'DEFAULT'"
-                      class="span_address"
-                    >
-                      <div
-                        class="border-solid border-2 border-red-600 rounded-full"
-                      >
-                        <span class="px-2 py-1 font-medium text-red-600 text-xs"
-                          >Default</span
+                    <div class="w-8/12 flex gap-x-3">
+                      <div class="flex gap-x-1">
+                        <input
+                          v-model="ad.addressChange"
+                          @change="changeAddress(ad)"
+                          class="w-px/12"
+                          type="radio"
+                          name="flexRadioDefault"
+                          id="flexRadioDefault1"
+                        />
+                        <span class="span_address font-medium list-decimal"
+                          >{{ ad.street }} {{ ad.ward }} {{ ad.district }}
+                          {{ ad.provine }}</span
                         >
+                      </div>
+                      <div
+                        v-if="ad.addressType === 'DEFAULT'"
+                        class="span_address"
+                      >
+                        <div
+                          class="border-solid border-2 border-red-600 rounded-full"
+                        >
+                          <span
+                            class="px-2 py-1 font-medium text-red-600 text-xs"
+                            >Default</span
+                          >
+                        </div>
                       </div>
                     </div>
                     <div class="absolute right-4 flex gap-x-5">
@@ -465,7 +515,7 @@
                   data-target="#exampleModalLong"
                   data-backdrop="false"
                   @click="confirmChangeAddress"
-                  class="px-2 py-1 text-white hover:ring-offset-2 hover:ring-2 bg-red-600 hover:ring-red-200 text-sm rounded-md transition duration-700 ease-in-out font-medium"
+                  class="px-2 py-2 text-white hover:ring-offset-2 hover:ring-2 bg-yellow-800 hover:ring-red-200 text-sm rounded-md transition duration-700 ease-in-out font-medium"
                 >
                   Confirm
                 </button>
@@ -473,7 +523,7 @@
             </modal>
             <modal
               v-if="modalType == 'editAddress'"
-              @close="modalType == null"
+              @close="closeModal"
               data-target="#myModal"
             >
               <template v-slot:title>
@@ -560,7 +610,7 @@
             </modal>
             <modal
               v-if="modalType == 'deleteAddress'"
-              @close="modalType == null"
+              @close="closeModal"
               data-target="#myModal"
             >
               <template v-slot:title>
@@ -688,7 +738,7 @@ export default {
       FNameModal: "",
       FurnitureIdModal: "",
       furnitureOrder: [],
-      order: {},
+      // order: {},
       modalType: "",
       isCartId: "",
       cartIdList: [],
@@ -696,6 +746,8 @@ export default {
       defaultAddress: {},
       addressId: null,
       adChange: {},
+      customOrder: 0,
+      userpoint: 0,
     };
   },
   created() {
@@ -731,44 +783,21 @@ export default {
         console.error(error);
       }
     },
-    // totalPrice(furniture) {
-    //   const price = furniture.cost * furniture.quantity;
-    //   this.total = price;
-    // },
     handleCartId(furniture) {
-      if (furniture.isSelected) {
-        this.furnitureOrder.push(furniture.furnitureId);
-        this.cartIdList.push(furniture.cartDetailId);
-      } else {
-        this.furnitureOrder.splice(furniture);
-        this.cartIdList.splice(furniture);
-      }
-      console.log(this.cartIdList);
+      this.$store.commit("handleCartIdtoCart", furniture);
     },
     opentModal(type, ad) {
       this.modalType = type;
       this.addressModal = ad;
     },
+    closeModal() {
+      this.opentModal("order");
+    },
     async HandleCheckout() {
       this.opentModal("order");
-      this.cartId = "";
-      for (let i = 0; i < this.cartIdList.length; i++) {
-        if (i === this.cartIdList.length) {
-          this.cartId = this.cartId.concat(`cartIdList=${this.cartIdList[i]}`);
-        } else {
-          this.cartId = this.cartId.concat(`cartIdList=${this.cartIdList[i]}&`);
-        }
-      }
-      try {
-        const response = await axios.get(
-          `customer/checkout-via-cart?${this.cartId}`
-        );
-        if (response.status == 200) {
-          this.order = response.data;
-        }
-      } catch (error) {
-        console.error(error);
-      }
+      this.furnitureOrder = this.$store.state.furnitureOrder;
+      this.$store.dispatch("HandleCheckoutCart");
+      this.furnitureOrder = this.$store.state.furnitureOrder;
     },
     async removeCart(furniture) {
       try {
@@ -794,19 +823,75 @@ export default {
         console.error(error);
       }
     },
-    closeModal() {
-      this.modalType = null;
-    },
     changeAddress(ad) {
       this.addressId = ad.id;
       this.adChange = ad;
+      this.handleCheckOutOtherAdress();
     },
     confirmChangeAddress() {
       this.opentModal("order");
     },
+    // async HandleOrder(order) {
+    //   //Chang idAddress if have change
+    //   const id = this.addressId || order.deliveryAddressId;
+    //   const itemsArray = order.items.map((item) => ({
+    //     itemId: item.furnitureSpecificationId,
+    //     quantity: item.quantity,
+    //   }));
+    //   try {
+    //     const response = await axios.post("customer/order", {
+    //       addressId: id,
+    //       paymentId: this.paymentId,
+    //       usedPoint: this.userpoint,
+    //       note: this.note,
+    //       items: itemsArray,
+    //       deliveryCost: 0,
+    //     });
+    //     if (response.status === 200) {
+    //       if (
+    //         response.data !== null &&
+    //         response.data !== "Order successfully"
+    //       ) {
+    //         this.paymentOline = response.data;
+    //         window.location.href = this.paymentOline;
+    //       }
+    //       for (let i = 0; i < order.items.length; i++) {
+    //         this.removeCart(order.items[i]);
+    //       }
+    //     }
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // },
+    handleCheckOutOtherAdress() {
+      this.furnitureOrder = this.$store.state.furnitureOrder;
+      this.$store.dispatch("handleCheckOutOtherAddress", {
+        province: this.adChange.province,
+        district: this.adChange.district,
+        ward: this.adChange.ward,
+      });
+      this.furnitureOrder = this.$store.state.furnitureOrder;
+    },
+    //HàmCheckout
+    async getProvinceCode(province) {
+      this.$store.dispatch("getProvinceCode", province);
+    },
+    async getDistrictCode(district) {
+      this.$store.dispatch("getDistrictCode", district);
+    },
+    async getWardCode(ward) {
+      this.$store.dispatch("getWardCode", ward);
+    },
+    async getAvailableServices() {
+      this.$store.dispatch("getAvailableServices");
+    },
+    async CalculateDeliveryFee(e) {
+      this.$store.dispatch("CalculateDeliveryFee", e);
+    },
     async HandleOrder(order) {
-      //Chang idAddress if have change
+      let point = this.userpoint / 100;
       const id = this.addressId || order.deliveryAddressId;
+      const payId = parseInt(this.paymentId);
       const itemsArray = order.items.map((item) => ({
         itemId: item.furnitureSpecificationId,
         quantity: item.quantity,
@@ -814,11 +899,11 @@ export default {
       try {
         const response = await axios.post("customer/order", {
           addressId: id,
-          paymentId: this.paymentId,
-          usedPoint: this.userpoint,
+          paymentId: payId,
+          usedPoint: point,
           note: this.note,
+          total: this.totalCost,
           items: itemsArray,
-          deliveryCost: 0,
         });
         if (response.status === 200) {
           if (
@@ -827,9 +912,6 @@ export default {
           ) {
             this.paymentOline = response.data;
             window.location.href = this.paymentOline;
-          }
-          for (let i = 0; i < order.items.length; i++) {
-            this.removeCart(order.items[i]);
           }
         }
       } catch (error) {
@@ -895,6 +977,24 @@ export default {
         }, 3000);
         console.error(error);
       }
+    },
+  },
+  computed: {
+    totalCost() {
+      let point = this.userpoint / 100;
+      console.log(this.order.totalCost);
+      let sum = this.order.totalCost + this.shipCost - point;
+      let cost = parseFloat(sum.toFixed(2));
+      return cost;
+    },
+    order() {
+      return this.$store.state.checkOutCart;
+    },
+    methodDelevery() {
+      return this.$store.state.methodDeliveries;
+    },
+    shipCost() {
+      return this.$store.state.shipCost;
     },
   },
 };
@@ -1135,5 +1235,13 @@ textarea {
 .info_specification {
   font-size: 13px;
   color: #4d525e;
+}
+
+#flexRadioDefault1 {
+  width: 4%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 5vh;
 }
 </style>

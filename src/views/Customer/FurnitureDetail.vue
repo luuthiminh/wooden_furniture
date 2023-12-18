@@ -26,7 +26,7 @@
       <div class="flex flex-cols-2">
         <div class="furniture detail mt-3 rounded-lg">
           <div class="img grid grid-cols-2 gap-x-4 max-sm:block">
-            <div class="img_product border-4 border-indigo-600 w-10/12">
+            <div class="img_product border-1 border-gray-600 w-10/12">
               <img
                 class="px-3 py-3 pl-3"
                 src="@/assets/images/category/bed/bed_8.png"
@@ -302,8 +302,8 @@
                         >
                       </div>
                       <div class="mt-3">
-                        <span class="font-semibold">Start: </span>
-                        <span>Avaliable </span>
+                        <span class="font-semibold">Available: </span>
+                        <span>{{ furnitureIndex.available }} </span>
                       </div>
                       <div>
                         <span class="font-semibold">Category: </span>

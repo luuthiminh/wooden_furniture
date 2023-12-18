@@ -7,13 +7,13 @@
             <router-link to="/indexAssistant">Home</router-link>
           </li>
           <li class="breadcrumb-item text-sm active" aria-current="page">
-            Managemnet Material
+            Manage Furniture
           </li>
         </ol>
       </nav>
     </div>
     <div class="font-semibold text-lg ml-4 pt-4">
-      History repositories furniture
+      History Repositories Furniture
     </div>
     <div class="absolute right-10">
       <alert-Error v-if="isAlertError">
@@ -23,10 +23,10 @@
         <template v-slot:message>{{ messageSuccess }}</template>
       </alert-success>
     </div>
-    <div class="content_table pt-14 px-10 scroll">
+    <div class="content_table pt-14 px-6 scroll">
       <div class="flex mb-4">
         <div class="flex items-center gap-x-4 text-sm">
-          <p class="font-semibold">Total Furniture:</p>
+          <p class="font-semibold">Totally Furniture:</p>
           {{ historyFurniture.length }}
         </div>
         <div class="absolute right-10 flex gap-x-10">
@@ -164,7 +164,7 @@
                     <div class="grid grid-cols-12 gap-x-10">
                       <label
                         for="exampleInputEmail1"
-                        class="col-span-4 form-label text-semibold text-base pt-2 border-none"
+                        class="col-span-4 form-label text-semibold text-sm pt-2 border-none"
                         >Quantity</label
                       >
                       <input
@@ -175,6 +175,7 @@
                         aria-describedby="nameHelp"
                         required
                       />
+                      <span></span>
                     </div>
                   </div>
                 </template>
@@ -303,9 +304,6 @@ export default {
             "/furniture/transfer/" +
             this.repositoryId,
           {
-            // headers: {
-            //   "Content-Type": "multipart/form-data",
-            // },
             id: this.repositoryId,
             quantity: this.quantity,
           }
@@ -314,23 +312,6 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      //   if (response.status === 200) {
-      //     this.modalType = null;
-      //     this.isAlertSuccess = true;
-      //     this.messageSuccess = "Transfer successful!";
-      //     setTimeout(() => {
-      //       this.isAlertSuccess = false;
-      //     }, 5000);
-      //     this.getHistoryFurniture();
-      //   }
-      //   console.log(this.avatar);
-      // } catch (error) {
-      //   this.isAlertError = true;
-      //   this.messageError = error.response.data.message;
-      //   setTimeout(() => {
-      //     this.isAlertError = false;
-      //   }, 5000);
-      //   console.error(error);
     },
     closeModal() {
       this.modalType = null;

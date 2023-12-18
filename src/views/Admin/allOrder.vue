@@ -1,89 +1,128 @@
 <template>
   <header-admin :title="title" />
-  <div class="bg-white mb-2 rounded-xl mt-32">
-    <div class="header pt-6 px-6">
-      <div class="absolute right-0">
-        <alert-Error v-if="isAlertError">
-          <template v-slot:message>{{ messageError }}</template></alert-Error
-        >
-        <alert-success v-if="isAlertSuccess">
-          <template v-slot:message>{{ messageSuccess }}</template>
-        </alert-success>
-      </div>
-      <div class="flex items-center justify-between">
-        <div class="search_admin">
-          <div class="group">
-            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-              <g>
-                <path
-                  d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
-                ></path>
-              </g>
-            </svg>
-            <input
-              placeholder="Search"
-              type="search"
-              class="input"
-              v-model="keyword"
-              @input="searchCategory"
-            />
+  <div v-if="orders.length">
+    <div class="bg-white mb-2 rounded-xl mt-32">
+      <div class="header pt-6 px-6">
+        <div class="absolute right-0">
+          <alert-Error v-if="isAlertError">
+            <template v-slot:message>{{ messageError }}</template></alert-Error
+          >
+          <alert-success v-if="isAlertSuccess">
+            <template v-slot:message>{{ messageSuccess }}</template>
+          </alert-success>
+        </div>
+        <div class="flex items-center justify-between">
+          <div class="search_admin">
+            <div class="group">
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <g>
+                  <path
+                    d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
+                  ></path>
+                </g>
+              </svg>
+              <input
+                placeholder="Search"
+                type="search"
+                class="input"
+                v-model="keyword"
+                @input="searchCategory"
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="content_table pt-6 px-6 scroll">
-      <div class="py-4">
-        <table
-          v-if="orders.length"
-          class="table table-borderless text-yellow-950 font-medium text-center"
-        >
-          <thead>
-            <tr class="text-sm text-center">
-              <th scope="col">Order ID</th>
-              <th scope="col">Customer</th>
-              <th scope="col">Payment Method</th>
-              <th scope="col">Address</th>
-              <th scope="col">Point</th>
-              <th scope="col">Note</th>
-              <th scope="col">Status</th>
-              <th scope="col">Total Cost</th>
-              <th scope="col">Date</th>
-              <th scope="col">Furniture</th>
-              <th scope="col">IsPaid</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="or in orders" :key="or.orderId">
-              <td>{{ or.orderId }}</td>
-              <td class="text-start">
-                <span class="font-semibold block">{{ or.customerName }}</span>
-              </td>
-              <td>{{ or.customerName }}</td>
-              <td>{{ or.paymentMethod }}</td>
-              <td>{{ or.deliveryAddress }}</td>
-              <td>{{ or.appropriateRoom }}</td>
-              <td>{{ or.userPoint }}</td>
-              <td>{{ or.note }}</td>
-              <td>{{ or.status }}</td>
-              <td>{{ or.totalCost }}</td>
-              <td>{{ or.orderDate }}</td>
-              <td>
-                <div v-for="fur in or.furnitureOrderItems" :key="fur">
-                  <span>{{ fur.furnitureSpecificationId }}</span>
-                  <span>{{ fur.quantity }}</span>
-                  <span>{{ fur.cost }}</span>
-                </div>
-              </td>
-              <td>{{ or.isPaid }}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="content_table pt-6 px-6 scroll">
+        <div class="py-4">
+          <table
+            v-if="orders.length"
+            class="table table-borderless text-yellow-950 font-medium text-center"
+          >
+            <thead>
+              <tr class="text-sm text-center">
+                <th scope="col">Order ID</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Payment Method</th>
+                <th scope="col">Address</th>
+                <th scope="col">Point</th>
+                <th scope="col">Note</th>
+                <th scope="col">Status</th>
+                <th scope="col">Total Cost</th>
+                <th scope="col">Date</th>
+                <th scope="col">Furniture</th>
+                <th scope="col">IsPaid</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="or in orders" :key="or.orderId">
+                <td>{{ or.orderId }}</td>
+                <td class="text-start">
+                  <span class="font-semibold block">{{ or.customerName }}</span>
+                </td>
+                <td>{{ or.paymentMethod }}</td>
+                <td>{{ or.deliveryAddress }}</td>
+                <td>{{ or.userPoint }}</td>
+                <td>{{ or.note }}</td>
+                <td v-if="or.status === 'Pending'">
+                  <button
+                    class="bg-yellow-100 text-yellow-500 px-1 py-1 rounded-md"
+                  >
+                    Pending
+                  </button>
+                </td>
+
+                <td v-if="or.status === 'Preparing'">
+                  <button class="bg-sky-100 text-sky-500 px-1 py-1 rounded-md">
+                    Preparing
+                  </button>
+                </td>
+                <td v-if="or.status === 'Processing'">
+                  <button
+                    class="bg-teal-100 text-teal-500 px-1 py-1 rounded-md"
+                  >
+                    Processing
+                  </button>
+                </td>
+
+                <td v-if="or.status === 'Delivering'">
+                  <button
+                    class="bg-orange-100 text-orange-500 px-1 py-1 rounded-md"
+                  >
+                    Delivering
+                  </button>
+                </td>
+
+                <td v-if="or.status === 'Canceled'">
+                  <button class="bg-red-100 text-red-500 px-1 py-1 rounded-md">
+                    Canceled
+                  </button>
+                </td>
+                <td v-if="or.status === 'Delivered'">
+                  <button
+                    class="bg-green-100 text-green-500 px-1 py-1 rounded-md"
+                  >
+                    Delivered
+                  </button>
+                </td>
+                <td>{{ or.totalCost }}</td>
+                <td>{{ or.orderDate }}</td>
+                <td>
+                  <div v-for="fur in or.furnitureOrderItems" :key="fur">
+                    <span>{{ fur.furnitureSpecificationId }}</span>
+                    <span>{{ fur.quantity }}</span>
+                    <span>{{ fur.cost }}</span>
+                  </div>
+                </td>
+                <td>{{ or.isPaid }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
+    <p class="text-sm font-medium mb-5">Total users: 5</p>
   </div>
-  <p class="text-sm font-medium mb-5">Total users: 5</p>
-
-  <div class="loader"></div>
+  <div v-else class="loader"></div>
 </template>
 <script>
 import axios from "axios";

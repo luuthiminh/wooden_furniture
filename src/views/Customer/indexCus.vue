@@ -386,7 +386,7 @@
                   <h1
                     class="crossbar max-sm:text-lg max-sm:w-8/12 max-lg:w-8/12"
                   >
-                    Customize Furniture
+                    Custom Furniture
                   </h1>
                 </div>
                 <div
@@ -395,7 +395,7 @@
                   <div class="img max-sm:hidden max-lg:hidden">
                     <div
                       id="carouselExampleCaptions"
-                      class="carousel slide"
+                      class="carousel slide mt-8"
                       data-bs-ride="carousel"
                     >
                       <div class="carousel-indicators">
@@ -501,37 +501,96 @@
                   <div class="">
                     <div class="">
                       <form
-                        class="px-10 pt-3 max-sm:px-3"
+                        class="px-10 max-sm:px-3 mt-3"
                         @submit.prevent="customizeOrder"
                       >
                         <div class="w-full items-center gap-x-6 pb-3">
                           <label for="exampleFormControlInput1">Picture</label>
-                          <input
-                            id="picture"
-                            type="file"
-                            accept=".png, .jpg, .jpeg"
-                            :maxFileSize="1000000"
-                            ref="file"
-                            multiple
-                            @change="onFile"
-                            required
-                            class="bg-slate-100 h-10 w-full rounded-md border border-input px-2 py-1 text-sm file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium"
-                          />
+                          <div class="flex">
+                            <input
+                              id="picture"
+                              type="file"
+                              accept=".png, .jpg, .jpeg, video/mp4,video/mkv, video/x-m4v,video/*"
+                              :maxFileSize="1000000"
+                              ref="file"
+                              multiple
+                              @change="onFile"
+                              required
+                              class="bg-slate-100 h-10 w-full rounded-md border border-input px-2 py-1 text-sm file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium"
+                            />
+                            <i class="bi bi-exclamation text-yellow-400"></i>
+                          </div>
+                          <p class="text-xs mt-1 font-mediudm ml-1 opacity-90">
+                            You can upload image or video
+                          </p>
+                          <div class="image_upload flex gap-x-4">
+                            <div v-if="url" class="grid grid-cols-4 gap-x-4">
+                              <div
+                                v-for="url in arrayUrl"
+                                :key="url"
+                                class="flex"
+                              >
+                                <img :src="url" alt="image" />
+                                <div
+                                  class="shadow rounded-md h-5 px-1 hover:bg-slate-500"
+                                >
+                                  <label
+                                    @click="HandleRemoveImage(url)"
+                                    class="bi bi-x cursor-pointer absolute rounded-md px-1 bg-yellow-800 text-white"
+                                  ></label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div class="form-group">
-                          <label for="exampleFormControlInput1"
-                            >Name Furniture</label
-                          >
-                          <input
-                            v-model="cusfurnitureName"
-                            type="text"
-                            class="form-control w-10/12"
-                            id="exampleFormControlInput1"
-                            placeholder=""
-                            required
-                          />
+                        <div class="grid grid-cols-2 gap-x-9">
+                          <div class="form-group">
+                            <label for="exampleFormControlInput1"
+                              >Name Furniture</label
+                            >
+                            <input
+                              v-model="cusfurnitureName"
+                              type="text"
+                              class="form-control w-10/12"
+                              id="exampleFormControlInput1"
+                              required
+                              @input="validateName"
+                            />
+                            <p
+                              v-if="!messageErrorName"
+                              class="text-xs mt-1 font-mediudm ml-1 opacity-90"
+                            >
+                              The name of the furniture cannot be less than
+                              <b>2</b> characters or exceed <b>50</b> characters
+                            </p>
+                            <p
+                              v-else-if="messageSucessName"
+                              class="successCustom text-xs mt-1 font-mediudm ml-1 opacity-90"
+                            >
+                              {{ messageSucessName }}
+                            </p>
+                            <p
+                              v-else
+                              class="error text-xs mt-1 font-mediudm ml-1 opacity-90"
+                            >
+                              {{ messageErrorName }}
+                            </p>
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleFormControlInput1"
+                              >Quantity</label
+                            >
+                            <input
+                              v-model="quantityFurniture"
+                              type="number"
+                              class="form-control"
+                              id="exampleFormControlInput1"
+                              :min="1"
+                              required
+                            />
+                          </div>
                         </div>
-                        <div class="grid grid-cols-3 gap-x-4">
+                        <div class="grid grid-cols-3 gap-x-4 mt-3">
                           <div>
                             <label
                               for="exampleInputEmail1"
@@ -543,6 +602,7 @@
                               v-model="colorId"
                               class="form-select text-sm"
                               aria-label="Default select example"
+                              required
                             >
                               <!-- <option value="1" selected>--Choose Color--</option> -->
                               <option
@@ -563,6 +623,7 @@
                               v-model="categoryId"
                               class="form-select w-10/12"
                               id="exampleFormControlSelect1"
+                              required
                             >
                               <option
                                 v-for="ca in categories"
@@ -584,6 +645,7 @@
                               v-model="woodId"
                               class="form-select text-sm"
                               aria-label="Default select example"
+                              required
                             >
                               <option
                                 v-for="w in woods"
@@ -595,51 +657,51 @@
                             </select>
                           </div>
                         </div>
-                        <div class="flex flex-cols-3 gap-x-4">
+                        <div class="grid grid-cols-3 gap-x-24 mt-3">
                           <div class="form-group">
                             <label for="exampleFormControlInput1">Height</label>
-                            <input
-                              v-model="height"
-                              type="number"
-                              class="form-control w-10/12"
-                              id="exampleFormControlInput1"
-                              required
-                            />
+                            <div class="flex gap-x-4">
+                              <input
+                                v-model="height"
+                                type="number"
+                                class="form-control"
+                                id="exampleFormControlInput1"
+                                :min="1"
+                                required
+                              />
+                              <p class="flex items-center font-medium">m</p>
+                            </div>
                           </div>
                           <div class="form-group">
                             <label for="exampleFormControlInput1">Length</label>
-                            <input
-                              v-model="length"
-                              type="number"
-                              class="form-control w-10/12"
-                              id="exampleFormControlInput1"
-                              required
-                            />
+                            <div class="flex gap-x-4">
+                              <input
+                                v-model="length"
+                                type="number"
+                                class="form-control"
+                                id="exampleFormControlInput1"
+                                :min="1"
+                                required
+                              />
+                              <p class="flex items-center font-medium">m</p>
+                            </div>
                           </div>
                           <div class="form-group">
                             <label for="exampleFormControlInput1">Width</label>
-                            <input
-                              v-model="width"
-                              type="number"
-                              class="form-control w-10/12"
-                              id="exampleFormControlInput1"
-                              required
-                            />
+                            <div class="flex gap-x-4">
+                              <input
+                                v-model="width"
+                                type="number"
+                                class="form-control"
+                                id="exampleFormControlInput1"
+                                :min="1"
+                                required
+                              />
+                              <p class="flex items-center font-medium">m</p>
+                            </div>
                           </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-x-6">
-                          <div class="form-group">
-                            <label for="exampleFormControlInput1"
-                              >Quantity</label
-                            >
-                            <input
-                              v-model="quantityFurniture"
-                              type="text"
-                              class="form-control"
-                              id="exampleFormControlInput1"
-                              placeholder="1.."
-                            />
-                          </div>
+                        <div class="mt-3">
                           <div class="form-group">
                             <label for="exampleFormControlInput1"
                               >Desired Completion Date</label
@@ -650,10 +712,31 @@
                               class="form-control"
                               id="exampleFormControlInput1"
                               placeholder="name@example.com"
+                              required
+                              @input="validateDate"
                             />
+                            <p
+                              v-if="!messageErrorDate"
+                              class="text-xs mt-1 font-mediudm ml-1 opacity-90"
+                            >
+                              Desired completion date must be greater than
+                              current time
+                            </p>
+                            <p
+                              v-else-if="messageSucessName"
+                              class="successCustom text-xs mt-1 font-mediudm ml-1 opacity-90"
+                            >
+                              {{ messageSucessName }}
+                            </p>
+                            <p
+                              v-else
+                              class="error text-xs mt-1 font-mediudm ml-1 opacity-90"
+                            >
+                              {{ messageErrorDate }}
+                            </p>
                           </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                           <label for="exampleFormControlInput1"
                             >Description</label
                           >
@@ -662,12 +745,34 @@
                             type="text"
                             class="form-control"
                             id="exampleFormControlInput1"
-                            placeholder="...."
                             required
+                            @input="validateDescription"
                           />
+                          <p
+                            v-if="!messageErrorDescription"
+                            class="text-xs mt-1 font-mediudm ml-1 opacity-90"
+                          >
+                            Description cannot be less than <b>2</b> characters
+                            or exceed
+                            <b>500</b>
+                            characters
+                          </p>
+                          <p
+                            v-else-if="messageErrorDescription"
+                            class="successCustom text-xs mt-1 font-mediudm ml-1 opacity-90"
+                          >
+                            {{ messageErrorDescription }}
+                          </p>
+                          <p
+                            v-else
+                            class="error text-xs mt-1 font-mediudm ml-1 opacity-90"
+                          >
+                            {{ messageErrorDescription }}
+                          </p>
                         </div>
-
-                        <div class="button_order float-right rounded-md my-2">
+                        <div
+                          class="button_order rounded-md mt-4 text-center float-right mb-2"
+                        >
                           <button type="submit" class="btn text-white">
                             Order
                           </button>
@@ -681,67 +786,29 @@
                 <div class="text-center text-2xl font-bold mt-11 mb-4 relative">
                   <!-- <div @mouseover="onMouseOver"> -->
                   <h1 class="pb-10 max-sm:text-xl max-sm:pl-20">Hot News</h1>
-                  <!-- </div> -->
-                  <div class="grid grid-cols-3 gap-x-4 max-sm:px-3">
+
+                  <div
+                    v-if="top3Posts.length"
+                    class="grid grid-cols-3 gap-x-4 max-sm:px-3"
+                  >
                     <div
+                      v-for="p in top3Posts"
+                      :key="p.postId"
                       class="new_item px-2 py-2 shadow rounded-lg max-sm:mb-4"
                     >
                       <div class="border border-indigo-500">
                         <router-link to="">
-                          <img src="@/assets/images/news/4.png" alt="new1" />
+                          <img :src="p.postImage" alt="image post" />
                         </router-link>
                       </div>
                       <div class="pt-3">
-                        <span class="text-sm text-center font-medium"
-                          >What's so hot about the sofa? Does anyone know when
-                          the sale will be released?</span
-                        >
+                        <span class="text-sm text-center font-medium">{{
+                          p.postTitle
+                        }}</span>
                         <br />
                         <div class="date">
                           <span class="text-xs text-center font-medium"
-                            >Date: 8/10/2023</span
-                          >
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="new_item px-2 py-2 shadow rounded-lg max-sm:mb-4"
-                    >
-                      <div class="border border-indigo-500">
-                        <router-link to="">
-                          <img src="@/assets/images/news/5.png" alt="news1" />
-                        </router-link>
-                      </div>
-                      <div class="pt-3">
-                        <span class="text-sm text-center font-medium"
-                          >If it's too hard to choose, we're always happy to
-                          share tips with you!</span
-                        >
-                        <br />
-                        <div class="date">
-                          <span class="text-xs text-center font-medium"
-                            >Date: 8/10/2023</span
-                          >
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="new_item px-2 py-2 shadow rounded-lg max-sm:mb-4"
-                    >
-                      <div class="border border-indigo-500">
-                        <router-link to="">
-                          <img src="@/assets/images/news/6.png" alt="new1" />
-                        </router-link>
-                      </div>
-                      <div class="pt-3">
-                        <span class="text-sm text-center font-medium"
-                          >This week there are new models that will be updated
-                          in the store. Click here to see details!</span
-                        >
-                        <br />
-                        <div class="date">
-                          <span class="text-xs text-center font-medium"
-                            >Date: 8/10/2023</span
+                            >Date: {{ p.creationDate }}</span
                           >
                         </div>
                       </div>
@@ -776,8 +843,12 @@
                       class="carousel slide"
                       data-bs-ride="carousel"
                     >
-                      <!-- <div class="carousel-inner">
-                        <div class="carousel-item active">
+                      <div v-if="top3Feedbacks.length" class="carousel-inner">
+                        <div
+                          v-for="f in top3Feedbacks"
+                          :key="f.feedbackId"
+                          class="carousel-item active"
+                        >
                           <div class="content_feedback px-2 pt-9 max-sm:pt-2">
                             <div
                               class="avatar"
@@ -799,29 +870,7 @@
                           </div>
                         </div>
                       </div>
-                       -->
-                      <div class="carousel-inner">
-                        <div class="carousel-item active">
-                          <div class="content_feedback px-2 pt-9 max-sm:pt-2">
-                            <div class="avatar bg-white">
-                              <img
-                                class="rounded-full cursor-pointer px-2 py-2"
-                                src="@/assets/images/category/sofa/sofa_1.png"
-                                alt="img"
-                              />
-                            </div>
-                            <div class="text_feedback text-center px-14 pt-10">
-                              <h1 class="font-semibold text-2xl text-white">
-                                Russian Oak Sofa
-                              </h1>
-                              <span
-                                >This is an incredibly perfect product, worth a
-                                try</span
-                              >
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+
                       <button
                         class="carousel-control-prev"
                         type="button"
@@ -917,11 +966,6 @@
         </div>
       </footer>
     </div>
-    <!-- Messenger Chat Plugin Code -->
-    <div id="fb-root"></div>
-
-    <!-- Your Chat Plugin code -->
-    <div id="fb-customer-chat" class="fb-customerchat"></div>
   </div>
 </template>
 <script>
@@ -953,6 +997,14 @@ export default {
       categories: [],
       woods: [],
       cateFurnitrue: [],
+      messageErrorName: "",
+      messageSucessName: "",
+      messageErrorDate: "",
+      messageErrorDesciption: "",
+      messageSucessDescription: "",
+      messageSucessDate: "",
+      isMsgError: false,
+      posts: [],
     };
   },
   created() {
@@ -963,6 +1015,7 @@ export default {
     this.getAllColors();
     this.getAllCategories();
     this.getAllWoods();
+    this.getAllPosts();
   },
   methods: {
     getCheckToken() {
@@ -1032,6 +1085,24 @@ export default {
         console.error(error);
       }
     },
+    async getAllPosts() {
+      try {
+        const response = await axios.get("assistant/shop-data/posts");
+        this.posts = response.data;
+        this.posts = response.data.map((item) => ({
+          ...item,
+          creationDate: item.creationDate
+            ? format(new Date(item.creationDate), "dd/MM/yyyy")
+            : "",
+          latestUpdate: item.latestUpdate
+            ? format(new Date(item.latestUpdate), "dd/MM/yyyy")
+            : "",
+        }));
+        console.log(this.posts);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     toggleDark() {
       this.isDarkMode = !this.isDarkMode;
       if (this.isDarkMode) {
@@ -1049,6 +1120,41 @@ export default {
     },
     onFile(event) {
       this.arrayFile = event.target.files;
+    },
+    validateName() {
+      if (
+        !this.cusfurnitureName ||
+        this.cusfurnitureName.length < 2 ||
+        this.cusfurnitureName.length > 50
+      ) {
+        this.messageErrorName = "Name Furniture is invalid.";
+        return false;
+      } else {
+        this.messageSucessName = "Name Furniture is valid.";
+        return true;
+      }
+    },
+    validateDescription() {
+      if (
+        !this.description ||
+        this.description.length < 2 ||
+        this.description.length > 500
+      ) {
+        this.messageErrorDescription = "Description is invalid.";
+        return false;
+      } else {
+        this.messageSucessDescription = "Description is valid";
+        return true;
+      }
+    },
+    validateDate() {
+      if (!this.completionDate || new Date(this.completionDate) <= new Date()) {
+        this.messageErrorDate = "Desired completion date is not valid";
+        return false;
+      } else {
+        this.messageSucessDate = "Desired completion date is valid";
+        return true;
+      }
     },
     async customizeOrder() {
       const formData = new FormData();
@@ -1101,6 +1207,14 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+  },
+  computed: {
+    top3Posts() {
+      return this.posts.slice(0, 3);
+    },
+    top3Feedbacks() {
+      return this.feedbacks.slice(0, 3);
     },
   },
 };
@@ -1329,7 +1443,6 @@ header::before {
 .service.grid.grid-cols-3 {
   position: relative;
   margin-bottom: 40px;
-  display: flex;
 }
 .service .service_item.col {
   font-size: x-large;
@@ -2013,5 +2126,21 @@ form label {
 }
 .btn.btn-sm-square {
   background-color: white;
+}
+input {
+  height: 80%;
+}
+.form-control {
+  height: 32%;
+  font-size: 15px;
+}
+.form-group {
+  margin-bottom: 0rem;
+}
+select {
+  font-size: 14px;
+}
+.successCustom {
+  color: green;
 }
 </style>

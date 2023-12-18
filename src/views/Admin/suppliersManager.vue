@@ -294,12 +294,13 @@
           </thead>
           <tbody v-for="s in suppliers" :key="s.supplierId">
             <tr>
-              <!-- <td class="img">
+              <td class="img">
                 <img :src="s.suplierImage" alt="suplierImage" class="w-20" />
-              </td> -->
+              </td>
+
               <td class="text-start">
                 <span class="font-semibold block">{{ s.supplierName }}</span>
-                <span class="text-xs">{{ s.suplierId }}</span>
+                <span class="text-xs">{{ s.supplierId }}</span>
               </td>
               <td>{{ s.supplierAddress }}</td>
               <td>{{ s.suplierEmail }}</td>
@@ -331,7 +332,7 @@
                       data-target="#exampleModalLong"
                       data-dismiss="modal"
                       data-backdrop="false"
-                      @click="opentModal('edit')"
+                      @click="opentModal('edit', s)"
                     >
                       <i class="bi bi-pencil text-base"></i>
                       <span>Edit</span>
@@ -422,7 +423,12 @@
                                 @change="onFileChange"
                               />
                             </label>
-                            <img v-else :src="url" alt="image" class="w-8/12" />
+                            <img
+                              v-else
+                              :src="urlImage"
+                              alt="image"
+                              class="w-8/12"
+                            />
                           </div>
 
                           <div class="avatar_edit">
@@ -450,7 +456,7 @@
                             >Name</label
                           >
                           <input
-                            v-model="s.supplierName"
+                            v-model="name"
                             type="email"
                             class="form-control"
                             id="exampleInputEmail1"
@@ -465,7 +471,7 @@
                             >Email</label
                           >
                           <input
-                            v-model="s.suplierEmail"
+                            v-model="email"
                             type="text"
                             class="form-control"
                             id="exampleInputEmail1"
@@ -480,7 +486,7 @@
                             >Phone</label
                           >
                           <input
-                            v-model="s.suplierPhoneNums"
+                            v-model="phone"
                             type="text"
                             class="form-control"
                             id="exampleInputEmail1"
@@ -557,7 +563,7 @@
                   <template v-slot:footer>
                     <button
                       data-dismiss="modal"
-                      @click.prevent="HandleUpdate(s)"
+                      @click.prevent="HandleUpdate"
                       type="button"
                       class="button_addfurniture text-white bg-yellow-900 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-black dark:hover:bg-gray-600 dark:focus:ring-gray-600"
                     >
@@ -634,12 +640,14 @@ export default {
       streetUpdate: "",
       disctrictUpdate: "",
       provinceUpdate: "",
-
-      // phoneError: "",
-      // streetError: "",
-      // wardError: "",
-      // districtError: "",
-      // proviceError: "",
+      name: "",
+      urlImage: "",
+      email: "",
+      phone: "",
+      ward: "",
+      stress: "",
+      district: "",
+      province: "",
     };
   },
   created() {
@@ -669,8 +677,16 @@ export default {
         console.error(error);
       }
     },
-    async opentModal(type) {
+    async opentModal(type, s) {
       this.modalType = type;
+      this.name = s.supplierName;
+      this.urlImage = s.suplierImage;
+      this.email = s.suplierEmail;
+      this.phone = s.suplierPhoneNums;
+      // this.ward= "",
+      // this.stress= "",
+      // this.district= "",
+      // this.province= "",
     },
     closeModal() {
       this.modalType = null;
@@ -771,21 +787,21 @@ export default {
         console.error(error);
       }
     },
-    async HandleUpdate(s) {
+    async HandleUpdate() {
       const formData = new FormData();
-      formData.append("SupplierName", s.supplierName);
-      formData.append("Ward", this.wardUpdate);
-      formData.append("Street", this.streetUpdate);
-      formData.append("Provine", this.provinceUpdate);
-      formData.append("District", this.districtUpdate);
-      formData.append("SuplierEmail", s.suplierEmail);
-      formData.append("SuplierPhoneNums", s.suplierPhoneNums);
+      formData.append("supplierName", this.name);
+      formData.append("ward", this.wardUpdate);
+      formData.append("street", this.streetUpdate);
+      formData.append("provine", this.provinceUpdate);
+      formData.append("district", this.districtUpdate);
+      formData.append("suplierEmail", this.email);
+      formData.append("suplierPhoneNums", this.phone);
       if (this.file != null) {
         formData.append("SupplierImage", this.file);
-      } else formData.append("SupplierImage", s.suplierImage);
+      } else formData.append("SupplierImage", this.s.suplierImage);
       try {
         const response = await axios.put(
-          "shopOwner/shop-data/suppliers/" + s.supplierId + "/edit",
+          "shopOwner/shop-data/suppliers/" + this.s.supplierId + "/edit",
           formData,
           {
             headers: {

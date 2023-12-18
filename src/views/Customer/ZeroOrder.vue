@@ -1,15 +1,26 @@
 <template>
-  <div class="order_404 text-center">
-    <div class="flex justify-center">
-      <img
-        class="pt-32 w-4/12"
-        src="@/assets/images/zero_Order.png"
-        alt="404 order"
-      />
-    </div>
-    <h1 class="font-sm mt-3">You don't have any orders yet</h1>
+  <div>
+    <span class="mt-40">Hello</span>
+    <vue-view360
+      image="@/assets/images/category/clock/clock_1.png"
+      width="600"
+      height="400"
+      yaw="0"
+      pitch="0"
+      fov="65"
+      auto-rotate="true"
+      auto-rotate-delay="2000"
+      auto-rotate-speed="0.1"
+    />
   </div>
 </template>
-<script></script>
 
-<style scoped></style>
+<script>
+import VueView360 from "@egjs/vue-view360";
+
+export default {
+  components: {
+    VueView360,
+  },
+};
+</script>

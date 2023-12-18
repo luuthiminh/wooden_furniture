@@ -386,14 +386,6 @@
               </li>
 
               <li role="presentation" @click.prevent="isShowTab = flase">
-                <router-link to="/notiManagement">
-                  <i
-                    class="bi bi-bell-fill bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
-                  ></i>
-                  <p>Notification</p>
-                </router-link>
-              </li>
-              <li role="presentation" @click.prevent="isShowTab = flase">
                 <router-link to="/labelManagement">
                   <i
                     class="bi bi-bookmark-check-fill bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
@@ -498,9 +490,7 @@
                 <div class="">
                   <div class="h-12/12 px-2">
                     <div class="px-2 pt-9 pb-2 mb-4">
-                      <h3 class="text-center font-medium">
-                        Management Material
-                      </h3>
+                      <h3 class="text-center font-medium">Manage Material</h3>
 
                       <div class="search mt-4">
                         <div class="container">
@@ -509,6 +499,8 @@
                             name="text"
                             class="input"
                             placeholder="Dark Twitch Search"
+                            @keyup.enter="HandleSearchMaterial"
+                            v-model="keyword"
                           />
                           <button
                             class="search__btn bg-gradient-to-r from-yellow-700 to-orange-800 opacity-90"
@@ -540,7 +532,6 @@
                             >Import material</router-link
                           >
                         </li>
-
                         <li>
                           <router-link to="/historyMaterialRepo"
                             >History repositories material</router-link
@@ -641,6 +632,18 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    HandleSearchMaterial() {
+      this.$router
+        .push({ name: "MaterialManagement" })
+        .then(() => {
+          this.$store.dispatch("searchMaterialAssistant", {
+            keyword: this.keyword,
+          });
+        })
+        .catch((error) => {
+          console.error("Search Error:", error);
+        });
     },
   },
 };
@@ -851,10 +854,6 @@ table {
   color: rgb(68 64 60);
 }
 .bar.nav {
-  /* overflow: scroll;
-  overflow-x: hidden;
-  height: 32em;
-  margin-top: 7.5rem; */
   line-height: 26px;
   margin-top: 10px;
   overflow: scroll;
@@ -867,7 +866,7 @@ table {
   background-color: #f5f5f5;
 }
 .bar.nav::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
   background-color: #f5f5f5;
   height: 10px;
   margin-top: 1em;

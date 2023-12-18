@@ -21,7 +21,7 @@
       </alert-wanning>
     </div>
     <div class="px-7">
-      <h1 class="font-semibold text-xl py-6">Management Label</h1>
+      <h1 class="font-semibold text-xl py-6">Manage Label</h1>
       <div class="flex gap-x-40 pt-10">
         <div class="flex items-center gap-x-4 text-sm">
           <p class="gap-x-2 font-semibold">Total Labels:</p>

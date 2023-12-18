@@ -1,7 +1,7 @@
 <template>
   <!-- <div v-if="customer / customer - infor"> -->
   <div class="profile_customer">
-    <div class="nav pt-36 pb-3 mb-2 max-md:pt-24">
+    <div class="nav pt-36 mb-2 max-md:pt-24">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb flex bg-none ml-28 max-sm:ml-3 max-md:ml-4">
           <li class="breadcrumb-item font-semibold text-yellow-950">
@@ -32,11 +32,6 @@
             <div class="side-bar col-span-1 h-56">
               <div class="user-info">
                 <img :src="info.avatar" alt="avatar" />
-                <!-- <img
-                  class="rounded-md"
-                  src="@/assets/images/avatar.jpg"
-                  alt=""
-                /> -->
                 <ul class="meta list list-unstyled">
                   <li class="name font-medium mt-2">
                     {{ info.firstName }} {{ info.lastName }}
@@ -709,11 +704,25 @@
                   <div class="mx-10 my-6">
                     <div class="row mb-6">
                       <label class="col-lg-4 col-form-label fw-medium"
+                        >Old Password</label
+                      >
+                      <div class="col-lg-8">
+                        <input
+                          v-model="oldPassword"
+                          type="text"
+                          class="form-control border-none bg-neutral-100"
+                          id="firstname"
+                          aria-describedby="firstnameHelp"
+                        />
+                      </div>
+                    </div>
+                    <div class="row mb-6">
+                      <label class="col-lg-4 col-form-label fw-medium"
                         >New Password</label
                       >
                       <div class="col-lg-8">
                         <input
-                          v-model="password"
+                          v-model="newPassword"
                           type="text"
                           class="form-control border-none bg-neutral-100"
                           id="firstname"
@@ -898,7 +907,7 @@
                             aria-label="Default select example"
                             v-model="ad.type"
                           >
-                            <option selected>Set as Default Address</option>
+                            <option disabled>Set as Default Address</option>
                             <option value="DEFAULT">Default</option>
                             <option value="HOME">HOME</option>
                           </select>
@@ -990,7 +999,7 @@
                             aria-label="Default select example"
                             @change="handleDistrict"
                           >
-                            <option selected>Choose Province</option>
+                            <option disabled>Choose Province</option>
                             <option
                               v-for="p in provinces.data"
                               :key="p.ProvinceID"
@@ -1014,7 +1023,7 @@
                             aria-label="Default select example"
                             @change="handleWard"
                           >
-                            <option selected>Choose District</option>
+                            <option disabled>Choose District</option>
                             <option
                               v-for="d in districts.data"
                               :key="d.DistrictID"
@@ -1038,7 +1047,7 @@
                             aria-label="Default select example"
                             @change="HandleChooseWard"
                           >
-                            <option selected>Choose Ward</option>
+                            <option disabled>Choose Ward</option>
                             <option
                               v-for="w in ward.data"
                               :key="w.WardCode"
@@ -1061,7 +1070,7 @@
                             aria-label="Default select example"
                             v-model="type"
                           >
-                            <option selected>Set as Default Address</option>
+                            <option disabled>Set as Default Address</option>
                             <option value="DEFAULT">DEFAULT</option>
                             <option value="HOME">HOME</option>
                             <option value="COMPANY">COMPANY</option>
@@ -1083,7 +1092,7 @@
                   </div>
                 </div>
               </div>
-              <div role="tabpanel" class="tab-pane active" id="order">
+              <div role="tabpanel" class="tab-pane" id="order">
                 <div class="">
                   <div class="group-tabs ml-2">
                     <!-- Nav tabs -->
@@ -1092,7 +1101,11 @@
                         class="nav nav-pills bg-white flex gap-x-20 pl-20 py-3 text-base font-medium"
                         role="tablist"
                       >
-                        <li role="presentation" class="active">
+                        <li
+                          role="presentation"
+                          class="active"
+                          @click="selectStatusOrder('All')"
+                        >
                           <a
                             href="#all"
                             aria-controls="all"
@@ -1101,1356 +1114,130 @@
                             >All</a
                           >
                         </li>
-                        <li role="presentation">
+                        <li
+                          role="presentation"
+                          @click="selectStatusOrder('Pending')"
+                        >
                           <a
-                            href="#transport"
-                            aria-controls="transport"
+                            href="#peding"
+                            aria-controls="peding"
                             role="tab"
                             data-toggle="tab"
                             >Pending</a
                           >
                         </li>
-                        <li role="presentation">
+                        <li
+                          role="presentation"
+                          @click="selectStatusOrder('Preparing')"
+                        >
                           <a
-                            href="#completed"
-                            aria-controls="completed"
+                            href="#preparing"
+                            aria-controls="preparing"
                             role="tab"
                             data-toggle="tab"
                             >Preparing</a
                           >
                         </li>
-                        <li role="presentation">
+                        <li
+                          role="presentation"
+                          @click="selectStatusOrder('Delivering')"
+                        >
                           <a
-                            href="#completed"
-                            aria-controls="completed"
+                            href="#delivering"
+                            aria-controls="delivering"
                             role="tab"
                             data-toggle="tab"
                             >Delivering</a
                           >
                         </li>
-                        <li role="presentation">
+                        <li
+                          role="presentation"
+                          @click="selectStatusOrder('Delivered')"
+                        >
                           <a
-                            href="#completed"
-                            aria-controls="completed"
+                            href="#delivered"
+                            aria-controls="delivered"
                             role="tab"
                             data-toggle="tab"
                             >Delivered</a
                           >
                         </li>
-                        <li role="presentation">
+                        <li
+                          role="presentation"
+                          @click="selectStatusOrder('Cancel')"
+                        >
                           <a
                             href="#cancel"
                             aria-controls="cancel"
                             role="tab"
                             data-toggle="tab"
-                            >Cancel</a
+                            >Cancelled</a
                           >
                         </li>
                       </ul>
                     </div>
-
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                      <div
-                        role="tabpanel"
-                        class="tab-pane active"
-                        id="all"
-                        v-if="orderAll.length"
-                      >
-                        <div class="">
-                          <div
-                            clas="product"
-                            v-for="or in orderAll"
-                            :key="or.orderId"
-                          >
-                            <div class="ibox-content mt-3 rounded-md shadow-sm">
-                              <div class="text-sm flex flex-cols-2">
-                                <div class="font-medium text-gray-600">
-                                  ID Order: {{ or.orderId }}
-                                </div>
-                                <div class="absolute right-36">
-                                  <div
-                                    v-if="or.status === 'Pending'"
-                                    class="flex gap-x-3"
-                                  >
-                                    <div
-                                      class="bg-yellow-500 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
-                                    >
-                                      Pending
-                                    </div>
-                                    <div
-                                      @click="HandleCancelOrder(or.orderId)"
-                                      class="bg-red-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
-                                    >
-                                      Cancel
-                                    </div>
-                                  </div>
-                                  <div
-                                    v-if="or.status === 'Processing'"
-                                    class="flex gap-x-3"
-                                  >
-                                    <div
-                                      class="bg-emerald-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
-                                    >
-                                      Processing
-                                    </div>
-                                    <div
-                                      @click="HandleCancelOrder(or.orderId)"
-                                      class="bg-red-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
-                                    >
-                                      Cancel
-                                    </div>
-                                  </div>
-                                  <div
-                                    v-if="or.status === 'Preparing'"
-                                    class="bg-red-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
-                                  >
-                                    Preparing
-                                  </div>
-                                  <div
-                                    v-if="or.status === 'Delivering'"
-                                    class="bg-amber-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
-                                  >
-                                    Delivering
-                                  </div>
-                                  <div
-                                    v-if="or.status === 'Delivered'"
-                                    class="flex gap-x-3"
-                                  >
-                                    <div
-                                      class="bg-lime-700 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
-                                    >
-                                      Delivered
-                                    </div>
-                                    <div
-                                      data-toggle="modal"
-                                      data-target="#exampleModalLong"
-                                      data-backdrop="false"
-                                      @click="opentModalOrder('guarantee', or)"
-                                      class="bg-red-700 px-2 py-1 text-white rounded-md text-sm mr-2 cursor-pointer"
-                                    >
-                                      Guarantee
-                                    </div>
-                                    <div
-                                      data-toggle="modal"
-                                      data-target="#exampleModalLong"
-                                      data-backdrop="false"
-                                      @click="opentModalOrder('feedback', or)"
-                                      class="bg-sky-600 px-2 py-1 text-white rounded-md text-sm mr-2 cursor-pointer"
-                                    >
-                                      Feedback
-                                    </div>
-                                  </div>
-                                </div>
-                                <modal
-                                  v-if="modalType == 'guarantee'"
-                                  @close="closeModal"
-                                  data-target="#myModal"
-                                >
-                                  <template v-slot:title>
-                                    <h5
-                                      class="modal-title font-semibold text-lg text-yellow-950"
-                                      id="exampleModalLabel"
-                                    >
-                                      Add Guarantee
-                                    </h5>
-                                  </template>
-                                  <template v-slot:body>
-                                    <div
-                                      class="w-full items-center gap-x-6 pb-3"
-                                    >
-                                      <label
-                                        for="exampleFormControlInput1 font-semibold"
-                                        >Picture</label
-                                      >
-                                      <input
-                                        id="picture"
-                                        type="file"
-                                        accept=".png, .jpg, .jpeg"
-                                        :maxFileSize="1000000"
-                                        ref="file"
-                                        multiple
-                                        @change="onFile"
-                                        class="bg-slate-100 h-10 w-full rounded-md border border-input px-2 py-1 text-sm file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium"
-                                      />
-                                      <div class="image_upload flex gap-x-4">
-                                        <div
-                                          v-for="url in arrayUrl"
-                                          :key="url"
-                                          class="flex"
-                                        >
-                                          <img
-                                            class="object-contain h-48 w-96"
-                                            v-if="url"
-                                            :src="url"
-                                            alt="Avatar"
-                                          />
-                                          <label
-                                            @click="HandleRemoveImage(url)"
-                                            class="bi bi-x cursor-pointer"
-                                          ></label>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="mt-3">
-                                      <label class="col-form-label fw-medium"
-                                        >Warranty Reasons
-                                      </label>
-                                      <div class="">
-                                        <input
-                                          v-model="reason"
-                                          type="text"
-                                          class="form-control border-none bg-neutral-100"
-                                          id="firstname"
-                                          aria-describedby="firstnameHelp"
-                                          required
-                                        />
-                                      </div>
-                                    </div>
-                                  </template>
-                                  <template v-slot:footer
-                                    ><div
-                                      class="bg-yellow-900 rounded-md cursor-pointer"
-                                    >
-                                      <span
-                                        type="button"
-                                        class="btn text-white"
-                                        data-dismiss="modal"
-                                        @click.prevent="CreateGuarantee"
-                                      >
-                                        Create
-                                      </span>
-                                    </div></template
-                                  >
-                                </modal>
-                                <modal
-                                  v-if="modalType == 'feedback'"
-                                  @close="closeModal"
-                                  data-target="#myModal"
-                                >
-                                  <template v-slot:title>
-                                    <h5
-                                      class="modal-title font-semibold text-base"
-                                      id="exampleModalLabel"
-                                    >
-                                      Feedback
-                                    </h5>
-                                  </template>
-                                  <template v-slot:body>
-                                    <div>
-                                      <label
-                                        for="exampleInputEmail1"
-                                        class="form-label font-medium"
-                                        >Furniture</label
-                                      >
-                                      <select
-                                        v-if="orderModel.furniture.length"
-                                        v-model="furSpeFeedback"
-                                        class="form-select text-sm"
-                                        aria-label="Default select example"
-                                      >
-                                        <option selected>Choose Label</option>
-                                        <option
-                                          v-for="furSpe in orderModel.furniture"
-                                          :key="furSpe.furnitureSpecificationId"
-                                          :value="
-                                            furSpe.furnitureSpecificationId
-                                          "
-                                        >
-                                          {{
-                                            furSpe.furnitureSpecificationname
-                                          }}
-                                        </option>
-                                      </select>
-                                    </div>
-                                    <div class="mt-3">
-                                      <label
-                                        for="exampleInputEmail1"
-                                        class="form-label font-medium"
-                                        >Image</label
-                                      >
-                                      <div
-                                        v-if="arrayUrl.length"
-                                        class="flex gap-x-2"
-                                      >
-                                        <div
-                                          v-for="url in arrayUrl"
-                                          :key="url"
-                                          class="flex gap-x-2"
-                                        >
-                                          <img
-                                            class="object-contain h-48 w-96"
-                                            v-if="url"
-                                            :src="url"
-                                            alt="Avatar"
-                                          />
-                                          <label
-                                            @click="HandleRemoveImage(url)"
-                                            class="bi bi-x cursor-pointer"
-                                          ></label>
-                                        </div>
-                                      </div>
-                                      <div v-else class="ml-24">
-                                        <label
-                                          class="custum-file-upload"
-                                          for="file"
-                                        >
-                                          <div class="icon">
-                                            <svg
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              fill=""
-                                              viewBox="0 0 24 24"
-                                            >
-                                              <g
-                                                stroke-width="0"
-                                                id="SVGRepo_bgCarrier"
-                                              ></g>
-                                              <g
-                                                stroke-linejoin="round"
-                                                stroke-linecap="round"
-                                                id="SVGRepo_tracerCarrier"
-                                              ></g>
-                                              <g id="SVGRepo_iconCarrier">
-                                                <path
-                                                  fill=""
-                                                  d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z"
-                                                  clip-rule="evenodd"
-                                                  fill-rule="evenodd"
-                                                ></path>
-                                              </g>
-                                            </svg>
-                                          </div>
-                                          <div class="text">
-                                            <span>Click to upload image</span>
-                                          </div>
-                                          <input
-                                            type="file"
-                                            accept=".png, .jpg, .jpeg"
-                                            :maxFileSize="1000000"
-                                            ref="file"
-                                            multiple
-                                            @change="onFile"
-                                            id="file"
-                                          />
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <div
-                                      class="bg-white grid grid-cols-6 gap-2 rounded-xl p-2 text-sm"
-                                    >
-                                      <label class="font-medium text-sm"
-                                        >Content</label
-                                      >
-                                      <textarea
-                                        v-model="content"
-                                        placeholder="Your feedback..."
-                                        class="bg-slate-100 text-slate-600 h-28 placeholder:text-slate-600 placeholder:opacity-50 border border-slate-200 col-span-6 resize-none outline-none rounded-lg p-2 duration-300 focus:border-slate-600"
-                                      ></textarea>
-                                    </div>
-                                    <div
-                                      class="bg-white flex gap-2 rounded-xl p-2 text-sm mt-3"
-                                    >
-                                      <label class="font-medium text-sm"
-                                        >Vote Star</label
-                                      >
-                                      <div class="rating">
-                                        <input
-                                          v-model="star"
-                                          value="5"
-                                          name="rate"
-                                          id="star5"
-                                          type="radio"
-                                          required
-                                        />
-                                        <label title="text" for="star5"></label>
-                                        <input
-                                          value="4"
-                                          name="rate"
-                                          v-model="star"
-                                          id="star4"
-                                          type="radio"
-                                          required
-                                        />
-                                        <label title="text" for="star4"></label>
-                                        <input
-                                          value="3"
-                                          name="rate"
-                                          v-model="star"
-                                          id="star3"
-                                          type="radio"
-                                          checked=""
-                                          required
-                                        />
-                                        <label title="text" for="star3"></label>
-                                        <input
-                                          value="2"
-                                          name="rate"
-                                          v-model="star"
-                                          id="star2"
-                                          type="radio"
-                                          required
-                                        />
-                                        <label title="text" for="star2"></label>
-                                        <input
-                                          value="1"
-                                          name="rate"
-                                          v-model="star"
-                                          id="star1"
-                                          type="radio"
-                                          required
-                                        />
-                                        <label title="text" for="star1"></label>
-                                      </div>
-                                    </div>
-                                    <div class="ml-2 py-3">
-                                      <label class="font-medium">
-                                        <input
-                                          v-model="anonymous"
-                                          type="checkbox"
-                                          class="accent-pink-500"
-                                        />
-                                        Anonymous
-                                      </label>
-                                    </div>
-                                  </template>
-                                  <template v-slot:footer
-                                    ><div
-                                      class="bg-yellow-900 rounded-md cursor-pointer"
-                                    >
-                                      <span
-                                        type="button"
-                                        class="btn text-white"
-                                        data-dismiss="modal"
-                                        @click.prevent="HandleFeedback"
-                                      >
-                                        Feedback
-                                      </span>
-                                    </div></template
-                                  >
-                                </modal>
-                                <!-- <div class="date_order">Date: 9/5/2023</div> -->
-                              </div>
-                              <hr class="my-3 h-px text-slate-300" />
-                              <div class="table-responsive">
-                                <table class="table shoping-cart-table">
-                                  <tbody
-                                    v-for="fur in or.furniture"
-                                    :key="fur.furnitureId"
-                                  >
-                                    <tr>
-                                      <td width="90">
-                                        <div class="cart-product-imitation">
-                                          <img
-                                            src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                            alt=""
-                                          />
-                                        </div>
-                                      </td>
-                                      <td class="desc">
-                                        <h3 class="mb-2 break-all mt-3">
-                                          <span class="text-navy font-bold">
-                                            {{ fur.furnitureName }}
-                                          </span>
-                                        </h3>
-                                        <h3>
-                                          <div class="specificationname">
-                                            <span
-                                              class="font-semibold info_customizeOrder"
-                                            >
-                                              Specification name:
-                                            </span>
-                                            <span
-                                              class="font-medium info_customizeOrder"
-                                            >
-                                              {{
-                                                fur.furnitureSpecificationname
-                                              }}
-                                            </span>
-                                          </div>
-                                        </h3>
-                                      </td>
-                                      <td
-                                        width="65"
-                                        class="font-semibold text-center"
-                                      >
-                                        <div class="flex gap-x-4 mt-3">
-                                          <label
-                                            class="quantity font-meidum info_customizeOrder"
-                                            >Quantity:</label
-                                          >
-                                          <span
-                                            class="font-medium info_customizeOrder mr-10 mt-1"
-                                            >x{{ fur.quantity }}</span
-                                          >
-                                        </div>
-                                      </td>
-                                      <td
-                                        width="65"
-                                        class="font-semibold text-center"
-                                      >
-                                        <div
-                                          class="flex gap-x-4 mt-1 mr-2 mt-3"
-                                        >
-                                          <label
-                                            class="quantity font-meidum info_customizeOrder"
-                                            >Cost:</label
-                                          >
-                                          <h4
-                                            class="font-medium text-red-500 mt-1 text-sm"
-                                          >
-                                            ${{ fur.cost }}
-                                          </h4>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <hr class="my-3 h-px text-slate-300" />
-                                <div class="flex">
-                                  <div class="m-t-sm my-2 ml-2">
-                                    <div
-                                      class="flex gap-x-2"
-                                      data-toggle="modal"
-                                      data-target="#exampleModalLong"
-                                      data-backdrop="false"
-                                      @click="opentModalOrder('detail', or)"
-                                    >
-                                      <i
-                                        class="fa-solid fa-circle-info text-sm text-gray-600"
-                                      ></i>
-                                      <span
-                                        class="font-medium text-sm cursor-pointer text-gray-900"
-                                        >Detail</span
-                                      >
-                                    </div>
-                                    <modal
-                                      v-if="modalType == 'detail'"
-                                      @close="closeModal"
-                                      data-target="#myModal"
-                                    >
-                                      <template v-slot:title>
-                                        <h5
-                                          class="modal-title font-semibold"
-                                          id="exampleModalLabel"
-                                        >
-                                          Detail Order Transport
-                                        </h5>
-                                      </template>
-                                      <template v-slot:body>
-                                        <div class="invoice mt-2">
-                                          <span class="font-weight-bold d-block"
-                                            >Infromation</span
-                                          >
-                                          <div class="py-2">
-                                            <span
-                                              class="d-inlineblock pr-3 text-red-500"
-                                              ><i
-                                                class="fa-solid fa-location-dot pr-1"
-                                              ></i>
-                                              Shiping Address:</span
-                                            >
-                                            <span>12 Me Tri- Ha Noi</span>
-                                          </div>
-                                          <div
-                                            class="payment border-top mt-3 mb-3 border-bottom table-responsive"
-                                          >
-                                            <table
-                                              class="table table-borderless"
-                                            >
-                                              <tbody>
-                                                <tr>
-                                                  <td>
-                                                    <div class="py-2">
-                                                      <span class="mr-3"
-                                                        >Order Id</span
-                                                      >
-                                                      <span>{{
-                                                        orderModel.orderId
-                                                      }}</span>
-                                                    </div>
-                                                  </td>
-                                                  <td>
-                                                    <div class="py-2">
-                                                      <span
-                                                        class="d-block text-muted"
-                                                        >Payment</span
-                                                      >
-                                                      <span
-                                                        ><img
-                                                          class="w-1/12"
-                                                          v-if="
-                                                            orderModel.paymentMethod ===
-                                                            'VNPAYQR'
-                                                          "
-                                                          src="@/assets/images/payment_method/bank.png"
-                                                          alt="image"
-                                                        />
-                                                        <img
-                                                          class="w-1/12"
-                                                          v-if="
-                                                            orderModel.paymentMethod ===
-                                                            'VNPAY'
-                                                          "
-                                                          src="@/assets/images/payment_method/vnpay.png"
-                                                          alt="image"
-                                                        />
-                                                      </span>
-                                                    </div>
-                                                  </td>
-                                                </tr>
-                                              </tbody>
-                                            </table>
-                                          </div>
-
-                                          <div
-                                            class="product border-bottom table-responsive"
-                                          >
-                                            <table
-                                              class="table table-borderless"
-                                            >
-                                              <tbody
-                                                v-for="fur in orderModel.furniture"
-                                                :key="fur.furnitureId"
-                                              >
-                                                <tr>
-                                                  <td width="20%">
-                                                    <img
-                                                      src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                                      width="90"
-                                                    />
-                                                  </td>
-
-                                                  <td width="60%">
-                                                    <span
-                                                      class="font-weight-bold"
-                                                    >
-                                                      {{
-                                                        fur.furnitureSpecificationname
-                                                      }}</span
-                                                    >
-                                                    <div class="product-qty">
-                                                      <span class="d-block"
-                                                        >Quantity:{{
-                                                          fur.quantity
-                                                        }}</span
-                                                      >
-                                                    </div>
-                                                  </td>
-                                                  <td width="20%">
-                                                    <div class="text-right">
-                                                      <span
-                                                        class="font-weight-bold"
-                                                        >${{ fur.cost }}</span
-                                                      >
-                                                    </div>
-                                                  </td>
-                                                </tr>
-                                              </tbody>
-                                            </table>
-                                          </div>
-
-                                          <div
-                                            class="row d-flex justify-content-end"
-                                          >
-                                            <div class="col-md-5">
-                                              <table
-                                                class="table table-borderless"
-                                              >
-                                                <tbody class="totals">
-                                                  <tr>
-                                                    <td>
-                                                      <div class="text-left">
-                                                        <span class="text-muted"
-                                                          >Shipping Fee</span
-                                                        >
-                                                      </div>
-                                                    </td>
-                                                  </tr>
-
-                                                  <tr
-                                                    class="border-top border-bottom"
-                                                  >
-                                                    <td>
-                                                      <div class="text-left">
-                                                        <span
-                                                          class="font-weight-bold"
-                                                          >Subtotal</span
-                                                        >
-                                                      </div>
-                                                    </td>
-                                                    <td>
-                                                      <div class="text-right">
-                                                        <span
-                                                          class="font-weight-bold"
-                                                          >${{
-                                                            orderModel.totalCost
-                                                          }}</span
-                                                        >
-                                                      </div>
-                                                    </td>
-                                                  </tr>
-                                                </tbody>
-                                              </table>
-                                            </div>
-                                          </div>
-                                          <p class="font-weight-bold mb-0">
-                                            Thanks for shopping with us!
-                                          </p>
-                                        </div>
-                                      </template>
-                                      <template v-slot:footer> </template>
-                                    </modal>
-                                  </div>
-
-                                  <div class="flex gap-x-4 absolute right-40">
-                                    <span
-                                      class="total_cost_order font-semibold mt-2"
-                                      >Total Cost:
-                                    </span>
-                                    <span
-                                      class="font-bold text-lg text-red-500 mt-1"
-                                      >${{ or.totalCost }}</span
-                                    >
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <br />
+                    <div class="tab-content col-span-5 max-md:col-span-3">
+                      <div role="tabpanel" class="tab-pane active" id="all">
+                        <item-order
+                          v-if="orderAll"
+                          :orders="orderAll"
+                        ></item-order>
+                        <loadding v-else />
                       </div>
-                      <div role="tabpanel" class="tab-pane" id="transport">
-                        <div class="">
-                          <div
-                            clas="product"
-                            v-for="or in orderPending"
-                            :key="or.orderId"
-                          >
-                            <div class="ibox-content mt-3 rounded-md shadow-sm">
-                              <div class="text-sm flex flex-cols-2">
-                                <div
-                                  class="font-semibold text-gray-600 orderId"
-                                >
-                                  ID Order: {{ or.orderId }}
-                                </div>
-                                <div class="absolute right-36">
-                                  <div
-                                    v-if="or.status === 'Delivering'"
-                                    class="bg-amber-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
-                                  >
-                                    Delivering
-                                  </div>
-                                </div>
-                                <!-- <div class="date_order">Date: 9/5/2023</div> -->
-                              </div>
-                              <hr class="my-3 h-px text-slate-300" />
-                              <div class="table-responsive">
-                                <table class="table shoping-cart-table">
-                                  <tbody
-                                    v-for="fur in or.furniture"
-                                    :key="fur.furnitureId"
-                                  >
-                                    <tr>
-                                      <td width="90">
-                                        <div class="cart-product-imitation">
-                                          <img
-                                            src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                            alt=""
-                                          />
-                                        </div>
-                                      </td>
-                                      <td class="desc">
-                                        <h3 class="mb-2 mt-3">
-                                          <span class="text-navy font-bold">
-                                            {{ fur.furnitureName }}
-                                          </span>
-                                        </h3>
-                                        <h3>
-                                          <div class="specificationname">
-                                            <span class="font-semibold text-sm">
-                                              Specification name:
-                                            </span>
-                                            <span class="font-medium text-sm">
-                                              {{
-                                                fur.furnitureSpecificationname
-                                              }}
-                                            </span>
-                                          </div>
-                                        </h3>
-                                      </td>
-                                      <td
-                                        width="65"
-                                        class="font-semibold text-center"
-                                      >
-                                        <div class="flex gap-x-4 mt-3">
-                                          <label
-                                            class="quantity font-meidum text-slate-600"
-                                            >Quantity:</label
-                                          >
-                                          <span
-                                            class="font-medium text-slate-600"
-                                            >x{{ fur.quantity }}</span
-                                          >
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <h4
-                                          class="font-medium text-red-500 mt-3"
-                                        >
-                                          ${{ fur.cost }}
-                                        </h4>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <hr class="my-3 h-px text-slate-300" />
-                                <div class="flex">
-                                  <div class="m-t-sm my-2 ml-2">
-                                    <div
-                                      class="flex gap-x-2"
-                                      data-toggle="modal"
-                                      data-target="#exampleModalLong"
-                                      data-backdrop="false"
-                                      @click="opentModalOrder('detail', or)"
-                                    >
-                                      <i
-                                        class="fa-solid fa-circle-info text-sm"
-                                      ></i>
-                                      <span class="font-medium text-sm"
-                                        >Detail</span
-                                      >
-                                    </div>
-                                    <modal
-                                      v-if="modalType == 'detail'"
-                                      @close="closeModal"
-                                      data-target="#myModal"
-                                    >
-                                      <template v-slot:title>
-                                        <h5
-                                          class="modal-title font-medium"
-                                          id="exampleModalLabel"
-                                        >
-                                          Detail Order Transport
-                                        </h5>
-                                      </template>
-                                      <template v-slot:body>
-                                        <div class="invoice mt-2">
-                                          <span class="font-weight-bold d-block"
-                                            >Infromation</span
-                                          >
-                                          <div class="py-2">
-                                            <span
-                                              class="d-inlineblock pr-3 text-red-500"
-                                              ><i
-                                                class="fa-solid fa-location-dot pr-1"
-                                              ></i>
-                                              Shiping Address:</span
-                                            >
-                                            <span>12 Me Tri- Ha Noi</span>
-                                          </div>
-                                          <div
-                                            class="payment border-top mt-3 mb-3 border-bottom table-responsive"
-                                          >
-                                            <table
-                                              class="table table-borderless"
-                                            >
-                                              <tbody>
-                                                <tr>
-                                                  <td>
-                                                    <div class="py-2">
-                                                      <span class="mr-3"
-                                                        >Order Id</span
-                                                      >
-                                                      <span>{{
-                                                        orderModel.orderId
-                                                      }}</span>
-                                                    </div>
-                                                  </td>
-                                                  <td>
-                                                    <div class="py-2">
-                                                      <span
-                                                        class="d-block text-muted"
-                                                        >Payment</span
-                                                      >
-                                                      <span
-                                                        ><img
-                                                          class="w-1/12"
-                                                          v-if="
-                                                            orderModel.paymentMethod ===
-                                                            'VNPAYQR'
-                                                          "
-                                                          src="@/assets/images/payment_method/bank.png"
-                                                          alt="image"
-                                                        />
-                                                        <img
-                                                          class="w-1/12"
-                                                          v-if="
-                                                            orderModel.paymentMethod ===
-                                                            'VNPAY'
-                                                          "
-                                                          src="@/assets/images/payment_method/vnpay.png"
-                                                          alt="image"
-                                                        />
-                                                      </span>
-                                                    </div>
-                                                  </td>
-                                                </tr>
-                                              </tbody>
-                                            </table>
-                                          </div>
-
-                                          <div
-                                            class="product border-bottom table-responsive"
-                                          >
-                                            <table
-                                              class="table table-borderless"
-                                            >
-                                              <tbody
-                                                v-for="fur in orderModel.furniture"
-                                                :key="fur.furnitureId"
-                                              >
-                                                <tr>
-                                                  <td width="20%">
-                                                    <img
-                                                      src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                                      width="90"
-                                                    />
-                                                  </td>
-
-                                                  <td width="60%">
-                                                    <span
-                                                      class="font-weight-bold"
-                                                    >
-                                                      {{
-                                                        fur.furnitureSpecificationname
-                                                      }}</span
-                                                    >
-                                                    <div class="product-qty">
-                                                      <span class="d-block"
-                                                        >Quantity:{{
-                                                          fur.quantity
-                                                        }}</span
-                                                      >
-                                                    </div>
-                                                  </td>
-                                                  <td width="20%">
-                                                    <div class="text-right">
-                                                      <span
-                                                        class="font-weight-bold"
-                                                        >${{ fur.cost }}</span
-                                                      >
-                                                    </div>
-                                                  </td>
-                                                </tr>
-                                              </tbody>
-                                            </table>
-                                          </div>
-
-                                          <div
-                                            class="row d-flex justify-content-end"
-                                          >
-                                            <div class="col-md-5">
-                                              <table
-                                                class="table table-borderless"
-                                              >
-                                                <tbody class="totals">
-                                                  <tr>
-                                                    <td>
-                                                      <div class="text-left">
-                                                        <span class="text-muted"
-                                                          >Shipping Fee</span
-                                                        >
-                                                      </div>
-                                                    </td>
-                                                  </tr>
-
-                                                  <tr
-                                                    class="border-top border-bottom"
-                                                  >
-                                                    <td>
-                                                      <div class="text-left">
-                                                        <span
-                                                          class="font-weight-bold"
-                                                          >Subtotal</span
-                                                        >
-                                                      </div>
-                                                    </td>
-                                                    <td>
-                                                      <div class="text-right">
-                                                        <span
-                                                          class="font-weight-bold"
-                                                          >${{
-                                                            orderModel.totalCost
-                                                          }}</span
-                                                        >
-                                                      </div>
-                                                    </td>
-                                                  </tr>
-                                                </tbody>
-                                              </table>
-                                            </div>
-                                          </div>
-                                          <p class="font-weight-bold mb-0">
-                                            Thanks for shopping with us!
-                                          </p>
-                                        </div>
-                                      </template>
-                                      <template v-slot:footer> </template>
-                                    </modal>
-                                  </div>
-
-                                  <div class="flex gap-x-4 absolute right-40">
-                                    <span class="font-semibold mt-1"
-                                      >Total Cost:
-                                    </span>
-                                    <span
-                                      class="font-medium text-xl text-red-500"
-                                      >${{ or.totalCost }}</span
-                                    >
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <br />
+                      <div role="tabpanel" class="tab-pane" id="peding">
+                        <item-order
+                          v-if="orderPending.length"
+                          :orders="orderPending"
+                        ></item-order>
+                        <loadding v-else />
                       </div>
-                      <div role="tabpanel" class="tab-pane" id="completed">
-                        <div class="">
-                          <div
-                            clas="product"
-                            v-for="or in orderDeliveried"
-                            :key="or.orderId"
-                          >
-                            <div class="ibox-content mt-3 rounded-md shadow-sm">
-                              <div class="text-sm flex flex-cols-2">
-                                <div class="font-semibold text-gray-600">
-                                  ID Order: {{ or.orderId }}
-                                </div>
-                                <div class="absolute right-36">
-                                  <div
-                                    v-if="or.status === 'Pending'"
-                                    class="bg-yellow-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
-                                  >
-                                    Pending
-                                  </div>
-                                  <div
-                                    v-if="or.status === 'Processing'"
-                                    class="bg-lime-700 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
-                                  >
-                                    Processing
-                                  </div>
-                                  <div
-                                    v-if="or.status === 'Preparing'"
-                                    class="bg-red-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
-                                  >
-                                    Preparing
-                                  </div>
-                                  <div
-                                    v-if="or.status === 'Delivering'"
-                                    class="bg-red-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
-                                  >
-                                    Delivering
-                                  </div>
-                                  <div
-                                    v-if="or.status === 'Delivered'"
-                                    class="bg-red-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
-                                  >
-                                    Delivered
-                                  </div>
-                                </div>
-                                <!-- <div class="date_order">Date: 9/5/2023</div> -->
-                              </div>
-                              <hr class="my-3 h-px text-slate-300" />
-                              <div class="table-responsive">
-                                <table class="table shoping-cart-table">
-                                  <tbody
-                                    v-for="fur in or.furniture"
-                                    :key="fur.furnitureId"
-                                  >
-                                    <tr>
-                                      <td width="90">
-                                        <div class="cart-product-imitation">
-                                          <img
-                                            src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                            alt=""
-                                          />
-                                        </div>
-                                      </td>
-                                      <td class="desc">
-                                        <h3 class="mb-2 mt-3">
-                                          <span class="text-navy font-bold">
-                                            {{ fur.furnitureName }}
-                                          </span>
-                                        </h3>
-                                        <h3>
-                                          <div class="specificationname">
-                                            <span class="font-semibold text-sm">
-                                              Specification name:
-                                            </span>
-                                            <span class="font-medium text-sm">
-                                              {{
-                                                fur.furnitureSpecificationname
-                                              }}
-                                            </span>
-                                          </div>
-                                        </h3>
-                                      </td>
-                                      <td
-                                        width="65"
-                                        class="font-semibold text-center"
-                                      >
-                                        <div class="flex gap-x-4 mt-3">
-                                          <label
-                                            class="quantity font-meidum text-slate-600"
-                                            >Quantity:</label
-                                          >
-                                          <span
-                                            class="font-medium text-slate-600"
-                                            >x{{ fur.quantity }}</span
-                                          >
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <h4
-                                          class="font-medium text-red-500 mt-3"
-                                        >
-                                          ${{ fur.cost }}
-                                        </h4>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <hr class="my-3 h-px text-slate-300" />
-                                <div class="flex">
-                                  <div class="m-t-sm my-2 ml-2">
-                                    <div
-                                      class="flex gap-x-2"
-                                      data-toggle="modal"
-                                      data-target="#exampleModalLong"
-                                      data-backdrop="false"
-                                      @click="opentModalOrder('detail', or)"
-                                    >
-                                      <i
-                                        class="fa-solid fa-circle-info text-sm"
-                                      ></i>
-                                      <span class="font-medium text-sm"
-                                        >Detail</span
-                                      >
-                                    </div>
-                                    <modal
-                                      v-if="modalType == 'detail'"
-                                      @close="closeModal"
-                                      data-target="#myModal"
-                                    >
-                                      <template v-slot:title>
-                                        <h5
-                                          class="modal-title font-medium"
-                                          id="exampleModalLabel"
-                                        >
-                                          Detail Order Transport
-                                        </h5>
-                                      </template>
-                                      <template v-slot:body>
-                                        <div class="invoice mt-2">
-                                          <span class="font-weight-bold d-block"
-                                            >Infromation</span
-                                          >
-                                          <div class="py-2">
-                                            <span
-                                              class="d-inlineblock pr-3 text-red-500"
-                                              ><i
-                                                class="fa-solid fa-location-dot pr-1"
-                                              ></i>
-                                              Shiping Address:</span
-                                            >
-                                            <span>12 Me Tri- Ha Noi</span>
-                                          </div>
-                                          <div
-                                            class="payment border-top mt-3 mb-3 border-bottom table-responsive"
-                                          >
-                                            <table
-                                              class="table table-borderless"
-                                            >
-                                              <tbody>
-                                                <tr>
-                                                  <td>
-                                                    <div class="py-2">
-                                                      <span class="mr-3"
-                                                        >Order Id</span
-                                                      >
-                                                      <span>{{
-                                                        orderModel.orderId
-                                                      }}</span>
-                                                    </div>
-                                                  </td>
-                                                  <td>
-                                                    <div class="py-2">
-                                                      <span
-                                                        class="d-block text-muted"
-                                                        >Payment</span
-                                                      >
-                                                      <span
-                                                        ><img
-                                                          class="w-1/12"
-                                                          v-if="
-                                                            orderModel.paymentMethod ===
-                                                            'VNPAYQR'
-                                                          "
-                                                          src="@/assets/images/payment_method/bank.png"
-                                                          alt="image"
-                                                        />
-                                                        <img
-                                                          class="w-1/12"
-                                                          v-if="
-                                                            orderModel.paymentMethod ===
-                                                            'VNPAY'
-                                                          "
-                                                          src="@/assets/images/payment_method/vnpay.png"
-                                                          alt="image"
-                                                        />
-                                                      </span>
-                                                    </div>
-                                                  </td>
-                                                </tr>
-                                              </tbody>
-                                            </table>
-                                          </div>
-
-                                          <div
-                                            class="product border-bottom table-responsive"
-                                          >
-                                            <table
-                                              class="table table-borderless"
-                                            >
-                                              <tbody
-                                                v-for="fur in orderModel.furniture"
-                                                :key="fur.furnitureId"
-                                              >
-                                                <tr>
-                                                  <td width="20%">
-                                                    <img
-                                                      src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                                      width="90"
-                                                    />
-                                                  </td>
-
-                                                  <td width="60%">
-                                                    <span
-                                                      class="font-weight-bold"
-                                                    >
-                                                      {{
-                                                        fur.furnitureSpecificationname
-                                                      }}</span
-                                                    >
-                                                    <div class="product-qty">
-                                                      <span class="d-block"
-                                                        >Quantity:{{
-                                                          fur.quantity
-                                                        }}</span
-                                                      >
-                                                    </div>
-                                                  </td>
-                                                  <td width="20%">
-                                                    <div class="text-right">
-                                                      <span
-                                                        class="font-weight-bold"
-                                                        >${{ fur.cost }}</span
-                                                      >
-                                                    </div>
-                                                  </td>
-                                                </tr>
-                                              </tbody>
-                                            </table>
-                                          </div>
-
-                                          <div
-                                            class="row d-flex justify-content-end"
-                                          >
-                                            <div class="col-md-5">
-                                              <table
-                                                class="table table-borderless"
-                                              >
-                                                <tbody class="totals">
-                                                  <tr>
-                                                    <td>
-                                                      <div class="text-left">
-                                                        <span class="text-muted"
-                                                          >Shipping Fee</span
-                                                        >
-                                                      </div>
-                                                    </td>
-                                                  </tr>
-
-                                                  <tr
-                                                    class="border-top border-bottom"
-                                                  >
-                                                    <td>
-                                                      <div class="text-left">
-                                                        <span
-                                                          class="font-weight-bold"
-                                                          >Subtotal</span
-                                                        >
-                                                      </div>
-                                                    </td>
-                                                    <td>
-                                                      <div class="text-right">
-                                                        <span
-                                                          class="font-weight-bold"
-                                                          >${{
-                                                            orderModel.totalCost
-                                                          }}</span
-                                                        >
-                                                      </div>
-                                                    </td>
-                                                  </tr>
-                                                </tbody>
-                                              </table>
-                                            </div>
-                                          </div>
-                                          <p class="font-weight-bold mb-0">
-                                            Thanks for shopping with us!
-                                          </p>
-                                        </div>
-                                      </template>
-                                      <template v-slot:footer> </template>
-                                    </modal>
-                                  </div>
-
-                                  <div class="flex gap-x-4 absolute right-40">
-                                    <span class="font-semibold mt-1"
-                                      >Total Cost:
-                                    </span>
-                                    <span
-                                      class="font-medium text-xl text-red-500"
-                                      >${{ or.totalCost }}</span
-                                    >
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <br />
+                      <div role="tabpanel" class="tab-pane" id="preparing">
+                        <item-order
+                          v-if="orderPreparing.length"
+                          :orders="orderPreparing"
+                        ></item-order>
+                        <loadding v-else />
                       </div>
-                      <div role="tabpanel" class="tab-pane" id="cancel"></div>
+                      <div role="tabpanel" class="tab-pane" id="delivering">
+                        <item-order
+                          v-if="orderDelivering.length"
+                          :orders="orderDelivering"
+                        ></item-order>
+                        <loadding v-else />
+                      </div>
+                      <div role="tabpanel" class="tab-pane" id="delivered">
+                        <item-order
+                          v-if="orderDelivered.length"
+                          :orders="orderDelivered"
+                        ></item-order>
+                        <loadding v-else />
+                      </div>
+                      <div role="tabpanel" class="tab-pane" id="cancel">
+                        <item-order
+                          v-if="orderCancel.length"
+                          :orders="orderCancel"
+                        ></item-order>
+                        <loadding v-else />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+
               <div role="tabpanel" class="tab-pane" id="wishlist">
                 <div class="form bg-white">
                   <div class="flex"></div>
                   <h1
                     class="py-3 font-semibold text-base pl-10 text-yellow-950"
                   >
-                    All Guarantee
+                    All Wishlist
                   </h1>
-                  <!-- <all-furniture
-                    v-if="wishlist.length"
-                    :furnitures="wishlist"
-                  ></all-furniture> -->
                 </div>
+                <!-- <div class="form">
+                  <div class="px-6" v-if="wishlist.length">
+                    <all-furniture :furnitures="wishlist"></all-furniture>
+                  </div>
+                </div> -->
               </div>
               <div role="tabpanel" class="tab-pane" id="feedback">
                 <div class="form bg-white">
@@ -2602,146 +1389,89 @@
                             :src="img.url"
                             alt="img"
                           />
-                          <!-- <img
-                            class="rounded-md w-6/12 cursor-pointer"
-                            src="@/assets/images/category/bed/bed_8.png"
-                            alt="img"
-                          /> -->
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div role="tabpanel" class="tab-pane" id="warranty">
+              <div role="tabpanel" class="tab-pane active" id="warranty">
                 <div class="form bg-white">
-                  <div class="flex"></div>
                   <h1
                     class="py-3 font-semibold text-base pl-10 text-yellow-950"
                   >
                     All Guarantee
                   </h1>
+                </div>
+                <div class="fform bg-white card mb-5 mb-xl-10 mt-10">
                   <div v-if="warranties.length">
                     <div
-                      class="flex"
+                      class="item_warranty flex px-6 py-6 mt-3"
                       v-for="w in warranties"
                       :key="w.warrantyId"
                     >
-                      <img :src="w.images" alt="images" />
-                      <span>Reason{{ w.warrantyReason }}</span>
-                      <span>Dates{{ w.estimatedTime }}</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="form bg-white"></div>
-                <!-- <div class="nav-warranty">
-                  <ul
-                    class="nav nav-pills bg-white flex- gap-x-60 pl-20 py-3 text-base font-medium"
-                    role="tablist"
-                  >
-                    <li role="presentation" class="active">
-                      <a
-                        href="#alllWarranty"
-                        aria-controls="allWarranty"
-                        role="tab"
-                        data-toggle="tab"
-                        >List Warranty</a
-                      >
-                    </li>
-                    <li role="presentation">
-                      <a
-                        href="#addWarranty"
-                        aria-controls="addWarranty"
-                        role="tab"
-                        data-toggle="tab"
-                        >Create Warranty</a
-                      >
-                    </li>
-                    <li role="presentation">
-                      <a
-                        href="#updateWarranty"
-                        aria-controls="completed"
-                        role="tab"
-                        data-toggle="tab"
-                        >Update Warranty</a
-                      >
-                    </li>
-                  </ul>
-                </div> -->
-
-                <!-- Tab panes -->
-                <!-- <div class="tab-content">
-                  <div
-                    role="tabpanel"
-                    class="tab-pane active"
-                    id="alllWarranty"
-                  ></div>
-                  <div role="tabpanel" class="tab-pane active" id="addWarranty">
-                    <div class="mt-10">
-                      <span class="mx-28 font-medium">Create Warranty</span>
-                    </div>
-                    <hr class="mx-28 w-1/12" />
-                    <div
-                      class="grid grid-cols-2 bg-white drop-shadow rounded-lg mx-28 my-3 max-md:mx-4"
-                    >
-                      <div class="border border-red-100 px-6 py-3 text-sm">
-                        <form>
-                          <div>
-                            <div class="form-group">
-                              <label for="exampleFormControlInput1"
-                                >Order ID</label
-                              >
-                              <input
-                                type="text"
-                                class="form-control"
-                                id="exampleFormControlInput1"
-                                placeholder="1.."
-                              />
-                            </div>
-                            <div class="form-group">
-                              <label for="exampleFormControlInput1"
-                                >Describe the reason</label
-                              >
-                              <input
-                                type="text"
-                                class="form-control"
-                                id="exampleFormControlInput1"
-                                placeholder="This is reason..."
-                              />
-                            </div>
-                            <div class="form-group">
-                              <label for="exampleFormControlInput1"
-                                >Estimated Time</label
-                              >
-                              <input
-                                type="date"
-                                class="form-control"
-                                id="exampleFormControlInput1"
-                              />
-                            </div>
-                          </div>
-                          <div class="button_w float-right rounded-md my-2">
-                            <button type="submit" class="btn text-white">
-                              Register
+                      <div>
+                        <div class="flex gap-x-10 text-sm leading-7">
+                          <div v-if="w.attacments.images.length">
+                            <img
+                              :src="w.attacments.images[0].path"
+                              alt="images"
+                            />
+                            <button
+                              data-toggle="modal"
+                              data-target="#exampleModalLong"
+                              data-backdrop="false"
+                              class="font-medium ring-1 ring-yellow-900 rounded-md px-2 text-xs py-1 mt-3"
+                              @click="opentModal('imgWarranty', w)"
+                            >
+                              See More
                             </button>
                           </div>
-                        </form>
-                      </div>
-                      <div class="img w-6/12">
-                        <img
-                          src="@/assets/images/guarantee.png"
-                          alt="customize"
-                        />
+                          <modal
+                            v-if="modalType == 'imgWarranty'"
+                            @close="modalType == null"
+                            data-target="#myModal"
+                          >
+                            <template v-slot:title>
+                              <div
+                                class="flex items-center text-lg font-semibold"
+                              >
+                                All Image
+                              </div>
+                            </template>
+                            <template v-slot:body>
+                              <div
+                                v-for="im in warrantyModal.attacments.images"
+                                :key="im"
+                              >
+                                <img :src="im.path" alt="images" />
+                              </div>
+                            </template>
+                          </modal>
+                          <div class="flex gap-x-10">
+                            <span class="block"
+                              ><b class="text-yellow-900">Order Id:</b>
+                              {{ w.orderId }}</span
+                            >
+                            <span class="block"
+                              ><b class="text-yellow-900">Date:</b>
+                              {{ w.estimatedTime }}</span
+                            >
+                            <span class="block"
+                              ><b class="text-yellow-900">Status:</b>
+                              {{ w.status }}</span
+                            >
+                            <span class="block"
+                              ><b class="text-yellow-900">Reason:</b>
+                              {{ w.warrantyReason }}</span
+                            >
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div
-                    role="tabpanel"
-                    class="tab-pane active"
-                    id="updateWarranty"
-                  ></div>
-                </div> -->
-                <div class="bg-white form"></div>
+                  <loadding v-else />
+                </div>
               </div>
               <div role="tabpanel" class="tab-pane" id="customize">
                 <div class="">
@@ -2749,10 +1479,14 @@
                     <!-- Nav tabs -->
                     <div class="nav-order">
                       <ul
-                        class="nav nav-pills bg-white flex gap-x-52 pl-20 py-3 text-base font-medium"
+                        class="nav nav-pills custom bg-white flex gap-x-96 py-3 text-base font-medium"
                         role="tablist"
                       >
-                        <!-- <li role="presentation" class="active">
+                        <li
+                          role="presentation"
+                          class="active"
+                          @click="selectStatus('All')"
+                        >
                           <a
                             href="#all"
                             aria-controls="all"
@@ -2760,30 +1494,31 @@
                             data-toggle="tab"
                             >All</a
                           >
-                        </li> -->
-                        <!-- <li role="presentation">
+                        </li>
+                        <li
+                          role="presentation"
+                          @click="selectStatus('Accepted')"
+                        >
                           <a
-                            href="#all"
-                            aria-controls="all"
+                            href="#accepted"
+                            aria-controls="accepted"
                             role="tab"
                             data-toggle="tab"
                             >Accepted</a
                           >
                         </li>
-                        <li role="presentation">
+                        <li
+                          role="presentation"
+                          @click="selectStatus('Rejected')"
+                        >
                           <a
-                            href="#all"
-                            aria-controls="all"
+                            href="#rejected"
+                            aria-controls="rejected"
                             role="tab"
                             data-toggle="tab"
                             >Rejected</a
                           >
-                        </li> -->
-
-                        <li @click="selectStatus('All')" class="active">All</li>
-                        <li @click="selectStatus('Accepted')">Accepted</li>
-                        <li @click="selectStatus('Rejected')">Rejected</li>
-                        <li @click="selectStatus('Pending')">Pending</li>
+                        </li>
                       </ul>
                     </div>
                     <div
@@ -2791,7 +1526,7 @@
                       data-toggle="modal"
                       data-target="#exampleModalLong"
                       data-backdrop="false"
-                      class="bg-slate-700 px-2 text-white rounded-md text-sm cursor-pointer w-2/12 right-40 text-center my-4 py-2"
+                      class="ml-80 w-4/12 ring-yellow-700 ring-1 px-2 text-sm text-yellow-800 cursor-pointer font-semibold text-center my-4 py-2 relative group rounded-md bg-yellow-49 overflow-hidden before:absolute before:w-12 before:h-12 before:content[''] before:right-0 before:bg-amber-500 before:rounded-full before:blur-lg before:[box-shadow:-60px_20px_10px_10px_#F9B0B9]"
                     >
                       Check Out
                     </div>
@@ -2802,7 +1537,9 @@
                     >
                       <template v-slot:title>
                         <div>
-                          <h1 class="font-semibold text-lg">Check Out</h1>
+                          <h1 class="font-semibold text-base text-yellow-900">
+                            CHECK OUT
+                          </h1>
                         </div>
                       </template>
                       <template v-slot:body>
@@ -2816,11 +1553,13 @@
                             <br />
                             <div class="py-2 flex gap-x-4">
                               <span
-                                v-if="adChange"
-                                class="font-semibold text-sm"
+                                v-if="Object.keys(adChange).length === 0"
+                                class="font-semibold text-sm opacity-90"
                                 >{{ order.deliveryAddress }}
                               </span>
-                              <span v-else class="font-semibold text-sm"
+                              <span
+                                v-else
+                                class="font-semibold text-sm opacity-90"
                                 >{{ adChange.street }} {{ adChange.ward }}
                                 {{ adChange.district }}
                                 {{ adChange.provine }}
@@ -2836,7 +1575,7 @@
                                 </div>
                               </div>
                               <div
-                                class="font-semibold text-amber-900 cursor-pointer"
+                                class="font-semibold text-amber-900 cursor-pointer text-sm"
                                 data-toggle="modal"
                                 data-target="#exampleModalLong"
                                 @click="opentModal('address')"
@@ -2848,7 +1587,10 @@
                         </div>
                         <div class="bg-white rounded-md px-3 pt-2">
                           <div>
-                            <div>
+                            <div
+                              v-for="f in order.items"
+                              :key="f.customizeFurnitureId"
+                            >
                               <div class="card mb-3">
                                 <div class="card-body">
                                   <div class="d-flex justify-content-between">
@@ -2865,7 +1607,7 @@
                                       </div>
                                       <div class="ms-3">
                                         <h5>
-                                          {{ order.customizeFurnitureName }}
+                                          {{ f.customizeFurnitureName }}
                                         </h5>
                                       </div>
                                     </div>
@@ -2874,7 +1616,7 @@
                                     >
                                       <div style="width: 50px">
                                         <h5 class="fw-normal mb-0">
-                                          x{{ order.quantity }}
+                                          x{{ f.quantity }}
                                         </h5>
                                       </div>
                                     </div>
@@ -2885,10 +1627,11 @@
                           </div>
                         </div>
                         <div
-                          class="card bg-white rounded-md px-3 py-2 my-3 mx-3"
+                          class="card bg-white rounded-md px-3 py-2 mb-3 mx-2"
                         >
                           <div class="flex gap-x-1 mt-3 mb-3">
-                            <span class="font-medium label_payment mt-2 mr-3"
+                            <span
+                              class="font-medium label_payment mt-2 mr-3 opacity-90"
                               >Point</span
                             >
                             <div class="input-group">
@@ -2898,6 +1641,7 @@
                                 class="form-control border border-slate-200"
                                 aria-label="Dollar amount (with dot and two decimal places)"
                                 :maxlength="info.point"
+                                placeholder="Redeem Shop Point"
                               />
                               <span class="input-group-text">
                                 <i
@@ -2909,41 +1653,49 @@
                               }}</span>
                             </div>
                           </div>
-
                           <div class="">
                             <div
                               class="d-flex justify-content-between align-items-center mb-4"
                             >
-                              <h5 class="label_payment mb-0 font-medium mt-2">
+                              <h5
+                                class="label_payment mb-0 font-medium mt-4 opacity-90"
+                              >
                                 Payment Method
                               </h5>
                             </div>
 
-                            <div>
+                            <div class="mb-1">
                               <div>
                                 <select
-                                  v-if="order.payments"
                                   v-model="paymentId"
                                   class="form-select text-sm border border-slate-200"
                                   aria-label="Default select example"
+                                  required=""
                                 >
-                                  <option selected>Choose Payment</option>
-
-                                  <option
-                                    v-for="md in order.payments"
-                                    :key="md"
-                                    :value="md.paymentId"
-                                  >
-                                    {{ md.paymentMethod }}
+                                  <option disabled value="">
+                                    Please choose Method Payment
                                   </option>
+                                  <option value="2">QR Code</option>
+                                  <option value="3">Domestic Card</option>
+                                  <option value="4">International Card</option>
                                 </select>
                               </div>
                             </div>
-                            <div class="">
+                            <span
+                              v-if="isMsgError"
+                              class="error text-xs block"
+                              >{{ msgErrorPayment }}</span
+                            >
+                            <span v-else class="text-xs"
+                              >Please Choose Payment Method</span
+                            >
+                            <div class="mb-1">
                               <div
                                 class="d-flex justify-content-between align-items-center mb-4"
                               >
-                                <h5 class="label_payment mb-0 font-medium mt-2">
+                                <h5
+                                  class="label_payment mb-0 font-medium mt-4 opacity-90"
+                                >
                                   Delivery Method
                                 </h5>
                               </div>
@@ -2952,11 +1704,14 @@
                                 <div>
                                   <select
                                     v-model="delivery"
-                                    class="form-select text-sm border border-slate-200"
+                                    class="form-select text-sm border border-slate-200 mb-2"
                                     aria-label="Default select example"
                                     @change="CalculateDeliveryFee"
+                                    required="required"
                                   >
-                                    <option selected>Choose Delivery</option>
+                                    <option disabled>
+                                      Choose Delivery Method
+                                    </option>
                                     <option
                                       v-for="ship in methodDelevery.data"
                                       :key="ship"
@@ -2965,13 +1720,23 @@
                                       {{ ship.short_name }}
                                     </option>
                                   </select>
+                                  <span v-if="!isMsgError" class="text-xs block"
+                                    >Please Choose Delivery Method. Receive by 3
+                                    to 5 day</span
+                                  >
+                                  <span v-else class="error text-xs">{{
+                                    msgErrorDelivery
+                                  }}</span>
                                 </div>
                               </div>
                             </div>
                             <div
                               class="grid grid-cols-6 gap-4 rounded-xl text-sm pb-3"
                             >
-                              <label class="label_payment">Note</label>
+                              <label
+                                class="label_payment mb-0 font-medium mt-4 col-span-6 opacity-90"
+                                >Message for Store</label
+                              >
                               <textarea
                                 v-model="note"
                                 placeholder="Your note..."
@@ -2980,25 +1745,41 @@
                             </div>
                           </div>
                         </div>
-                        <div class="absolute right-8 flex gap-x-10">
-                          <p class="text-sm">Shipping Fee</p>
-                          <p class="text-sm">${{ shipCost }}</p>
+                        <!-- <hr class="mx-7 border-b-px border-indigo-50" /> -->
+                        <div class="mx-3 mt-4 text-sm opacity-90">
+                          <span class="font-semibold">TOTAL ORDER </span>
+                          <span class="font-medium"
+                            >| {{ customOrder.length }} CUSTOM FURNITURE</span
+                          >
                         </div>
-                        <br />
-                        <div class="absolute right-8 flex gap-x-10 mt-6">
-                          <p class="text-sm">Point</p>
-                          <p class="text-sm">{{ userpoint }}</p>
-                        </div>
-                        <br />
-                        <div class="absolute right-8 flex gap-x-10 mt-10">
-                          <p class="text-sm">Subtotal</p>
-                          <p class="text-sm">${{ order.totalCost }}</p>
-                        </div>
-                        <div class="d-flex justify-content-between mt-20 px-4">
-                          <p class="font-semibold text-base">Subtotal</p>
-                          <p class="font-bold text-base text-red-600">
-                            ${{ totalCost }}
-                          </p>
+                        <div
+                          class="mx-3 flex flex-col-reverse divide-y divide-y-reverse divide-dashed divide-slate-300 opacity-90"
+                        >
+                          <div class="d-flex justify-content-between mt-2">
+                            <p class="font-semibold text-sm">SUBTOTAL</p>
+                            <p class="font-bold text-base text-red-600">
+                              {{ totalCost }} VND
+                            </p>
+                          </div>
+                          <br />
+                          <div class="flex gap-x-10 mt-4 font-medium">
+                            <p class="text-sm">Point</p>
+                            <p class="text-sm absolute right-10">
+                              {{ userpoint }}
+                            </p>
+                          </div>
+                          <div class="flex gap-x-10 mt-4 font-medium">
+                            <p class="text-sm">Shipping Fee</p>
+                            <p class="text-sm absolute right-10">
+                              {{ shipCost }} VND
+                            </p>
+                          </div>
+                          <div class="flex gap-x-10 mt-4 font-semibold">
+                            <p class="text-sm">Subtotal</p>
+                            <p class="text-sm absolute right-10">
+                              {{ order.totalCost }} VND
+                            </p>
+                          </div>
                         </div>
                       </template>
                       <template v-slot:footer>
@@ -3030,32 +1811,34 @@
                             v-for="ad in address"
                             :key="ad.id"
                           >
-                            <div class="flex gap-x-1">
-                              <input
-                                v-model="ad.addressChange"
-                                @change="changeAddress(ad)"
-                                class="w-px/12"
-                                type="radio"
-                                name="flexRadioDefault"
-                                id="flexRadioDefault1"
-                              />
-                              <span
-                                class="span_address font-medium list-decimal"
-                                >{{ ad.street }} {{ ad.ward }}
-                                {{ ad.district }} {{ ad.provine }}</span
-                              >
-                            </div>
-                            <div
-                              v-if="ad.addressType === 'DEFAULT'"
-                              class="span_address"
-                            >
-                              <div
-                                class="border-solid border-2 border-red-600 rounded-full"
-                              >
+                            <div class="w-8/12 flex gap-x-3">
+                              <div class="flex gap-x-1">
+                                <input
+                                  v-model="ad.addressChange"
+                                  @change="changeAddress(ad)"
+                                  class="w-px/12"
+                                  type="radio"
+                                  name="flexRadioDefault"
+                                  id="flexRadioDefault1"
+                                />
                                 <span
-                                  class="px-2 py-1 font-medium text-red-600 text-xs"
-                                  >Default</span
+                                  class="span_address font-medium list-decimal"
+                                  >{{ ad.street }} {{ ad.ward }}
+                                  {{ ad.district }} {{ ad.provine }}</span
                                 >
+                              </div>
+                              <div
+                                v-if="ad.addressType === 'DEFAULT'"
+                                class="span_address"
+                              >
+                                <div
+                                  class="border-solid border-2 border-red-600 rounded-full"
+                                >
+                                  <span
+                                    class="px-2 py-1 font-medium text-red-600 text-xs"
+                                    >Default</span
+                                  >
+                                </div>
                               </div>
                             </div>
                             <div class="absolute right-4 flex gap-x-5">
@@ -3087,7 +1870,7 @@
                           data-target="#exampleModalLong"
                           data-backdrop="false"
                           @click="confirmChangeAddress"
-                          class="px-2 py-1 text-white hover:ring-offset-2 hover:ring-2 bg-red-600 hover:ring-red-200 text-sm rounded-md transition duration-700 ease-in-out font-medium"
+                          class="px-2 py-2 text-white hover:ring-offset-2 hover:ring-2 bg-yellow-800 hover:ring-red-200 text-sm rounded-md transition duration-700 ease-in-out font-medium"
                         >
                           Confirm
                         </button>
@@ -3165,7 +1948,9 @@
                           aria-label="Default select example"
                           v-model="addressModal.type"
                         >
-                          <option selected>{{ addressModal.type }}</option>
+                          <option disabled value="">
+                            {{ addressModal.type }}
+                          </option>
                           <option value="DEFAULT">Default</option>
                           <option value="HOME">Home</option>
                         </select>
@@ -3216,314 +2001,28 @@
                       </template>
                     </modal>
                     <!-- Tab panes -->
-                    <div class="tab-content">
-                      <div
-                        role="tabpanel"
-                        class="tab-pane active"
-                        id="all"
-                        v-if="customizeOders.length"
-                      >
-                        <div class="">
-                          <div
-                            clas="product"
-                            v-for="or in customizeOders"
-                            :key="or.customizeFurnitureId"
-                          >
-                            <div class="ibox-content mt-3 rounded-md shadow-sm">
-                              <div class="text-sm flex flex-cols-2">
-                                <div
-                                  class="font-medium text-slate-600 text-xs mt-1"
-                                  v-if="or.result.status === 'Accepted'"
-                                >
-                                  This order has been confirmed by the shop
-                                </div>
-                                <div
-                                  class="font-medium text-slate-600 text-xs mt-1"
-                                  v-if="or.result.status === 'Pending'"
-                                >
-                                  This order is under review by the store
-                                </div>
-                                <div class="absolute right-36 flex gap-x-4">
-                                  <div class="order_status">
-                                    <div
-                                      v-if="or.result.status === 'Pending'"
-                                      class="bg-yellow-600 px-2 py-1 text-white rounded-md text-sm"
-                                    >
-                                      Pending
-                                    </div>
-                                    <div
-                                      v-if="or.result.status === 'Accepted'"
-                                      class="bg-lime-700 px-2 py-1 text-white rounded-md text-sm"
-                                    >
-                                      Accepted
-                                    </div>
-                                    <div
-                                      v-if="or.status === 'Preparing'"
-                                      class="bg-red-600 px-2 py-1 text-white rounded-md text-sm"
-                                    >
-                                      Preparing
-                                    </div>
-                                    <div
-                                      v-if="or.status === 'Delivering'"
-                                      class="bg-red-600 px-2 py-1 text-white rounded-md text-sm"
-                                    >
-                                      Delivering
-                                    </div>
-                                    <div
-                                      v-if="or.status === 'Delivered'"
-                                      class="bg-red-600 px-2 py-1 text-white rounded-md text-sm"
-                                    >
-                                      Delivered
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <hr class="mt-4 mb-2 h-px text-slate-300" />
-                              <div class="table-responsive">
-                                <table class="table shoping-cart-table">
-                                  <tbody>
-                                    <tr>
-                                      <td
-                                        v-if="or.result.status === 'Accepted'"
-                                      >
-                                        <div class="mt-14">
-                                          <input
-                                            type="checkbox"
-                                            id="checkbox"
-                                            v-model="or.isSelected"
-                                            @change="handleCartId(or)"
-                                          />
-                                        </div>
-                                      </td>
-                                      <td width="90">
-                                        <div
-                                          class="cart-product-imitation mt-3"
-                                        >
-                                          <img
-                                            src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                            alt=""
-                                          />
-                                        </div>
-                                      </td>
-                                      <td class="desc">
-                                        <h3 class="mb-2 break-all">
-                                          <span class="text-navy font-bold">
-                                            {{ or.customizeFurnitureName }}
-                                          </span>
-                                        </h3>
-                                        <h3 class="pt-1">
-                                          <div class="specificationname">
-                                            <span
-                                              class="font-semibold info_customizeOrder"
-                                            >
-                                              Height:
-                                            </span>
-                                            <span
-                                              class="font-medium info_customizeOrder"
-                                            >
-                                              {{ or.height }}m
-                                            </span>
-                                          </div>
-                                        </h3>
-                                        <h3 class="pt-1">
-                                          <div class="specificationname">
-                                            <span
-                                              class="font-semibold info_customizeOrder"
-                                            >
-                                              Width:
-                                            </span>
-                                            <span
-                                              class="font-medium info_customizeOrder"
-                                            >
-                                              {{ or.width }}m
-                                            </span>
-                                          </div>
-                                        </h3>
-                                        <h3 class="pt-1">
-                                          <div class="specificationname">
-                                            <span
-                                              class="font-semibold info_customizeOrder"
-                                            >
-                                              Length:
-                                            </span>
-                                            <span
-                                              class="font-medium info_customizeOrder"
-                                            >
-                                              {{ or.length }}m
-                                            </span>
-                                          </div>
-                                        </h3>
-
-                                        <h3 class="pt-1">
-                                          <div class="specificationname">
-                                            <span
-                                              class="font-semibold info_customizeOrder"
-                                            >
-                                              Desired Completion Date:
-                                            </span>
-                                            <span
-                                              class="font-medium info_customizeOrder"
-                                            >
-                                              {{ or.desiredCompletionDate }}
-                                            </span>
-                                          </div>
-                                        </h3>
-                                      </td>
-                                      <td>
-                                        <h3>
-                                          <div class="specificationname">
-                                            <span
-                                              class="font-semibold info_customizeOrder"
-                                            >
-                                              Color:
-                                            </span>
-                                            <span
-                                              class="font-medium info_customizeOrder"
-                                            >
-                                              {{ or.color }}
-                                            </span>
-                                          </div>
-                                        </h3>
-                                      </td>
-                                      <td>
-                                        <h3>
-                                          <div class="specificationname">
-                                            <span
-                                              class="font-semibold info_customizeOrder"
-                                            >
-                                              Wood:
-                                            </span>
-                                            <span
-                                              class="font-medium info_customizeOrder"
-                                            >
-                                              {{ or.wood }}
-                                            </span>
-                                          </div>
-                                        </h3>
-                                      </td>
-                                      <td
-                                        width="65"
-                                        class="font-semibold text-center"
-                                      >
-                                        <div class="flex">
-                                          <label
-                                            class="quantity font-meidum info_customizeOrder mr-1"
-                                            >Quantity:</label
-                                          >
-                                          <span
-                                            class="font-medium info_customizeOrder text-sm mt-1"
-                                            >x{{ or.quantity }}</span
-                                          >
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <hr class="my-3 h-px text-slate-300" />
-                                <div class="flex">
-                                  <div class="m-t-sm my-2 ml-2">
-                                    <div
-                                      class="date_orderCustomize text-xs font-medium text-slate-600"
-                                    >
-                                      Date: {{ or.creationDate }}
-                                    </div>
-                                  </div>
-                                  <div
-                                    class="flex gap-x-2 absolute right-40 mt-1 cursor-pointer"
-                                    data-toggle="modal"
-                                    data-target="#exampleModalLong"
-                                    data-backdrop="false"
-                                    @click="opentModalOrder('result', or)"
-                                  >
-                                    <i
-                                      class="bi bi-check-square text-sm text-red-700"
-                                    ></i>
-                                    <span
-                                      class="font-medium text-sm text-red-700"
-                                      >Detailed Response</span
-                                    >
-                                  </div>
-                                  <modal
-                                    v-if="modalType == 'result'"
-                                    @close="modalType == null"
-                                    data-target="#myModal"
-                                  >
-                                    <template v-slot:title>
-                                      <h5
-                                        class="modal-title font-semibold px-2"
-                                        id="exampleModalLabel"
-                                      >
-                                        Detailed Response
-                                      </h5>
-                                    </template>
-                                    <template v-slot:body>
-                                      <div class="px-2">
-                                        <div class="py-2">
-                                          <span
-                                            class="font-semibold mt-1 mr-2 text_customize detail_response"
-                                            >Reason:</span
-                                          >
-                                          <span
-                                            class="font-medium mb-0 text_customize mt-4 text-zinc-600"
-                                            >{{
-                                              customizeModal.result.reason
-                                            }}</span
-                                          >
-                                        </div>
-                                        <div class="py-2">
-                                          <span
-                                            class="font-semibold mt-1 mr-2 text_customize detail_response"
-                                            >Expected Price:</span
-                                          >
-                                          <span
-                                            class="font-medium text-red-600 text_customize"
-                                            >${{
-                                              customizeModal.result
-                                                .expectedPrice
-                                            }}</span
-                                          >
-                                        </div>
-                                        <div class="py-2">
-                                          <span
-                                            class="font-semibold mt-1 mr-2 text_customize detail_response"
-                                            >Actual Completion Date:</span
-                                          >
-                                          <span
-                                            class="font-medium text_customize text-zinc-600"
-                                          >
-                                            {{
-                                              customizeModal.result
-                                                .actualCompletionDate
-                                            }}</span
-                                          >
-                                        </div>
-                                        <p
-                                          class="font-weight-bold mb-0 text_customize mt-4"
-                                        >
-                                          Thanks for shopping with us!
-                                        </p>
-                                      </div>
-                                    </template>
-                                    <template v-slot:footer></template>
-                                  </modal>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <br />
+                    <div class="tab-content col-span-3 max-md:col-span-3">
+                      <div role="tabpanel" class="tab-pane active" id="all">
+                        <itemCustom-order
+                          v-if="orderCustomAll"
+                          :customizeOders="orderCustomAll"
+                        ></itemCustom-order>
+                        <loadding v-else />
                       </div>
-                      <div
-                        role="tabpanel"
-                        class="tab-pane"
-                        id="transport"
-                      ></div>
-                      <div
-                        role="tabpanel"
-                        class="tab-pane"
-                        id="completed"
-                      ></div>
-                      <div role="tabpanel" class="tab-pane" id="cancel"></div>
+                      <div role="tabpanel" class="tab-pane" id="accepted">
+                        <itemCustom-order
+                          v-if="orderAccepted"
+                          :customizeOders="orderAccepted"
+                        ></itemCustom-order>
+                        <loadding v-else />
+                      </div>
+                      <div role="tabpanel" class="tab-pane" id="rejected">
+                        <itemCustom-order
+                          v-if="orderRejected"
+                          :customizeOders="orderRejected"
+                        ></itemCustom-order>
+                        <loadding v-else />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -3538,32 +2037,44 @@
 
 <script>
 import axios from "axios";
+// import AllFurniture from "./AllFurniture.vue";
 import { format } from "date-fns";
 import modal from "@/components/ModalPage.vue";
+import itemOrder from "@/components/itemFurnitureOrder.vue";
+import itemCustomOrder from "@/components/itemCustomFurnitureOrder.vue";
 import alertError from "@/components/AlertError.vue";
 import alertSuccess from "@/components/AlertSuccess.vue";
 import alertWanning from "@/components/AlertWanning.vue";
-// import AllFurniture from "./AllFurniture.vue";
+import loadding from "@/components/LoadingComponent.vue";
 
 export default {
   components: {
     modal,
-    // AllFurniture,
+    itemOrder,
     alertError,
     alertSuccess,
     alertWanning,
+    loadding,
+    // AllFurniture,
+    itemCustomOrder,
   },
   data() {
     return {
       info: {},
+      statusOrder: "All",
       orderAll: [],
       orderPending: [],
-      address: [],
-      orderDeliveried: [],
+      orderPreparing: [],
       orderDelivering: [],
+      orderDelivered: [],
+      orderCancel: [],
+      statusCustomOrder: "All",
+      orderCustomAll: [],
+      orderAccepted: [],
+      orderRejected: [],
+      address: [],
       wishlist: [],
       warranties: [],
-      customizeOders: [],
       adChange: {},
       arrayUrl: [],
       feedbacks: [],
@@ -3586,7 +2097,6 @@ export default {
       nameFile: {},
       file: "",
       DoB: "",
-      statusOrder: "",
       type: "",
       orderModel: {},
       customizeModal: {},
@@ -3598,67 +2108,156 @@ export default {
       inputProvince: "",
       inputDistrict: "",
       inputWard: "",
-      customizeFurnitureIdList: [],
       furnitureOrder: [],
       shipFee: "",
-      provinceCode: "",
-      districtCode: "",
-      wardCode: "",
       methodShip: [],
-      methodDelevery: [],
-      shipCost: 0,
       userpoint: 0,
       note: "",
       shipfee: 0,
-      order: "",
+      isCancel: false,
+      customOrder: 0,
+      isMsgError: false,
+      msgErrorPayment: "",
+      msgErrorDelivery: "",
+      warrantyModal: {},
     };
   },
   created() {
-    this.getOrderAll();
-    this.getOrderPending();
-    this.getOrderDeliveried();
+    this.getOrder();
     this.getInfor();
     this.getAddress();
     this.getWishList();
     this.getWarranties();
     this.getCustomizeOrder();
     this.getFeedback();
-    this.getOrderDelivering();
     this.getProvices();
+    this.handleCheckOutOtherAdress();
   },
   methods: {
-    async getOrderAll() {
-      try {
-        const response = await axios.get("customer/get-order?status=All");
-        this.orderAll = response.data;
-      } catch (error) {
-        console.error(error);
-      }
+    selectStatusOrder(st) {
+      this.statusOrder = st;
+      this.getOrder();
     },
-    async getOrderPending() {
-      try {
-        const response = await axios.get("customer/get-order?status=Pending");
-        this.orderPending = response.data;
-      } catch (error) {
-        console.error(error);
-      }
+    selectStatus(st) {
+      console.log("Da click");
+      this.statusCustomOrder = st;
+      console.log(st);
+      this.getCustomizeOrder();
     },
-    async getOrderDeliveried() {
+    async getOrder() {
       try {
         const response = await axios.get(
-          "customer/get-order?status=Deliveried"
+          "customer/get-order?status=" + this.statusOrder
         );
-        this.orderDeliveried = response.data;
+        if (this.statusOrder === "All") {
+          this.orderAll = response.data;
+          for (let i = 0; i < this.orderAll.length; i++) {
+            const date = new Date(this.orderAll[i].creationDate);
+            this.orderAll[i].creationDate = format(date, "dd/MM/yyyy");
+            this.orderAll[i].desiredCompletionDate = format(date, "dd/MM/yyyy");
+          }
+        } else if (this.statusOrder === "Pending") {
+          this.orderPending = response.data;
+          for (let i = 0; i < this.orderPending.length; i++) {
+            const date = new Date(this.orderPending[i].creationDate);
+            this.orderPending[i].creationDate = format(date, "dd/MM/yyyy");
+            this.orderPending[i].desiredCompletionDate = format(
+              date,
+              "dd/MM/yyyy"
+            );
+          }
+        } else if (this.statusOrder === "Preparing") {
+          this.orderPreparing = response.data;
+          for (let i = 0; i < this.orderPreparing.length; i++) {
+            const date = new Date(this.orderPreparing[i].creationDate);
+            this.orderPreparing[i].creationDate = format(date, "dd/MM/yyyy");
+            this.orderPreparing[i].desiredCompletionDate = format(
+              date,
+              "dd/MM/yyyy"
+            );
+          }
+        } else if (this.statusOrder === "Delivering") {
+          this.orderDelivering = response.data;
+          for (let i = 0; i < this.orderDelivering.length; i++) {
+            const date = new Date(this.orderDelivering[i].creationDate);
+            this.orderDelivering[i].creationDate = format(date, "dd/MM/yyyy");
+            this.orderDelivering[i].desiredCompletionDate = format(
+              date,
+              "dd/MM/yyyy"
+            );
+          }
+        } else if (this.statusOrder === "Delivered") {
+          this.orderDelivered = response.data;
+          for (let i = 0; i < this.orderDelivered.length; i++) {
+            const date = new Date(this.orderDelivered[i].creationDate);
+            this.orderDelivered[i].creationDate = format(date, "dd/MM/yyyy");
+            this.orderDelivered[i].desiredCompletionDate = format(
+              date,
+              "dd/MM/yyyy"
+            );
+          }
+        } else {
+          this.orderCancel = response.data;
+          console.log(this.orderCancel);
+        }
       } catch (error) {
         console.error(error);
       }
     },
-    async getOrderDelivering() {
+    async getCustomizeOrder() {
       try {
         const response = await axios.get(
-          "customer/get-order?status=Delivering"
+          "customer/customize-furnitures?status=" + this.statusCustomOrder
         );
-        this.orderDelivering = response.data;
+
+        if (this.statusCustomOrder === "All") {
+          this.orderCustomAll = response.data;
+          this.orderCustomAll = response.data;
+          this.orderCustomAll = response.data.map((item) => ({
+            ...item,
+            creationDate: item.creationDate
+              ? format(new Date(item.creationDate), "dd/MM/yyyy")
+              : "",
+            desiredCompletionDate: item.desiredCompletionDate
+              ? format(new Date(item.desiredCompletionDate), "dd/MM/yyyy")
+              : "",
+            actualCompletionDate: item.result.actualCompletionDate
+              ? format(new Date(item.result.actualCompletionDate), "dd/MM/yyyy")
+              : "",
+          }));
+        } else if (this.statusCustomOrder === "Accepted") {
+          this.orderAccepted = response.data;
+          console.log("Result Accepted", this.orderAccepted);
+          this.orderAccepted = response.data;
+          this.orderAccepted = response.data.map((item) => ({
+            ...item,
+            creationDate: item.creationDate
+              ? format(new Date(item.creationDate), "dd/MM/yyyy")
+              : "",
+            desiredCompletionDate: item.desiredCompletionDate
+              ? format(new Date(item.desiredCompletionDate), "dd/MM/yyyy")
+              : "",
+            actualCompletionDate: item.result.actualCompletionDate
+              ? format(new Date(item.result.actualCompletionDate), "dd/MM/yyyy")
+              : "",
+          }));
+        } else {
+          this.orderRejected = response.data;
+          console.log("Result Accepted", this.orderRejected);
+          this.orderRejected = response.data;
+          this.orderRejected = response.data.map((item) => ({
+            ...item,
+            creationDate: item.creationDate
+              ? format(new Date(item.creationDate), "dd/MM/yyyy")
+              : "",
+            desiredCompletionDate: item.desiredCompletionDate
+              ? format(new Date(item.desiredCompletionDate), "dd/MM/yyyy")
+              : "",
+            actualCompletionDate: item.result.actualCompletionDate
+              ? format(new Date(item.result.actualCompletionDate), "dd/MM/yyyy")
+              : "",
+          }));
+        }
       } catch (error) {
         console.error(error);
       }
@@ -3824,213 +2423,56 @@ export default {
       this.customizeModal = or;
       this.orderModel = or;
     },
-    async getCustomizeOrder() {
-      try {
-        const response = await axios.get(
-          "customer/customize-furnitures?status=All"
-        );
-        if (response.status === 200) {
-          this.customizeOders = response.data;
-          this.customizeOders = response.data.map((item) => ({
-            ...item,
-            creationDate: item.creationDate
-              ? format(new Date(item.creationDate), "dd/MM/yyyy")
-              : "",
-            desiredCompletionDate: item.desiredCompletionDate
-              ? format(new Date(item.desiredCompletionDate), "dd/MM/yyyy")
-              : "",
-            actualCompletionDate: item.result.actualCompletionDate
-              ? format(new Date(item.result.actualCompletionDate), "dd/MM/yyyy")
-              : "",
-          }));
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    handleCartId(or) {
-      if (or.isSelected) {
-        this.furnitureOrder.push(or.customizeFurnitureId);
-        this.customizeFurnitureIdList.push(or.customizeFurnitureId);
-      } else {
-        this.furnitureOrder.splice(or);
-        this.customizeFurnitureIdList.splice(or);
-      }
-      console.log(this.customizeFurnitureIdList);
-    },
     async HandleCheckOut() {
       this.opentModal("orderCustomize");
-      this.cartId = "";
-      for (let i = 0; i < this.customizeFurnitureIdList.length; i++) {
-        if (i === this.customizeFurnitureIdList.length) {
-          this.cartId = this.cartId.concat(
-            `customizeFurnitureIdList=${this.customizeFurnitureIdList[i]}`
-          );
-        } else {
-          this.cartId = this.cartId.concat(
-            `customizeFurnitureIdList=${this.customizeFurnitureIdList[i]}&`
-          );
-        }
-      }
-      try {
-        const response = await axios.get(
-          `customer/checkout-customize-furniture?${this.cartId}`
-        );
-        if (response.status === 200) {
-          this.order = response.data;
-          let deliveryAddress = response.data.deliveryAddress;
-          let address = deliveryAddress.split(",");
-          let ward = address[1].trim();
-          let district = address[2].trim();
-          let province = address[3].trim();
-          await this.getProvinceCode(province);
-          await this.getDistrictCode(district);
-          await this.getWardCode(ward);
-          await this.getAvailableServices();
-        }
-      } catch (error) {
-        console.error(error);
-      }
+      this.furnitureOrder = this.$store.state.furnitureOrder;
+      this.$store.dispatch("handleCheckOut");
+      this.furnitureOrder = this.$store.state.furnitureOrder;
     },
-    confirmChangeAddress() {
-      this.opentModal("orderCustomize");
+    handleCheckOutOtherAdress() {
+      this.furnitureOrder = this.$store.state.furnitureOrder;
+      this.$store.dispatch("handleCheckOutOtherAddress", {
+        province: this.adChange.province,
+        district: this.adChange.district,
+        ward: this.adChange.ward,
+      });
+      this.furnitureOrder = this.$store.state.furnitureOrder;
     },
     //HàmCheckout
     async getProvinceCode(province) {
-      try {
-        const response = await axios.get(
-          "https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
-          {
-            headers: {
-              token: "8644b872-8774-11ee-96dc-de6f804954c9",
-            },
-          }
-        );
-
-        let provinceList = response.data.data;
-        let proviceCode = 0;
-        for (let i = 0; i < provinceList.length; i++) {
-          if (provinceList[i].ProvinceName === province) {
-            proviceCode = provinceList[i].ProvinceID;
-            break;
-          }
-        }
-        console.log(proviceCode);
-        // return proviceCode + "";
-        this.provinceCode = proviceCode;
-      } catch (error) {
-        console.error(error);
-      }
+      this.$store.dispatch("getProvinceCode", province);
     },
     async getDistrictCode(district) {
-      try {
-        const response = await axios.get(
-          "https://online-gateway.ghn.vn/shiip/public-api/master-data/district",
-          {
-            headers: {
-              token: "8644b872-8774-11ee-96dc-de6f804954c9",
-            },
-            params: {
-              province_id: this.provinceCode,
-            },
-          }
-        );
-
-        let districtList = response.data.data;
-        let districtCode = 0;
-        for (let i = 0; i < districtList.length; i++) {
-          if (districtList[i].DistrictName === district) {
-            districtCode = districtList[i].DistrictID;
-            break;
-          }
-        }
-        console.log(districtCode);
-        this.districtCode = districtCode;
-      } catch (error) {
-        console.error(error);
-      }
+      this.$store.dispatch("getDistrictCode", district);
     },
     async getWardCode(ward) {
-      try {
-        const response = await axios.get(
-          "https://online-gateway.ghn.vn/shiip/public-api/master-data/ward",
-          {
-            headers: {
-              token: "8644b872-8774-11ee-96dc-de6f804954c9",
-            },
-            params: {
-              district_id: this.districtCode,
-            },
-          }
-        );
-
-        let wardList = response.data.data;
-        let wardCode = 0;
-        for (let i = 0; i < wardList.length; i++) {
-          if (wardList[i].WardName === ward) {
-            wardCode = wardList[i].WardCode;
-            break;
-          }
-        }
-        console.log(wardCode);
-        this.wardCode = wardCode;
-      } catch (error) {
-        console.error(error);
-      }
+      this.$store.dispatch("getWardCode", ward);
     },
     async getAvailableServices() {
-      try {
-        const response = await axios.get(
-          "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services",
-          {
-            headers: {
-              token: "8644b872-8774-11ee-96dc-de6f804954c9",
-            },
-            params: {
-              shop_id: 4710217,
-              from_district: 2194,
-              to_district: this.districtCode,
-            },
-          }
-        );
-        this.methodDelevery = response.data;
-        console.log(this.methodDelevery);
-      } catch (e) {
-        console.error(e);
-      }
+      this.$store.dispatch("getAvailableServices");
     },
     async CalculateDeliveryFee(e) {
-      let service_id = e.target.value;
-      try {
-        const response = await axios.get(
-          "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee",
-          {
-            headers: {
-              token: "8644b872-8774-11ee-96dc-de6f804954c9",
-              shop_id: 4710217,
-            },
-            params: {
-              from_district_id: 2194,
-              from_ward_code: "220710",
-              service_id: service_id,
-              to_district_id: this.districtCode,
-              to_ward_code: this.wardCode,
-              height: 50,
-              length: 20,
-              width: 20,
-              weight: 50,
-              coupon: null,
-            },
-          }
-        );
-        this.shipCost = response.data.data.service_fee;
-        console.log(response);
-      } catch (e) {
-        console.error(e);
-      }
+      this.$store.dispatch("CalculateDeliveryFee", e);
     },
     async HandleOrder(order) {
-      let point = this.userpoint * 100;
+      if (!this.paymentId || !this.delivery) {
+        if (!this.paymentId) {
+          this.isMsgError = true;
+          this.msgErrorPayment = "Choose Payment Method required";
+          console.log(this.msgErrorPayment);
+        } else {
+          this.msgErrorPayment = "";
+        }
+        if (!this.delivery) {
+          this.isMsgError = true;
+          this.msgErrorDelivery = "Choose Delivery Method required";
+          console.log(this.msgErrorDelivery);
+        } else {
+          this.msgErrorPayment = "";
+        }
+      }
+      let point = this.userpoint / 100;
+      const payId = parseInt(this.paymentId);
       const id = this.addressId || order.deliveryAddressId;
       const itemsArray = order.items.map((item) => ({
         itemId: item.customizeFurnitureId,
@@ -4039,13 +2481,14 @@ export default {
       try {
         const response = await axios.post("customer/order", {
           addressId: id,
-          paymentId: this.paymentId,
+          paymentId: payId,
           usedPoint: point,
           note: this.note,
           total: this.totalCost,
           items: itemsArray,
         });
         if (response.status === 200) {
+          this.modalType = null;
           if (
             response.data !== null &&
             response.data !== "Order successfully"
@@ -4057,17 +2500,30 @@ export default {
       } catch (error) {
         console.error(error);
       }
+      // }
     },
     async HandleCancelOrder(id) {
       try {
-        await axios.put("customer/cancel-order?orderId=" + id);
+        const response = await axios.put("customer/cancel-order?orderId=" + id);
+        if (response.status === 200) {
+          this.isCancel = true;
+        }
       } catch (error) {
         console.error(error);
       }
     },
+    changeAddress(ad) {
+      this.addressId = ad.id;
+      this.adChange = ad;
+      this.handleCheckOutOtherAdress();
+    },
+    confirmChangeAddress() {
+      this.opentModal("orderCustomize");
+    },
     opentModal(type, ad) {
       this.modalType = type;
       this.addressModal = ad;
+      this.warrantyModal = ad;
     },
     closeModal() {
       this.modalType = null;
@@ -4079,7 +2535,8 @@ export default {
     async getWarranties() {
       try {
         const response = await axios.get("customer/warranties");
-        this.wishlist = response.data;
+        this.warranties = response.data;
+        console.log("This warranty", this.warranties);
       } catch (error) {
         console.error(error);
       }
@@ -4225,6 +2682,7 @@ export default {
       try {
         const response = await axios.get("customer/wish-list");
         this.wishlist = response.data;
+        console.log(this.wishlist);
       } catch (error) {
         console.error(error);
       }
@@ -4232,9 +2690,7 @@ export default {
     onFileChange(event) {
       this.file = event.target.files[0];
       if (this.file) {
-        // this.nameFile = this.file.name;
         this.url = URL.createObjectURL(this.file);
-        // this.url = imageUrl;
       }
       console.log(event);
     },
@@ -4251,9 +2707,6 @@ export default {
             "Content-Type": "multipart/form-data",
           },
         });
-        // if (response.status === 200) {
-        //   this.avatar = URL.createObjectURL(this.file);
-        // }
         console.log(this.avatar);
       } catch (error) {
         console.error(error);
@@ -4262,13 +2715,14 @@ export default {
     async UpdatePasssword() {
       console.log(this.email);
       try {
-        const response = await axios.post(
-          "customer/forgot-password?email=" + this.email
+        const response = await axios.put(
+          "authentication/change-password?oldPass=" +
+            this.oldPassword +
+            "&newPass=" +
+            this.newPassword
         );
         if (response.status === 200) {
-          localStorage.setItem("token", response.data.token);
-          alert("Please confirm the link in your email!");
-          this.$router.push({ name: "newPassword" });
+          alert("Change password success!");
         }
       } catch (error) {
         console.error("Error sending link your email:", error);
@@ -4286,70 +2740,7 @@ export default {
     HandleRemoveImage(url) {
       this.arrayUrl = this.arrayUrl.filter((item) => item !== url);
     },
-    async CreateGuarantee() {
-      console.log("Đã cho image vào array");
-      const formData = new FormData();
-      formData.append("orderId", this.orderModel.orderId);
-      formData.append("warrantyReasons", this.reason);
-      if (this.arrayFile.length > 0) {
-        for (var i = 0; i < this.arrayFile.length > 0; i++) {
-          formData.append("uploadFiles", this.arrayFile[i]);
-        }
-      }
-      console.log("Đã sua cho ban minh vào array");
-      try {
-        const response = await axios.post(
-          "customer/warranties/create",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        if (response.status === 200) {
-          alert("Create guarantee success!");
-        }
-        console.log("This arrayFile", this.arrayFile);
-      } catch (error) {
-        console.log("This arrayFile", this.file);
-        this.message = error.response.data.message;
-        console.error(error.response.data.message);
-      }
-    },
-    async HandleFeedback() {
-      console.log("Đã cho image vào array");
-      const formData = new FormData();
-      formData.append("orderId", this.orderModel.orderId);
-      formData.append("furnitureSpecificationId", this.furSpeFeedback);
-      formData.append("content", this.content);
-      formData.append("voteStar", this.star);
-      formData.append("anonymous", this.anonymous);
-      if (this.arrayFile.length > 0) {
-        for (var i = 0; i < this.arrayFile.length > 0; i++) {
-          formData.append("files", this.arrayFile[i]);
-        }
-      }
-      console.log(this.arrayFile);
-      try {
-        const response = await axios.post(
-          "customer/create-feedback",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        if (response.status === 200) {
-          alert("Create guarantee success!");
-        }
-      } catch (error) {
-        console.log("This arrayFile", this.arrayFile);
-        this.message = error.response.data.message;
-        console.error(error.response.data.message);
-      }
-    },
+
     async HandleToggole2fa() {
       try {
         const response = await axios.put("user/individual/toggle-2fa");
@@ -4368,11 +2759,20 @@ export default {
   },
   computed: {
     totalCost() {
-      let point = this.userpoint * 100;
+      let point = this.userpoint / 100;
       console.log(this.order.totalCost);
       let sum = this.order.totalCost + this.shipCost - point;
       let cost = parseFloat(sum.toFixed(2));
       return cost;
+    },
+    order() {
+      return this.$store.state.order;
+    },
+    methodDelevery() {
+      return this.$store.state.methodDeliveries;
+    },
+    shipCost() {
+      return this.$store.state.shipCost;
     },
   },
 };
@@ -4390,30 +2790,6 @@ export default {
 .side-bar {
   box-shadow: 1px 1px 3px #ccc7c7;
 }
-.tab-content.col-span-5
-  .tab-pane.order::-webkit-scrollbar-track
-  .tab-content.col-span-5
-  .tab-pane.wishlist::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
-  background-color: #f5f5f5;
-}
-.tab-content.col-span-5
-  .tab-pane.order::-webkit-scrollbar
-  .tab-content.col-span-5
-  .wishlist::-webkit-scrollbar {
-  width: 6px;
-  background-color: #f5f5f5;
-}
-
-.tab-content.col-span-5
-  .tab-pane.order::-webkit-scrollbar-thumb
-  .tab-content.col-span-5
-  .wishlist::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #cdc0aa;
-}
 .form-control,
 .col-form-label {
   font-size: 0.9rem;
@@ -4423,9 +2799,6 @@ export default {
 .span_address {
   font-size: 0.9rem;
 }
-/* .profile_customer {
-  background-color: rgb(250 250 250);
-} */
 .side-bar.col-span-1 {
   background: #ffffff;
 }
@@ -5122,103 +3495,8 @@ h3 {
   width: 80px;
   background-color: #f8f8f9;
 }
-table.shoping-cart-table {
-  margin-bottom: 0;
-}
-table.shoping-cart-table tr td {
-  border: none;
-}
-table.shoping-cart-table tr td.desc,
-table.shoping-cart-table tr td:first-child {
-  text-align: left;
-}
-table.shoping-cart-table tr td:last-child {
-  width: 80px;
-}
-.ibox-content {
-  background-color: #ffffff;
-  color: inherit;
-  padding: 16px 25px 1px 25px;
-  border-color: #e7eaec;
-  border-image: none;
-  border-style: solid solid none;
-  border-width: 1px 0;
-}
 .date_order {
   padding-left: 79%;
-}
-
-/* order_detail */
-.card {
-  border: none;
-}
-.logo {
-  background-color: #eeeeeea8;
-}
-.totals tr td {
-  font-size: 13px;
-}
-.footer {
-  background-color: #eeeeeea8;
-}
-.footer span {
-  font-size: 12px;
-}
-.product-qty span {
-  font-size: 12px;
-  color: #c5c0c0;
-}
-/* transport */
-.track-line {
-  height: 2px !important;
-  background-color: #488978;
-  opacity: 1;
-}
-
-.dot {
-  height: 10px;
-  width: 10px;
-  margin-left: 3px;
-  margin-right: 3px;
-  margin-top: 0px;
-  background-color: #488978;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.big-dot {
-  height: 25px;
-  width: 25px;
-  margin-left: 0px;
-  margin-right: 0px;
-  margin-top: 0px;
-  background-color: #488978;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.big-dot i {
-  font-size: 12px;
-}
-
-.card-stepper {
-  z-index: 0;
-}
-.product_transport {
-  background-color: white;
-  border-radius: 10px;
-  margin-top: -84%;
-  padding: 0.3em;
-}
-hr .my-4 {
-  height: 1px;
-}
-.card-body {
-  border-bottom: 1px solid rgb(240, 235, 235);
-}
-.category.nav.nav-tabs > li > a {
-  color: #58606f;
-  font-weight: 500;
 }
 .form_edit .form-control {
   font-size: 88%;
@@ -5320,8 +3598,7 @@ hr .my-4 {
 .moon .view-account .side-bar .side-menu .nav > li {
   border-bottom: none;
 }
-.moon .side-bar.col-span-1,
-.moon .tab-content.col-span-5 {
+.moon .side-bar.col-span-1 {
   border: 1px solid rgb(240 239 239);
 }
 .moon h1 {
@@ -5345,10 +3622,7 @@ hr .my-4 {
 .form {
   border-radius: 7px;
   box-shadow: 1px 1px 3px #c0c0c0;
-}
-.table-responsive {
-  overflow-x: auto;
-  overflow-y: hidden;
+  border: 1px solid #6b430c40;
 }
 .text-navy {
   color: #6c5935;
@@ -5360,12 +3634,21 @@ hr .my-4 {
 .nav-order .nav.nav-pills li {
   margin-left: 2.1em;
 }
+.nav-order .nav.nav-pills {
+  border-radius: 4px;
+}
+.nav-order {
+  border-radius: 4px;
+  border: 1px solid #6b430c40;
+}
 .info_customizeOrder {
   font-size: 13px;
   color: #4d525e;
 }
-.text_customize {
-  font-size: 15px;
+
+textarea {
+  background-color: rgb(238 238 243 / 58%);
+  border: none;
 }
 
 /* Updload image */
@@ -5411,6 +3694,9 @@ hr .my-4 {
 .custum-file-upload input {
   display: none;
 }
+.nav-order .nav.nav-pills.custom li {
+  margin-left: 1.5em;
+}
 .form-select {
   background-color: #cecfd442;
 }
@@ -5454,9 +3740,6 @@ hr .my-4 {
 .orderId {
   font-size: 12px;
 }
-.detail_response {
-  color: #4d525e;
-}
 .form-select.address {
   background-color: #e8eef387;
 }
@@ -5464,7 +3747,24 @@ option {
   text-transform: capitalize;
 }
 #customize .form-control,
-#customize .form-selected {
+#customize .form-select {
   background-color: rgb(238 238 243 / 58%);
+}
+.label_payment {
+  font-size: 14px;
+  font-weight: 600;
+}
+#customize select {
+  font-size: 14px;
+}
+#customize input {
+  font-size: 13px;
+  font-weight: 400;
+}
+.side-bar {
+  border: 1px solid #6b430c40;
+}
+.item_warranty {
+  border-bottom: 1px solid #dad7d4;
 }
 </style>

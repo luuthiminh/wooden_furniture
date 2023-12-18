@@ -6,7 +6,7 @@
           <li class="breadcrumb-item font-semibold"><a href="#">Home</a></li>
 
           <li class="breadcrumb-item active font-medium" aria-current="page">
-            Reponsitory Management
+            Manage Reponsitories
           </li>
         </ol>
       </nav>
@@ -20,26 +20,39 @@
       </alert-success>
     </div>
     <div class="px-7">
-      <h1 class="font-semibold text-xl py-6">Management Reponsitory</h1>
+      <h1 class="font-semibold text-xl py-6">Manage Reponsitories</h1>
       <div class="flex gap-x-40 pt-10">
         <div class="flex items-center gap-x-4 text-sm">
-          <p class="gap-x-2 font-semibold">Total reponsitory:</p>
+          <p class="gap-x-2 font-semibold">Totally reponsitories:</p>
           {{ reponsitories.length }}
         </div>
-        <!-- <div class="search">
-              <div class="search-box">
-                <div class="search-field">
-                  <input placeholder="Search..." class="input" type="text" />
-                  <div class="search-box-icon">
-                    <button class="btn-icon-content">
-                      <i class="search-icon">
-                        <i class="bi bi-search"></i>
-                      </i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div> -->
+        <div class="search_assistant">
+          <div class="container">
+            <input
+              v-model="keyword"
+              type="text"
+              name="text"
+              class="input"
+              placeholder="search"
+              @keyup.enter="handleSearch"
+            />
+            <button
+              class="search__btn bg-gradient-to-r from-yellow-700 to-orange-800 opacity-90"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="22"
+                height="22"
+              >
+                <path
+                  d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"
+                  fill="#efeff1"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
         <div class="absolute right-10 flex gap-x-10">
           <a
             style="text-decoration: none"
@@ -160,7 +173,7 @@
         </div>
       </div>
       <div class="content_table scroll">
-        <div class="pt-10">
+        <div v-if="!searchResults.length" class="pt-10">
           <table
             v-if="reponsitories.length"
             class="table table-borderless text-yellow-950 font-medium text-center bg-white round-md mt-5"
@@ -178,6 +191,489 @@
               </tr>
             </thead>
             <tbody v-for="re in reponsitories" :key="re.reponsitoryId">
+              <tr class="text-sm">
+                <th scope="row">{{ re.repositoryId }}</th>
+                <td>
+                  <router-link
+                    :to="{
+                      name: 'DetailRepository',
+                      params: { id: re.repositoryId },
+                    }"
+                  >
+                    {{ re.repositoryName }}
+                  </router-link>
+                </td>
+                <td>{{ re.addressId }}</td>
+                <td>{{ re.capacity }}</td>
+                <td>{{ re.isFull }}</td>
+                <td>{{ re.creationDate }}</td>
+                <td class="flex justify-center">
+                  <div
+                    class="px-2 py-2 bg-orange-500 w-20 rounded-md text-white"
+                  >
+                    <button
+                      class="btn_action"
+                      type="button"
+                      data-toggle="modal"
+                      data-target="#exampleModalLong"
+                      data-backdrop="false"
+                      @click="opentModal('material', re)"
+                    >
+                      Import
+                    </button>
+                  </div>
+                </td>
+                <td class="justify-items-center">
+                  <div
+                    class="px-2 py-2 bg-orange-500 w-20 rounded-md text-white"
+                  >
+                    <button
+                      class="btn_action"
+                      type="button"
+                      data-toggle="modal"
+                      data-target="#exampleModalLong"
+                      data-dismiss="modal"
+                      data-backdrop="false"
+                      @click="opentModal('furniture', re)"
+                    >
+                      Import
+                    </button>
+                  </div>
+                </td>
+                <modal
+                  v-if="modalType == 'add'"
+                  @close="modalType == null"
+                  data-target="#myModal"
+                >
+                  <template v-slot:title>
+                    <div
+                      class="flex items-center text-base font-semibold text-yellow-950"
+                    >
+                      Add New Repository
+                    </div>
+                  </template>
+                  <template v-slot:body>
+                    <div class="text-sm text-left">
+                      <div class="mx-2 my-2">
+                        <div class="row mb-6">
+                          <label class="col-lg-4 col-form-label fw-medium"
+                            >Repository Name</label
+                          >
+                          <div class="col-lg-8">
+                            <input
+                              v-model="repName"
+                              type="text"
+                              class="form-control border-none bg-neutral-100"
+                              id="firstname"
+                              aria-describedby="firstnameHelp"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div class="row mb-6">
+                          <label class="col-lg-4 col-form-label fw-medium"
+                            >Stress</label
+                          >
+                          <div class="col-lg-8">
+                            <input
+                              v-model="stress"
+                              type="text"
+                              class="form-control border-none bg-neutral-100"
+                              id="firstname"
+                              aria-describedby="firstnameHelp"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div class="row mb-6">
+                          <label class="col-lg-4 col-form-label fw-medium"
+                            >Ward
+                          </label>
+                          <div class="col-lg-8">
+                            <input
+                              v-model="ward"
+                              type="text"
+                              class="form-control border-none bg-neutral-100"
+                              id="firstname"
+                              aria-describedby="firstnameHelp"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div class="row mb-6">
+                          <label class="col-lg-4 col-form-label fw-medium"
+                            >District
+                          </label>
+                          <div class="col-lg-8">
+                            <input
+                              v-model="district"
+                              type="text"
+                              class="form-control border-none bg-neutral-100"
+                              id="firstname"
+                              aria-describedby="firstnameHelp"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div class="row mb-6">
+                          <label class="col-lg-4 col-form-label fw-medium"
+                            >Province
+                          </label>
+                          <div class="col-lg-8">
+                            <input
+                              v-model="province"
+                              type="text"
+                              class="form-control border-none bg-neutral-100"
+                              id="firstname"
+                              aria-describedby="firstnameHelp"
+                              required
+                            />
+                          </div>
+                        </div>
+
+                        <div class="row mb-6">
+                          <label class="col-lg-4 col-form-label fw-medium"
+                            >Capacity</label
+                          >
+                          <div class="col-lg-8">
+                            <input
+                              v-model="capacity"
+                              type="text"
+                              class="form-control border-none bg-neutral-100"
+                              id="firstname"
+                              aria-describedby="firstnameHelp"
+                              required
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                  <template v-slot:footer>
+                    <div class="bg-yellow-900 rounded-md">
+                      <span
+                        type="button"
+                        class="btn text-white"
+                        data-dismiss="modal"
+                        @click="HandleAdd"
+                      >
+                        Add
+                      </span>
+                    </div>
+                  </template>
+                </modal>
+                <modal
+                  v-if="modalType == 'material'"
+                  @close="modalType == null"
+                  data-target="#myModal"
+                >
+                  <template v-slot:title>
+                    <div
+                      class="flex items-center text-base font-semibold text-yellow-950"
+                    >
+                      Import Material
+                    </div>
+                  </template>
+                  <template v-slot:body>
+                    <div class="text-sm text-left">
+                      <div class="mx-4 mb-6">
+                        <div class="row mb-6">
+                          <label class="col-lg-4 col-form-label fw-medium"
+                            >Material</label
+                          >
+                          <div class="col-lg-8">
+                            <select
+                              v-if="materials.length"
+                              class="form-select"
+                              aria-label="Default select example"
+                              v-model="materialId"
+                            >
+                              <option selected class="font-medium">
+                                Choose material
+                              </option>
+                              <option
+                                v-for="ma in materials"
+                                :key="ma.materialId"
+                                :value="ma.materialId"
+                              >
+                                {{ ma.materialName }}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="row mb-6">
+                          <label class="col-lg-4 col-form-label fw-medium"
+                            >Quantity</label
+                          >
+                          <div class="col-lg-8">
+                            <input
+                              v-model="quantities"
+                              type="text"
+                              class="form-control border-none bg-neutral-100"
+                              id="firstname"
+                              aria-describedby="firstnameHelp"
+                            />
+                          </div>
+                        </div>
+                        <div class="row mb-6">
+                          <label class="col-lg-4 col-form-label fw-medium"
+                            >Reason</label
+                          >
+                          <div class="col-lg-8">
+                            <input
+                              v-model="reason"
+                              type="text"
+                              class="form-control border-none bg-neutral-100"
+                              id="firstname"
+                              aria-describedby="firstnameHelp"
+                            />
+                          </div>
+                        </div>
+                        <div class="row mb-6">
+                          <label class="col-lg-4 col-form-label fw-medium"
+                            >Creation Date
+                          </label>
+                          <div class="col-lg-8">
+                            <input
+                              v-model="creationDate"
+                              type="date"
+                              class="form-control border-none bg-neutral-100"
+                              id="firstname"
+                              aria-describedby="firstnameHelp"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                  <template v-slot:footer>
+                    <div class="bg-yellow-900 rounded-md">
+                      <span
+                        type="button"
+                        class="btn text-white"
+                        data-dismiss="modal"
+                        @click.prevent="HandleImportMaterial"
+                      >
+                        Add
+                      </span>
+                    </div>
+                  </template>
+                </modal>
+                <modal
+                  v-if="modalType == 'furniture'"
+                  @close="modalType == null"
+                  data-target="#myModal"
+                >
+                  <template v-slot:title>
+                    <div
+                      class="flex items-center text-base font-semibold text-yellow-950"
+                    >
+                      Import Furniture
+                    </div>
+                  </template>
+                  <template v-slot:body>
+                    <div class="text-sm text-left">
+                      <div class="mx-4 mb-6">
+                        <div class="row mb-6">
+                          <label class="col-lg-4 col-form-label fw-medium"
+                            >Furniture</label
+                          >
+                          <div class="col-lg-8">
+                            <select
+                              v-if="furnitures.length"
+                              class="form-select"
+                              aria-label="Default select example"
+                              v-model="furId"
+                              @change="handleFurnitureSpecification"
+                            >
+                              <option selected class="font-medium">
+                                Choose furniture
+                              </option>
+                              <option
+                                v-for="fur in furnitures"
+                                :key="fur.furnitureId"
+                                :value="fur.furnitureId"
+                              >
+                                {{ fur.furnitureName }}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="row mb-6">
+                          <label class="col-lg-4 col-form-label fw-medium"
+                            >Furniture Specification</label
+                          >
+                          <div class="col-lg-8">
+                            <select
+                              v-if="furnitures.length"
+                              class="form-select"
+                              aria-label="Default select example"
+                              v-model="furId"
+                            >
+                              <option selected class="font-medium">
+                                Choose Furniture Specification
+                              </option>
+                              <option
+                                v-for="furSpe in furnitureSpe"
+                                :key="furSpe.furnitureSpecificationId"
+                                :value="furSpe.furnitureSpecificationId"
+                              >
+                                {{ furSpe.furnitureSpecificationName }}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="row mb-6">
+                          <label class="col-lg-4 col-form-label fw-medium"
+                            >Quantity</label
+                          >
+                          <div class="col-lg-8">
+                            <input
+                              v-model="quantities"
+                              type="text"
+                              class="form-control border-none bg-neutral-100"
+                              id="firstname"
+                              aria-describedby="firstnameHelp"
+                            />
+                          </div>
+                        </div>
+                        <div class="row mb-6">
+                          <label class="col-lg-4 col-form-label fw-medium"
+                            >Reason</label
+                          >
+                          <div class="col-lg-8">
+                            <input
+                              v-model="reason"
+                              type="text"
+                              class="form-control border-none bg-neutral-100"
+                              id="firstname"
+                              aria-describedby="firstnameHelp"
+                            />
+                          </div>
+                        </div>
+                        <div class="row mb-6">
+                          <label class="col-lg-4 col-form-label fw-medium"
+                            >Creation Date
+                          </label>
+                          <div class="col-lg-8">
+                            <input
+                              v-model="creationDate"
+                              type="date"
+                              class="form-control border-none bg-neutral-100"
+                              id="firstname"
+                              aria-describedby="firstnameHelp"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                  <template v-slot:footer>
+                    <div class="bg-yellow-900 rounded-md">
+                      <span
+                        type="button"
+                        class="btn text-white"
+                        data-dismiss="modal"
+                        @click.prevent="HandleImportFurniture"
+                      >
+                        Import
+                      </span>
+                    </div>
+                  </template>
+                </modal>
+                <modal
+                  v-if="modalType == 'exportMaterial'"
+                  @close="closeModal"
+                  data-target="#myModal"
+                >
+                  <template v-slot:title>
+                    <div
+                      class="flex items-center text-base font-semibold text-yellow-950"
+                    >
+                      Export Material
+                    </div>
+                  </template>
+                  <template v-slot:body>
+                    <div class="grid grid-cols-12 gap-x-10">
+                      <label
+                        for="exampleInputEmail1"
+                        class="col-span-4 form-label text-semibold text-base pt-2 border-none"
+                        >Quantity</label
+                      >
+                      <input
+                        v-model="quantity"
+                        type="text"
+                        class="col-span-8 form-control"
+                        id="exampleInpuName1"
+                        aria-describedby="nameHelp"
+                        required
+                      />
+                    </div>
+                    <div class="grid grid-cols-12 gap-x-10">
+                      <label
+                        for="exampleInputEmail1"
+                        class="col-span-4 form-label text-semibold text-base pt-2 border-none"
+                        >Reason</label
+                      >
+                      <input
+                        v-model="reason"
+                        type="text"
+                        class="col-span-8 form-control"
+                        id="exampleInpuName1"
+                        aria-describedby="nameHelp"
+                        required
+                      />
+                    </div>
+                    <div class="grid grid-cols-12 gap-x-10">
+                      <label
+                        for="exampleInputEmail1"
+                        class="col-span-4 form-label text-semibold text-base pt-2 border-none"
+                        >Date</label
+                      >
+                      <input
+                        v-model="dateExport"
+                        type="date"
+                        class="col-span-8 form-control"
+                        id="exampleInpuName1"
+                        aria-describedby="nameHelp"
+                        required
+                      />
+                    </div>
+                  </template>
+                  <template v-slot:footer>
+                    <div class="bg-yellow-900 rounded-md">
+                      <span
+                        type="button"
+                        class="btn text-white"
+                        data-dismiss="modal"
+                        @click="HandleExportMaterial(re)"
+                      >
+                        Export
+                      </span>
+                    </div>
+                  </template>
+                </modal>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div v-else class="pt-10">
+          <table
+            class="table table-borderless text-yellow-950 font-medium text-center bg-white round-md mt-5"
+          >
+            <thead class="table-light">
+              <tr class="text-sm text-center">
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Address Id</th>
+                <th scope="col">Capacity</th>
+                <th scope="col">IsFull</th>
+                <th scope="col">Creation Date</th>
+                <th scope="col">Material</th>
+                <th scope="col">Furniture</th>
+              </tr>
+            </thead>
+            <tbody v-for="re in searchResults" :key="re.reponsitoryId">
               <tr class="text-sm">
                 <th scope="row">{{ re.repositoryId }}</th>
                 <td>
@@ -853,6 +1349,16 @@ export default {
         console.error(error);
       }
     },
+    handleSearch() {
+      this.$store.dispatch("searchReposAssistant", {
+        keyword: this.keyword,
+      });
+    },
+  },
+  computed: {
+    searchResults() {
+      return this.$store.state.searchRepos;
+    },
   },
 };
 </script>
@@ -942,46 +1448,6 @@ td {
   color: var(--input-text-hover-color);
 }
 
-/*Search button*/
-.search-box-icon {
-  width: 52px;
-  height: 35px;
-  position: absolute;
-  top: -6px;
-  right: -21px;
-  background: transparent;
-  border-bottom-right-radius: var(--border-radius);
-  border-top-right-radius: var(--border-radius);
-  transition: var(--transition-cubic-bezier);
-}
-
-.search-box-icon:hover {
-  background: var(--input-border-color);
-}
-
-.btn-icon-content {
-  width: 52px;
-  height: 35px;
-  top: -6px;
-  right: -21px;
-  border: none;
-  cursor: pointer;
-  border-bottom-right-radius: var(--border-radius);
-  border-top-right-radius: var(--border-radius);
-  transition: var(--transition-cubic-bezier);
-}
-
-.btn-icon-content:hover {
-  opacity: 0.8;
-}
-
-.search-icon {
-  width: 21px;
-  height: 21px;
-  position: absolute;
-  top: 7px;
-  right: 15px;
-}
 .form-control,
 .form-select {
   border: none;

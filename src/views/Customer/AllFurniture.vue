@@ -48,10 +48,9 @@
               </div>
               <div class="pt-4 px-2">
                 <div class="text-xs">
-                  <span class="text_price dark:text-red pr-2"
-                    >${{ furniture.price }}</span
+                  <span class="text-red-600 dark:text-red pr-2 font-medium"
+                    >{{ furniture.price }} VND</span
                   >
-                  <!-- <del class="text-gray-500">$2000</del> -->
                 </div>
                 <div class="furnitureName pt-2 text-base font-semibold">
                   <span>{{ furniture.furnitureName }}</span>
@@ -59,43 +58,65 @@
                 <div>
                   <span class="text-sm"
                     >Star: {{ furniture.voteStar
-                    }}<i class="fa-solid fa-star pl-1 text-xs"></i
+                    }}<i
+                      class="text-yellow-500 fa-solid fa-star pl-1 text-xs"
+                    ></i
                   ></span>
                 </div>
                 <div>
                   <span class="text-sm">Sold: {{ furniture.sold }}</span>
                 </div>
-                <div class="button_buy py-3 px-2">
-                  <router-link
-                    :to="{
-                      name: 'OrderBill',
-                      params: { id: furniture.furnitureId },
-                    }"
+                <div>
+                  <span class="text-sm"
+                    >Available: {{ furniture.available }}</span
                   >
-                    <button
-                      @click.prevent="showModal('fur', furniture)"
-                      data-toggle="modal"
-                      data-target="#exampleModalLong"
-                      data-backdrop="false"
-                      class="px-4 py-1 text-white ring-offset-2 ring-2 bg-slate-600 hover:ring-slate-400 ml-2 my-2 rounded-md max-lg:w-56 w-40 max-sm:w-32"
-                    >
-                      Buy now
-                    </button>
-                  </router-link>
+                </div>
+                <div class="button_buy py-3 px-2">
+                  <button
+                    @click.prevent="showModal('fur', furniture)"
+                    data-toggle="modal"
+                    data-target="#exampleModalLong"
+                    data-backdrop="false"
+                    class="px-4 py-1 text-white ring-offset-2 ring-2 bg-slate-600 hover:ring-slate-400 ml-2 my-2 rounded-md max-lg:w-56 w-40 max-sm:w-32"
+                  >
+                    Buy now
+                  </button>
                 </div>
                 <div class="text-center text-xs mb-3">
                   <div @click.prevent="toggleWishlist(furniture)">
                     <i
-                      v-if="!furniture.isFavorite"
+                      v-if="!furniture.isFavorite && furniture.isLike === false"
                       class="fa-regular fa-heart cursor-pointer"
                     ></i>
                     <i v-else class="bi bi-heart-fill text-red-500"></i>
                     {{
-                      furniture.isFavorite
+                      furniture.isFavorite && furniture.isLike === false
                         ? "Remove from wishlist"
                         : "Add to wishlist"
                     }}
                   </div>
+                  <modal
+                    v-if="modalType == 'notification'"
+                    @close="modalType == null"
+                    data-target="#myModal"
+                  >
+                    <template v-slot:title>
+                      <div class="flex items-center text-lg font-semibold">
+                        Notification
+                      </div>
+                    </template>
+                    <template v-slot:body>
+                      <notification>
+                        <template v-slot:title>
+                          <div v-if="isFavorite">
+                            The furniture has been removed from wishlist
+                          </div>
+                          <div v-else>Add funiture to wishlist succefully</div>
+                        </template>
+                      </notification>
+                    </template>
+                    <template v-slot:footer></template>
+                  </modal>
                   <div>
                     <modal
                       v-if="modalType == 'fur'"
@@ -115,11 +136,6 @@
                         >
                           <div class="grid grid-cols-2 gap-x-7">
                             <div class="image_product">
-                              <!-- <img
-                                src="@/assets/images/category/shelves_tv/shelves_11.png"
-                                alt=""
-                              /> -->
-                              <!-- <img :src="fur.image" alt="image" /> -->
                               <div v-for="fur in fur.images" :key="fur">
                                 <img
                                   :src="fur.path"
@@ -155,9 +171,9 @@
                                   class="grid grid-cols-2 gap-x-1 text-sm pt-1"
                                 >
                                   <span class="font-medium">Price:</span>
-                                  <span>${{ fur.price }}</span>
-                                  <!-- <span>$1000</span> -->
-                                  <!-- <span class="text-red-500">$2000</span> -->
+                                  <span class="text-red-500"
+                                    >${{ fur.price }}</span
+                                  >
                                 </div>
                               </div>
                               <div
@@ -242,7 +258,7 @@
                             <br />
                             <div class="py-2 flex gap-x-4">
                               <span
-                                v-if="adChange"
+                                v-if="Object.keys(adChange).length === 0"
                                 class="font-semibold text-sm"
                                 >{{ order.deliveryAddress }}
                               </span>
@@ -282,8 +298,16 @@
                                       class="d-flex flex-row align-items-center"
                                     >
                                       <div>
-                                        <img
+                                        <!-- <img
                                           src="@/assets/images/category/shelves_tv/shelves_11.png"
+                                          class="img-fluid rounded-3"
+                                          alt="Shopping item"
+                                          style="width: 65px"
+                                        /> -->
+                                        <img
+                                          :src="
+                                            order.furnitureSpecificationImage
+                                          "
                                           class="img-fluid rounded-3"
                                           alt="Shopping item"
                                           style="width: 65px"
@@ -354,14 +378,10 @@
                                   aria-label="Default select example"
                                 >
                                   <option selected>Choose Payment</option>
-
-                                  <option
-                                    v-for="md in order.payments"
-                                    :key="md"
-                                    :value="md.paymentId"
-                                  >
-                                    {{ md.paymentMethod }}
-                                  </option>
+                                  <option value="1">Cash on Delivery</option>
+                                  <option value="2">QR Code</option>
+                                  <option value="3">Domestic Card</option>
+                                  <option value="4">International Card</option>
                                 </select>
                               </div>
                             </div>
@@ -406,25 +426,40 @@
                             </div>
                           </div>
                         </div>
-                        <div class="absolute right-8 flex gap-x-10">
-                          <p class="text-sm">Shipping Fee</p>
-                          <p class="text-sm">${{ shipCost }}</p>
+                        <div class="mx-3 mt-4 text-sm text-left">
+                          <span class="font-semibold">TOTAL ORDER </span>
+                          <span class="font-medium"
+                            >| {{ customOrder.length }} CUSTOM FURNITURE</span
+                          >
                         </div>
-                        <br />
-                        <div class="absolute right-8 flex gap-x-10 mt-6">
-                          <p class="text-sm">Point</p>
-                          <p class="text-sm">{{ userpoint }}</p>
-                        </div>
-                        <br />
-                        <div class="absolute right-8 flex gap-x-10 mt-10">
-                          <p class="text-sm">Subtotal</p>
-                          <p class="text-sm">${{ order.totalCost }}</p>
-                        </div>
-                        <div class="d-flex justify-content-between mt-20 px-4">
-                          <p class="font-semibold text-base">Subtotal</p>
-                          <p class="font-bold text-base text-red-600">
-                            ${{ totalCost }}
-                          </p>
+                        <div
+                          class="mx-3 flex flex-col-reverse divide-y divide-y-reverse divide-dashed divide-slate-300"
+                        >
+                          <div class="d-flex justify-content-between mt-2">
+                            <p class="font-semibold text-sm">SUBTOTAL</p>
+                            <p class="font-bold text-base text-red-600">
+                              {{ totalCost }} VND
+                            </p>
+                          </div>
+                          <br />
+                          <div class="flex gap-x-10 mt-4 font-medium">
+                            <p class="text-sm">Point</p>
+                            <p class="text-sm absolute right-10">
+                              {{ userpoint }}
+                            </p>
+                          </div>
+                          <div class="flex gap-x-10 mt-4 font-medium">
+                            <p class="text-sm">Shipping Fee</p>
+                            <p class="text-sm absolute right-10">
+                              {{ shipCost }} VND
+                            </p>
+                          </div>
+                          <div class="flex gap-x-10 mt-4 font-semibold">
+                            <p class="text-sm">Subtotal</p>
+                            <p class="text-sm absolute right-10">
+                              {{ order.totalCost }} VND
+                            </p>
+                          </div>
                         </div>
                       </template>
                       <template v-slot:footer>
@@ -648,18 +683,42 @@
           </div>
         </div>
       </div>
+      <modal
+        v-if="modalType == 'delete'"
+        @close="modalType == null"
+        data-target="#myModal"
+      >
+        <template v-slot:title> <div class="flex items-cente"></div></template>
+        <template v-slot:body>
+          <p class="text-base py-3"></p>
+          <div class="flex items-cente"></div
+        ></template>
+        <template v-slot:footer> <div class="flex items-cente"></div></template>
+      </modal>
     </div>
     <div v-else>
-      <div class="hourglassBackground">
-        <div class="hourglassContainer">
-          <div class="hourglassCurves"></div>
-          <div class="hourglassCapTop"></div>
-          <div class="hourglassGlassTop"></div>
-          <div class="hourglassSand"></div>
-          <div class="hourglassSandStream"></div>
-          <div class="hourglassCapBottom"></div>
-          <div class="hourglassGlass"></div>
-        </div>
+      <div class="loader">
+        <span class="l">L</span>
+        <span class="o">o</span>
+        <span class="a">a</span>
+        <span class="d">d</span>
+        <span class="i">i</span>
+        <span class="n">n</span>
+        <span class="g">g</span>
+        <span class="text-white"> .</span>
+        <span class="text-white"> .</span>
+        <span class="g">F</span>
+        <span class="g">u</span>
+        <span class="g">r</span>
+        <span class="g">n</span>
+        <span class="g">i</span>
+        <span class="g">t</span>
+        <span class="g">u</span>
+        <span class="g">r</span>
+        <span class="g">e</span>
+        <span class="d1">.</span>
+        <span class="d2">.</span>
+        <span class="d3">.</span>
       </div>
     </div>
   </div>
@@ -669,12 +728,14 @@
 import alertSuccess from "@/components/AlertSuccess.vue";
 import axios from "axios";
 import modal from "@/components/ModalPage.vue";
+import notification from "@/components/NotificationSuccess.vue";
 
 export default {
   name: "allFurniture",
   components: {
     modal,
     alertSuccess,
+    notification,
   },
   props: {
     furnitures: Array,
@@ -684,7 +745,6 @@ export default {
       isShowModal: false,
       furnitureModel: [],
       isFurnitureIdModal: [],
-      order: {},
       modalType: null,
       info: {},
       addreltAddress: {},
@@ -698,17 +758,19 @@ export default {
       messageError: null,
       messageSuccess: null,
       isLogin: false,
-      shipFee: "",
-      provinceCode: "",
-      districtCode: "",
-      wardCode: "",
+      // shipFee: "",
+      // provinceCode: "",
+      // districtCode: "",
+      // wardCode: "",
       methodShip: [],
-      methodDelevery: [],
-      shipCost: 0,
+      // methodDelevery: [],
+      // shipCost: 0,
       userpoint: 0,
       note: "",
       shipfee: 0,
-      // totalCost: 0,
+      message: "",
+      customOrder: 0,
+      furnitureOrder: [],
     };
   },
   created() {
@@ -745,9 +807,8 @@ export default {
         console.error(error);
       }
     },
-
     async toggleWishlist(furniture) {
-      if (localStorage.getItem("token") !== "") {
+      if (localStorage.getItem("token") === "") {
         this.$router.push({ name: "login" });
       } else {
         furniture.isFavorite = !furniture.isFavorite;
@@ -756,11 +817,16 @@ export default {
             "customer/wish-list/toggle?furnitureId=" + furniture.furnitureId
           );
           if (response.status === 200) {
-            this.isAlertSuccess = true;
-            this.messageSuccess = response.data;
-            setTimeout(() => {
-              this.isAlertSuccess = false;
-            }, 5000);
+            if (
+              response.data === "The furniture has been removed from wishlist"
+            ) {
+              this.isFavorite = false;
+              this.opentModal("notification");
+              console.log("Da show");
+            } else {
+              this.isFavorite = true;
+              this.opentModal("notification");
+            }
           }
         } catch (error) {
           console.error("Error toggling wishlist:", error);
@@ -770,162 +836,66 @@ export default {
     opentModal(type, ad) {
       this.modalType = type;
       this.addressModal = ad;
+      this.getAddress();
+    },
+    async getAddress() {
+      try {
+        const response = await axios.get("user/customer-infor/address");
+        this.address = response.data;
+        console.log(this.address);
+      } catch (error) {
+        console.error(error);
+      }
     },
     async handleCheckOut(fur) {
       if (localStorage.getItem("token") == "") {
         this.$router.push({ name: "login" });
       } else {
-        this.showModal("order", "null");
-        try {
-          const response = await axios.get(
-            "customer/checkout-now?furnitureSpecificationId=" +
-              fur.furnitureSpecificationId +
-              "&quantity=" +
-              this.quantities
-          );
-          if (response.status === 200) {
-            this.order = response.data;
-            let deliveryAddress = response.data.deliveryAddress;
-            let address = deliveryAddress.split(",");
-            let ward = address[1].trim();
-            let district = address[2].trim();
-            let province = address[3].trim();
-            await this.getProvinceCode(province);
-            await this.getDistrictCode(district);
-            await this.getWardCode(ward);
-            await this.getAvailableServices();
-          }
-        } catch (error) {
-          console.error(error);
-        }
+        this.opentModal("order", "null");
+        this.$store
+          .dispatch("handleCheckOutNow", {
+            fur,
+            quantity: this.quantities,
+          })
+          .then(() => console.log(this.order));
       }
     },
+    handleCheckOutOtherAdress() {
+      // this.furnitureOrder = this.$store.state.furnitureOrder;
+      this.$store.dispatch("handleCheckOutOtherAddress", {
+        province: this.adChange.province,
+        district: this.adChange.district,
+        ward: this.adChange.ward,
+      });
+      // this.furnitureOrder = this.$store.state.furnitureOrder;
+    },
+    //HàmCheckout
     async getProvinceCode(province) {
-      try {
-        const response = await axios.get(
-          "https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
-          {
-            headers: {
-              token: "8644b872-8774-11ee-96dc-de6f804954c9",
-            },
-          }
-        );
-
-        let provinceList = response.data.data;
-        let proviceCode = 0;
-        for (let i = 0; i < provinceList.length; i++) {
-          if (provinceList[i].ProvinceName === province) {
-            proviceCode = provinceList[i].ProvinceID;
-            break;
-          }
-        }
-        console.log(proviceCode);
-        // return proviceCode + "";
-        this.provinceCode = proviceCode;
-      } catch (error) {
-        console.error(error);
-      }
+      this.$store.dispatch("getProvinceCode", province);
     },
     async getDistrictCode(district) {
-      try {
-        const response = await axios.get(
-          "https://online-gateway.ghn.vn/shiip/public-api/master-data/district",
-          {
-            headers: {
-              token: "8644b872-8774-11ee-96dc-de6f804954c9",
-            },
-            params: {
-              province_id: this.provinceCode,
-            },
-          }
-        );
-
-        let districtList = response.data.data;
-        let districtCode = 0;
-        for (let i = 0; i < districtList.length; i++) {
-          if (districtList[i].DistrictName === district) {
-            districtCode = districtList[i].DistrictID;
-            break;
-          }
-        }
-        console.log(districtCode);
-        this.districtCode = districtCode;
-      } catch (error) {
-        console.error(error);
-      }
+      this.$store.dispatch("getDistrictCode", district);
     },
     async getWardCode(ward) {
-      try {
-        const response = await axios.get(
-          "https://online-gateway.ghn.vn/shiip/public-api/master-data/ward",
-          {
-            headers: {
-              token: "8644b872-8774-11ee-96dc-de6f804954c9",
-            },
-            params: {
-              district_id: this.districtCode,
-            },
-          }
-        );
-
-        let wardList = response.data.data;
-        let wardCode = 0;
-        for (let i = 0; i < wardList.length; i++) {
-          if (wardList[i].WardName === ward) {
-            wardCode = wardList[i].WardCode;
-            break;
-          }
-        }
-        console.log(wardCode);
-        this.wardCode = wardCode;
-      } catch (error) {
-        console.error(error);
-      }
+      this.$store.dispatch("getWardCode", ward);
     },
     async getAvailableServices() {
-      try {
-        const response = await axios.get(
-          "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services",
-          {
-            headers: {
-              token: "8644b872-8774-11ee-96dc-de6f804954c9",
-            },
-            params: {
-              shop_id: 4710217,
-              from_district: 2194,
-              to_district: this.districtCode,
-            },
-          }
-        );
-        this.methodDelevery = response.data;
-        console.log(this.methodDelevery);
-      } catch (e) {
-        console.error(e);
-      }
+      this.$store.dispatch("getAvailableServices");
     },
-    closeModal() {
-      this.modalType = null;
-    },
-    changeAddress(ad) {
-      this.addressId = ad.id;
-      this.adChange = ad;
-    },
-    confirmChangeAddress() {
-      this.opentModal("order");
+    async CalculateDeliveryFee(e) {
+      this.$store.dispatch("CalculateDeliveryFee", e);
     },
     async HandleOrder(order) {
-      //Chang idAddress if have change
-      let exchangeRate = 0.04126;
-      let shipfee = this.shipCost / 23000;
-      let point = this.userpoint * exchangeRate;
+      let point = this.userpoint / 100;
       const id = this.addressId || order.deliveryAddressId;
+      const payId = parseInt(this.paymentId);
       try {
         const response = await axios.post("customer/order", {
           addressId: id,
-          paymentId: this.paymentId,
+          paymentId: payId,
           usedPoint: point,
           note: this.note,
-          deliveryCost: shipfee,
+          total: this.totalCost,
           items: [
             {
               itemId: order.furnitureSpecificationId,
@@ -946,6 +916,50 @@ export default {
         console.error(error);
       }
     },
+    closeModal() {
+      this.modalType = null;
+    },
+    changeAddress(ad) {
+      this.addressId = ad.id;
+      this.adChange = ad;
+      this.handleCheckOutOtherAdress();
+    },
+    confirmChangeAddress() {
+      this.opentModal("order");
+    },
+    // async HandleOrder(order) {
+    //   //Chang idAddress if have change
+    //   let exchangeRate = 0.04126;
+    //   let shipfee = this.shipCost / 23000;
+    //   let point = this.userpoint * exchangeRate;
+    //   const id = this.addressId || order.deliveryAddressId;
+    //   try {
+    //     const response = await axios.post("customer/order", {
+    //       addressId: id,
+    //       paymentId: this.paymentId,
+    //       usedPoint: point,
+    //       note: this.note,
+    //       deliveryCost: shipfee,
+    //       items: [
+    //         {
+    //           itemId: order.furnitureSpecificationId,
+    //           quantity: order.quantity,
+    //         },
+    //       ],
+    //     });
+    //     if (response.status === 200) {
+    //       if (
+    //         response.data !== null &&
+    //         response.data !== "Order successfully"
+    //       ) {
+    //         this.paymentOline = response.data;
+    //         window.location.href = this.paymentOline;
+    //       }
+    //     }
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // },
     async HandleUpdateAddress() {
       const formData = new FormData();
       formData.append("AddressId", this.addressModal.id);
@@ -1006,48 +1020,23 @@ export default {
         console.error(error);
       }
     },
-    async CalculateDeliveryFee(e) {
-      let service_id = e.target.value;
-      try {
-        const response = await axios.get(
-          "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee",
-          {
-            headers: {
-              token: "8644b872-8774-11ee-96dc-de6f804954c9",
-              shop_id: 4710217,
-            },
-            params: {
-              from_district_id: 2194,
-              from_ward_code: "220710",
-              service_id: service_id,
-              to_district_id: this.districtCode,
-              to_ward_code: this.wardCode,
-              height: 50,
-              length: 20,
-              width: 20,
-              weight: 50,
-              coupon: null,
-            },
-          }
-        );
-        this.shipCost = response.data.data.service_fee;
-        console.log(response);
-      } catch (e) {
-        console.error(e);
-      }
-    },
   },
   computed: {
     totalCost() {
-      let exchangeRate = 0.04126;
-      let shipfee = this.shipCost / 23000;
-      let point = this.userpoint * exchangeRate;
+      let point = this.userpoint / 100;
       console.log(this.order.totalCost);
-      console.log(shipfee);
-      console.log(point);
-      let sum = this.order.totalCost + shipfee - point;
+      let sum = this.order.totalCost + this.shipCost - point;
       let cost = parseFloat(sum.toFixed(2));
       return cost;
+    },
+    order() {
+      return this.$store.state.checkOutNow;
+    },
+    methodDelevery() {
+      return this.$store.state.methodDeliveries;
+    },
+    shipCost() {
+      return this.$store.state.shipCost;
     },
   },
 };
@@ -1068,15 +1057,11 @@ export default {
 .furniture_items {
   background-color: #fff;
 }
-/* .moon .furniture_items {
-  background-color: #efede9;
-} */
 .moon .furniture_items {
   background-color: transparent !important;
 }
 .furniture_label {
   position: absolute;
-  /* width: 25%; */
   border-radius: 8px;
   text-align: center;
   font-size: 13px;
@@ -1084,479 +1069,135 @@ export default {
   left: 70%;
 }
 /* Loading */
-.hourglassBackground {
-  position: relative;
-  background-color: rgb(71, 60, 60);
-  height: 130px;
-  width: 130px;
-  border-radius: 50%;
-  margin: 30px auto;
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.l {
+  color: #8c5a16;
+  opacity: 0;
+  animation: pass 2s ease-in-out infinite;
+  animation-delay: 0.2s;
+  letter-spacing: 0.5em;
+  text-shadow: 2px 2px 3px #919191;
+  font-weight: 500;
 }
 
-.hourglassContainer {
-  position: absolute;
-  top: 30px;
-  left: 40px;
-  width: 50px;
-  height: 70px;
-  -webkit-animation: hourglassRotate 2s ease-in 0s infinite;
-  animation: hourglassRotate 2s ease-in 0s infinite;
-  transform-style: preserve-3d;
-  perspective: 1000px;
+.o {
+  color: #8c5a16;
+  opacity: 0;
+  animation: pass 2s ease-in-out infinite;
+  animation-delay: 0.4s;
+  letter-spacing: 0.5em;
+  text-shadow: 2px 2px 3px #919191;
+  font-weight: 500;
 }
 
-.hourglassContainer div,
-.hourglassContainer div:before,
-.hourglassContainer div:after {
-  transform-style: preserve-3d;
+.a {
+  color: #8c5a16;
+  opacity: 0;
+  animation: pass 2s ease-in-out infinite;
+  animation-delay: 0.6s;
+  letter-spacing: 0.5em;
+  text-shadow: 2px 2px 3px #919191;
+  font-weight: 500;
 }
 
-@-webkit-keyframes hourglassRotate {
-  0% {
-    transform: rotateX(0deg);
-  }
-
-  50% {
-    transform: rotateX(180deg);
-  }
-
-  100% {
-    transform: rotateX(180deg);
-  }
+.d {
+  color: #8c5a16;
+  opacity: 0;
+  animation: pass 2s ease-in-out infinite;
+  animation-delay: 0.8s;
+  letter-spacing: 0.5em;
+  text-shadow: 2px 2px 3px #919191;
+  font-weight: 500;
 }
 
-@keyframes hourglassRotate {
-  0% {
-    transform: rotateX(0deg);
-  }
-
-  50% {
-    transform: rotateX(180deg);
-  }
-
-  100% {
-    transform: rotateX(180deg);
-  }
+.i {
+  color: #8c5a16;
+  opacity: 0;
+  animation: pass 2s ease-in-out infinite;
+  animation-delay: 1s;
+  letter-spacing: 0.5em;
+  text-shadow: 2px 2px 3px #919191;
+  font-weight: 500;
 }
 
-.hourglassCapTop {
-  top: 0;
+.n {
+  color: #8c5a16;
+  opacity: 0;
+  animation: pass 2s ease-in-out infinite;
+  animation-delay: 1.2s;
+  letter-spacing: 0.5em;
+  text-shadow: 2px 2px 3px #919191;
+  font-weight: 500;
 }
 
-.hourglassCapTop:before {
-  top: -25px;
+.g {
+  color: #8c5a16;
+  opacity: 0;
+  animation: pass 2s ease-in-out infinite;
+  animation-delay: 1.4s;
+  letter-spacing: 0.5em;
+  text-shadow: 2px 2px 3px #919191;
+  font-weight: 500;
 }
 
-.hourglassCapTop:after {
-  top: -20px;
+.d1 {
+  color: #8c5a16;
+  opacity: 0;
+  animation: pass1 2s ease-in-out infinite;
+  animation-delay: 1.6s;
+  letter-spacing: 0.5em;
+  text-shadow: 2px 2px 3px #919191;
+  font-weight: 500;
 }
 
-.hourglassCapBottom {
-  bottom: 0;
+.d2 {
+  color: #8c5a16;
+  opacity: 0;
+  animation: pass1 2s ease-in-out infinite;
+  animation-delay: 2s;
+  letter-spacing: 0.5em;
+  text-shadow: 2px 2px 3px #919191;
+  font-weight: 500;
 }
-
-.hourglassCapBottom:before {
-  bottom: -25px;
+.d3 {
+  color: #8c5a16;
+  opacity: 0;
+  animation: pass1 2s ease-in-out infinite;
+  animation-delay: 2s;
+  letter-spacing: 0.5em;
+  text-shadow: 2px 2px 3px #919191;
+  font-weight: 500;
 }
-
-.hourglassCapBottom:after {
-  bottom: -20px;
-}
-
-.hourglassGlassTop {
-  transform: rotateX(90deg);
-  position: absolute;
-  top: -16px;
-  left: 3px;
-  border-radius: 50%;
-  width: 44px;
-  height: 44px;
-  background-color: #999999;
-}
-
-.hourglassGlass {
-  perspective: 100px;
-  position: absolute;
-  top: 32px;
-  left: 20px;
-  width: 10px;
-  height: 6px;
-  background-color: #999999;
-  opacity: 0.5;
-}
-
-.hourglassGlass:before,
-.hourglassGlass:after {
-  content: "";
-  display: block;
-  position: absolute;
-  background-color: #999999;
-  left: -17px;
-  width: 44px;
-  height: 28px;
-}
-
-.hourglassGlass:before {
-  top: -27px;
-  border-radius: 0 0 25px 25px;
-}
-
-.hourglassGlass:after {
-  bottom: -27px;
-  border-radius: 25px 25px 0 0;
-}
-
-.hourglassCurves:before,
-.hourglassCurves:after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 32px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: #333;
-  animation: hideCurves 2s ease-in 0s infinite;
-}
-
-.hourglassCurves:before {
-  left: 15px;
-}
-
-.hourglassCurves:after {
-  left: 29px;
-}
-
-@-webkit-keyframes hideCurves {
+@keyframes pass {
   0% {
     opacity: 1;
-  }
-
-  25% {
-    opacity: 0;
-  }
-
-  30% {
-    opacity: 0;
-  }
-
-  40% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes hideCurves {
-  0% {
-    opacity: 1;
-  }
-
-  25% {
-    opacity: 0;
-  }
-
-  30% {
-    opacity: 0;
-  }
-
-  40% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-.hourglassSandStream:before {
-  content: "";
-  display: block;
-  position: absolute;
-  left: 24px;
-  width: 3px;
-  background-color: white;
-  -webkit-animation: sandStream1 2s ease-in 0s infinite;
-  animation: sandStream1 2s ease-in 0s infinite;
-}
-
-.hourglassSandStream:after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 36px;
-  left: 19px;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid #fff;
-  animation: sandStream2 2s ease-in 0s infinite;
-}
-
-@-webkit-keyframes sandStream1 {
-  0% {
-    height: 0;
-    top: 35px;
-  }
-
-  50% {
-    height: 0;
-    top: 45px;
-  }
-
-  60% {
-    height: 35px;
-    top: 8px;
-  }
-
-  85% {
-    height: 35px;
-    top: 8px;
-  }
-
-  100% {
-    height: 0;
-    top: 8px;
-  }
-}
-
-@keyframes sandStream1 {
-  0% {
-    height: 0;
-    top: 35px;
-  }
-
-  50% {
-    height: 0;
-    top: 45px;
-  }
-
-  60% {
-    height: 35px;
-    top: 8px;
-  }
-
-  85% {
-    height: 35px;
-    top: 8px;
-  }
-
-  100% {
-    height: 0;
-    top: 8px;
-  }
-}
-
-@-webkit-keyframes sandStream2 {
-  0% {
-    opacity: 0;
   }
 
   50% {
     opacity: 0;
   }
 
-  51% {
-    opacity: 1;
-  }
-
-  90% {
-    opacity: 1;
-  }
-
-  91% {
-    opacity: 0;
-  }
-
   100% {
-    opacity: 0;
+    opacity: 1;
   }
 }
 
-@keyframes sandStream2 {
+@keyframes pass1 {
   0% {
-    opacity: 0;
+    opacity: 1;
   }
 
   50% {
     opacity: 0;
   }
 
-  51% {
-    opacity: 1;
-  }
-
-  90% {
-    opacity: 1;
-  }
-
-  91% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-
-.hourglassSand:before,
-.hourglassSand:after {
-  content: "";
-  display: block;
-  position: absolute;
-  left: 6px;
-  background-color: white;
-  perspective: 500px;
-}
-
-.hourglassSand:before {
-  top: 8px;
-  width: 39px;
-  border-radius: 3px 3px 30px 30px;
-  animation: sandFillup 2s ease-in 0s infinite;
-}
-
-.hourglassSand:after {
-  border-radius: 30px 30px 3px 3px;
-  animation: sandDeplete 2s ease-in 0s infinite;
-}
-
-@-webkit-keyframes sandFillup {
-  0% {
-    opacity: 0;
-    height: 0;
-  }
-
-  60% {
-    opacity: 1;
-    height: 0;
-  }
-
   100% {
     opacity: 1;
-    height: 17px;
   }
-}
-
-@keyframes sandFillup {
-  0% {
-    opacity: 0;
-    height: 0;
-  }
-
-  60% {
-    opacity: 1;
-    height: 0;
-  }
-
-  100% {
-    opacity: 1;
-    height: 17px;
-  }
-}
-
-@-webkit-keyframes sandDeplete {
-  0% {
-    opacity: 0;
-    top: 45px;
-    height: 17px;
-    width: 38px;
-    left: 6px;
-  }
-
-  1% {
-    opacity: 1;
-    top: 45px;
-    height: 17px;
-    width: 38px;
-    left: 6px;
-  }
-
-  24% {
-    opacity: 1;
-    top: 45px;
-    height: 17px;
-    width: 38px;
-    left: 6px;
-  }
-
-  25% {
-    opacity: 1;
-    top: 41px;
-    height: 17px;
-    width: 38px;
-    left: 6px;
-  }
-
-  50% {
-    opacity: 1;
-    top: 41px;
-    height: 17px;
-    width: 38px;
-    left: 6px;
-  }
-
-  90% {
-    opacity: 1;
-    top: 41px;
-    height: 0;
-    width: 10px;
-    left: 20px;
-  }
-}
-
-@keyframes sandDeplete {
-  0% {
-    opacity: 0;
-    top: 45px;
-    height: 17px;
-    width: 38px;
-    left: 6px;
-  }
-
-  1% {
-    opacity: 1;
-    top: 45px;
-    height: 17px;
-    width: 38px;
-    left: 6px;
-  }
-
-  24% {
-    opacity: 1;
-    top: 45px;
-    height: 17px;
-    width: 38px;
-    left: 6px;
-  }
-
-  25% {
-    opacity: 1;
-    top: 41px;
-    height: 17px;
-    width: 38px;
-    left: 6px;
-  }
-
-  50% {
-    opacity: 1;
-    top: 41px;
-    height: 17px;
-    width: 38px;
-    left: 6px;
-  }
-
-  90% {
-    opacity: 1;
-    top: 41px;
-    height: 0;
-    width: 10px;
-    left: 20px;
-  }
-}
-.text_price {
-  color: rgb(31 41 55);
 }
 .modal .form-control {
   height: 80%;
@@ -1611,5 +1252,12 @@ textarea {
 .furnitureName {
   height: 54px;
   overflow: hidden;
+}
+.image_product {
+  background: linear-gradient(
+    to bottom,
+    rgba(200, 149, 81, 0.05),
+    rgba(200, 149, 81, 0.15)
+  );
 }
 </style>

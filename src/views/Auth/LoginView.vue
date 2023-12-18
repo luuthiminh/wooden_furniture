@@ -96,11 +96,13 @@
                     </label>
                   </div>
                 </div>
-                <!-- <div>Sign in using</div> -->
-
                 <button
-                  type="submit"
                   class="btn_send text-white cursor-pointer mt-2 px-1 py-1 mb-4"
+                  type="submit"
+                  data-toggle="modal"
+                  data-target="#exampleModalLong"
+                  data-dismiss="modal"
+                  data-backdrop="false"
                 >
                   Sign In
                 </button>
@@ -163,6 +165,7 @@ export default {
       message: "",
       token: null,
       isShowPassword: false,
+      isLogin2AF: false,
     };
   },
   methods: {
@@ -174,8 +177,44 @@ export default {
           rememberMe: this.rememberMe,
         });
         if (response.status === 200) {
+          if (response.data.token === undefined) {
+            this.$router.push({ name: "ComfirmOtp2FA" });
+            localStorage.setItem("email", this.email);
+            console.log(response.data.token);
+          } else {
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("expiration", response.data.expiration);
+            if (response.data.role === "CUSTOMER") {
+              this.$router.push({ name: "Customer" });
+            } else if (response.data.role === "ASSISTANT") {
+              this.$router.push({ name: "dashboardAssistant" });
+            } else if (response.data.role === "SHOP_OWNER") {
+              this.$router.push({ name: "DashboardFurniture" });
+            }
+          }
+        }
+      } catch (error) {
+        this.message = "Password or email does not exist!";
+        console.error(error);
+      }
+    },
+    async Handle2AF() {
+      try {
+        const response = await axios.post("authentication/login", {
+          email: this.email,
+          password: this.password,
+          rememberMe: this.rememberMe,
+        });
+        if (response.status === 200) {
           localStorage.setItem("token", response.data.token);
-          this.$router.push({ name: "Customer" });
+          localStorage.setItem("expiration", response.data.expiration);
+          if (response.data.role === "CUSTOMER") {
+            this.$router.push({ name: "Customer" });
+          } else if (response.data.role === "ASSISTANT") {
+            this.$router.push({ name: "dashboardAssistant" });
+          } else if (response.data.role === "SHOP_OWNER") {
+            this.$router.push({ name: "DashboardFurniture" });
+          }
         }
       } catch (error) {
         this.message = "Password or email does not exist!";
@@ -305,5 +344,27 @@ a {
 .register,
 .forgot_password {
   color: #2d79f3;
+}
+.form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+}
+
+.message {
+  color: #a3a3a3;
+  font-size: 14px;
+  margin-top: 4px;
+  text-align: center;
 }
 </style>

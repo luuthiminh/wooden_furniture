@@ -6,7 +6,7 @@
           <li class="breadcrumb-item"><a href="#">Home</a></li>
 
           <li class="breadcrumb-item active" aria-current="page">
-            Reponsitory Management
+            Manage Reponsitory
           </li>
         </ol>
       </nav>

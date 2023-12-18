@@ -131,14 +131,14 @@ const routes = [
       ),
   },
   {
-    path: "/tips",
+    path: "/tips/:id",
     name: "TipsFurniture",
     meta: {
       layout: "customerLayout",
     },
     component: () =>
       import(
-        /* webpackChunkName: "register" */ "../views/Customer/TipsFurniture.vue"
+        /* webpackChunkName: "register" */ "../views/Customer/TipsAndNewsFurniture.vue"
       ),
   },
   {
@@ -150,17 +150,6 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "register" */ "../views/Customer/ShoppingGuide.vue"
-      ),
-  },
-  {
-    path: "/news",
-    name: "StoreNews",
-    meta: {
-      layout: "customerLayout",
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "register" */ "../views/Customer/StoreNews.vue"
       ),
   },
   {
@@ -196,6 +185,14 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "register" */ "../views/Customer/ComfirmEmail.vue"
+      ),
+  },
+  {
+    path: "/ComfirmOtp2FA",
+    name: "ComfirmOtp2FA",
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Auth/ComfirmOtp2FA.vue"
       ),
   },
   {
@@ -358,17 +355,6 @@ const routes = [
       ),
   },
   {
-    path: "/importFurniture",
-    name: "ImportFurniture",
-    meta: {
-      layout: "assistantLayout",
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "register" */ "../views/Assistant/importFurniture.vue"
-      ),
-  },
-  {
     path: "/repositoriesManagement",
     name: "RepositoriesManagement",
     meta: {
@@ -444,17 +430,6 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "register" */ "../views/Assistant/postManagement.vue"
-      ),
-  },
-  {
-    path: "/notiManagement",
-    name: "NotificationManagement",
-    meta: {
-      layout: "assistantLayout",
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "register" */ "../views/Assistant/notificationManagement.vue"
       ),
   },
   {
@@ -578,7 +553,7 @@ const routes = [
   },
   {
     path: "/materialManagement",
-    name: "materialManagement",
+    name: "MaterialManagement",
     meta: {
       layout: "assistantLayout",
     },

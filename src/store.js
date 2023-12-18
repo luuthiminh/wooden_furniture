@@ -4,45 +4,489 @@ const store = createStore({
   state() {
     return {
       count: 0,
-      furnitrues: [],
-      searchFurnitrue: [],
+      furnitures: [],
+      searchFurniture: [],
+      searchMaterial: [],
+      searchRepos: [],
+      furnitureOrder: [],
+      customizeFurnitureIdList: [],
+      order: [],
+      customOrder: 0,
+      cartId: [],
+      provinceCode: 0,
+      districtCode: 0,
+      wardCode: 0,
+      methodDeliveries: [],
+      shipCost: 0,
+      urlPaymentOline: "",
+      address: [],
+      checkOutNow: [],
+      checkOutCart: [],
+      cartIdList: [],
     };
   },
   mutations: {
     increment(state) {
       state.count++;
     },
-    // updateSearchTerm(state, term) {
-    //   state.searchTerm = term;
-    // },
-    // updateSearchResults(state, results) {
-    //   state.searchResults = results;
-    // },
-    // updateLoadingState(state, loading) {
-    //   state.loading = loading;
-    // },
-    // updateError(state, error) {
-    //   state.error = error;
-    // },
     setSearchFurniture(state, results) {
-      state.furnitrues = results;
+      state.searchFurniture = results;
+    },
+    setSearchMaterial(state, results) {
+      state.searchMaterial = results;
+    },
+    setSearchReposAssistant(state, results) {
+      state.searchRepos = results;
+    },
+    handleCartId(state, or) {
+      if (or.isSelected) {
+        state.furnitureOrder.push(or.customizeFurnitureId);
+        state.customizeFurnitureIdList.push(or.customizeFurnitureId);
+      } else {
+        state.furnitureOrder.splice(or);
+        state.customizeFurnitureIdList.splice(or);
+      }
+    },
+    handleCartIdtoCart(state, furniture) {
+      if (furniture.isSelected) {
+        state.furnitureOrder.push(furniture.furnitureId);
+        state.cartIdList.push(furniture.cartDetailId);
+      } else {
+        state.furnitureOrder.splice(furniture);
+        state.cartIdList.splice(furniture);
+      }
+      console.log(state.cartIdList);
+    },
+    setCheckOutOrder(state, results) {
+      state.order = results;
+    },
+    setCheckOutOrderNow(state, results) {
+      state.checkOutNow = results;
+    },
+    setCheckOutOrderCart(state, results) {
+      state.checkOutCart = results;
+    },
+    setSumCustomOrder(state, results) {
+      state.customOrder = results;
+    },
+    setProvinceCode(state, results) {
+      state.provinceCode = results;
+    },
+    setDistrictCode(state, results) {
+      state.districtCode = results;
+    },
+    setWardCode(state, results) {
+      state.wardCode = results;
+    },
+    setMethodDeleveries(state, results) {
+      state.methodDeliveries = results;
+    },
+    setShipCost(state, results) {
+      state.shipCost = results;
+    },
+    setUrlPaymentOnline(state, results) {
+      state.urlPaymentOline = results;
+    },
+    setAddess(state, results) {
+      state.address = results;
     },
   },
   actions: {
-    async searchBooks({ commit }, { keyword }) {
+    async searchFurnitures({ commit }, { keyword }) {
       try {
         const response = await axios.get(
           "customer/furnitures/search?keyword=" + keyword
         );
         if (response.status === 200) {
-          this.searchFurnitrue = response.data;
+          commit("setSearchFurniture", response.data);
         }
-
-        commit("updateSearchResults", this.searchFurnitrue);
       } catch (error) {
-        console.error("Lỗi khi tìm kiếm sách:", error);
+        console.error("Search Error:", error);
       }
     },
+    async searchMaterialAssistant({ commit }, { keyword }) {
+      try {
+        const response = await axios.get(
+          "assistant/shop-data/materials/search?searchString=" + keyword
+        );
+        if (response.status === 200) {
+          commit("setSearchMaterial", response.data);
+        }
+      } catch (error) {
+        console.error("Search Error:", error);
+      }
+    },
+    async searchReposAssistant({ commit }, { keyword }) {
+      try {
+        const response = await axios.get(
+          "assistant/warehouse/repositories/search?searchString=" + keyword
+        );
+        if (response.status === 200) {
+          commit("setSearchReposAssistant", response.data);
+        }
+      } catch (error) {
+        console.error("Search Error:", error);
+      }
+    },
+    async handleCheckOut({ commit, state, dispatch }) {
+      for (let i = 0; i < state.customizeFurnitureIdList.length; i++) {
+        if (i === state.customizeFurnitureIdList.length) {
+          state.cartId = state.cartId.concat(
+            `customizeFurnitureIdList=${state.customizeFurnitureIdList[i]}`
+          );
+        } else {
+          state.cartId = state.cartId.concat(
+            `customizeFurnitureIdList=${state.customizeFurnitureIdList[i]}&`
+          );
+        }
+      }
+      try {
+        const response = await axios.get(
+          `customer/checkout-customize-furniture?${state.cartId}`
+        );
+        if (response.status === 200) {
+          commit("setCheckOutOrder", response.data);
+          commit("setSumCustomOrder", response.data.items);
+          let deliveryAddress = response.data.deliveryAddress;
+          let address = deliveryAddress.split(",");
+          let ward = address[1].trim();
+          let district = address[2].trim();
+          let province = address[3].trim();
+          await dispatch("getProvinceCode", province);
+          await dispatch("getDistrictCode", district);
+          await dispatch("getWardCode", ward);
+          await dispatch("getAvailableServices");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async handleCheckOutOtherAddress(
+      { commit, state, dispatch },
+      { province, district, ward }
+    ) {
+      for (let i = 0; i < state.customizeFurnitureIdList.length; i++) {
+        if (i === state.customizeFurnitureIdList.length) {
+          state.cartId = state.cartId.concat(
+            `customizeFurnitureIdList=${state.customizeFurnitureIdList[i]}`
+          );
+        } else {
+          state.cartId = state.cartId.concat(
+            `customizeFurnitureIdList=${state.customizeFurnitureIdList[i]}&`
+          );
+        }
+      }
+      try {
+        const response = await axios.get(
+          `customer/checkout-customize-furniture?${state.cartId}`
+        );
+        if (response.status === 200) {
+          commit("setCheckOutOrder", response.data);
+          commit("setSumCustomOrder", response.data.items);
+          await dispatch("getProvinceCode", province);
+          await dispatch("getDistrictCode", district);
+          await dispatch("getWardCode", ward);
+          await dispatch("getAvailableServices");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async handleCheckOutNow({ commit, dispatch }, { fur, quantity }) {
+      try {
+        const response = await axios.get(
+          "customer/checkout-now?furnitureSpecificationId=" +
+            fur.furnitureSpecificationId +
+            "&quantity=" +
+            quantity
+        );
+        if (response.status === 200) {
+          commit("setCheckOutOrderNow", response.data);
+          // commit("setSumCustomOrder", response.data.items);
+          let deliveryAddress = response.data.deliveryAddress;
+          let address = deliveryAddress.split(",");
+          let ward = address[1].trim();
+          let district = address[2].trim();
+          let province = address[3].trim();
+          await dispatch("getProvinceCode", province);
+          await dispatch("getDistrictCode", district);
+          await dispatch("getWardCode", ward);
+          await dispatch("getAvailableServices");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async HandleCheckoutCart({ commit, state, dispatch }) {
+      for (let i = 0; i < state.cartIdList.length; i++) {
+        if (i === state.cartIdList.length) {
+          state.cartId = state.cartId.concat(
+            `cartIdList=${state.cartIdList[i]}`
+          );
+        } else {
+          state.cartId = state.cartId.concat(
+            `cartIdList=${state.cartIdList[i]}&`
+          );
+        }
+      }
+      try {
+        const response = await axios.get(
+          `customer/checkout-via-cart?${state.cartId}`
+        );
+        if (response.status === 200) {
+          commit("setCheckOutOrderCart", response.data);
+          commit("setSumCustomOrder", response.data.items);
+          let deliveryAddress = response.data.deliveryAddress;
+          let address = deliveryAddress.split(",");
+          let ward = address[1].trim();
+          let district = address[2].trim();
+          let province = address[3].trim();
+          await dispatch("getProvinceCode", province);
+          await dispatch("getDistrictCode", district);
+          await dispatch("getWardCode", ward);
+          await dispatch("getAvailableServices");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getProvinceCode({ commit }, province) {
+      try {
+        const response = await axios.get(
+          "https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
+          {
+            headers: {
+              token: "8644b872-8774-11ee-96dc-de6f804954c9",
+            },
+          }
+        );
+
+        let provinceList = response.data.data;
+        let proviceCode = 0;
+        for (let i = 0; i < provinceList.length; i++) {
+          if (provinceList[i].ProvinceName === province) {
+            proviceCode = provinceList[i].ProvinceID;
+            break;
+          }
+        }
+        console.log(proviceCode);
+        commit("setProvinceCode", proviceCode);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getDistrictCode({ commit, state }, district) {
+      try {
+        const response = await axios.get(
+          "https://online-gateway.ghn.vn/shiip/public-api/master-data/district",
+          {
+            headers: {
+              token: "8644b872-8774-11ee-96dc-de6f804954c9",
+            },
+            params: {
+              province_id: state.provinceCode,
+            },
+          }
+        );
+
+        let districtList = response.data.data;
+        let districtCode = 0;
+        for (let i = 0; i < districtList.length; i++) {
+          if (districtList[i].DistrictName === district) {
+            districtCode = districtList[i].DistrictID;
+            break;
+          }
+        }
+        console.log(districtCode);
+        commit("setDistrictCode", districtCode);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getWardCode({ commit, state }, ward) {
+      try {
+        const response = await axios.get(
+          "https://online-gateway.ghn.vn/shiip/public-api/master-data/ward",
+          {
+            headers: {
+              token: "8644b872-8774-11ee-96dc-de6f804954c9",
+            },
+            params: {
+              district_id: state.districtCode,
+            },
+          }
+        );
+
+        let wardList = response.data.data;
+        let wardCode = 0;
+        for (let i = 0; i < wardList.length; i++) {
+          if (wardList[i].WardName === ward) {
+            wardCode = wardList[i].WardCode;
+            break;
+          }
+        }
+        commit("setWardCode", wardCode);
+        console.log(wardCode);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getAvailableServices({ commit, state }) {
+      try {
+        const response = await axios.get(
+          "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services",
+          {
+            headers: {
+              token: "8644b872-8774-11ee-96dc-de6f804954c9",
+            },
+            params: {
+              shop_id: 4710217,
+              from_district: 2194,
+              to_district: state.districtCode,
+            },
+          }
+        );
+        commit("setMethodDeleveries", response.data);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    async CalculateDeliveryFee({ commit, state }, e) {
+      let service_id = e.target.value;
+      try {
+        const response = await axios.get(
+          "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee",
+          {
+            headers: {
+              token: "8644b872-8774-11ee-96dc-de6f804954c9",
+              shop_id: 4710217,
+            },
+            params: {
+              from_district_id: 2194,
+              from_ward_code: "220710",
+              service_id: service_id,
+              to_district_id: state.districtCode,
+              to_ward_code: state.wardCode,
+              height: 50,
+              length: 20,
+              width: 20,
+              weight: 50,
+              coupon: null,
+            },
+          }
+        );
+        commit("setShipCost", response.data.data.service_fee);
+        console.log(response);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+
+    //Address
+    // async getAddress({ commit }) {
+    //   try {
+    //     const response = await axios.get("user/customer-infor/address");
+    //     commit("setAddess", response.data);
+    //     console.log(response.data);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // },
+    // async HandleUpdate(ad) {
+    //   const formData = new FormData();
+    //   formData.append("AddressId", ad.id);
+    //   formData.append("Street", ad.street);
+    //   formData.append("Ward", ad.ward);
+    //   formData.append("District", ad.district);
+    //   formData.append("Provine", ad.provine);
+    //   formData.append("Type", ad.type);
+    //   try {
+    //     const response = await axios.put(
+    //       "user/customer-infor/address/update",
+    //       formData,
+    //       {
+    //         headers: {
+    //           "Content-Type": "multipart/form-data",
+    //         },
+    //       }
+    //     );
+    //     if (response.status === 200) {
+    //       this.modalType = null;
+    //       this.isAlertSuccess = true;
+    //       this.messageSuccess = "Update  successful!";
+    //       setTimeout(() => {
+    //         this.isAlertSuccess = false;
+    //       }, 5000);
+    //       this.getAddress();
+    //     }
+    //     console.log(response);
+    //   } catch (error) {
+    //     this.isAlertError = true;
+    //     this.messageError = error.response.data.message;
+    //     setTimeout(() => {
+    //       this.isAlertError = false;
+    //     }, 5000);
+    //     console.error(error);
+    //   }
+    // },
+    // async HandleDelete() {
+    //   try {
+    //     const response = await axios.delete(
+    //       "user/customer-infor/address/remove/" + this.addressModal.id
+    //     );
+    //     if (response.status === 200) {
+    //       this.modalType = null;
+    //       this.isSuccess = true;
+    //       this.isAlertSuccess = true;
+    //       this.messageSuccess = "Delete address successful!";
+    //       setTimeout(() => {
+    //         this.isSuccess = false;
+    //       }, 3000);
+    //       this.getAddress();
+    //     }
+    //   } catch (error) {
+    //     this.isAlertError = true;
+    //     this.messagerError = error.response.data.message;
+    //     setTimeout(() => {
+    //       this.isAlertError = false;
+    //     }, 3000);
+    //     console.error(error);
+    //   }
+    // },
+    // async HandleAddAddress() {
+    //   const formData = new FormData();
+    //   formData.append("Street", this.street);
+    //   formData.append("Ward", this.inputWard);
+    //   formData.append("District", this.inputDistrict);
+    //   formData.append("Provine", this.inputProvince);
+    //   formData.append("Type", this.type);
+    //   try {
+    //     const response = await axios.post(
+    //       "user/customer-infor/address/add",
+    //       formData,
+    //       {
+    //         headers: {
+    //           "Content-Type": "multipart/form-data",
+    //         },
+    //       }
+    //     );
+    //     if (response.status === 200) {
+    //       this.isAlertSuccess = true;
+    //       this.messageSuccess = "Add new successfully";
+    //       setTimeout(() => {
+    //         this.isAlertSuccess = false;
+    //       }, 5000);
+    //       this.getAddress();
+    //     }
+    //   } catch (error) {
+    //     this.isAlertError = true;
+    //     this.messageError = error.response.data.message;
+    //     setTimeout(() => {
+    //       this.isAlertError = false;
+    //     }, 5000);
+    //     console.error(error);
+    //   }
+    // },
   },
 });
 export default store;

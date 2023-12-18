@@ -7,7 +7,6 @@
 
 <style>
 .layout {
-  height: 50em;
-  background-color: #efefef;
+  background-color: #2d2c2cd9;
 }
 </style>

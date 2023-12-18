@@ -1,12 +1,13 @@
 <template>
-  <div class="nav pt-36 pb-3 mb-2 max-md:pt-24">
+  <div class="nav pt-36 mb-2 max-md:pt-24">
     <nav aria-label="breadcrumb">
-      <ol class="flex bg-none ml-28 max-sm:ml-3 max-md:ml-4">
-        <li class="breadcrumb-item">
-          <router-link to="customerIndex">Home </router-link>
-        </li>
-        <li class="breadcrumb-item">
-          <router-link to="#"> All Product</router-link>
+      <ol
+        class="breadcrumb bg-transparent flex bg-none ml-28 max-sm:ml-3 max-md:ml-4"
+      >
+        <li class="breadcrumb-item font-semibold"><a href="#">Home</a></li>
+
+        <li class="breadcrumb-item active font-medium" aria-current="page">
+          Introduction
         </li>
       </ol>
     </nav>

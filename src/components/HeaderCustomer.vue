@@ -33,68 +33,66 @@
                 class="text-decoration-none"
               ></router-link>
               <li class="search">
-                <form>
-                  <div class="flex flex-cols-6 gap-x-3">
-                    <div class="col-span-4 font-normal">
-                      <div class="form">
-                        <label for="search">
-                          <input
-                            required=""
-                            autocomplete="off"
-                            placeholder="search your chats"
-                            id="search"
-                            type="text"
-                            v-model="keyword"
-                            @keyup.enter="search"
-                          />
-                          <div class="icon">
-                            <svg
-                              stroke-width="2"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="swap-on"
-                            >
-                              <path
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                                stroke-linejoin="round"
-                                stroke-linecap="round"
-                              ></path>
-                            </svg>
-                            <svg
-                              stroke-width="2"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="swap-off"
-                            >
-                              <path
-                                d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                                stroke-linejoin="round"
-                                stroke-linecap="round"
-                              ></path>
-                            </svg>
-                          </div>
-                          <button @click="clear" type="reset" class="close-btn">
-                            <svg
-                              viewBox="0 0 20 20"
-                              class="h-5 w-5"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                clip-rule="evenodd"
-                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                fill-rule="evenodd"
-                              ></path>
-                            </svg>
-                          </button>
-                        </label>
-                      </div>
+                <div class="flex flex-cols-6 gap-x-3">
+                  <div class="col-span-4 font-normal">
+                    <div class="form">
+                      <label for="search">
+                        <input
+                          required=""
+                          autocomplete="off"
+                          placeholder="search your chats"
+                          id="search"
+                          type="text"
+                          v-model="keyword"
+                          @keyup.enter="search"
+                        />
+                        <div class="icon">
+                          <svg
+                            stroke-width="2"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="swap-on"
+                          >
+                            <path
+                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                              stroke-linejoin="round"
+                              stroke-linecap="round"
+                            ></path>
+                          </svg>
+                          <svg
+                            stroke-width="2"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="swap-off"
+                          >
+                            <path
+                              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                              stroke-linejoin="round"
+                              stroke-linecap="round"
+                            ></path>
+                          </svg>
+                        </div>
+                        <button @click="clear" type="reset" class="close-btn">
+                          <svg
+                            viewBox="0 0 20 20"
+                            class="h-5 w-5"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                              fill-rule="evenodd"
+                            ></path>
+                          </svg>
+                        </button>
+                      </label>
                     </div>
                   </div>
-                </form>
+                </div>
               </li>
             </ul>
             <ul class="ml-5 flex gap-x-5">
@@ -124,7 +122,7 @@
                     </span>
                   </sup>
                 </div>
-                <small class="text-xs">Notifications</small>
+                <small class="text-xs cursor-pointer">Notifications</small>
               </li>
               <li>
                 <div class="mode flex items-center" @click.prevent="toggleDark">
@@ -163,8 +161,17 @@
                       </div>
                     </div>
                   </label>
-                  <small class="text-xs">Theme style</small>
+                  <small class="text-xs cursor-pointer mt-1">Theme style</small>
                 </div>
+              </li>
+              <li class="flex items-center">
+                <router-link
+                  to="/helpPage"
+                  class="flex gap-x-1 items-center text-decoration-none"
+                >
+                  <i class="text-sm bi bi-patch-question cursor-pointer"></i>
+                  <small class="text-xs cursor-pointer">Help</small>
+                </router-link>
               </li>
             </ul>
           </div>
@@ -172,7 +179,7 @@
       </div>
     </div>
     <div>
-      <div class="flex gap-x-64 max-sm:hidden max-md:hidden">
+      <div class="nav-header flex gap-x-64 max-sm:hidden max-md:hidden">
         <ul class="flex px-28 gap-x-9 py-2 items-center pt-2">
           <li>
             <router-link
@@ -202,33 +209,10 @@
               >Mix
             </router-link>
           </li>
-          <li>
-            <div class="dropdown">
-              <div class="dropdown-toggle" data-toggle="dropdown">
-                <strong class="font-medium">About</strong>
-              </div>
-              <div class="dropdown-menu px-3 py-2 mt-1 leading-7">
-                <li>
-                  <router-link to="/news" class="font-medium text-base"
-                    ><i class="fa-regular fa-newspaper pr-3"></i>
-                    News</router-link
-                  >
-                </li>
-                <li>
-                  <router-link to="/tips" class="font-medium text-base"
-                    ><i class="fa-solid fa-seedling pr-3"></i> Tips</router-link
-                  >
-                </li>
-                <li>
-                  <router-link
-                    to="/categoryFurniture"
-                    class="font-medium text-base"
-                  >
-                    Help</router-link
-                  >
-                </li>
-              </div>
-            </div>
+          <li class="font-medium">
+            <router-link to="/about" class="text-decoration-none"
+              >About</router-link
+            >
           </li>
           <li class="font-medium">
             <router-link to="/shoppingGuide" class="text-decoration-none"
@@ -262,10 +246,10 @@
         </ul>
         <ul v-else class="flex items-center">
           <li class="absolute right-28 flex gap-x-2 items-center">
-            <router-link to="/" class="text-decoration-none">
+            <router-link to="/login" class="text-decoration-none">
               <span class="font-medium text-sm">Login/ </span>
             </router-link>
-            <router-link to="/" class="text-decoration-none">
+            <router-link to="/register" class="text-decoration-none">
               <span class="font-medium text-sm">Register </span>
             </router-link>
           </li>
@@ -296,68 +280,66 @@
             </div>
           </div>
           <div class="search px-3 pt-4 pb-2">
-            <form>
-              <div class="flex flex-cols-6 gap-x-3">
-                <div class="col-span-4 font-normal">
-                  <div class="form w-1/12">
-                    <label for="search">
-                      <input
-                        required=""
-                        autocomplete="off"
-                        placeholder="search your chats"
-                        id="search"
-                        type="text"
-                        v-model="keyword"
-                        @keyup.enter="search"
-                      />
-                      <div class="icon">
-                        <svg
-                          stroke-width="2"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="swap-on"
-                        >
-                          <path
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                            stroke-linejoin="round"
-                            stroke-linecap="round"
-                          ></path>
-                        </svg>
-                        <svg
-                          stroke-width="2"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="swap-off"
-                        >
-                          <path
-                            d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                            stroke-linejoin="round"
-                            stroke-linecap="round"
-                          ></path>
-                        </svg>
-                      </div>
-                      <button @click="clear" type="reset" class="close-btn">
-                        <svg
-                          viewBox="0 0 20 20"
-                          class="h-5 w-5"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            clip-rule="evenodd"
-                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                            fill-rule="evenodd"
-                          ></path>
-                        </svg>
-                      </button>
-                    </label>
-                  </div>
+            <div class="flex flex-cols-6 gap-x-3">
+              <div class="col-span-4 font-normal">
+                <div class="form w-1/12">
+                  <label for="search">
+                    <input
+                      required=""
+                      autocomplete="off"
+                      placeholder="search your chats"
+                      id="search"
+                      type="text"
+                      v-model="keyword"
+                      @keyup.enter="search"
+                    />
+                    <div class="icon">
+                      <svg
+                        stroke-width="2"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="swap-on"
+                      >
+                        <path
+                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                          stroke-linejoin="round"
+                          stroke-linecap="round"
+                        ></path>
+                      </svg>
+                      <svg
+                        stroke-width="2"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="swap-off"
+                      >
+                        <path
+                          d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                          stroke-linejoin="round"
+                          stroke-linecap="round"
+                        ></path>
+                      </svg>
+                    </div>
+                    <button @click="clear" type="reset" class="close-btn">
+                      <svg
+                        viewBox="0 0 20 20"
+                        class="h-5 w-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          clip-rule="evenodd"
+                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                          fill-rule="evenodd"
+                        ></path>
+                      </svg>
+                    </button>
+                  </label>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
           <ul v-show="isLogin" class="flex gap-x-10 right-2 items-center">
             <li class="items-center px-3" @click.prevent="closeNavBar">
@@ -476,39 +458,10 @@
                 >Mix
               </router-link>
             </li>
-            <li class="flex gap-x-4" @click.prevent="closeNavBar">
-              <i class="bi bi-back"></i>
-              <div class="dropdown">
-                <div class="dropdown-toggle" data-toggle="dropdown">
-                  <strong class="font-medium">About</strong>
-                </div>
-                <div class="dropdown-menu px-3 py-2 mt-1 leading-7">
-                  <li>
-                    <router-link to="/news" class="font-medium text-base"
-                      ><i
-                        class="fa-regular fa-newspaper pr-3 cursor-pointer"
-                      ></i>
-                      News</router-link
-                    >
-                  </li>
-                  <li>
-                    <router-link
-                      to="/tips"
-                      class="font-medium text-base cursor-pointer"
-                      ><i class="fa-solid fa-seedling pr-3"></i>
-                      Tips</router-link
-                    >
-                  </li>
-                  <li>
-                    <router-link
-                      to="/categoryFurniture"
-                      class="font-medium text-base"
-                    >
-                      Help</router-link
-                    >
-                  </li>
-                </div>
-              </div>
+            <li>
+              <router-link to="/about" class="text-decoration-none"
+                >About</router-link
+              >
             </li>
             <li class="flex gap-x-4 font-medium" @click.prevent="closeNavBar">
               <i class="bi bi-bar-chart-steps"></i>
@@ -526,24 +479,22 @@
         </div>
       </div>
     </div>
-    <!-- <div v-show="!isNavBar">
-      <div class="nar_bar"></div>
-    </div> -->
     <div v-if="isBell">
       <div v-if="notifications.length">
         <div
           class="w-96 bg-white float-right z-10 border border-1-black mr-4 rounded-md shadow-lg"
         >
           <div
-            class="noti pl-4 font-semibold text-lg text-center py-2 bg-slate-50 text-yellow-950"
+            class="noti pl-4 font-semibold text-base text-center py-2 bg-slate-50 text-yellow-950"
           >
-            Notifications ({{ notifications.length }})
+            Notifications
+            <span class="text-amber-600">({{ notifications.length }})</span>
           </div>
           <div class="scoll_notification">
             <div
               v-for="(notification, index) in notifications"
               :key="index"
-              class="bell p-4 max-w-sm mx-auto bg-white flex items-center space-x-4"
+              class="bell p-4 max-w-sm mx-auto flex items-center space-x-4 bg-white"
             >
               <div class="shrink-0">
                 <img
@@ -553,13 +504,19 @@
                 />
               </div>
               <div>
-                <div class="text-base font-medium text-yellow-950">
-                  {{ notification.title }}
+                <div>
+                  <div class="text-base font-medium text-yellow-950">
+                    <i class="bi bi-megaphone-fill text-amber-600 mr-1"></i>
+                    {{ notification.title }}
+                  </div>
                 </div>
-                <p class="text-slate-500 text-sm py-2">
+                <p class="text-slate-600 text-sm py-1">
                   {{ notification.content }}
                 </p>
-                <span class="text-xs">{{ notification.date }}</span>
+                <span class="text-xs text-slate-500"
+                  ><i class="bi bi-calendar2-check mr-1"></i
+                  >{{ notification.date }}</span
+                >
               </div>
             </div>
           </div>
@@ -618,10 +575,14 @@ export default {
       }
     },
     search() {
-      this.$store.dispatch("searchBooks", this.keyword).then(() => {
-        this.$router.push({ name: "SearchResult" }); // Chuyển hướng đến trang tìm kiếm
-      });
-      console.log("Đã chueyenr hướng");
+      this.$router
+        .push({ name: "SearchResult" })
+        .then(() => {
+          this.$store.dispatch("searchFurnitures", { keyword: this.keyword });
+        })
+        .catch((error) => {
+          console.error("Search Error:", error);
+        });
     },
     clear() {
       this.keyword = "";
@@ -675,7 +636,7 @@ export default {
 
 <style scoped>
 .header {
-  box-shadow: 1px 1px 4px #dcd8d8;
+  /* box-shadow: 1px 1px 4px #dcd8d8; */
   /* background-color: white; */
 }
 .overlay {
@@ -997,5 +958,12 @@ nav li {
 }
 /*laptop*/
 @media only screen and (min-width: 73em) and (max-width: 81.25em) {
+}
+.nav-header {
+  background: #4c3b25ed;
+  color: #f0e5e5;
+}
+.moon .nav-header {
+  background: transparent;
 }
 </style>

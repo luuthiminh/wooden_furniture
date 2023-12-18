@@ -625,7 +625,10 @@ export default {
         this.woods = response.data;
         console.log(response.data);
       } catch (error) {
-        console.error(error);
+        if (error.response.status === 403) {
+          this.$router.push({ name: "login" });
+          console.log("Login");
+        }
       }
     },
     async searchWood() {

@@ -18,12 +18,12 @@
       <p class="font-serif px-11 text-gray-500 py-3">
         L&L, We have sent a confirmation link to change your password via email
       </p>
-      <p class="font-serif text-gray-700">
+      <div class="flex flex-col items-center py-5 bg-white w-full h-full">
+        <img src="@/assets/images/icon_email.webp" alt="email" class="w-2/12" />
+      </div>
+      <p class="font-serif text-gray-700 text-center">
         Please click to link confirm to change your password!
       </p>
-      <div class="flex flex-col items-center py-5 bg-white w-full h-full">
-        <img src="@/assets/images/icon_email.webp" alt="email" class="w-3/12" />
-      </div>
     </div>
   </div>
 </template>

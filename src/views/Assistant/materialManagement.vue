@@ -10,12 +10,12 @@
             class="breadcrumb-item text-sm active font-medium"
             aria-current="page"
           >
-            Management Material
+            Manage Materials
           </li>
         </ol>
       </nav>
     </div>
-    <div class="font-semibold text-lg ml-4 pt-4">All Material</div>
+    <div class="font-semibold text-lg ml-4 pt-4">All Materials</div>
     <div class="absolute right-0">
       <alert-Error v-if="isAlertError">
         <template v-slot:message>{{ messageError }}</template></alert-Error
@@ -27,10 +27,10 @@
         <template v-slot:message>{{ messageWanning }}</template>
       </alert-wanning>
     </div>
-    <div class="content_table pt-14 px-10 scroll">
+    <div class="content_table pt-14 px-6 scroll">
       <div class="flex mb-4">
         <div class="flex items-center gap-x-4 text-sm">
-          <p class="font-semibold">Total Materials:</p>
+          <p class="font-semibold">Totally Materials:</p>
           {{ materials.length }}
         </div>
         <div class="absolute right-10">
@@ -64,8 +64,546 @@
               <th scope="col"></th>
             </tr>
           </thead>
-          <tbody v-if="materials.length">
+          <tbody v-if="!searchResults.length">
             <tr class="text-sm" v-for="ma in materials" :key="ma.materialId">
+              <td class="img">
+                <img :src="ma.materialImage" alt="material" class="w-20" />
+              </td>
+              <td class="text-start">
+                <span class="font-semibold block">{{ ma.materialName }}</span>
+                <span class="text-xs">{{ ma.materialId }}</span>
+              </td>
+              <td>${{ ma.materialPrice }}</td>
+              <td>{{ ma.description }}</td>
+              <td>{{ ma.defaultSuplierId }}</td>
+              <td>
+                <div
+                  v-for="repo in ma.available"
+                  :key="repo.repositoryId"
+                  class="mb-2"
+                >
+                  {{ repo.repositoryName }}
+                </div>
+              </td>
+              <td>
+                <button
+                  class="button_edit"
+                  type="button"
+                  data-toggle="modal"
+                  data-target="#exampleModalLong"
+                  data-dismiss="modal"
+                  data-backdrop="false"
+                  @click="opentModal('edit', ma)"
+                >
+                  <span class="button__text text-xs">Edit</span>
+                  <span class="button__icon bi bi-pencil text-white"></span>
+                </button>
+              </td>
+              <td>
+                <button
+                  class="button_delete"
+                  type="button"
+                  data-toggle="modal"
+                  data-target="#exampleModalLong"
+                  data-dismiss="modal"
+                  data-backdrop="false"
+                  @click="opentModal('delete', ma)"
+                >
+                  <span class="button__text text-xs">Delete</span>
+                  <span class="button__icon"
+                    ><svg
+                      class="svg"
+                      height="512"
+                      viewBox="0 0 512 512"
+                      width="512"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <title></title>
+                      <path
+                        d="M112,112l20,320c.95,18.49,14.4,32,32,32H348c17.67,0,30.87-13.51,32-32l20-320"
+                        style="
+                          fill: none;
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-linejoin: round;
+                          stroke-width: 32px;
+                        "
+                      ></path>
+                      <line
+                        style="
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-miterlimit: 10;
+                          stroke-width: 32px;
+                        "
+                        x1="80"
+                        x2="432"
+                        y1="112"
+                        y2="112"
+                      ></line>
+                      <path
+                        d="M192,112V72h0a23.93,23.93,0,0,1,24-24h80a23.93,23.93,0,0,1,24,24h0v40"
+                        style="
+                          fill: none;
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-linejoin: round;
+                          stroke-width: 32px;
+                        "
+                      ></path>
+                      <line
+                        style="
+                          fill: none;
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-linejoin: round;
+                          stroke-width: 32px;
+                        "
+                        x1="256"
+                        x2="256"
+                        y1="176"
+                        y2="400"
+                      ></line>
+                      <line
+                        style="
+                          fill: none;
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-linejoin: round;
+                          stroke-width: 32px;
+                        "
+                        x1="184"
+                        x2="192"
+                        y1="176"
+                        y2="400"
+                      ></line>
+                      <line
+                        style="
+                          fill: none;
+                          stroke: #fff;
+                          stroke-linecap: round;
+                          stroke-linejoin: round;
+                          stroke-width: 32px;
+                        "
+                        x1="328"
+                        x2="320"
+                        y1="176"
+                        y2="400"
+                      ></line></svg
+                  ></span>
+                </button>
+              </td>
+              <td>
+                <div
+                  class="px-2 py-1 bg-orange-600 w-20 text-white text-center"
+                >
+                  <button
+                    class="btn_action"
+                    type="button"
+                    data-toggle="modal"
+                    data-target="#exampleModalLong"
+                    data-dismiss="modal"
+                    data-backdrop="false"
+                    @click="opentModal('exportMaterial', 'null')"
+                  >
+                    Export
+                  </button>
+                </div>
+              </td>
+              <modal
+                v-if="modalType == 'add'"
+                @close="modalType == null"
+                data-target="#myModal"
+              >
+                <template v-slot:title>
+                  <div
+                    class="flex items-center text-base font-semibold text-yellow-950"
+                  >
+                    Add New Material
+                  </div>
+                </template>
+                <template v-slot:body>
+                  <div class="text-sm">
+                    <div class="mx-4 mb-6 mt-2">
+                      <div class="">
+                        <label class="col-form-label fw-medium">Image</label>
+                        <div class="">
+                          <div class="flex">
+                            <div class="avatar_upload ml-14 py-3">
+                              <img v-if="url" :src="url" alt="Avatar" />
+                              <img
+                                v-else
+                                src="@/assets/images/assistant/image_default.jpeg"
+                                alt="Avatar"
+                              />
+                            </div>
+                            <div class="avatar_edit">
+                              <div class="hidden">
+                                <input
+                                  type="file"
+                                  name="avatar"
+                                  id="imageUpload"
+                                  accept=".png, .jpg, .jpeg"
+                                  :maxFileSize="1000000"
+                                  ref="file"
+                                  required
+                                  @change="onFileChange"
+                                />
+                              </div>
+                              <label
+                                class="bi bi-pencil text-xs"
+                                for="imageUpload"
+                              ></label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="mt-3">
+                        <label class="col-form-label fw-medium"
+                          >Material Name</label
+                        >
+                        <div class="">
+                          <input
+                            v-model="materialName"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="mt-3">
+                        <label class="col-form-label fw-medium">Price</label>
+                        <div class="">
+                          <input
+                            v-model="materialPrice"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="mt-3">
+                        <label class="col-form-label fw-medium"
+                          >Description</label
+                        >
+                        <div class="">
+                          <input
+                            v-model="materialDescription"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="mt-3">
+                        <label class="col-form-label fw-medium">Quantity</label>
+                        <div class="">
+                          <input
+                            v-model="quantities"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="mt-3">
+                        <label class="col-form-label fw-medium">Note</label>
+                        <div class="">
+                          <input
+                            v-model="note"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="mt-3">
+                        <label
+                          for="exampleInputEmail1"
+                          class="col-form-label font-medium"
+                          >Default Suplier</label
+                        >
+                        <select
+                          v-if="suppliers.length"
+                          v-model="supplierId"
+                          class="form-select text-sm"
+                          aria-label="Default select example"
+                        >
+                          <option selected>Choose supplier</option>
+                          <option
+                            v-for="sup in suppliers"
+                            :key="sup.supplierId"
+                            :value="sup.supplierId"
+                            required
+                          >
+                            {{ sup.supplierName }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+                <template v-slot:footer>
+                  <div class="bg-yellow-900 rounded-md">
+                    <span
+                      type="button"
+                      class="btn text-white"
+                      data-dismiss="modal"
+                      @click.prevent="AddMaterial"
+                    >
+                      Add
+                    </span>
+                  </div>
+                </template>
+              </modal>
+              <modal
+                v-if="modalType == 'edit'"
+                @close="modalType == null"
+                data-target="#myModal"
+              >
+                <template v-slot:title>
+                  <div
+                    class="flex items-center text-base font-semibold text-yellow-950"
+                  >
+                    Edit Material
+                  </div>
+                </template>
+                <template v-slot:body>
+                  <div class="text-sm">
+                    <div class="mx-4 mb-6 mt-2">
+                      <div class="">
+                        <label class="col-form-label fw-medium">Image</label>
+                        <div class="">
+                          <div class="flex">
+                            <div class="avatar_upload ml-14 py-3">
+                              <div v-if="urlMaterials">
+                                <img
+                                  v-if="!url"
+                                  :src="urlMaterials"
+                                  alt="image"
+                                  class="w-8/12"
+                                />
+                                <img
+                                  v-else-if="url"
+                                  :src="url"
+                                  alt="image"
+                                  class="w-8/12"
+                                />
+                              </div>
+                              <div v-else>
+                                <img
+                                  v-if="!url"
+                                  src="@/assets/images/assistant/image_default.jpeg"
+                                  alt="image"
+                                />
+                                <img
+                                  v-else
+                                  :src="url"
+                                  alt="image"
+                                  class="w-8/12"
+                                />
+                              </div>
+                            </div>
+                            <div class="avatar_edit">
+                              <div class="hidden">
+                                <input
+                                  type="file"
+                                  name="avatar"
+                                  id="imageUpload"
+                                  accept=".png, .jpg, .jpeg"
+                                  :maxFileSize="1000000"
+                                  ref="file"
+                                  @change="onFileChange"
+                                />
+                              </div>
+                              <label
+                                class="bi bi-pencil text-xs"
+                                for="imageUpload"
+                              ></label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="mt-3">
+                        <label class="col-form-label fw-medium">Name</label>
+                        <div class="">
+                          <input
+                            v-model="materialNameModal"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                          />
+                        </div>
+                      </div>
+                      <div class="mt-3">
+                        <label class="col-form-label fw-medium">Price</label>
+                        <div class="">
+                          <input
+                            v-model="materialPriceModal"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                          />
+                        </div>
+                      </div>
+                      <div class="mt-3">
+                        <label class="col-form-label fw-medium"
+                          >Description</label
+                        >
+                        <div class="">
+                          <input
+                            v-model="materialDescriptionModal"
+                            type="text"
+                            class="form-control border-none bg-neutral-100"
+                            id="firstname"
+                            aria-describedby="firstnameHelp"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="mt-3">
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Default Suplier</label
+                        >
+                        <select
+                          v-if="suppliers.length"
+                          v-model="idSupModal"
+                          class="form-select text-sm"
+                          aria-label="Default select example"
+                        >
+                          <option selected>{{ idSupModal }}</option>
+                          <option
+                            v-for="sup in suppliers"
+                            :key="sup.supplierId"
+                            :value="sup.supplierId"
+                          >
+                            {{ sup.supplierName }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+                <template v-slot:footer>
+                  <div class="bg-yellow-900 rounded-md">
+                    <span
+                      type="button"
+                      class="btn text-white"
+                      data-dismiss="modal"
+                      @click.prevent="updateMaterial"
+                    >
+                      Update
+                    </span>
+                  </div>
+                </template>
+              </modal>
+              <modal
+                v-if="modalType == 'delete'"
+                @close="modalType == null"
+                data-target="#myModal"
+              >
+                <template v-slot:title>
+                  <div class="flex items-center text-lg font-semibold">
+                    Delete
+                  </div>
+                </template>
+                <template v-slot:body>
+                  <p class="text-base py-3">
+                    Are you sure detete <b> {{ materialNameModal }} ?</b>
+                  </p>
+                </template>
+                <template v-slot:footer>
+                  <div class="bg-red-900 rounded-md">
+                    <span
+                      type="button"
+                      class="btn text-white"
+                      data-dismiss="modal"
+                      @click="HandleDelete"
+                    >
+                      Delete
+                    </span>
+                  </div>
+                </template>
+              </modal>
+              <modal
+                v-if="modalType == 'exportMaterial'"
+                @close="closeModal"
+                data-target="#myModal"
+              >
+                <template v-slot:title>
+                  <div
+                    class="flex items-center text-base font-semibold text-yellow-950"
+                  >
+                    Export Material
+                  </div>
+                </template>
+                <template v-slot:body>
+                  <div class="grid grid-cols-12 gap-x-10">
+                    <label
+                      for="exampleInputEmail1"
+                      class="col-span-4 form-label text-semibold text-base pt-2 border-none"
+                      >Quantity</label
+                    >
+                    <input
+                      v-model="quantity"
+                      type="text"
+                      class="col-span-8 form-control"
+                      id="exampleInpuName1"
+                      aria-describedby="nameHelp"
+                      required
+                    />
+                  </div>
+                  <div class="grid grid-cols-12 gap-x-10 mt-3">
+                    <label
+                      for="exampleInputEmail1"
+                      class="col-span-4 form-label text-semibold text-base pt-2 border-none"
+                      >Reason</label
+                    >
+                    <input
+                      v-model="reason"
+                      type="text"
+                      class="col-span-8 form-control"
+                      id="exampleInpuName1"
+                      aria-describedby="nameHelp"
+                      required
+                    />
+                  </div>
+                </template>
+                <template v-slot:footer>
+                  <div class="bg-yellow-900 rounded-md">
+                    <span
+                      type="button"
+                      class="btn text-white"
+                      data-dismiss="modal"
+                      @click="HandleExportMaterial(ma)"
+                    >
+                      Export
+                    </span>
+                  </div>
+                </template>
+              </modal>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr
+              class="text-sm"
+              v-for="ma in searchResults"
+              :key="ma.materialId"
+            >
               <td class="img">
                 <img :src="ma.materialImage" alt="material" class="w-20" />
               </td>
@@ -634,7 +1172,6 @@ export default {
       messageError: null,
       messageSuccess: null,
       messageWanning: null,
-      searchResults: [],
       keyword: "",
       urlMaterials: "",
       suppliers: [],
@@ -644,6 +1181,7 @@ export default {
   created() {
     this.getMaterial();
     this.getSuppliers();
+    console.log(this.$store.state.searchMatarial);
   },
   methods: {
     async getMaterial() {
@@ -684,7 +1222,6 @@ export default {
       }
       console.log(event);
     },
-
     async AddMaterial() {
       const formData = new FormData();
       formData.append("materialName", this.materialName);
@@ -819,6 +1356,11 @@ export default {
         }, 5000);
         console.error(error);
       }
+    },
+  },
+  computed: {
+    searchResults() {
+      return this.$store.state.searchMaterial;
     },
   },
 };

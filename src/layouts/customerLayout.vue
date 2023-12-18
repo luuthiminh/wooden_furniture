@@ -86,8 +86,11 @@ export default {
       notifications: [],
     };
   },
-  created() {},
+  created() {
+    this.checkExpiration;
+  },
   methods: {
+    checkExpiration() {},
     handleChange(event) {
       localStorage.setItem("lang", event.target.value);
       window.location.reload();

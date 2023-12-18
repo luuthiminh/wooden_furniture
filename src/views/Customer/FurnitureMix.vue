@@ -1,5 +1,5 @@
 <template>
-  <div class="nav pt-36 pb-3 mb-2 max-md:pt-24">
+  <div class="nav pt-36 mb-2 max-md:pt-24">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb flex bg-none ml-28 max-sm:ml-3 max-md:ml-4">
         <li class="breadcrumb-item font-semibold text-yellow-950">
@@ -19,22 +19,52 @@
           <div>
             <label
               for="exampleInputEmail1"
-              class="form-label w-10/12 font-semibold"
-              >Color</label
+              class="form-label w-10/12 font-semibold text-yellow-900 text-lg"
+              >Room</label
             >
             <br />
-            <span class="font-medium text-sm">Please choose room!</span>
-            <select
-              v-if="filterRoom.length"
-              class="form-select text-xs mt-3"
-              aria-label="Default select example"
-              v-model="furFill"
-              @change="onRoomSelected"
+            <span class="font-medium text-sm text-yellow-950"
+              >Please choose room!</span
             >
-              <option v-for="ro in filterRoom" :key="ro" :value="ro">
-                {{ ro }}
-              </option>
-            </select>
+            <vue-three-sixty
+              :amount="13"
+              imagePath="@/assets/images/category/clock"
+              fileName="clock_{index}.png"
+            />
+            <div
+              v-if="filterRoom.length"
+              class="text-yellow-800 relative group rounded-lg w-10/12 bg-gray-50 overflow-hidden before:absolute before:w-12 before:h-12 before:content[''] before:right-0 before:bg-orange-300 before:rounded-full before:blur-lg before:[box-shadow:-60px_20px_10px_10px_#F9B0B9] mt-3"
+            >
+              <svg
+                y="0"
+                xmlns="http://www.w3.org/2000/svg"
+                x="0"
+                width="100"
+                viewBox="0 0 100 100"
+                preserveAspectRatio="xMidYMid meet"
+                height="100"
+                class="w-8 h-8 absolute right-0 -rotate-45 stroke-yellow-900 top-1.5 group-hover:rotate-0 duration-300"
+              >
+                <path
+                  stroke-width="4"
+                  stroke-linejoin="round"
+                  stroke-linecap="round"
+                  fill="none"
+                  d="M60.7,53.6,50,64.3m0,0L39.3,53.6M50,64.3V35.7m0,46.4A32.1,32.1,0,1,1,82.1,50,32.1,32.1,0,0,1,50,82.1Z"
+                  class="svg-stroke-primary"
+                ></path>
+              </svg>
+              <select
+                v-model="furFill"
+                @change="onRoomSelected"
+                class="appearance-none hover:placeholder-shown:bg-emerald-500 relative text-yellow-900 bg-transparent ring-0 outline-none border border-neutral-500 placeholder-violet-700 text-sm font-bold rounded-lg focus:ring-violet-500 focus:border-violet-500 block w-full p-2.5"
+              >
+                <option v-for="ro in filterRoom" :key="ro" :value="ro">
+                  {{ ro }}
+                </option>
+              </select>
+            </div>
+            <loadding v-else />
           </div>
           <div class="flex flex-cols-2 gap-x-4 mt-3"></div>
           <div class="tab-content" id="nav-tabContent">
@@ -104,10 +134,11 @@
 </template>
 <script>
 import axios from "axios";
+import loadding from "@/components/LoadingComponent.vue";
 export default {
   name: "App",
 
-  components: {},
+  components: { loadding },
   data() {
     return {
       furnitures: [],

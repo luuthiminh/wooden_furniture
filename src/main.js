@@ -1,6 +1,5 @@
 import { createApp } from "vue";
 import ViewUIPlus from "view-ui-plus";
-import locale from "view-ui-plus/dist/locale/en-US";
 import App from "./App.vue";
 import router from "./router";
 import axios from "axios";
@@ -8,6 +7,10 @@ import store from "./store";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import drie from "@janvorisek/drie";
+// import View360 from "@egjs/vue-view360";
+// import "@egjs/vue-view360/css/view360.min.css";
+
+import "vue-360/dist/css/style.css";
 
 window.axios = axios;
 
@@ -24,8 +27,5 @@ const app = createApp(App);
 registerGlobalComponents(app);
 
 app.use(router).use(store).use(drie);
-app.use(ViewUIPlus, {
-  locale,
-});
-
+app.use(ViewUIPlus);
 app.mount("#app");

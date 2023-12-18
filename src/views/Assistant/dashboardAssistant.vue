@@ -19,7 +19,7 @@
                 }}</span>
               </div>
 
-              <p class="text-sm font-medium text-gray-400">Total Materials</p>
+              <p class="text-sm font-medium text-gray-400">Totally Materials</p>
               <p class="text-xs font-medium text-gray-400">
                 (in the warehouse)
               </p>
@@ -242,7 +242,7 @@
       <div class="mb-5 mb-xl-10 border-none bg-white shadow-md rounded-xl">
         <div class="graph px-7 py-7">
           <span class="card-label font-semibold text-dark text-lg block"
-            >Furniture Sale Static</span
+            >Top Supplier</span
           >
           <p class="text-gray-400 pt-2 font-medium text-sm">
             Users from all channels

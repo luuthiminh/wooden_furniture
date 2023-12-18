@@ -7,7 +7,7 @@
             <router-link to="/indexAssistant">Home</router-link>
           </li>
           <li class="breadcrumb-item text-base active" aria-current="page">
-            Managemnet Material
+            Manage Material
           </li>
         </ol>
       </nav>
@@ -15,7 +15,7 @@
     <div class="content_table pt-14 px-10 scroll">
       <div class="flex mb-4">
         <div class="flex items-center gap-x-4 text-sm">
-          <p class="font-semibold">Total Materials:</p>
+          <p class="font-semibold">Totally Materials:</p>
           {{ historyMaterial.length }}
         </div>
         <div class="absolute right-10">

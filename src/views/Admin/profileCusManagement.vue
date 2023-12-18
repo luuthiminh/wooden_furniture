@@ -95,7 +95,7 @@
   </div>
 
   <div class="tab-content">
-    <div id="infor" class="tab-pane fade in active">
+    <div id="infor" class="tab-pane fade in">
       <div class="tab_content bg-white mb-5 mb-xl-10 rounded-lg">
         <div class="card-title cursor-pointer">
           <h1 class="font-semibold text-lg px-6 py-6">Profile Details</h1>
@@ -447,7 +447,7 @@
         </div>
       </div>
     </div>
-    <div id="settings" class="tab-pane fade">
+    <div id="settings" class="tab-pane fade active">
       <div class="tab_content bg-white mb-5 mb-xl-10 rounded-lg">
         <div class="card-title cursor-pointer">
           <h1 class="font-semibold text-lg px-6 py-6">Profile Details</h1>
@@ -752,5 +752,8 @@ export default {
   position: relative;
   z-index: 2;
   transition: all 0.3s ease;
+}
+.nav {
+  overflow: unset;
 }
 </style>
