@@ -1044,10 +1044,7 @@ export default {
           },
           {
             label: "Expenditure",
-            // data: this.spent,
-            data: [
-              900, 10000, 3000, 2000, 3000, 2000, 4000, 3000, 3000, 4000, 1000,
-            ],
+            data: this.spent,
             fill: false,
             borderColor: "rgb(247, 219, 183)",
           },
@@ -1059,10 +1056,7 @@ export default {
         datasets: [
           {
             // label: "My First Dataset",
-            // data: responseChart.data.categories,
-            data: [
-              900, 10000, 3000, 2000, 3000, 2000, 4000, 3000, 3000, 4000, 1000,
-            ],
+            data: responseChart.data.categories,
             backgroundColor: [
               "rgba(62, 151, 255, 0.85)",
               "rgba(241, 65, 108, 0.85)",
@@ -1071,10 +1065,8 @@ export default {
               "rgba(114, 57, 234, 0.85)",
               "rgba(63, 66, 84, 0.85)",
             ],
-            // borderWidth: 1,
             borderColor: "#777",
             hoverBorderWidth: 3,
-            // hoverBorderColor: "#000",
             borderRadius: 2,
             barPercentage: 1.0,
             categoryPercentage: 0.5,
@@ -1099,11 +1091,7 @@ export default {
         datasets: [
           {
             label: "customer",
-            // data: responseChart.data.newAccountInYear,
-            data: [
-              1000, 8000, 3000, 2000, 3000, 10000, 20000, 30000, 40000, 5000,
-              1000, 10000,
-            ],
+            data: responseChart.data.newAccountInYear,
             fill: false,
             borderColor: "rgb(163, 117, 57)",
           },
@@ -1126,8 +1114,7 @@ export default {
           datasets: [
             {
               label: "My First Dataset",
-              // data: responseChart.data.woodPercent,
-              data: [10, 80, 30, 20, 30],
+              data: responseChart.data.woodPercent,
               backgroundColor: [
                 "rgb(255, 99, 132)",
                 "rgb(54, 162, 235)",
