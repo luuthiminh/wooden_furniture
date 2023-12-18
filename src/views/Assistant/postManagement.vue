@@ -105,7 +105,7 @@
                 <td>{{ p.author }}</td>
                 <td>{{ p.posType }}</td>
                 <td>{{ p.postTitle }}</td>
-                <td>{{ p.posContent }}</td>
+                <td class="postContent">{{ p.posContent }}</td>
                 <td>{{ p.creationDate }}</td>
                 <td>{{ p.latestUpdate }}</td>
                 <td class="flex gap-x-4">
@@ -435,7 +435,7 @@
                           >
                           <select
                             required
-                            v-model="type"
+                            v-model="postModal.type"
                             class="form-select text-sm"
                             aria-label="Default select example"
                           >
@@ -452,7 +452,7 @@
                         type="button"
                         class="btn text-white"
                         data-dismiss="modal"
-                        @click.prevent="HandleUpdate(p)"
+                        @click.prevent="HandleUpdate"
                       >
                         Update
                       </span>
@@ -598,15 +598,15 @@ export default {
         console.error(error);
       }
     },
-    async HandleUpdate(p) {
+    async HandleUpdate() {
       const formData = new FormData();
-      formData.append("title", p.postTitle);
-      formData.append("content", p.posContent);
-      formData.append("type", this.type);
+      formData.append("title", this.postModal.postTitle);
+      formData.append("content", this.postModal.posContent);
+      formData.append("type", this.postModal.type);
       formData.append("image", this.file);
       try {
         const response = await axios.put(
-          "Assistant/shop-data/posts?postId=" + this.idPostModal + "/edit",
+          "assistant/shop-data/posts/" + this.postModal.postId + "/edit",
           formData,
           {
             headers: {
@@ -800,14 +800,14 @@ td {
   border: none;
   background-color: #dde4e794;
 }
-td {
+
+.postContent {
   text-align: justify;
   word-wrap: break-word;
-  border-bottom: none;
-  height: 7.7em;
-  white-space: break-spaces;
   overflow: hidden;
-  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
   -webkit-line-clamp: 5;
+  height: 7.7em;
 }
 </style>

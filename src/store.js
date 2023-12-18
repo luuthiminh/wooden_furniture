@@ -1,5 +1,7 @@
 import { createStore } from "vuex";
 import axios from "axios";
+// import { initializeApp } from "firebase/app";
+// import { getStorage, ref, getDownloadURL } from "firebase/storage";
 const store = createStore({
   state() {
     return {
@@ -23,6 +25,7 @@ const store = createStore({
       checkOutNow: [],
       checkOutCart: [],
       cartIdList: [],
+      urls: [],
     };
   },
   mutations: {
@@ -90,6 +93,9 @@ const store = createStore({
     setAddess(state, results) {
       state.address = results;
     },
+    // setUrl(state, results) {
+    //   state.urls.push(results);
+    // },
   },
   actions: {
     async searchFurnitures({ commit }, { keyword }) {
@@ -381,112 +387,6 @@ const store = createStore({
         console.error(e);
       }
     },
-
-    //Address
-    // async getAddress({ commit }) {
-    //   try {
-    //     const response = await axios.get("user/customer-infor/address");
-    //     commit("setAddess", response.data);
-    //     console.log(response.data);
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // },
-    // async HandleUpdate(ad) {
-    //   const formData = new FormData();
-    //   formData.append("AddressId", ad.id);
-    //   formData.append("Street", ad.street);
-    //   formData.append("Ward", ad.ward);
-    //   formData.append("District", ad.district);
-    //   formData.append("Provine", ad.provine);
-    //   formData.append("Type", ad.type);
-    //   try {
-    //     const response = await axios.put(
-    //       "user/customer-infor/address/update",
-    //       formData,
-    //       {
-    //         headers: {
-    //           "Content-Type": "multipart/form-data",
-    //         },
-    //       }
-    //     );
-    //     if (response.status === 200) {
-    //       this.modalType = null;
-    //       this.isAlertSuccess = true;
-    //       this.messageSuccess = "Update  successful!";
-    //       setTimeout(() => {
-    //         this.isAlertSuccess = false;
-    //       }, 5000);
-    //       this.getAddress();
-    //     }
-    //     console.log(response);
-    //   } catch (error) {
-    //     this.isAlertError = true;
-    //     this.messageError = error.response.data.message;
-    //     setTimeout(() => {
-    //       this.isAlertError = false;
-    //     }, 5000);
-    //     console.error(error);
-    //   }
-    // },
-    // async HandleDelete() {
-    //   try {
-    //     const response = await axios.delete(
-    //       "user/customer-infor/address/remove/" + this.addressModal.id
-    //     );
-    //     if (response.status === 200) {
-    //       this.modalType = null;
-    //       this.isSuccess = true;
-    //       this.isAlertSuccess = true;
-    //       this.messageSuccess = "Delete address successful!";
-    //       setTimeout(() => {
-    //         this.isSuccess = false;
-    //       }, 3000);
-    //       this.getAddress();
-    //     }
-    //   } catch (error) {
-    //     this.isAlertError = true;
-    //     this.messagerError = error.response.data.message;
-    //     setTimeout(() => {
-    //       this.isAlertError = false;
-    //     }, 3000);
-    //     console.error(error);
-    //   }
-    // },
-    // async HandleAddAddress() {
-    //   const formData = new FormData();
-    //   formData.append("Street", this.street);
-    //   formData.append("Ward", this.inputWard);
-    //   formData.append("District", this.inputDistrict);
-    //   formData.append("Provine", this.inputProvince);
-    //   formData.append("Type", this.type);
-    //   try {
-    //     const response = await axios.post(
-    //       "user/customer-infor/address/add",
-    //       formData,
-    //       {
-    //         headers: {
-    //           "Content-Type": "multipart/form-data",
-    //         },
-    //       }
-    //     );
-    //     if (response.status === 200) {
-    //       this.isAlertSuccess = true;
-    //       this.messageSuccess = "Add new successfully";
-    //       setTimeout(() => {
-    //         this.isAlertSuccess = false;
-    //       }, 5000);
-    //       this.getAddress();
-    //     }
-    //   } catch (error) {
-    //     this.isAlertError = true;
-    //     this.messageError = error.response.data.message;
-    //     setTimeout(() => {
-    //       this.isAlertError = false;
-    //     }, 5000);
-    //     console.error(error);
-    //   }
-    // },
   },
 });
 export default store;

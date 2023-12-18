@@ -138,7 +138,7 @@
                 v-model="category"
                 class="form-select"
               >
-                <option checked>Choose Category</option>
+                <option disable>Choose Category</option>
                 <option
                   v-for="ca in categories"
                   :key="ca.categoryId"
@@ -362,6 +362,7 @@ export default {
   data() {
     return {
       furnitures: [],
+      urlFurniture: {},
       categories: [],
       selectedStar: 0,
       filterFurnitures: [],

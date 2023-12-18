@@ -54,16 +54,16 @@
                       params: { id: p.postId },
                     }"
                   >
-                    <img :src="p.postImage" alt="image post" />
+                    <img :src="p.postImage" alt="image post" class="h-64" />
                   </router-link>
                 </div>
-                <div class="pt-3">
+                <div class="pt-3 px-3">
                   <span class="text-sm text-center font-medium">{{
                     p.postTitle
                   }}</span>
                   <br />
                   <div class="date">
-                    <span class="text-xs text-center font-medium"
+                    <span class="text-center font-medium"
                       >Date: {{ p.creationDate }}</span
                     >
                   </div>
@@ -77,27 +77,48 @@
           >
             <div v-for="p in allNews" :key="p.postId">
               <div
-                class="new_item px-2 py-2 shadow rounded-lg max-sm:mb-4 mb-4"
+                class="new_item px-2 py-2 shadow rounded-lg max-sm:mb-4 mb-4 h-96"
               >
-                <div class="border border-indigo-500">
+                <div class="border border-indigo-500 h-64 relative">
                   <router-link
                     :to="{
                       name: 'TipsFurniture',
                       params: { id: p.postId },
                     }"
                   >
-                    <img :src="p.postImage" alt="image post" />
+                    <img :src="p.postImage" alt="image post" class="h-64" />
                   </router-link>
                 </div>
-                <div class="pt-3">
-                  <span class="text-sm text-center font-medium">{{
-                    p.postTitle
-                  }}</span>
-                  <br />
+                <div class="pt-3 px-3">
+                  <span
+                    class="text-sm text-center text-yellow-800 font-semibold"
+                    >{{ p.postTitle }}</span
+                  >
+                  <div class="flex gap-x-2 text-slate-600 mt-3">
+                    <p class="text-center font-semibold">Author:</p>
+                    <p class="text-center font-medium">
+                      {{ p.author }}
+                    </p>
+                  </div>
                   <div class="date">
-                    <span class="text-xs text-center font-medium"
-                      >Date: {{ p.creationDate }}</span
-                    >
+                    <div class="flex gap-x-2 text-slate-600">
+                      <span class="text-center font-semibold"
+                        >Create Date:</span
+                      >
+                      <span class="text-center font-medium">
+                        {{ p.creationDate }}</span
+                      >
+                    </div>
+                  </div>
+                  <div class="date">
+                    <div class="flex gap-x-2 text-slate-600">
+                      <span class="text-center font-semibold"
+                        >Latest Update:</span
+                      >
+                      <span class="text-center font-medium">
+                        {{ p.latestUpdate }}</span
+                      >
+                    </div>
                   </div>
                 </div>
               </div>
@@ -109,19 +130,46 @@
                 class="new_item px-2 py-2 shadow rounded-lg max-sm:mb-4 mb-4"
               >
                 <div class="border border-indigo-500">
-                  <router-link to="">
-                    <img :src="p.postImage" alt="image post" />
+                  <router-link
+                    :to="{
+                      name: 'TipsFurniture',
+                      params: { id: p.postId },
+                    }"
+                  >
+                    <img :src="p.postImage" alt="image post" class="h-64" />
                   </router-link>
                 </div>
-                <div class="pt-3">
-                  <span class="text-sm text-center font-medium">{{
-                    p.postTitle
-                  }}</span>
+                <div class="pt-3 px-3">
+                  <span
+                    class="text-sm text-center text-yellow-800 font-semibold"
+                    >{{ p.postTitle }}</span
+                  >
                   <br />
+                  <div class="flex gap-x-2 text-slate-600 mt-3">
+                    <p class="text-center font-semibold">Author:</p>
+                    <p class="text-center font-medium">
+                      {{ p.author }}
+                    </p>
+                  </div>
                   <div class="date">
-                    <span class="text-xs text-center font-medium"
-                      >Date: {{ p.creationDate }}</span
-                    >
+                    <div class="flex gap-x-2 text-slate-600">
+                      <span class="text-center font-semibold"
+                        >Create Date:</span
+                      >
+                      <span class="text-center font-medium">
+                        {{ p.creationDate }}</span
+                      >
+                    </div>
+                  </div>
+                  <div class="date">
+                    <div class="flex gap-x-2 text-slate-600">
+                      <span class="text-center font-semibold"
+                        >Latest Update:</span
+                      >
+                      <span class="text-center font-medium">
+                        {{ p.latestUpdate }}</span
+                      >
+                    </div>
                   </div>
                 </div>
               </div>
@@ -203,5 +251,12 @@ export default {
 .moon .bi.bi-hourglass-top,
 .moon .bi-hourglass-bottom {
   color: #ffffff;
+}
+.new_item {
+  height: 27em;
+}
+p,
+span {
+  font-size: 13px;
 }
 </style>

@@ -758,13 +758,7 @@ export default {
       messageError: null,
       messageSuccess: null,
       isLogin: false,
-      // shipFee: "",
-      // provinceCode: "",
-      // districtCode: "",
-      // wardCode: "",
       methodShip: [],
-      // methodDelevery: [],
-      // shipCost: 0,
       userpoint: 0,
       note: "",
       shipfee: 0,
@@ -776,6 +770,7 @@ export default {
   created() {
     this.getInfor();
     this.checkLogin();
+    console.log("bucket All Furnitrue", this.$store.state.url);
   },
   methods: {
     checkLogin() {
@@ -927,39 +922,7 @@ export default {
     confirmChangeAddress() {
       this.opentModal("order");
     },
-    // async HandleOrder(order) {
-    //   //Chang idAddress if have change
-    //   let exchangeRate = 0.04126;
-    //   let shipfee = this.shipCost / 23000;
-    //   let point = this.userpoint * exchangeRate;
-    //   const id = this.addressId || order.deliveryAddressId;
-    //   try {
-    //     const response = await axios.post("customer/order", {
-    //       addressId: id,
-    //       paymentId: this.paymentId,
-    //       usedPoint: point,
-    //       note: this.note,
-    //       deliveryCost: shipfee,
-    //       items: [
-    //         {
-    //           itemId: order.furnitureSpecificationId,
-    //           quantity: order.quantity,
-    //         },
-    //       ],
-    //     });
-    //     if (response.status === 200) {
-    //       if (
-    //         response.data !== null &&
-    //         response.data !== "Order successfully"
-    //       ) {
-    //         this.paymentOline = response.data;
-    //         window.location.href = this.paymentOline;
-    //       }
-    //     }
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // },
+
     async HandleUpdateAddress() {
       const formData = new FormData();
       formData.append("AddressId", this.addressModal.id);
@@ -1037,6 +1000,9 @@ export default {
     },
     shipCost() {
       return this.$store.state.shipCost;
+    },
+    urls() {
+      return this.$store.state.urls;
     },
   },
 };

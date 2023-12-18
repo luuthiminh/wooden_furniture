@@ -6,40 +6,22 @@
           <router-link to="/">Home</router-link>
         </li>
         <li class="breadcrumb-item active font-medium" aria-current="page">
-          Help Question
+          Tips and News
         </li>
       </ol>
     </nav>
   </div>
   <div class="all bg-neutral-50">
-    <div class="grid grid-cols-4 mx-40">
+    <div class="grid grid-cols-6 mx-28">
       <div class="menu_about">
         <div class="col-span-1">
-          <div class="border border-gray-600 leading-10 w-10/12 mb-4">
-            <div class="menu text-center font-semibold text-stone-100">
-              <span>MENU ABOUT</span>
-            </div>
-            <ul class="font-medium py-3 px-3">
-              <li>
-                <router-link to="/tips" class="font-medium text-base"
-                  ><i class="fa-solid fa-seedling pr-3"></i> Tips</router-link
-                >
-              </li>
-              <li>
-                <router-link to="/news" class="font-medium text-base"
-                  ><i class="fa-regular fa-newspaper pr-3"></i>
-                  News</router-link
-                >
-              </li>
-            </ul>
-          </div>
           <div>
             <img class="w-10/12" src="@/assets/images/ad.png" alt="" />
           </div>
         </div>
       </div>
-      <div class="some_post col-span-3 rounded-md px-6">
-        <h1
+      <div class="some_post col-span-5 rounded-md px-6">
+        <!-- <h1
           v-if="post.posType === 'TIP'"
           class="font-semibold text-xl pb-3 text-slate-800"
         >
@@ -50,16 +32,16 @@
           class="font-semibold text-xl pb-3 text-slate-800"
         >
           News
-        </h1>
+        </h1> -->
         <div v-if="post" class="post bg-white rounded-md py-2 px-4">
           <div>
             <div>
-              <h1 class="text-lg font-semibold">
+              <h1 class="text-lg font-semibold text-yellow-900">
                 {{ post.postTitle }}
               </h1>
               <div class="text-sm flex gap-x-2">
-                <p class="font-semibold">Author</p>
-                <p class="font-medium">{{ post.author }}</p>
+                <span class="font-semibold">Author:</span>
+                <span class="font-medium">{{ post.author }}</span>
               </div>
               <span class="text-sm block"
                 ><i class="fa-regular fa-calendar-days"></i>
@@ -68,7 +50,7 @@
 
               <img class="w-6/12 ml-56" :src="post.postImage" alt="imagePost" />
 
-              <p class="line-clamp-5">
+              <p class="">
                 {{ post.posContent }}
               </p>
             </div>
@@ -108,6 +90,7 @@
           </div> -->
           </div>
         </div>
+        <loadding v-else />
       </div>
     </div>
   </div>
@@ -115,7 +98,11 @@
 <script>
 import axios from "axios";
 import { format } from "date-fns";
+import loadding from "@/components/LoadingComponent.vue";
 export default {
+  components: {
+    loadding,
+  },
   data() {
     return {
       posts: [],
@@ -172,5 +159,15 @@ h2 {
 img {
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+p {
+  display: block;
+  margin-block-start: 1em;
+  text-align: justify;
+  word-wrap: break-word;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 28px;
 }
 </style>

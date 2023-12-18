@@ -1412,7 +1412,7 @@
                     >
                       <div>
                         <div class="flex gap-x-10 text-sm leading-7">
-                          <div v-if="w.attacments.images.length">
+                          <div v-if="w.attacments.images.length" class="w-2/12">
                             <img
                               :src="w.attacments.images[0].path"
                               alt="images"
@@ -1421,7 +1421,7 @@
                               data-toggle="modal"
                               data-target="#exampleModalLong"
                               data-backdrop="false"
-                              class="font-medium ring-1 ring-yellow-900 rounded-md px-2 text-xs py-1 mt-3"
+                              class="ml-10 font-medium ring-1 ring-yellow-900 rounded-md px-2 text-xs py-1 mt-3"
                               @click="opentModal('imgWarranty', w)"
                             >
                               See More
@@ -1448,7 +1448,7 @@
                               </div>
                             </template>
                           </modal>
-                          <div class="flex gap-x-10">
+                          <div class="flex gap-x-10 items-center">
                             <span class="block"
                               ><b class="text-yellow-900">Order Id:</b>
                               {{ w.orderId }}</span

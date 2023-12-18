@@ -1,6 +1,6 @@
 <template>
   <div class="content_detail pt-36">
-    <div class="nav pb-3 mb-2">
+    <div class="nav mb-2">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb flex bg-none ml-28 max-sm:ml-3 max-md:ml-4">
           <li class="breadcrumb-item font-semibold text-yellow-950">
@@ -26,12 +26,28 @@
       <div class="flex flex-cols-2">
         <div class="furniture detail mt-3 rounded-lg">
           <div class="img grid grid-cols-2 gap-x-4 max-sm:block">
-            <div class="img_product border-1 border-gray-600 w-10/12">
-              <img
-                class="px-3 py-3 pl-3"
-                src="@/assets/images/category/bed/bed_8.png"
-                alt="product1"
-              />
+            <div class="img_product w-10/12">
+              <!-- <img
+                :src="furnitureFirst.images[0].path"
+                alt="furniture"
+                class="img_fur"
+              /> -->
+              <div
+                v-if="
+                  furnitureFirst &&
+                  furnitureFirst.images &&
+                  furnitureFirst.images.length > 0
+                "
+              >
+                <img
+                  :src="furnitureFirst.images[0].path"
+                  alt="furniture"
+                  class="img_fur"
+                />
+              </div>
+              <loadding v-else />
+
+              <!-- <loadding v-else /> -->
               <div class="image_all px-3 py-3">
                 <div
                   class="h-32 scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100 snap-y"
@@ -47,7 +63,7 @@
                           <div class="snap-start">
                             <div @click.prevent="InforFurniture(furniture)">
                               <div
-                                class="border border-1 border-gray-900 px-2 py-2"
+                                class="border border-1 border-gray-900 px-2 py-2 rounded-lg"
                               >
                                 <div v-for="im in furniture.images" :key="im">
                                   <img
@@ -62,6 +78,7 @@
                         </div>
                       </div>
                     </div>
+                    <loadding v-else />
                   </div>
                 </div>
               </div>
@@ -124,20 +141,26 @@
                         <span class="font-semibold">Available: </span>
                         <span>{{ furnitureFirst.available }} </span>
                       </div>
-                      <div>
+                      <div class="mt-3">
                         <span class="font-semibold">Category: </span>
                         <span>Table and Chair</span>
                       </div>
                       <div class="my-3">
                         <!-- <div class="w-10/12 bg-slate-200 h-px"></div> -->
                         <hr />
-                        <span class="price text-3xl font-medium"
-                          >${{ furnitureFirst.price }}</span
-                        >
+                        <span class="flex gap-x-3 price text-3xl font-medium"
+                          >{{ furnitureFirst.price }}
+                          <p class="font-semibold">VND</p>
+                          <p></p
+                        ></span>
+
                         <hr />
-                        <!-- <div class="w-10/12 bg-slate-200 h-px"></div> -->
                       </div>
-                      <div>
+                      <div class="mt-3">
+                        <span class="font-semibold">Wood: </span>
+                        <span>{{ furnitureFirst.wood }}</span>
+                      </div>
+                      <div class="mt-3">
                         <span class="font-semibold">Color: </span>
                         <span>{{ furnitureFirst.color }}</span>
                       </div>
@@ -148,10 +171,10 @@
                       <div class="mt-3">
                         <span class="font-semibold">Width: </span>
                         <span>{{ furnitureFirst.width }}m</span>
-                        <div class="mt-3">
-                          <span class="font-semibold">Lenght: </span>
-                          <span>{{ furnitureFirst.length }}m</span>
-                        </div>
+                      </div>
+                      <div class="mt-3">
+                        <span class="font-semibold">Lenght: </span>
+                        <span>{{ furnitureFirst.length }}m</span>
                       </div>
                       <div></div>
                       <div class="flex flex-cols-2 my-3 gap-x-7">
@@ -171,76 +194,6 @@
                         >
                           BUY
                         </button>
-                        <div class="icon_heart pl-3 pt-2">
-                          <div class="heart-container" title="Like">
-                            <input
-                              type="checkbox"
-                              class="checkbox"
-                              id="Give-It-An-Id"
-                            />
-                            <div class="svg-container">
-                              <svg
-                                viewBox="0 0 24 24"
-                                class="svg-outline"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M17.5,1.917a6.4,6.4,0,0,0-5.5,3.3,6.4,6.4,0,0,0-5.5-3.3A6.8,6.8,0,0,0,0,8.967c0,4.547,4.786,9.513,8.8,12.88a4.974,4.974,0,0,0,6.4,0C19.214,18.48,24,13.514,24,8.967A6.8,6.8,0,0,0,17.5,1.917Zm-3.585,18.4a2.973,2.973,0,0,1-3.83,0C4.947,16.006,2,11.87,2,8.967a4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,11,8.967a1,1,0,0,0,2,0,4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,22,8.967C22,11.87,19.053,16.006,13.915,20.313Z"
-                                ></path>
-                              </svg>
-                              <svg
-                                viewBox="0 0 24 24"
-                                class="svg-filled"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M17.5,1.917a6.4,6.4,0,0,0-5.5,3.3,6.4,6.4,0,0,0-5.5-3.3A6.8,6.8,0,0,0,0,8.967c0,4.547,4.786,9.513,8.8,12.88a4.974,4.974,0,0,0,6.4,0C19.214,18.48,24,13.514,24,8.967A6.8,6.8,0,0,0,17.5,1.917Z"
-                                ></path>
-                              </svg>
-                              <svg
-                                class="svg-celebrate"
-                                width="100"
-                                height="100"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <polygon points="10,10 20,20"></polygon>
-                                <polygon points="10,50 20,50"></polygon>
-                                <polygon points="20,80 30,70"></polygon>
-                                <polygon points="90,10 80,20"></polygon>
-                                <polygon points="90,50 80,50"></polygon>
-                                <polygon points="80,80 70,70"></polygon>
-                              </svg>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="more_infor">
-                        <table class="table table-bordered w-6/12 text-sm">
-                          <thead>
-                            <tr>
-                              <th scope="col">Wood</th>
-                              <th scope="col">{{ furnitureFirst.wood }}</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <th>Size</th>
-                              <td>
-                                {{ furnitureFirst.height }} x
-                                {{ furnitureFirst.width }} x
-                                {{ furnitureFirst.length }}
-                              </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Room</th>
-                              <td>{{ furnitureFirst.appropriateRoom }}</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Collection</th>
-                              <td>{{ furnitureFirst.collection }}</td>
-                            </tr>
-                          </tbody>
-                        </table>
                       </div>
                     </div>
                   </div>
@@ -305,7 +258,7 @@
                         <span class="font-semibold">Available: </span>
                         <span>{{ furnitureIndex.available }} </span>
                       </div>
-                      <div>
+                      <div class="mt-3">
                         <span class="font-semibold">Category: </span>
                         <span>Table and Chair</span>
                       </div>
@@ -316,7 +269,11 @@
                         >
                         <div class="w-10/12 bg-slate-200 h-px"></div>
                       </div>
-                      <div>
+                      <div class="mt-3">
+                        <span class="font-semibold">Wood: </span>
+                        <span>{{ furnitureFirst.wood }}</span>
+                      </div>
+                      <div class="mt-3">
                         <span class="font-semibold">Color: </span>
                         <span>{{ furnitureIndex.color }}</span>
                       </div>
@@ -348,77 +305,6 @@
                         >
                           BUY
                         </button>
-
-                        <div class="icon_heart pl-3 pt-2">
-                          <div class="heart-container" title="Like">
-                            <input
-                              type="checkbox"
-                              class="checkbox"
-                              id="Give-It-An-Id"
-                            />
-                            <div class="svg-container">
-                              <svg
-                                viewBox="0 0 24 24"
-                                class="svg-outline"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M17.5,1.917a6.4,6.4,0,0,0-5.5,3.3,6.4,6.4,0,0,0-5.5-3.3A6.8,6.8,0,0,0,0,8.967c0,4.547,4.786,9.513,8.8,12.88a4.974,4.974,0,0,0,6.4,0C19.214,18.48,24,13.514,24,8.967A6.8,6.8,0,0,0,17.5,1.917Zm-3.585,18.4a2.973,2.973,0,0,1-3.83,0C4.947,16.006,2,11.87,2,8.967a4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,11,8.967a1,1,0,0,0,2,0,4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,22,8.967C22,11.87,19.053,16.006,13.915,20.313Z"
-                                ></path>
-                              </svg>
-                              <svg
-                                viewBox="0 0 24 24"
-                                class="svg-filled"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M17.5,1.917a6.4,6.4,0,0,0-5.5,3.3,6.4,6.4,0,0,0-5.5-3.3A6.8,6.8,0,0,0,0,8.967c0,4.547,4.786,9.513,8.8,12.88a4.974,4.974,0,0,0,6.4,0C19.214,18.48,24,13.514,24,8.967A6.8,6.8,0,0,0,17.5,1.917Z"
-                                ></path>
-                              </svg>
-                              <svg
-                                class="svg-celebrate"
-                                width="100"
-                                height="100"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <polygon points="10,10 20,20"></polygon>
-                                <polygon points="10,50 20,50"></polygon>
-                                <polygon points="20,80 30,70"></polygon>
-                                <polygon points="90,10 80,20"></polygon>
-                                <polygon points="90,50 80,50"></polygon>
-                                <polygon points="80,80 70,70"></polygon>
-                              </svg>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="more_infor">
-                        <table class="table table-bordered w-6/12 text-sm">
-                          <thead>
-                            <tr>
-                              <th scope="col">Wood</th>
-                              <th scope="col">{{ furnitureIndex.wood }}</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <th>Size</th>
-                              <td>
-                                {{ furnitureIndex.height }} x
-                                {{ furnitureIndex.width }} x
-                                {{ furnitureIndex.length }}
-                              </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Room</th>
-                              <td>{{ furnitureIndex.appropriateRoom }}</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Collection</th>
-                              <td>{{ furnitureIndex.collection }}</td>
-                            </tr>
-                          </tbody>
-                        </table>
                       </div>
                     </div>
                   </div>
@@ -511,50 +397,10 @@
           </div>
           <div class="h-px w-full bg-slate-200 mt-2"></div>
           <div class="content mt-3 leading-7 text-sm">
-            <span></span>
-            <span
-              >Be the first to receive this product while we have it in
-              stock.</span
-            >
-            <br />
-            <span
-              >This is a demonstration store. You can buy this product
-              here</span
-            >
-            <br />
-            <span
-              >The round shape and fabric composition make the Casette a unique
-              and versatile bag that zips to keep all the contents safe and
-              secure. There are many sizes and colors.</span
-            >
-            <br />
-            <span>
-              Shipping cost is based on weight. Simply add products to your cart
-              and use the Shipping Calculator to view shipping prices.
-            </span>
+            <span>{{ furnitureFirst.description }}</span>
           </div>
         </div>
-        <div class="content_item rounded-md px-3 py-3 mt-4">
-          <div class="storage_instructions">
-            <div class="description">
-              <router-link to="" class="text-lg font-medium"
-                >Storage instructions</router-link
-              >
-            </div>
-          </div>
-          <div class="h-px w-full bg-slate-200 mt-2"></div>
-          <div class="content mt-3 leading-8 text-sm">
-            <span
-              >We want you to be 100% satisfied with your purchase. Items can be
-              returned or exchanged within 30 days of delivery.</span
-            >
-            <br />
-            <span
-              >For help, please contact our customer service department at
-              support minhltgch200250@fpt.edu.vn</span
-            >
-          </div>
-        </div>
+
         <div class="content_item rounded-md px-3 py-3 mt-4">
           <div class="grid grid-cols-2 gap-x-44 w-full">
             <p class="font-semibold">1 feedback</p>
@@ -636,14 +482,14 @@
 </template>
 <script>
 import axios from "axios";
-// import AllFurniture from "./AllFurniture.vue";
+import loadding from "@/components/LoadingComponent.vue";
 import modal from "@/components/ModalPage.vue";
 import alertError from "@/components/AlertError.vue";
 import alertSuccess from "@/components/AlertSuccess.vue";
 
 export default {
   components: {
-    // AllFurniture,
+    loadding,
     modal,
     alertError,
     alertSuccess,
@@ -667,7 +513,6 @@ export default {
   },
   created() {
     this.getAllFurnitureDetail();
-    this.getUserFeedback();
   },
   methods: {
     async getAllFurnitureDetail() {
@@ -719,15 +564,6 @@ export default {
     },
     closeModal() {
       this.isShowQuantity = false;
-    },
-    async getUserFeedback() {
-      try {
-        const response = await axios.get("/customer/feedbacks");
-        this.feedbacks = response.data;
-        console.log(this.feedbacks);
-      } catch (error) {
-        console.error(error);
-      }
     },
   },
 };
@@ -987,5 +823,8 @@ hr {
 }
 .content_detail {
   overflow: hidden;
+}
+.img_fur {
+  background: #f0e8d9;
 }
 </style>

@@ -835,7 +835,7 @@ export default {
     },
     async getAllCategories() {
       try {
-        const response = await axios.get("customer/categories");
+        const response = await axios.get("shopOwner/shop-data/categories");
         this.categories = response.data;
         console.log(response.data);
       } catch (error) {

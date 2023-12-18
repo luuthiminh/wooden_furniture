@@ -797,17 +797,28 @@
                       class="new_item px-2 py-2 shadow rounded-lg max-sm:mb-4"
                     >
                       <div class="border border-indigo-500">
-                        <router-link to="">
-                          <img :src="p.postImage" alt="image post" />
+                        <router-link
+                          :to="{
+                            name: 'TipsFurniture',
+                            params: { id: p.postId },
+                          }"
+                        >
+                          <img
+                            :src="p.postImage"
+                            alt="image post"
+                            class="h-64"
+                          />
                         </router-link>
                       </div>
                       <div class="pt-3">
-                        <span class="text-sm text-center font-medium">{{
-                          p.postTitle
-                        }}</span>
+                        <span
+                          class="text-yellow-900 text-sm text-center font-semibold"
+                          >{{ p.postTitle }}</span
+                        >
                         <br />
                         <div class="date">
-                          <span class="text-xs text-center font-medium"
+                          <span
+                            class="text-xs text-center font-medium text-slate-500"
                             >Date: {{ p.creationDate }}</span
                           >
                         </div>

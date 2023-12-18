@@ -7,10 +7,6 @@ import store from "./store";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import drie from "@janvorisek/drie";
-// import View360 from "@egjs/vue-view360";
-// import "@egjs/vue-view360/css/view360.min.css";
-
-import "vue-360/dist/css/style.css";
 
 window.axios = axios;
 
