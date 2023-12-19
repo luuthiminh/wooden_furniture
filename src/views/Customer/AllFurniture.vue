@@ -81,12 +81,12 @@
                 <div class="text-center text-xs mb-3">
                   <div @click.prevent="toggleWishlist(furniture)">
                     <i
-                      v-if="!furniture.isFavorite && furniture.isLike === false"
+                      v-if="furniture.isLike === false"
                       class="fa-regular fa-heart cursor-pointer"
                     ></i>
                     <i v-else class="bi bi-heart-fill text-red-500"></i>
                     {{
-                      furniture.isFavorite && furniture.isLike === false
+                      furniture.isLike === true
                         ? "Remove from wishlist"
                         : "Add to wishlist"
                     }}
@@ -807,7 +807,7 @@ export default {
       if (localStorage.getItem("token") === "") {
         this.$router.push({ name: "login" });
       } else {
-        furniture.isFavorite = !furniture.isFavorite;
+        furniture.isLike = !furniture.isLike;
         try {
           const response = await axios.put(
             "customer/wish-list/toggle?furnitureId=" + furniture.furnitureId

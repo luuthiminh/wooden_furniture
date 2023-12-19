@@ -1,6 +1,6 @@
 <template>
   <header-admin :title="title" />
-  <div class="grid grid-cols-2 gap-x-8 max-md:block mt-32 mr-2">
+  <div class="grid grid-cols-2 gap-x-8 max-md:block mt-32 mr-2 overflow-hidden">
     <div class="grid grid-cols-2 gap-x-8">
       <div>
         <div
@@ -24,16 +24,6 @@
                 <span class="text-2xl font-semibold text-gray-800 me-2 lh-1">{{
                   dataNumber.profit
                 }}</span>
-                <!-- <div class="badge bg-gradient-to-r from-cyan-500 to-blue-500">
-                  <i class="bi bi-arrow-up text-white text-sm"></i>
-                  2.2%
-                </div> -->
-                <div
-                  class="badge badge bg-gradient-to-r from-purple-500 to-pink-500"
-                >
-                  <i class="bi bi-arrow-down text-white text-sm"></i>
-                  2.2%
-                </div>
               </div>
             </div>
           </div>
@@ -55,14 +45,6 @@
                 <span class="text-2xl font-semibold text-gray-800 me-2 lh-1">{{
                   dataNumber.totalFurniture
                 }}</span>
-                <div class="badge bg-gradient-to-r from-cyan-500 to-blue-500">
-                  <i class="bi bi-arrow-up text-white text-sm"></i>
-                  2.2%
-                </div>
-                <!-- <div class="badge badge bg-gradient-to-r from-purple-500 to-pink-500">
-                  <i class="bi bi-arrow-down text-white text-sm"></i>
-                  2.2%
-                </div> -->
               </div>
             </div>
           </div>
@@ -86,14 +68,6 @@
                 <span class="text-2xl font-semibold text-gray-800 me-2 lh-1">{{
                   dataNumber.orderInCurrentMonth
                 }}</span>
-                <div class="badge bg-gradient-to-r from-cyan-500 to-blue-500">
-                  <i class="bi bi-arrow-up text-white text-sm"></i>
-                  2.2%
-                </div>
-                <!-- <div class="badge badge bg-gradient-to-r from-purple-500 to-pink-500">
-                  <i class="bi bi-arrow-down text-white text-sm"></i>
-                  2.2%
-                </div> -->
               </div>
             </div>
           </div>
@@ -116,16 +90,6 @@
                 <span class="text-2xl font-semibold text-gray-800 me-2 lh-1">{{
                   dataNumber.customerAccount
                 }}</span>
-                <!-- <div class="badge bg-gradient-to-r from-cyan-500 to-blue-500">
-                  <i class="bi bi-arrow-up text-white text-sm"></i>
-                  2.2%
-                </div> -->
-                <div
-                  class="badge badge bg-gradient-to-r from-purple-500 to-pink-500"
-                >
-                  <i class="bi bi-arrow-down text-white text-sm"></i>
-                  2.2%
-                </div>
               </div>
             </div>
           </div>
@@ -173,12 +137,7 @@
         >
         <p class="text-gray-400 pt-2 font-medium text-sm">(with this month)</p>
       </div>
-      <!-- <div class="px-9 py-2">
-        <span class="text-3xl font-semibold text-gray-800 me-2 lh-1 block"
-          >9,700</span
-        >
-        <p class="text-sm font-medium text-gray-400">Orders This Month</p>
-      </div> -->
+
       <div class="px-9 py-2">
         <Bar v-if="loaded" :data="barDataCate" :options="barOptionsCate" />
       </div>
@@ -187,232 +146,13 @@
   <div class="mb-5 mb-xl-10 border-none bg-white shadow-md rounded-xl">
     <div class="graph px-7 py-7">
       <span class="card-label font-semibold text-dark text-lg block"
-        >Orders Static</span
-      >
-      <p class="text-gray-400 pt-2 font-medium text-sm">This Month</p>
+        >New Customer Account
+      </span>
+      <p class="text-gray-400 pt-2 font-medium text-sm">This Year</p>
     </div>
-    <div class="px-9 py-2">
-      <span class="text-3xl font-semibold text-gray-800 me-2 lh-1 block"
-        >9,700</span
-      >
-    </div>
+
     <div class="line_static mt-10 px-20 h-96 pb-10">
       <Line v-if="loaded" :data="lineDataUser" :options="lineOptionsUser" />
-      <!-- <Line :data="lineData" :options="lineOptions" /> -->
-    </div>
-  </div>
-  <div class="grid grid-cols-2 gap-x-7">
-    <div class="col-span-1 mb-xxl-5 border-none bg-white shadow-md rounded-xl">
-      <div class="py-7 px-7">
-        <span class="card-label font-semibold text-dark text-lg block"
-          >Top Selling Furniture</span
-        >
-        <p class="text-sm font-medium text-gray-400">8k socail visitor</p>
-      </div>
-      <div class="table_FurOrder bg-white rounded-lg pl-6 mb-16">
-        <table class="style-2 table table-hover font-medium">
-          <thead>
-            <tr class="text-sm">
-              <th scope="col" class="p-0 w-50px pb-1">Furniture</th>
-              <th class="ps-0 min-w-140px"></th>
-              <th>Total Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="text-sm">
-              <td>
-                <img
-                  src="@/assets/images/category/shelves_tv/shelves_11.png"
-                  alt="furniture"
-                  class="w-20"
-                />
-              </td>
-              <td>
-                <span class="font-semibold block">Furniture 1</span>
-                <span class="text-xs">ID: 12234</span>
-              </td>
-              <td><router-link to="">$72.00</router-link></td>
-            </tr>
-            <tr class="text-sm">
-              <td>
-                <img
-                  src="@/assets/images/category/shelves_tv/shelves_11.png"
-                  alt="furniture"
-                  class="w-20"
-                />
-              </td>
-              <td>
-                <span class="font-semibold block">Furniture 1</span>
-                <span class="text-xs">ID: 12234</span>
-              </td>
-              <td><router-link to="">$72.00</router-link></td>
-            </tr>
-            <tr class="text-sm">
-              <td>
-                <img
-                  src="@/assets/images/category/shelves_tv/shelves_11.png"
-                  alt="furniture"
-                  class="w-20"
-                />
-              </td>
-              <td>
-                <span class="font-semibold block">Furniture 1</span>
-                <span class="text-xs">ID: 12234</span>
-              </td>
-              <td><router-link to="">$72.00</router-link></td>
-            </tr>
-            <tr class="text-sm">
-              <td>
-                <img
-                  src="@/assets/images/category/shelves_tv/shelves_11.png"
-                  alt="furniture"
-                  class="w-20"
-                />
-              </td>
-              <td>
-                <span class="font-semibold block">Furniture 1</span>
-                <span class="text-xs">ID: 12234</span>
-              </td>
-              <td><router-link to="">$72.00</router-link></td>
-            </tr>
-            <tr class="text-sm">
-              <td>
-                <img
-                  src="@/assets/images/category/shelves_tv/shelves_11.png"
-                  alt="furniture"
-                  class="w-20"
-                />
-              </td>
-              <td>
-                <span class="font-semibold block">Furniture 1</span>
-                <span class="text-xs">ID: 12234</span>
-              </td>
-              <td><router-link to="">$72.00</router-link></td>
-            </tr>
-            <tr class="text-sm">
-              <td>
-                <img
-                  src="@/assets/images/category/shelves_tv/shelves_11.png"
-                  alt="furniture"
-                  class="w-20"
-                />
-              </td>
-              <td>
-                <span class="font-semibold block">Furniture 1</span>
-                <span class="text-xs">ID: 12234</span>
-              </td>
-              <td><router-link to="">$72.00</router-link></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <span class="font-medium mx-8 text-sm">Count: 10</span>
-    </div>
-    <div class="col-span-1 mb-xxl-5 border-none bg-white shadow-md rounded-xl">
-      <div class="py-7 px-7">
-        <span class="card-label font-semibold text-dark text-lg block"
-          >Top WishList</span
-        >
-        <p class="text-sm font-medium text-gray-400">8k socail visitor</p>
-      </div>
-      <div class="table_FurOrder bg-white rounded-lg pl-6 mb-16">
-        <table class="style-2 table table-hover font-medium">
-          <thead>
-            <tr class="text-sm">
-              <th scope="col" class="p-0 w-50px pb-1">Furniture</th>
-              <th class="ps-0 min-w-140px"></th>
-              <th>Total Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="text-sm">
-              <td>
-                <img
-                  src="@/assets/images/category/shelves_tv/shelves_11.png"
-                  alt="furniture"
-                  class="w-20"
-                />
-              </td>
-              <td>
-                <span class="font-semibold block">Furniture 1</span>
-                <span class="text-xs">ID: 12234</span>
-              </td>
-              <td><router-link to="">$72.00</router-link></td>
-            </tr>
-            <tr class="text-sm">
-              <td>
-                <img
-                  src="@/assets/images/category/shelves_tv/shelves_11.png"
-                  alt="furniture"
-                  class="w-20"
-                />
-              </td>
-              <td>
-                <span class="font-semibold block">Furniture 1</span>
-                <span class="text-xs">ID: 12234</span>
-              </td>
-              <td><router-link to="">$72.00</router-link></td>
-            </tr>
-            <tr class="text-sm">
-              <td>
-                <img
-                  src="@/assets/images/category/shelves_tv/shelves_11.png"
-                  alt="furniture"
-                  class="w-20"
-                />
-              </td>
-              <td>
-                <span class="font-semibold block">Furniture 1</span>
-                <span class="text-xs">ID: 12234</span>
-              </td>
-              <td><router-link to="">$72.00</router-link></td>
-            </tr>
-            <tr class="text-sm">
-              <td>
-                <img
-                  src="@/assets/images/category/shelves_tv/shelves_11.png"
-                  alt="furniture"
-                  class="w-20"
-                />
-              </td>
-              <td>
-                <span class="font-semibold block">Furniture 1</span>
-                <span class="text-xs">ID: 12234</span>
-              </td>
-              <td><router-link to="">$72.00</router-link></td>
-            </tr>
-            <tr class="text-sm">
-              <td>
-                <img
-                  src="@/assets/images/category/shelves_tv/shelves_11.png"
-                  alt="furniture"
-                  class="w-20"
-                />
-              </td>
-              <td>
-                <span class="font-semibold block">Furniture 1</span>
-                <span class="text-xs">ID: 12234</span>
-              </td>
-              <td><router-link to="">$72.00</router-link></td>
-            </tr>
-            <tr class="text-sm">
-              <td>
-                <img
-                  src="@/assets/images/category/shelves_tv/shelves_11.png"
-                  alt="furniture"
-                  class="w-20"
-                />
-              </td>
-              <td>
-                <span class="font-semibold block">Furniture 1</span>
-                <span class="text-xs">ID: 12234</span>
-              </td>
-              <td><router-link to="">$72.00</router-link></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <span class="font-medium mx-8 text-sm">Count: 10</span>
     </div>
   </div>
 </template>
@@ -508,40 +248,12 @@ export default {
         },
       },
       lineOptionsUser: {
-        // animations: {
-        //   tension: {
-        //     duration: 1000,
-        //     easing: "linear",
-        //     from: 1,
-        //     to: 0,
-        //     loop: true,
-        //   },
-        // },
         // scales: {
-        //   x: {
-        //     type: "time",
-        //     time: {
-        //       // Luxon format string
-        //       tooltipFormat: "DD T",
-        //     },
-        //     title: {
-        //       display: true,
-        //       text: "Date",
-        //     },
-        //   },
         //   y: {
-        //     title: {
-        //       display: true,
-        //       text: "value",
-        //     },
+        //     min: 0,
+        //     max: 20000,
         //   },
         // },
-        scales: {
-          y: {
-            min: 0,
-            max: 20000,
-          },
-        },
       },
     };
   },
@@ -571,12 +283,7 @@ export default {
     this.loaded = false;
     try {
       const responseChart = await axios.get("dashboard/shop-owner/charts");
-      const responseCategories = await axios.get(
-        "shopOwner/shop-data/categories"
-      );
-      const listCategories = responseCategories.data.map(
-        (item) => item.categoryName
-      );
+
       this.spent = responseChart.data.spentInYear;
       this.income = responseChart.data.income;
 
@@ -613,11 +320,18 @@ export default {
         ],
       };
       //Top Selling Categories
+      const labelCate = responseChart.data.categories.map(function (item) {
+        return item.name;
+      });
+
+      const dataCate = responseChart.data.categories.map(function (item) {
+        return item.data;
+      });
       this.barDataCate = {
-        labels: listCategories,
+        labels: labelCate,
         datasets: [
           {
-            data: this.categoriesData,
+            data: dataCate,
             backgroundColor: [
               "rgba(62, 151, 255, 0.85)",
               "rgba(241, 65, 108, 0.85)",
@@ -660,22 +374,21 @@ export default {
       };
 
       const doughnutChart = document.getElementById("doughnut");
+      const labels = responseChart.data.woodPercent.map(function (item) {
+        return item.name;
+      });
+
+      const data = responseChart.data.woodPercent.map(function (item) {
+        return item.data;
+      });
       const dn = new Chart(doughnutChart, {
         type: "doughnut",
         data: {
-          labels: [
-            "Red",
-            "Blue",
-            "Yellow",
-            "Yellow",
-            "Yellow",
-            "Yellow",
-            "Yellow",
-          ],
+          labels: labels,
           datasets: [
             {
               label: "My First Dataset",
-              data: this.woodData,
+              data: data,
               backgroundColor: [
                 "rgb(255, 99, 132)",
                 "rgb(54, 162, 235)",

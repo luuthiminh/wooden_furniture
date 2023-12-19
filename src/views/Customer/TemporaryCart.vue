@@ -86,7 +86,7 @@
                                   class="flex gap-x-3 text-sm info_specification font-medium"
                                 >
                                   <label>Price:</label>
-                                  <span>${{ furniture.unitPrice }}</span>
+                                  <span>{{ furniture.unitPrice }} VND</span>
                                 </div>
                                 <div
                                   class="flex gap-x-3 text-sm info_specification font-medium"
@@ -334,12 +334,11 @@
                     <div>
                       <div>
                         <select
-                          v-if="order.payments"
                           v-model="paymentId"
                           class="form-select text-sm border border-slate-200"
                           aria-label="Default select example"
                         >
-                          <option selected>Choose Payment</option>
+                          <option disabled>Choose Payment</option>
                           <option value="1">Cash on Delivery</option>
                           <option value="2">QR Code</option>
                           <option value="3">Domestic Card</option>
@@ -364,7 +363,7 @@
                             aria-label="Default select example"
                             @change="CalculateDeliveryFee"
                           >
-                            <option selected>Choose Delivery</option>
+                            <option disabled>Choose Delivery</option>
                             <option
                               v-for="ship in methodDelevery.data"
                               :key="ship"
@@ -591,7 +590,7 @@
                   aria-label="Default select example"
                   v-model="addressModal.type"
                 >
-                  <option selected>{{ addressModal.type }}</option>
+                  <option disabled>{{ addressModal.type }}</option>
                   <option value="DEFAULT">Default</option>
                   <option value="HOME">Home</option>
                 </select>

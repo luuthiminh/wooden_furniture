@@ -261,14 +261,6 @@
           </div>
         </button>
       </div>
-      <div v-else>
-        <router-link
-          to="/login"
-          class="ring-1 ring-yellow-900 rounded-md mr-2 flex items-center text-center px-2 ml-2 py-2"
-        >
-          <span class="text-sm font-semibold text-yellow-800">Login</span>
-        </router-link>
-      </div>
     </div>
   </header>
   <!-- <div class="card_download">
@@ -367,10 +359,7 @@ export default {
   },
   methods: {
     checkLogin() {
-      if (
-        localStorage.getItem("token") !== null
-        // error.response.status === 403
-      ) {
+      if (localStorage.getItem("token") !== null) {
         this.isLogin = true;
       } else {
         this.isLogin = false;
@@ -433,6 +422,8 @@ export default {
     },
     Logout() {
       localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      localStorage.removeItem("expiration");
       this.$router.push({ name: "login" });
     },
   },

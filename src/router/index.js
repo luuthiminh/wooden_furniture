@@ -344,6 +344,17 @@ const routes = [
       ),
   },
   {
+    path: "/getWarranties",
+    name: "GetWarranties",
+    meta: {
+      layout: "assistantLayout",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Assistant/getWarranties.vue"
+      ),
+  },
+  {
     path: "/furnitureManage",
     name: "FurnitureManage",
     meta: {
@@ -571,17 +582,6 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "register" */ "../views/Assistant/importMaterial.vue"
-      ),
-  },
-  {
-    path: "/profileAssistant",
-    name: "ProfileAssistant",
-    meta: {
-      layout: "assistantLayout",
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "register" */ "../views/Assistant/profileAssistant.vue"
       ),
   },
   {

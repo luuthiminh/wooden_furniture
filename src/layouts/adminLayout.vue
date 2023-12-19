@@ -156,7 +156,10 @@ export default {
   },
   methods: {
     checkLogin() {
-      if (localStorage.getItem("token") == "") {
+      if (
+        localStorage.getItem("token") == undefined ||
+        localStorage.getItem("role") !== "SHOP_OWNER"
+      ) {
         this.isLogin = false;
         this.$router.push({ name: "login" });
       } else {

@@ -1527,6 +1527,7 @@
                                           v-for="img in warrantyModal.attacments
                                             .images.length"
                                           :key="img"
+                                          class="ml-40"
                                         >
                                           <img
                                             :src="img.path"

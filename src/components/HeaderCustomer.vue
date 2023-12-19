@@ -590,6 +590,8 @@ export default {
     },
     handleLogout() {
       localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      localStorage.removeItem("expiration");
       this.$router.push({ name: "login" });
     },
     handelBell() {

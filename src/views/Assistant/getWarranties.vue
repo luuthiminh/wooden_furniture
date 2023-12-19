@@ -7,130 +7,81 @@
             <router-link to="/indexAssistant">Home</router-link>
           </li>
           <li class="breadcrumb-item text-sm active" aria-current="page">
-            Manage Furniture
+            All Gurranties
           </li>
         </ol>
       </nav>
     </div>
-    <div class="font-semibold text-lg ml-4 pt-4">All Furniture</div>
+    <div class="font-semibold text-lg ml-4 pt-4">All Gurranties</div>
     <div class="content_table pt-6 px-6 scroll">
       <div class="py-4">
         <table
-          v-if="searchResults.length"
           class="table table-borderless text-yellow-950 font-medium text-center"
         >
           <thead class="table-light">
             <tr class="text-sm text-center">
-              <th scope="col">Furniture</th>
+              <th scope="col">Warranty</th>
               <th></th>
-              <th scope="col">Collection</th>
-              <th scope="col">Category</th>
-              <th scope="col">Label</th>
-              <th scope="col">Sold</th>
-              <th scope="col">Appropriate Room</th>
-              <th scope="col">Vote Star</th>
-              <th scope="col">Avaliable</th>
-              <th scope="col">Price</th>
+              <th scope="col">CustomerName</th>
+              <th scope="col">OrderId</th>
+              <th scope="col">Reasons</th>
             </tr>
           </thead>
-          <tbody v-if="searchResults.length">
-            <tr
-              class="text-sm"
-              v-for="furniture in searchResults"
-              :key="furniture.furnitureId"
-            >
+          <tbody v-if="warranties.length">
+            <tr class="text-sm" v-for="w in warranties" :key="w.warrantyId">
               <td class="img">
-                <img :src="furniture.image" alt="furniture" class="w-20" />
+                <div v-for="img in w.images" :key="img">
+                  <img :src="img.path" alt="furniture" class="w-20" />
+                </div>
+                <div v-for="img in w.videos" :key="img">
+                  <img :src="img.path" alt="furniture" class="w-20" />
+                </div>
               </td>
               <td class="text-start">
-                <span class="font-semibold block">{{
-                  furniture.furnitureName
-                }}</span>
-                <span class="text-xs">{{ furniture.furnitureId }}</span>
+                <span class="text-xs">{{ w.warrantyId }}</span>
               </td>
-              <td>{{ furniture.collection }}</td>
-              <td>{{ furniture.category }}</td>
-              <td>{{ furniture.label }}</td>
-              <td>{{ furniture.sold }}</td>
-              <td>{{ furniture.appropriateRoom }}</td>
-              <td>{{ furniture.voteStar }}</td>
-              <td>{{ furniture.available }}</td>
-              <td>{{ furniture.price }}</td>
-            </tr>
-          </tbody>
-        </table>
-        <table
-          v-else
-          class="table table-borderless text-yellow-950 font-medium text-center"
-        >
-          <thead class="table-light">
-            <tr class="text-sm text-center">
-              <th scope="col">Furniture</th>
-              <th></th>
-              <th scope="col">Collection</th>
-              <th scope="col">Category</th>
-              <th scope="col">Label</th>
-              <th scope="col">Sold</th>
-              <th scope="col">Appropriate Room</th>
-              <th scope="col">Vote Star</th>
-              <th scope="col">Avaliable</th>
-              <th scope="col">Price</th>
-            </tr>
-          </thead>
-          <tbody v-if="furnitures.length">
-            <tr
-              class="text-sm"
-              v-for="furniture in furnitures"
-              :key="furniture.furnitureId"
-            >
-              <td class="img">
-                <img :src="furniture.image" alt="furniture" class="w-20" />
-              </td>
-              <td class="text-start">
-                <span class="font-semibold block">{{
-                  furniture.furnitureName
-                }}</span>
-                <span class="text-xs">{{ furniture.furnitureId }}</span>
-              </td>
-              <td>{{ furniture.collection }}</td>
-              <td>{{ furniture.category }}</td>
-              <td>{{ furniture.label }}</td>
-              <td>{{ furniture.sold }}</td>
-              <td>{{ furniture.appropriateRoom }}</td>
-              <td>{{ furniture.voteStar }}</td>
-              <td>{{ furniture.available }}</td>
-              <td>{{ furniture.price }}</td>
+              <td>{{ w.customerName }}</td>
+              <td>{{ w.orderId }}</td>
+              <td>{{ w.warrantyReasons }}</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
-  <!-- </div> -->
 </template>
 <script>
+import axios from "axios";
+import { format } from "date-fns";
 export default {
-  components: {
-    // modal,
-  },
+  components: {},
   data() {
     return {
       isShowFurnitureSpecification: false,
       isEditModal: false,
-      furnitureModel: [],
+      warranties: [],
       isAddFurniture: false,
     };
   },
   created() {
-    this.$store.dispatch("getFurnitures");
+    this.getWarranty();
   },
-  methods: {},
-  computed: {
-    furnitures() {
-      return this.$store.state.furnitures;
-    },
-    searchResults() {
-      return this.$store.state.searchFurniture;
+  methods: {
+    async getWarranty() {
+      try {
+        const response = await axios.get(
+          "Assistant/customer-requests/warranties"
+        );
+        this.warranties = response.data;
+        this.warranties = response.data.map((item) => ({
+          ...item,
+          estimatedTime: item.estimatedTime
+            ? format(new Date(item.estimatedTime), "dd/MM/yyyy")
+            : "",
+        }));
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };

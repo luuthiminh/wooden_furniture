@@ -490,6 +490,8 @@ export default {
     },
     handelLogout() {
       localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      localStorage.removeItem("expiration");
       this.$router.push({ name: "login" });
     },
     toggleDark() {

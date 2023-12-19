@@ -439,6 +439,7 @@ export default {
       messageSucessDescription: "",
       messageSucessDate: "",
       isMsgError: false,
+      message: "",
     };
   },
   created() {
@@ -522,14 +523,6 @@ export default {
       }
     },
     async customizeOrder() {
-      // if (
-      //   !this.validateName ||
-      //   !this.validateDate ||
-      //   !this.validateDescription
-      // ) {
-      //   console.error("Vui lòng kiểm tra lại thông tin đặt hàng.");
-      //   return;
-      // }
       const formData = new FormData();
       if (this.arrayFile.length > 0) {
         for (var i = 0; i < this.arrayFile.length > 0; i++) {
@@ -560,7 +553,7 @@ export default {
           alert("Order success");
         }
       } catch (error) {
-        this.message = error.response.data.message;
+        // this.message = error.response.data.message;
         console.error(error.response.data.message);
       }
     },

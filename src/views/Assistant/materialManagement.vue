@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="nav">
+    <div class="nav mt-14">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent text-sm pt-4 ml-4 font-medium">
           <li class="breadcrumb-item text-sm font-semibold">

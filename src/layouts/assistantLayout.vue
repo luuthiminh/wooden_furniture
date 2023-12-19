@@ -25,7 +25,7 @@
       <li class="mx-10 font-medium max-sm:hidden max-md:hidden">
         <p
           class="stock text-amber-900 font-semibold w-10/12"
-          :style="{ marginRight: !isShowTab ? '53em' : '32em' }"
+          :style="{ marginRight: !isShowTab ? '53em' : '31em' }"
         >
           STOCK INFORMATION
         </p>
@@ -60,22 +60,17 @@
         </div>
         <small class="text-xs">Notifications</small>
       </li>
+
       <li
-        class="flex gap-x-2 items-center"
+        v-if="isLogin"
+        class="ml-52 max-sm:hidden max-md:hidden"
         @click.prevent="handleLogout"
-        v-if="!isLogin"
       >
-        <i
-          class="fa-solid fa-arrow-right-from-bracket cursor-pointer text-xl text-amber-950"
-        ></i>
-        <p class="text-sm flex items-center text-amber-950">Logout</p>
-      </li>
-      <li v-if="isLogin" class="ml-52 max-sm:hidden max-md:hidden">
-        <router-link to="/">
+        <router-link to="/login">
           <button
-            class="transition ease-in-out delay-150 px-2 py-1 font-medium text-white hover:ring-offset-2 hover:ring-2 bg-yellow-700 hover:ring-yellow-600 text-sm rounded-md flex"
+            class="items-center transition ease-in-out delay-150 px-4 py-2 font-medium text-white hover:ring-offset-2 hover:ring-2 bg-yellow-700 hover:ring-yellow-600 text-sm rounded-md flex"
           >
-            Login
+            <i class="text-white fa-solid fa-right-from-bracket"></i>
           </button>
         </router-link>
       </li>
@@ -294,39 +289,21 @@
     <!-- <span>Hi</span>
     </div> -->
   </header>
-  <div class="content">
+  <div class="">
     <div class="flex flex-cols-10">
       <div class="col-span-3 fixed max-sm:hidden max-md:hidden z-1">
         <div class="flex flex-cols-2">
           <nav class="col-span-1 nav shadow-md">
             <div class="user">
-              <div class="user-box text-center">
-                <!-- <div class="avatar ml-1">
-                  <router-link to="/profileAssistant">
-                    <img
-                      class="img-profile img-circle img-responsive center-block rounded-full cursor-pointer"
-                      src="@/assets/images/avatar.jpg"
-                      alt="avatar"
-                    />
-                  </router-link>
-                </div>
-                <div class="user-info mt-1">
-                  <span class="user_name">Minh</span>
-                  <span class="assistant">Assistant</span>
-                </div> -->
-                <!-- <hr class="user_hr text-slate-300" /> -->
-              </div>
+              <div class="user-box text-center"></div>
             </div>
 
             <ul class="bar nav nav-stacked" role="tablist">
               <li @click.prevent="handleHome">
-                <!-- <router-link to="/indexAssistant"> -->
                 <i
                   class="bi bi-house-check-fill bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
                 ></i>
                 <p>Home</p>
-                <!-- </router-link
-                > -->
               </li>
               <li role="presentation" @click.prevent="isShowTab = true">
                 <a
@@ -384,7 +361,14 @@
                   <p>Feedback</p>
                 </router-link>
               </li>
-
+              <li role="presentation" @click.prevent="isShowTab = flase">
+                <router-link to="/getWarranties">
+                  <i
+                    class="bi bi-shield-shaded bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-orange-800"
+                  ></i>
+                  <p>Gurranty</p>
+                </router-link>
+              </li>
               <li role="presentation" @click.prevent="isShowTab = flase">
                 <router-link to="/labelManagement">
                   <i
@@ -562,7 +546,6 @@
           </nav>
         </div> -->
         <slot />
-        <!-- <notification-success /> -->
       </div>
     </div>
   </div>
@@ -592,10 +575,15 @@ export default {
     },
     handleLogout() {
       localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      localStorage.removeItem("expiration");
       this.$router.push({ name: "login" });
     },
     checkLogin() {
-      if (localStorage.getItem("token") == "") {
+      if (
+        localStorage.getItem("token") == undefined ||
+        localStorage.getItem("role") !== "ASSISTANT"
+      ) {
         this.isLogin = false;
         this.$router.push({ name: "login" });
       } else {
@@ -835,16 +823,6 @@ nav i {
   color: #000000d6;
   font-weight: 500;
 }
-/* .furniture li {
-  color: rgb(90, 91, 103);
-} */
-/* .furniture li {
-  color: rgb(36, 49, 186);
-} */
-/* .user-box,
-.bar.leading-4 {
-  background: #f1f1f1;
-} */
 .nav.nav-stacked i {
   font-size: 17px;
 }
@@ -856,7 +834,7 @@ table {
   margin-top: 10px;
   overflow: scroll;
   overflow-x: hidden;
-  height: 38em;
+  height: 43em;
 }
 .bar.nav::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);

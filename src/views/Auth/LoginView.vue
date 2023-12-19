@@ -184,6 +184,7 @@ export default {
           } else {
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("expiration", response.data.expiration);
+            localStorage.setItem("role", response.data.role);
             if (response.data.role === "CUSTOMER") {
               this.$router.push({ name: "Customer" });
             } else if (response.data.role === "ASSISTANT") {
@@ -191,29 +192,6 @@ export default {
             } else if (response.data.role === "SHOP_OWNER") {
               this.$router.push({ name: "DashboardFurniture" });
             }
-          }
-        }
-      } catch (error) {
-        this.message = "Password or email does not exist!";
-        console.error(error);
-      }
-    },
-    async Handle2AF() {
-      try {
-        const response = await axios.post("authentication/login", {
-          email: this.email,
-          password: this.password,
-          rememberMe: this.rememberMe,
-        });
-        if (response.status === 200) {
-          localStorage.setItem("token", response.data.token);
-          localStorage.setItem("expiration", response.data.expiration);
-          if (response.data.role === "CUSTOMER") {
-            this.$router.push({ name: "Customer" });
-          } else if (response.data.role === "ASSISTANT") {
-            this.$router.push({ name: "dashboardAssistant" });
-          } else if (response.data.role === "SHOP_OWNER") {
-            this.$router.push({ name: "DashboardFurniture" });
           }
         }
       } catch (error) {

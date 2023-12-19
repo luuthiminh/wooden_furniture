@@ -109,7 +109,13 @@
                     placeholder=""
                     aria-label="cost"
                     aria-describedby="addon-wrapping"
+                    :max="maxPrice"
+                    :min="minPrice"
+                    @change="ValidateCost"
                   />
+                  <!-- <span class="text-xs text-slate-500"
+                    >Enter cost > {{ maxPrice }} and {{ this.minPrice }}</span
+                  > -->
                 </div>
               </div>
               <div class="">
@@ -119,12 +125,18 @@
                 <div>
                   <input
                     v-model="maxCost"
+                    :max="maxPrice"
+                    :min="minPrice"
                     type="text"
                     class="form-control"
                     placeholder=""
                     aria-label="cost"
                     aria-describedby="addon-wrapping"
+                    @change="ValidateCost"
                   />
+                  <!-- <span class="text-xs text-slate-500"
+                    >Enter cost > {{ maxPrice }} and {{ this.minPrice }}</span
+                  > -->
                 </div>
               </div>
             </div>
@@ -299,47 +311,19 @@
         </div>
       </div>
       <div class="col-span-4 mb-5">
-        <!-- <all-furniture :furnitures="furnitures"></all-furniture> -->
-        <!-- <div v-if="selectedFurPrice"> -->
-        <all-furniture
-          v-if="selectedFurPrice"
-          :furnitures="filterFurnitures"
-        ></all-furniture>
-        <!-- <div v-else>
-            <div class="hourglassBackground">
-              <div class="hourglassContainer">
-                <div class="hourglassCurves"></div>
-                <div class="hourglassCapTop"></div>
-                <div class="hourglassGlassTop"></div>
-                <div class="hourglassSand"></div>
-                <div class="hourglassSandStream"></div>
-                <div class="hourglassCapBottom"></div>
-                <div class="hourglassGlass"></div>
-              </div>
-            </div>
-          </div>
-        </div> -->
-        <!-- <div v-else-if="filteredFurnitures.length"> -->
-        <all-furniture
-          v-if="selectedFurPrice"
-          :furnitures="filteredFurnitures"
-        ></all-furniture>
-        <!-- <div v-else>
-            <div class="hourglassBackground">
-              <div class="hourglassContainer">
-                <div class="hourglassCurves"></div>
-                <div class="hourglassCapTop"></div>
-                <div class="hourglassGlassTop"></div>
-                <div class="hourglassSand"></div>
-                <div class="hourglassSandStream"></div>
-                <div class="hourglassCapBottom"></div>
-                <div class="hourglassGlass"></div>
-              </div>
-            </div>
-          </div> -->
-        <!-- </div> -->
-
-        <all-furniture v-else :furnitures="furnitures"></all-furniture>
+        <div v-if="selectedFurPrice.length || filteredFurnitures.length">
+          <all-furniture
+            v-if="selectedFurPrice.length > 0"
+            :furnitures="filterFurnitures"
+          ></all-furniture>
+          <all-furniture
+            v-else-if="filteredFurnitures.length > 0"
+            :furnitures="filteredFurnitures"
+          ></all-furniture>
+        </div>
+        <div v-else>
+          <all-furniture :furnitures="furnitures"></all-furniture>
+        </div>
       </div>
     </div>
   </div>
@@ -368,6 +352,9 @@ export default {
       collections: [],
       filteredFurnitures: [],
       selectedFurPrice: 0,
+      messageWanning: "",
+      maxPrice: 0,
+      minPrice: 0,
     };
   },
   created() {
@@ -419,17 +406,16 @@ export default {
           },
         });
         if (response.status === 200) {
-          if (response.data !== "") {
-            this.modalType = null;
-            this.isAlertWanning = true;
-            this.messageWanning = "Furniture not found";
-            setTimeout(() => {
-              this.isAlertWanning = false;
-            }, 5000);
-            this.getFurnitures();
-          }
           this.filteredFurnitures = response.data;
-          console.log(this.filteredFurnitures);
+        }
+        if (response.data.length === 0) {
+          this.modalType = null;
+          this.isAlertWanning = true;
+          this.messageWanning = "Furniture not found";
+          setTimeout(() => {
+            this.isAlertWanning = false;
+          }, 5000);
+          this.getFurnitures();
         }
       } catch (error) {
         this.isAlertError = true;

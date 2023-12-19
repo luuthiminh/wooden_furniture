@@ -253,13 +253,6 @@
               </div>
               <div class="text-center">
                 <h1>WARDROBE</h1>
-                <div class="button">
-                  <router-link
-                    to="/allproduct"
-                    class="btn my-8 text-decoration-none"
-                    >See More</router-link
-                  >
-                </div>
               </div>
               <div class="relative">
                 <router-link
@@ -270,13 +263,6 @@
               </div>
               <div class="text-center">
                 <h1 class="text-red-950">SOFA</h1>
-                <div class="button">
-                  <router-link
-                    to="/allproduct"
-                    class="btn my-8 text-decoration-none"
-                    >See More</router-link
-                  >
-                </div>
               </div>
               <div class="relative">
                 <router-link to="" class="text-decoration-none"
@@ -287,13 +273,6 @@
               </div>
               <div class="text-center">
                 <h1>CLOCK</h1>
-                <div class="button">
-                  <router-link
-                    to="/allproduct"
-                    class="btn my-8 text-decoration-none"
-                    >See More</router-link
-                  >
-                </div>
               </div>
             </div>
 
@@ -302,13 +281,6 @@
             >
               <div class="text-center">
                 <h1>BED</h1>
-                <div class="button">
-                  <router-link
-                    to="/allproduct"
-                    class="btn my-8 text-decoration-none"
-                    >See More</router-link
-                  >
-                </div>
               </div>
               <div class="relative">
                 <router-link
@@ -319,13 +291,6 @@
               </div>
               <div class="text-center">
                 <h1>Shelves TV</h1>
-                <div class="button">
-                  <router-link
-                    to="/allproduct"
-                    class="btn my-8 text-decoration-none"
-                    >See More</router-link
-                  >
-                </div>
               </div>
               <div class="relative">
                 <router-link
@@ -338,13 +303,6 @@
               </div>
               <div class="text-center">
                 <h1>Altar</h1>
-                <div class="button">
-                  <router-link
-                    to="/allproduct"
-                    class="btn my-8 text-decoration-none"
-                    >See More</router-link
-                  >
-                </div>
               </div>
               <div class="relative">
                 <router-link to="" class="text-decoration-none"
@@ -379,14 +337,7 @@
             <div class="text-center text-2xl font-bold mt-11 mb-4 relative">
               <h1 class="crossbar max-sm:text-lg">Hot Furniture</h1>
             </div>
-            <div class="category_hot_product mb-4">
-              <ul class="flex flex-1 justify-center gap-3 font-medium">
-                <li>Living Room</li>
-                <li>Bedroom</li>
-                <li>Kitchen</li>
-                <li>Alart Room</li>
-              </ul>
-            </div>
+
             <div class="hot_task">
               <div class="hot_product">
                 <div>
@@ -1028,6 +979,7 @@ export default {
       messageSucessDate: "",
       isMsgError: false,
       posts: [],
+      message: "",
     };
   },
   created() {
@@ -1211,7 +1163,7 @@ export default {
           alert("Order success");
         }
       } catch (error) {
-        this.message = error.response.data.message;
+        // this.message = error.response.data.message;
         console.error(error.response.data.message);
       }
     },
