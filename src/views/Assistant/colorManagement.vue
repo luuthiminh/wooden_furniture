@@ -501,7 +501,6 @@
                             >
                           </div>
                           <div v-else>
-                            {{ isColorNameUnique }}
                             <span
                               v-if="!isDismissModal"
                               class="error text-xs"

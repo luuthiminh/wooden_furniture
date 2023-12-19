@@ -168,7 +168,7 @@
                                 >
                                   <span class="font-medium">Price:</span>
                                   <span class="text-red-500"
-                                    >${{ fur.price }}</span
+                                    >{{ fur.price }} VND</span
                                   >
                                 </div>
                               </div>
@@ -183,6 +183,12 @@
                               >
                                 <span class="font-medium">Wood:</span>
                                 <span>{{ fur.wood }}</span>
+                              </div>
+                              <div
+                                class="grid grid-cols-2 gap-x-1 text-sm pt-1"
+                              >
+                                <span class="font-medium">Available:</span>
+                                <span>{{ fur.available }}</span>
                               </div>
                               <br />
                               <div v-if="fur.available === 0">
@@ -368,12 +374,11 @@
                             <div>
                               <div>
                                 <select
-                                  v-if="order.payments"
                                   v-model="paymentId"
                                   class="form-select text-sm border border-slate-200"
                                   aria-label="Default select example"
                                 >
-                                  <option selected>Choose Payment</option>
+                                  <option disable>Choose Payment</option>
                                   <option value="1">Cash on Delivery</option>
                                   <option value="2">QR Code</option>
                                   <option value="3">Domestic Card</option>

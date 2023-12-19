@@ -31,45 +31,6 @@
         </div>
 
         <div class="flex flex-cols-2 gap-x-3">
-          <!-- <div
-            class="dropdown bg-orange-50 shadow-lg bg-orange-100/50 px-2 py-2 rounded-lg"
-          >
-            <button
-              class="btn_action flex"
-              type="button"
-              id="dropdownMenuButton1"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-4 h-4 text-orange-500 mt-1 mr-1"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z"
-                />
-              </svg>
-
-              <span class="text-orange-500 font-medium">Filter</span>
-            </button>
-            <ul
-              class="dropdown-menu text-sm"
-              aria-labelledby="dropdownMenuButton1"
-            >
-              <li>
-                <a class="dropdown-item font-medium" href="#">Latest User</a>
-              </li>
-              <li>
-                <a class="dropdown-item font-medium" href="#">Old User</a>
-              </li>
-            </ul>
-          </div> -->
           <div class="new member">
             <div
               class="dropdown bg-orange-50 shadow-lg bg-orange-100/50 px-2 py-2 rounded-lg"
@@ -163,6 +124,9 @@
                     ></label>
                   </div>
                 </div>
+                <span class="text-slate-600 text-xs"
+                  >Upload image is require</span
+                >
                 <div>
                   <label for="exampleInputEmail1" class="form-label font-medium"
                     >Name Furniture</label
@@ -174,20 +138,21 @@
                     id="exampleInputEmail1"
                     aria-describedby="emailHelp"
                     required
+                    @input="validationName"
                   />
-                </div>
-                <div>
-                  <label for="exampleInputEmail1" class="form-label font-medium"
-                    >Price</label
-                  >
-                  <input
-                    v-model="furPrice"
-                    type="text"
-                    class="form-control"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                    required
-                  />
+
+                  <div v-if="!isShowMessage">
+                    <span class="text-slate-600 text-xs"
+                      >Furniture name cannot be less than 2 characters or exceed
+                      50 characters</span
+                    >
+                  </div>
+                  <div v-else>
+                    <span v-if="!isDismissModal" class="error text-xs">{{
+                      messageError
+                    }}</span>
+                    <span v-else class="success text-xs">{{ message }}</span>
+                  </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-x-4 mt-3">
@@ -203,7 +168,7 @@
                       class="form-select text-sm"
                       aria-label="Default select example"
                     >
-                      <option selected>Choose Collection</option>
+                      <option disabled>Choose Collection</option>
                       <option
                         v-for="co in collections"
                         :key="co.collectionId"
@@ -225,7 +190,7 @@
                       class="form-select text-sm"
                       aria-label="Default select example"
                     >
-                      <option selected>Choose label</option>
+                      <option disabled>Choose label</option>
                       <option
                         v-for="l in labels"
                         :key="l.labelId"
@@ -246,7 +211,7 @@
                       aria-label="Default select example"
                       v-model="appropriateRoomModal"
                     >
-                      <option selected>{{ appropriateRoomModal }}</option>
+                      <option disabled>Choose room</option>
                       <option value="KITCHENT">Kitchen Furniture</option>
                       <option value="LIVINGROOM">Living Room Furniture</option>
                       <option value="BEROOM">Bedroom Furniture</option>
@@ -267,7 +232,7 @@
                       class="form-select text-sm"
                       aria-label="Default select example"
                     >
-                      <option selected>Choose category</option>
+                      <option disabled>Choose category</option>
                       <option
                         v-for="ca in categories"
                         :key="ca.categoryId"
@@ -286,7 +251,21 @@
                 data-dismiss="modal"
                 @click.prevent="HandleAddFurniture"
               >
-                <span type="button" class="btn text-white"> Add </span>
+                <span
+                  v-if="!isDismissModal"
+                  type="button"
+                  class="btn text-white"
+                >
+                  Add
+                </span>
+                <span
+                  v-else
+                  data-dismiss="modal"
+                  type="button"
+                  class="btn text-white"
+                >
+                  Add
+                </span>
               </div>
             </template>
           </modal>
@@ -311,7 +290,6 @@
                 <th scope="col">Sold</th>
                 <th scope="col">Appropriate Room</th>
                 <th scope="col">Vote Star</th>
-                <th scope="col">Avaliable</th>
                 <th scope="col">Price</th>
                 <th scope="col">Action</th>
               </tr>
@@ -331,7 +309,6 @@
                     }"
                   >
                     {{ f.furnitureName }}
-                    <!-- <img :src="getFurnitureImage(furniture)" /> -->
                   </router-link>
                   <span class="text-xs">{{ f.furnitureId }}</span>
                 </td>
@@ -340,7 +317,6 @@
                 <td>{{ f.sold }}</td>
                 <td>{{ f.appropriateRoom }}</td>
                 <td>{{ f.voteStar }}</td>
-                <td>{{ f.available }}</td>
                 <td>{{ f.price }}</td>
                 <td class="td_action w-1/12 text-sm">
                   <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
@@ -443,8 +419,25 @@
                             class="form-control"
                             id="exampleInputEmail1"
                             aria-describedby="emailHelp"
-                            required
+                            @input="validationName"
                           />
+
+                          <div v-if="!isShowMessage">
+                            <span class="text-slate-600 text-xs"
+                              >Furniture name cannot be less than 2 characters
+                              or exceed 50 characters</span
+                            >
+                          </div>
+                          <div v-else>
+                            <span
+                              v-if="!isDismissModal"
+                              class="error text-xs"
+                              >{{ messageError }}</span
+                            >
+                            <span v-else class="success text-xs">{{
+                              message
+                            }}</span>
+                          </div>
                         </div>
                         <div>
                           <label
@@ -475,7 +468,7 @@
                             class="form-select text-sm"
                             aria-label="Default select example"
                           >
-                            <option selected>{{ collectionModal }}</option>
+                            <option disabled>{{ collectionModal }}</option>
                             <option
                               v-for="co in collections"
                               :key="co.collectionId"
@@ -497,7 +490,7 @@
                             class="form-select text-sm"
                             aria-label="Default select example"
                           >
-                            <option selected>Choose Label</option>
+                            <option disabled>Choose Label</option>
                             <option
                               v-for="l in labels"
                               :key="l.labelId"
@@ -519,7 +512,7 @@
                           aria-label="Default select example"
                           v-model="appropriateRoomModal"
                         >
-                          <option selected>{{ appropriateRoomModal }}</option>
+                          <option disabled>{{ appropriateRoomModal }}</option>
                           <option value="KITCHENT">Kitchen Furniture</option>
                           <option value="LIVINGROOM">
                             Living Room Furniture
@@ -541,7 +534,7 @@
                           aria-label="Default select example"
                           v-model="cateIdModal"
                         >
-                          <option selected>{{ cateModal }}</option>
+                          <option disabled>{{ cateModal }}</option>
                           <option value="1">Bed Room</option>
                           <option value="2">Hot Sale</option>
                         </select>
@@ -650,7 +643,7 @@
                             class="form-select text-sm"
                             aria-label="Default select example"
                           >
-                            <option selected>
+                            <option disabled>
                               {{ collectionModal }}
                             </option>
                             <option
@@ -674,7 +667,7 @@
                             class="form-select text-sm"
                             aria-label="Default select example"
                           >
-                            <option selected>{{ labelModal }}</option>
+                            <option disabled>{{ labelModal }}</option>
                             <option
                               v-for="l in labels"
                               :key="l.labelId"
@@ -695,7 +688,7 @@
                             aria-label="Default select example"
                             v-model="appropriateRoomModal"
                           >
-                            <option selected>{{ appropriateRoomModal }}</option>
+                            <option disabled>{{ appropriateRoomModal }}</option>
                             <option value="KITCHENT">Kitchen Furniture</option>
                             <option value="LIVINGROOM">
                               Living Room Furniture
@@ -718,7 +711,7 @@
                             class="form-select text-sm"
                             aria-label="Default select example"
                           >
-                            <option selected>{{ cateModal }}</option>
+                            <option disabled>{{ cateModal }}</option>
                             <option
                               v-for="ca in categories"
                               :key="ca.categoryId"
@@ -816,6 +809,10 @@ export default {
       collectIdModal: null,
       labelIdModal: null,
       cateIdModal: null,
+      isDismissModal: false,
+      isShowMessage: false,
+      message: "",
+      messageError: "",
     };
   },
   created() {
@@ -883,39 +880,56 @@ export default {
       }
       console.log(event);
     },
+    validationName() {
+      this.isShowMessage = true;
+      if (!this.furName) {
+        this.messageError = "Furniture Name required!";
+        this.isDismissModal = false;
+      } else if (this.furName.length < 2 || this.furName.length > 50) {
+        this.messageError =
+          "Furniture name cannot be less than 2 characters or exceed 50 characters!";
+        this.isDismissModal = false;
+      } else {
+        this.message = "Furniture name valid";
+        this.isDismissModal = true;
+      }
+    },
     async HandleAddFurniture() {
-      const formData = new FormData();
-      formData.append("FurnitureName", this.furName);
-      formData.append("CategoryId", this.cateId);
-      formData.append("LabelId", this.labelId);
-      formData.append("CollectionId", this.collectionId);
-      formData.append("AppropriateRoom", this.appropriateRoom);
-      try {
-        const response = await axios.post(
-          "shopOwner/shop-data/furnitures/add",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
+      if (this.furName === undefined) {
+        this.validationName();
+        this.isDismissModal = false;
+      } else {
+        this.isDismissModal = true;
+        const formData = new FormData();
+        formData.append("FurnitureName", this.furName);
+        formData.append("CategoryId", this.cateId);
+        formData.append("LabelId", this.labelId);
+        formData.append("CollectionId", this.collectionId);
+        formData.append("AppropriateRoom", this.appropriateRoomModal);
+        try {
+          const response = await axios.post(
+            "shopOwner/shop-data/furnitures/add",
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+          if (response.status === 201) {
+            this.modalType = null;
+            this.isAlertSuccess = true;
+            this.messageSuccess = "Add new furniture successfully";
+            setTimeout(() => {
+              this.isAlertSuccess = false;
+            }, 5000);
+            this.getFurnitures();
           }
-        );
-        if (response.status === 201) {
-          this.modalType = null;
-          this.isAlertSuccess = true;
-          this.messageSuccess = "Add new furniture successfully";
-          setTimeout(() => {
-            this.isAlertSuccess = false;
-          }, 5000);
-          this.getFurnitures();
+        } catch (error) {
+          this.isDismissModal = false;
+          this.messageError = error.response.data.message;
+          console.error(error);
         }
-      } catch (error) {
-        this.isAlertError = true;
-        this.messageError = error.response.data.message;
-        setTimeout(() => {
-          this.isAlertError = false;
-        }, 5000);
-        console.error(error);
       }
     },
     async HandleUpdate() {

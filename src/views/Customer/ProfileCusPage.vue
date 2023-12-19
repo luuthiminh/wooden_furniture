@@ -1611,7 +1611,7 @@
                                   </label>
                                   <div class="col-lg-8">
                                     <input
-                                      v-model="warrantyModal.WarrantyReasons"
+                                      v-model="warrantyModal.warrantyReasons"
                                       type="text"
                                       class="form-control border-none bg-neutral-100"
                                       id="firstname"
@@ -2963,7 +2963,7 @@ export default {
     async HandleUpdateWarranty() {
       const formData = new FormData();
       formData.append("warrantyId", this.warrantyModal.warrantyId);
-      formData.append("warrantyReasons ", this.warrantyModal.warrantyReason);
+      formData.append("warrantyReasons ", this.warrantyModal.warrantyReasons);
       if (this.arrayFile.length > 0) {
         for (var i = 0; i < this.arrayFile.length > 0; i++) {
           formData.append("UploadFiles", this.arrayFile[i]);

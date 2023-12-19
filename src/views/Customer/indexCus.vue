@@ -1181,17 +1181,22 @@ export default {
     },
     async customizeOrder() {
       const formData = new FormData();
-      formData.append("Attachmens", this.arrayFile);
-      formData.append("CustomizeFurnitureName", this.cusfurnitureName);
-      formData.append("CategoryId", this.categoryId);
-      formData.append("ColorId", this.colorId);
-      formData.append("Height", this.height);
-      formData.append("Length", this.length);
-      formData.append("Width", this.width);
-      formData.append("WoodId", this.woodId);
-      formData.append("Quantity", "10");
-      formData.append("Description", this.description);
-      formData.append("DesiredCompletionDate", this.completionDate);
+      // formData.append("Attachmens", this.arrayFile);
+      if (this.arrayFile.length > 0) {
+        for (var i = 0; i < this.arrayFile.length > 0; i++) {
+          formData.append("attachments", this.arrayFile[i]);
+        }
+      }
+      formData.append("customizeFurnitureName", this.cusfurnitureName);
+      formData.append("categoryId", this.categoryId);
+      formData.append("colorId", this.colorId);
+      formData.append("height", this.height);
+      formData.append("length", this.length);
+      formData.append("width", this.width);
+      formData.append("woodId", this.woodId);
+      formData.append("quantity", "10");
+      formData.append("description", this.description);
+      formData.append("desiredCompletionDate", this.completionDate);
       try {
         const response = await axios.post(
           "customer/customize-furnitures/create",
