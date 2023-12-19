@@ -64,16 +64,19 @@ export default {
           email: email,
           token: this.otp,
         });
+        console.log("Otp");
         if (response.status === 200) {
-          localStorage.setItem("token", response.data.token);
-          localStorage.setItem("expiration", response.data.expiration);
-          if (response.data.role === "CUSTOMER") {
-            this.$router.push({ name: "Customer" });
-          } else if (response.data.role === "ASSISTANT") {
-            this.$router.push({ name: "dashboardAssistant" });
-          } else if (response.data.role === "SHOP_OWNER") {
-            this.$router.push({ name: "DashboardFurniture" });
-          }
+          console.log("Otp", response.data);
+          console.log("Otp", response.data.token);
+          // localStorage.setItem("token", response.data.token);
+          // localStorage.setItem("expiration", response.data.expiration);
+          // if (response.data.role === "CUSTOMER") {
+          //   this.$router.push({ name: "Customer" });
+          // } else if (response.data.role === "ASSISTANT") {
+          //   this.$router.push({ name: "dashboardAssistant" });
+          // } else if (response.data.role === "SHOP_OWNER") {
+          //   this.$router.push({ name: "DashboardFurniture" });
+          // }
         }
       } catch (error) {
         this.message = "OTP is not vaild!";
@@ -127,7 +130,7 @@ export default {
 }
 
 .inputs input {
-  width: 32px;
+  width: 115px;
   height: 32px;
   text-align: center;
   border: none;

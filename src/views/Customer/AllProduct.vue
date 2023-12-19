@@ -361,7 +361,6 @@ export default {
   },
   data() {
     return {
-      furnitures: [],
       urlFurniture: {},
       categories: [],
       selectedStar: 0,
@@ -372,19 +371,11 @@ export default {
     };
   },
   created() {
-    this.getFurnitures();
     this.getAllCategories();
     this.getAllCollections();
+    this.getAllFurniture();
   },
   methods: {
-    async getFurnitures() {
-      try {
-        const response = await axios.get("customer/furnitures");
-        this.furnitures = response.data;
-      } catch (error) {
-        console.error(error);
-      }
-    },
     async getAllCategories() {
       try {
         const response = await axios.get("shopOwner/shop-data/categories");
@@ -449,6 +440,9 @@ export default {
         console.error(error);
       }
     },
+    getAllFurniture() {
+      this.$store.dispatch("getFurnitures");
+    },
     handleFilterFurniture(ro) {
       console.log("Xin chao");
       this.filteredFurnitures = this.furnitures.filter(
@@ -458,6 +452,9 @@ export default {
     },
   },
   computed: {
+    furnitures() {
+      return this.$store.state.furnitures;
+    },
     maxStar() {
       return this.furnitures.reduce(
         (max, fur) => (fur.voteStar > max ? fur.voteStar : max),

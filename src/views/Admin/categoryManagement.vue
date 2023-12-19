@@ -146,7 +146,7 @@
       </div>
     </div>
     <div class="content_table pt-6 px-6 scroll">
-      <div class="py-4">
+      <div v-if="categories.length || searchResults.length" class="py-4">
         <table
           v-if="searchResults.length"
           class="table table-borderless text-yellow-950 font-medium text-center"
@@ -262,17 +262,6 @@
                         Delete
                       </span>
                     </div>
-                    <!-- <button
-                        type="button"
-                        class="btn btn-primary my-8"
-                        data-bs-target="#exampleModalToggle2"
-                        data-bs-toggle="modal"
-                        data-bs-dismiss="modal"
-                        @click="opentModal('notification', w)"
-                        @click.prevent="HandleDelete"
-                      >
-                        Yes
-                      </button> -->
                   </template>
                 </modal>
               </td>
@@ -592,28 +581,17 @@
                         Delete
                       </span>
                     </div>
-                    <!-- <button
-                        type="button"
-                        class="btn btn-primary my-8"
-                        data-bs-target="#exampleModalToggle2"
-                        data-bs-toggle="modal"
-                        data-bs-dismiss="modal"
-                        @click="opentModal('notification', w)"
-                        @click.prevent="HandleDelete"
-                      >
-                        Yes
-                      </button> -->
                   </template>
                 </modal>
               </td>
             </tr>
           </tbody>
         </table>
-        <!-- <div v-else class="loader"></div> -->
       </div>
+      <div v-else class="loader"></div>
     </div>
   </div>
-  <p class="text-sm font-medium mb-5">Total users: 5</p>
+  <p class="text-sm font-medium mb-5">Total users: {{ categories.length }}</p>
 </template>
 <script>
 import axios from "axios";
@@ -964,5 +942,8 @@ form h1 {
   position: absolute;
   top: calc(50% - 1.25em);
   left: calc(50% - 1.25em);
+}
+button {
+  border-radius: 6px;
 }
 </style>

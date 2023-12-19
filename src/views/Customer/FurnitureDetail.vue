@@ -92,7 +92,7 @@
                         <h1 class="text-xl font-bold">
                           {{ furnitureFirst.furnitureSpecificationName }}
                         </h1>
-                        <div class="rating">
+                        <!-- <div class="rating">
                           <input
                             value="5"
                             name="rate"
@@ -129,7 +129,7 @@
                             type="radio"
                           />
                           <label title="text" for="star1"></label>
-                        </div>
+                        </div> -->
                       </div>
                       <div>
                         <span class="text-xs"
@@ -189,11 +189,11 @@
                           ADD TO CART
                         </button>
 
-                        <button
+                        <!-- <button
                           class="px-2 py-1 text-white ring-offset-2 ring-2 bg-red-700 ring-red-300 rounded-md"
                         >
                           BUY
-                        </button>
+                        </button> -->
                       </div>
                     </div>
                   </div>
@@ -209,7 +209,7 @@
                         <h1 class="text-lg font-bold">
                           {{ furnitureIndex.furnitureSpecificationName }}
                         </h1>
-                        <div class="rating">
+                        <!-- <div class="rating">
                           <input
                             value="5"
                             name="rate"
@@ -246,7 +246,7 @@
                             type="radio"
                           />
                           <label title="text" for="star1"></label>
-                        </div>
+                        </div> -->
                       </div>
                       <div>
                         <span class="text-xs"
@@ -300,11 +300,11 @@
                         >
                           ADD TO CART
                         </button>
-                        <button
+                        <!-- <button
                           class="px-2 py-1 text-white ring-offset-2 ring-2 bg-red-700 ring-red-300 rounded-md"
                         >
                           BUY
-                        </button>
+                        </button> -->
                       </div>
                     </div>
                   </div>

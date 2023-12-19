@@ -1,7 +1,5 @@
 import { createStore } from "vuex";
 import axios from "axios";
-// import { initializeApp } from "firebase/app";
-// import { getStorage, ref, getDownloadURL } from "firebase/storage";
 const store = createStore({
   state() {
     return {
@@ -26,6 +24,12 @@ const store = createStore({
       checkOutCart: [],
       cartIdList: [],
       urls: [],
+      provinces: [],
+      districts: [],
+      wards: [],
+      valuesProvince: [],
+      valuesDistrict: [],
+      valuesWard: [],
     };
   },
   mutations: {
@@ -93,11 +97,37 @@ const store = createStore({
     setAddess(state, results) {
       state.address = results;
     },
-    // setUrl(state, results) {
-    //   state.urls.push(results);
-    // },
+    getAllFurnitures(state, results) {
+      state.furnitures = results;
+    },
+    getProvices(state, results) {
+      state.provinces = results;
+    },
+    getDistricts(state, results) {
+      state.districts = results;
+    },
+    getWards(state, results) {
+      state.wards = results;
+    },
+    setValueProvince(state, results) {
+      state.valuesProvince = results;
+    },
+    setValueDistrict(state, results) {
+      state.valuesDistrict = results;
+    },
+    setValueWard(state, results) {
+      state.valuesWard = results;
+    },
   },
   actions: {
+    async getFurnitures({ commit }) {
+      try {
+        const response = await axios.get("customer/furnitures");
+        commit("getAllFurnitures", response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async searchFurnitures({ commit }, { keyword }) {
       try {
         const response = await axios.get(
@@ -386,6 +416,71 @@ const store = createStore({
       } catch (e) {
         console.error(e);
       }
+    },
+    async getProvices({ commit }) {
+      try {
+        const response = await axios.get(
+          "https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
+          {
+            headers: {
+              token: "8644b872-8774-11ee-96dc-de6f804954c9",
+            },
+          }
+        );
+        commit("getProvices", response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async handleDistrict({ commit }, { e, province }) {
+      try {
+        const response = await axios.get(
+          "https://online-gateway.ghn.vn/shiip/public-api/master-data/district",
+          {
+            headers: {
+              token: "8644b872-8774-11ee-96dc-de6f804954c9",
+            },
+            params: {
+              province_id: province,
+            },
+          }
+        );
+        commit("getDistricts", response.data);
+        commit(
+          "setValueProvince",
+          e.target.options[e.target.options.selectedIndex].text
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async handleWard({ commit }, { e, district }) {
+      try {
+        const response = await axios.get(
+          "https://online-gateway.ghn.vn/shiip/public-api/master-data/ward",
+          {
+            headers: {
+              token: "8644b872-8774-11ee-96dc-de6f804954c9",
+            },
+            params: {
+              district_id: district,
+            },
+          }
+        );
+        commit("getWards", response.data);
+        commit(
+          "setValueDistrict",
+          e.target.options[e.target.options.selectedIndex].text
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    HandleChooseWard({ commit }, e) {
+      commit(
+        "setValueWard",
+        e.target.options[e.target.options.selectedIndex].text
+      );
     },
   },
 });

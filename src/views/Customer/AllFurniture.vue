@@ -66,11 +66,7 @@
                 <div>
                   <span class="text-sm">Sold: {{ furniture.sold }}</span>
                 </div>
-                <div>
-                  <span class="text-sm"
-                    >Available: {{ furniture.available }}</span
-                  >
-                </div>
+
                 <div class="button_buy py-3 px-2">
                   <button
                     @click.prevent="showModal('fur', furniture)"

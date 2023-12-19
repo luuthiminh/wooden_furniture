@@ -345,7 +345,7 @@ const routes = [
   },
   {
     path: "/furnitureManage",
-    name: "furnitureManage",
+    name: "FurnitureManage",
     meta: {
       layout: "assistantLayout",
     },

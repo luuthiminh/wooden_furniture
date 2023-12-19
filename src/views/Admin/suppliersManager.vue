@@ -9,276 +9,287 @@
         <template v-slot:message>{{ messageSuccess }}</template>
       </alert-success>
     </div>
+
     <div class="header pt-6 px-6">
       <div class="flex items-center justify-between">
         <div class="flex flex-cols-2 gap-x-3">
-          <div
-            class="dropdown bg-orange-50 shadow-lg bg-orange-100/50 px-2 py-2 rounded-lg"
-          >
-            <button
-              class="btn_action flex"
-              type="button"
-              id="dropdownMenuButton1"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-4 h-4 text-orange-500 mt-1 mr-1"
-              >
+          <div class="group">
+            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+              <g>
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z"
-                />
-              </svg>
-
-              <span class="text-orange-500 font-medium">Filter</span>
-            </button>
-            <ul
-              class="dropdown-menu text-sm"
-              aria-labelledby="dropdownMenuButton1"
-            >
-              <li>
-                <a class="dropdown-item font-medium" href="#">Latest User</a>
-              </li>
-              <li>
-                <a class="dropdown-item font-medium" href="#">Old User</a>
-              </li>
-            </ul>
+                  d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
+                ></path>
+              </g>
+            </svg>
+            <input
+              placeholder="Search"
+              type="search"
+              class="input"
+              v-model="keyword"
+              @change="searchSupplier"
+            />
           </div>
-          <div class="new member">
-            <div
-              class="dropdown bg-orange-50 shadow-lg bg-orange-100/50 px-2 py-2 rounded-lg"
-            >
-              <button
-                class="flex"
-                data-toggle="modal"
-                data-target="#exampleModalLong"
-                data-dismiss="modal"
-                data-backdrop="false"
-                @click="opentModal('add')"
+          <div class="absolute right-10">
+            <div class="new member">
+              <div
+                class="dropdown bg-orange-50 shadow-lg bg-orange-100/50 px-2 py-2 rounded-lg"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="2.5"
-                  stroke="currentColor"
-                  class="w-5 h-1/6 mr-2 text-orange-500"
+                <button
+                  class="flex"
+                  data-toggle="modal"
+                  data-target="#exampleModalLong"
+                  data-dismiss="modal"
+                  data-backdrop="false"
+                  @click="opentModal('add', 'null')"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M12 4.5v15m7.5-7.5h-15"
-                  />
-                </svg>
-                <span class="text-orange-500 font-medium">New Supplier</span>
-              </button>
-            </div>
-          </div>
-          <modal
-            v-if="modalType == 'add'"
-            @close="isShowAddModal = false"
-            data-target="#myModal"
-          >
-            <template v-slot:title>
-              <h1 class="flex items-center text-lg font-semibold">
-                Add New Supplier
-              </h1>
-            </template>
-            <template v-slot:body>
-              <div class="pb-3 px-4 text-sm">
-                <form @submit.prevent="" class="">
-                  <div class="flex gap-x-6 mt-3">
-                    <label
-                      for="exampleInputEmail1"
-                      class="form-label font-medium"
-                      >Image</label
-                    >
-                    <img v-if="url" :src="url" alt="image" class="w-6/12" />
-                    <label v-else class="custum-file-upload" for="file">
-                      <div class="icon">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill=""
-                          viewBox="0 0 24 24"
-                        >
-                          <g stroke-width="0" id="SVGRepo_bgCarrier"></g>
-                          <g
-                            stroke-linejoin="round"
-                            stroke-linecap="round"
-                            id="SVGRepo_tracerCarrier"
-                          ></g>
-                          <g id="SVGRepo_iconCarrier">
-                            <path
-                              fill=""
-                              d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z"
-                              clip-rule="evenodd"
-                              fill-rule="evenodd"
-                            ></path>
-                          </g>
-                        </svg>
-                      </div>
-                      <div class="text">
-                        <span>Click to upload image</span>
-                      </div>
-                      <input type="file" id="file" @change="onFileChange" />
-                    </label>
-                  </div>
-                  <div class="mt-3">
-                    <label
-                      for="exampleInputEmail1"
-                      class="form-label font-medium"
-                      >Name</label
-                    >
-                    <input
-                      v-model="supName"
-                      type="email"
-                      class="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      required
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2.5"
+                    stroke="currentColor"
+                    class="w-5 h-1/6 mr-2 text-orange-500"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 4.5v15m7.5-7.5h-15"
                     />
-                  </div>
-                  <div class="mt-3">
-                    <label
-                      for="exampleInputEmail1"
-                      class="form-label font-medium"
-                      >Email</label
-                    >
-                    <input
-                      v-model="supEmail"
-                      type="text"
-                      class="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      required
-                    />
-                  </div>
-                  <div class="mt-3">
-                    <label
-                      for="exampleInputEmail1"
-                      class="form-label font-medium"
-                      >Phone</label
-                    >
-                    <input
-                      v-model="supPhone"
-                      type="number"
-                      class="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      required
-                      @input="validatePhone"
-                    />
-                    <span v-if="phoneError" class="error text-xs">{{
-                      phoneError
-                    }}</span>
-                  </div>
-                  <div class="addFurniture grid grid-cols-2 gap-x-4 mt-3">
-                    <div>
-                      <label
-                        for="exampleInputEmail1"
-                        class="form-label font-medium"
-                        >Street</label
-                      >
-                      <input
-                        v-model="supStreet"
-                        type="text"
-                        class="form-control"
-                        id="exampleInputEmail1"
-                        aria-describedby="emailHelp"
-                        required
-                        @input="validateStreet"
-                      />
-                      <span v-if="streetError" class="error text-xs">{{
-                        streetError
-                      }}</span>
-                    </div>
-                    <div>
-                      <label
-                        for="exampleInputEmail1"
-                        class="form-label font-medium"
-                        >Ward</label
-                      >
-                      <input
-                        v-model="supWard"
-                        type="text"
-                        class="form-control"
-                        id="exampleInputEmail1"
-                        aria-describedby="emailHelp"
-                        required
-                        @input="validateWard"
-                      />
-                      <span v-if="wardError" class="error text-xs">{{
-                        wardError
-                      }}</span>
-                    </div>
-                  </div>
-                  <div class="addFurniture grid grid-cols-2 gap-x-4 mt-3">
-                    <div>
-                      <label
-                        for="exampleInputEmail1"
-                        class="form-label font-medium"
-                        >District</label
-                      >
-                      <input
-                        v-model="supDistrict"
-                        type="text"
-                        class="form-control"
-                        id="exampleInputEmail1"
-                        aria-describedby="emailHelp"
-                        required
-                        @input="validateDistrict"
-                      />
-                      <span v-if="districtError" class="error text-xs">{{
-                        districtError
-                      }}</span>
-                    </div>
-                    <div>
-                      <label
-                        for="exampleInputEmail1"
-                        class="form-label font-medium"
-                        >Provine</label
-                      >
-                      <input
-                        v-model="supProvine"
-                        type="text"
-                        class="form-control"
-                        id="exampleInputEmail1"
-                        aria-describedby="emailHelp"
-                        required
-                        @input="validateProvine"
-                      />
-                      <span v-if="proviceError" class="error text-xs">{{
-                        provinceError
-                      }}</span>
-                    </div>
-                  </div>
-                </form>
+                  </svg>
+                  <span class="text-orange-500 font-medium">New Supplier</span>
+                </button>
               </div>
-            </template>
-            <template v-slot:footer>
-              <button
-                data-dismiss="modal"
-                @click.prevent="HandleAdd"
-                type="button"
-                class="button_addfurniture text-white bg-yellow-900 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-black dark:hover:bg-gray-600 dark:focus:ring-gray-600"
-              >
-                Add
-              </button>
-            </template>
-          </modal>
+            </div>
+            <modal
+              v-if="modalType == 'add'"
+              @close="isShowAddModal = false"
+              data-target="#myModal"
+            >
+              <template v-slot:title>
+                <h1 class="flex items-center text-lg font-semibold">
+                  Add New Supplier
+                </h1>
+              </template>
+              <template v-slot:body>
+                <div class="pb-3 px-4 text-sm">
+                  <form @submit.prevent="" class="">
+                    <div class="flex gap-x-6 mt-3">
+                      <label
+                        for="exampleInputEmail1"
+                        class="form-label font-medium"
+                        >Image</label
+                      >
+                      <img v-if="url" :src="url" alt="image" class="w-6/12" />
+                      <label v-else class="custum-file-upload" for="file">
+                        <div class="icon">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill=""
+                            viewBox="0 0 24 24"
+                          >
+                            <g stroke-width="0" id="SVGRepo_bgCarrier"></g>
+                            <g
+                              stroke-linejoin="round"
+                              stroke-linecap="round"
+                              id="SVGRepo_tracerCarrier"
+                            ></g>
+                            <g id="SVGRepo_iconCarrier">
+                              <path
+                                fill=""
+                                d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z"
+                                clip-rule="evenodd"
+                                fill-rule="evenodd"
+                              ></path>
+                            </g>
+                          </svg>
+                        </div>
+                        <div class="text">
+                          <span>Click to upload image</span>
+                        </div>
+                        <input type="file" id="file" @change="onFileChange" />
+                      </label>
+                    </div>
+                    <div class="mt-3">
+                      <label
+                        for="exampleInputEmail1"
+                        class="form-label font-medium"
+                        >Name</label
+                      >
+                      <input
+                        v-model="supName"
+                        type="email"
+                        class="form-control"
+                        id="exampleInputEmail1"
+                        aria-describedby="emailHelp"
+                        required
+                      />
+                    </div>
+                    <div class="mt-3">
+                      <label
+                        for="exampleInputEmail1"
+                        class="form-label font-medium"
+                        >Email</label
+                      >
+                      <input
+                        v-model="supEmail"
+                        type="text"
+                        class="form-control"
+                        id="exampleInputEmail1"
+                        aria-describedby="emailHelp"
+                        required
+                      />
+                    </div>
+                    <div class="mt-3">
+                      <label
+                        for="exampleInputEmail1"
+                        class="form-label font-medium"
+                        >Phone</label
+                      >
+                      <input
+                        v-model="supPhone"
+                        type="number"
+                        class="form-control"
+                        id="exampleInputEmail1"
+                        aria-describedby="emailHelp"
+                        required
+                        @input="validatePhone"
+                      />
+                      <span v-if="phoneError" class="error text-xs">{{
+                        phoneError
+                      }}</span>
+                    </div>
+                    <div class="addFurniture grid grid-cols-2 gap-x-4 mt-3">
+                      <div>
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Provine</label
+                        >
+                        <select
+                          v-if="provinces"
+                          v-model="province"
+                          class="form-select text-sm"
+                          aria-label="Default select example"
+                          @change="handleDistrict"
+                        >
+                          <option disabled>Choose Province</option>
+                          <option
+                            v-for="p in provinces.data"
+                            :key="p.ProvinceID"
+                            :value="p.ProvinceID"
+                            required
+                          >
+                            {{ p.ProvinceName }}
+                          </option>
+                        </select>
+                        <span v-if="proviceError" class="error text-xs">{{
+                          provinceError
+                        }}</span>
+                      </div>
+
+                      <div>
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >District</label
+                        >
+                        <select
+                          v-if="districts"
+                          v-model="district"
+                          class="form-select text-sm"
+                          aria-label="Default select example"
+                          @change="handleWard"
+                        >
+                          <option disabled>Choose District</option>
+                          <option
+                            v-for="d in districts.data"
+                            :key="d.DistrictID"
+                            :value="d.DistrictID"
+                            required
+                          >
+                            {{ d.DistrictName }}
+                          </option>
+                        </select>
+                        <span v-if="districtError" class="error text-xs">{{
+                          districtError
+                        }}</span>
+                      </div>
+                    </div>
+                    <div class="addFurniture grid grid-cols-2 gap-x-4 mt-3">
+                      <div>
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Ward</label
+                        >
+                        <select
+                          v-if="ward"
+                          v-model="WardCode"
+                          class="form-select text-sm"
+                          aria-label="Default select example"
+                          @change="HandleChooseWard"
+                        >
+                          <option disabled>Choose Ward</option>
+                          <option
+                            v-for="w in ward.data"
+                            :key="w.WardCode"
+                            :value="w.WardCode"
+                            required
+                          >
+                            {{ w.WardName }}
+                          </option>
+                        </select>
+                        <span v-if="wardError" class="error text-xs">{{
+                          wardError
+                        }}</span>
+                      </div>
+                      <div>
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Street</label
+                        >
+                        <input
+                          v-model="supStreet"
+                          type="text"
+                          class="form-control"
+                          id="exampleInputEmail1"
+                          aria-describedby="emailHelp"
+                          required
+                          @input="validateStreet"
+                        />
+                        <span v-if="streetError" class="error text-xs">{{
+                          streetError
+                        }}</span>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </template>
+              <template v-slot:footer>
+                <div class="bg-yellow-900 rounded-md">
+                  <span
+                    type="button"
+                    class="btn text-white"
+                    data-dismiss="modal"
+                    @click.prevent="HandleAdd"
+                  >
+                    Add
+                  </span>
+                </div>
+              </template>
+            </modal>
+          </div>
         </div>
       </div>
     </div>
-    <div v-if="suppliers.length" class="content_table pt-6 px-6 scroll">
-      <div class="py-4">
+    <div
+      v-if="searchResults.length || suppliers.length"
+      class="content_table pt-6 px-6 scroll"
+    >
+      <div v-if="!searchResults.length" class="py-4">
         <table
+          v-if="suppliers.length"
           class="table table-borderless text-yellow-950 font-medium text-center"
         >
           <thead>
@@ -293,6 +304,336 @@
             </tr>
           </thead>
           <tbody v-for="s in suppliers" :key="s.supplierId">
+            <tr>
+              <td class="img">
+                <img :src="s.suplierImage" alt="suplierImage" class="w-20" />
+              </td>
+
+              <td class="text-start">
+                <span class="font-semibold block">{{ s.supplierName }}</span>
+                <span class="text-xs">{{ s.supplierId }}</span>
+              </td>
+              <td>{{ s.supplierAddress }}</td>
+              <td>{{ s.suplierEmail }}</td>
+              <td>{{ s.suplierPhoneNums }}</td>
+              <td>
+                <div v-for="m in s.materialProvided" :key="m.materialId">
+                  {{ m.materialName }}
+                </div>
+              </td>
+
+              <td class="td_action w-1/12 text-sm">
+                <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
+                  <button
+                    class="btn_action dropdown-toggle"
+                    type="button"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Actions
+                  </button>
+                  <ul
+                    class="dropdown-menu text-sm font-medium pl-3"
+                    aria-labelledby="dropdownMenuButton1"
+                  >
+                    <li
+                      class="flex gap-x-4 py-1"
+                      data-toggle="modal"
+                      data-target="#exampleModalLong"
+                      data-dismiss="modal"
+                      data-backdrop="false"
+                      @click="opentModal('edit', s)"
+                    >
+                      <i class="bi bi-pencil text-base"></i>
+                      <span>Edit</span>
+                    </li>
+                    <li
+                      class="flex gap-x-4 py-1"
+                      data-toggle="modal"
+                      data-target="#exampleModalLong"
+                      data-dismiss="modal"
+                      data-backdrop="false"
+                      @click="opentModal('delete')"
+                    >
+                      <i class="bi bi-trash3 text-base"></i>
+                      <span>Delete</span>
+                    </li>
+                  </ul>
+                </div>
+                <modal
+                  v-if="modalType == 'edit'"
+                  @close="modalType == null"
+                  data-target="#myModal"
+                >
+                  <template v-slot:title>
+                    <h1 class="flex items-center text-lg font-semibold">
+                      Edit Supplier
+                    </h1>
+                  </template>
+                  <template v-slot:body>
+                    <div class="py-3 px-4 text-sm text-left">
+                      <form @submit.prevent="" class="">
+                        <div class="flex gap-x-6 mt-3">
+                          <label
+                            for="exampleInputEmail1"
+                            class="form-label font-medium"
+                            >Image</label
+                          >
+                          <div v-if="s.suplierImage">
+                            <img
+                              v-if="!url"
+                              :src="s.suplierImage"
+                              alt="image"
+                              class="w-8/12"
+                            />
+                            <img
+                              v-else-if="url"
+                              :src="url"
+                              alt="image"
+                              class="w-8/12"
+                            />
+                          </div>
+                          <div v-else>
+                            <label
+                              v-if="!url"
+                              class="custum-file-upload"
+                              for="imageUpload"
+                            >
+                              <div class="icon">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill=""
+                                  viewBox="0 0 24 24"
+                                >
+                                  <g
+                                    stroke-width="0"
+                                    id="SVGRepo_bgCarrier"
+                                  ></g>
+                                  <g
+                                    stroke-linejoin="round"
+                                    stroke-linecap="round"
+                                    id="SVGRepo_tracerCarrier"
+                                  ></g>
+                                  <g id="SVGRepo_iconCarrier">
+                                    <path
+                                      fill=""
+                                      d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z"
+                                      clip-rule="evenodd"
+                                      fill-rule="evenodd"
+                                    ></path>
+                                  </g>
+                                </svg>
+                              </div>
+                              <div class="text">
+                                <span>Click to upload image</span>
+                              </div>
+                              <input
+                                type="file"
+                                id="file"
+                                @change="onFileChange"
+                              />
+                            </label>
+                            <img
+                              v-else
+                              :src="urlImage"
+                              alt="image"
+                              class="w-8/12"
+                            />
+                          </div>
+
+                          <div class="avatar_edit">
+                            <div class="hidden">
+                              <input
+                                type="file"
+                                name="avatar"
+                                id="imageUpload"
+                                accept=".png, .jpg, .jpeg"
+                                :maxFileSize="1000000"
+                                ref="file"
+                                @change="onFileChange"
+                              />
+                            </div>
+                            <label
+                              class="bi bi-pencil text-xs"
+                              for="imageUpload"
+                            ></label>
+                          </div>
+                        </div>
+                        <div class="mt-3">
+                          <label
+                            for="exampleInputEmail1"
+                            class="form-label font-medium"
+                            >Name</label
+                          >
+                          <input
+                            v-model="name"
+                            type="email"
+                            class="form-control"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            required
+                          />
+                        </div>
+                        <div class="mt-3">
+                          <label
+                            for="exampleInputEmail1"
+                            class="form-label font-medium"
+                            >Email</label
+                          >
+                          <input
+                            v-model="email"
+                            type="text"
+                            class="form-control"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            required
+                          />
+                        </div>
+                        <div class="mt-3">
+                          <label
+                            for="exampleInputEmail1"
+                            class="form-label font-medium"
+                            >Phone</label
+                          >
+                          <input
+                            v-model="phone"
+                            type="text"
+                            class="form-control"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            required
+                          />
+                        </div>
+                        <div class="addFurniture grid grid-cols-2 gap-x-4 mt-3">
+                          <div>
+                            <label
+                              for="exampleInputEmail1"
+                              class="form-label font-medium"
+                              >Ward</label
+                            >
+                            <input
+                              v-model="wardUpdate"
+                              type="text"
+                              class="form-control"
+                              id="exampleInputEmail1"
+                              aria-describedby="emailHelp"
+                              required
+                            />
+                          </div>
+                          <div>
+                            <label
+                              for="exampleInputEmail1"
+                              class="form-label font-medium"
+                              >Street</label
+                            >
+                            <input
+                              v-model="streetUpdate"
+                              type="text"
+                              class="form-control"
+                              id="exampleInputEmail1"
+                              aria-describedby="emailHelp"
+                              required
+                            />
+                          </div>
+
+                          <div class="mt-3">
+                            <label
+                              for="exampleInputEmail1"
+                              class="form-label font-medium"
+                              >District</label
+                            >
+                            <input
+                              v-model="districtUpdate"
+                              type="text"
+                              class="form-control"
+                              id="exampleInputEmail1"
+                              aria-describedby="emailHelp"
+                              required
+                            />
+                          </div>
+                          <div class="mt-3">
+                            <label
+                              for="exampleInputEmail1"
+                              class="form-label font-medium"
+                              >Province</label
+                            >
+                            <input
+                              v-model="provinceUpdate"
+                              type="text"
+                              class="form-control"
+                              id="exampleInputEmail1"
+                              aria-describedby="emailHelp"
+                              required
+                            />
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </template>
+                  <template v-slot:footer>
+                    <div class="bg-yellow-900 rounded-md">
+                      <span
+                        type="button"
+                        class="btn text-white"
+                        data-dismiss="modal"
+                        @click.prevent="HandleUpdate"
+                      >
+                        Update
+                      </span>
+                    </div>
+                  </template>
+                </modal>
+                <modal
+                  v-if="modalType == 'delete'"
+                  @close="modalType == null"
+                  data-target="#myModal"
+                >
+                  <template v-slot:title>
+                    <div class="flex items-center text-lg font-semibold">
+                      Delete
+                    </div>
+                  </template>
+                  <template v-slot:body>
+                    <p class="text-base py-3">
+                      Are you sure detete <b> {{ s.supplierName }}</b
+                      >?
+                    </p>
+                  </template>
+                  <template v-slot:footer>
+                    <div class="bg-red-900 rounded-md">
+                      <span
+                        type="button"
+                        class="btn text-white"
+                        @click="HandleDelete(s)"
+                      >
+                        Delete
+                      </span>
+                    </div>
+                  </template>
+                </modal>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div v-else class="py-4">
+        <table
+          v-if="searchResults.length"
+          class="table table-borderless text-yellow-950 font-medium text-center"
+        >
+          <thead>
+            <tr class="text-sm text-center">
+              <th scope="col">Supplier</th>
+              <!-- <th></th> -->
+              <th scope="col">Address</th>
+              <th scope="col">Email</th>
+              <th scope="col">Phone</th>
+              <th scope="col">Material</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody v-for="s in searchResults" :key="s.supplierId">
             <tr>
               <td class="img">
                 <img :src="s.suplierImage" alt="suplierImage" class="w-20" />
@@ -644,14 +985,13 @@ export default {
       urlImage: "",
       email: "",
       phone: "",
-      ward: "",
-      stress: "",
-      district: "",
-      province: "",
+      searchResults: [],
+      supModal: {},
     };
   },
   created() {
     this.getSuppliers();
+    this.getProvices();
   },
   methods: {
     async getSuppliers() {
@@ -683,10 +1023,7 @@ export default {
       this.urlImage = s.suplierImage;
       this.email = s.suplierEmail;
       this.phone = s.suplierPhoneNums;
-      // this.ward= "",
-      // this.stress= "",
-      // this.district= "",
-      // this.province= "",
+      this.supModal = s;
     },
     closeModal() {
       this.modalType = null;
@@ -749,13 +1086,25 @@ export default {
       }
       console.log(event);
     },
+    async getProvices() {
+      this.$store.dispatch("getProvices");
+    },
+    async handleDistrict(e) {
+      this.$store.dispatch("handleDistrict", { e, province: this.province });
+    },
+    async handleWard(e) {
+      this.$store.dispatch("handleWard", { e, district: this.district });
+    },
+    HandleChooseWard(e) {
+      this.$store.dispatch("HandleChooseWard", e);
+    },
     async HandleAdd() {
       const formData = new FormData();
       formData.append("SupplierName", this.supName);
-      formData.append("Ward", this.supWard);
+      formData.append("Ward", this.$store.state.valuesWard);
       formData.append("Street", this.supStreet);
-      formData.append("Provine", this.supProvine);
-      formData.append("District", this.supDistrict);
+      formData.append("Provine", this.$store.state.valuesProvince);
+      formData.append("District", this.$store.state.valuesDistrict);
       formData.append("SuplierImage", this.file);
       formData.append("SuplierEmail", this.supEmail);
       formData.append("SuplierPhoneNums", "0" + this.supPhone);
@@ -801,7 +1150,7 @@ export default {
       } else formData.append("SupplierImage", this.s.suplierImage);
       try {
         const response = await axios.put(
-          "shopOwner/shop-data/suppliers/" + this.s.supplierId + "/edit",
+          "shopOwner/shop-data/suppliers/" + this.supModal.supplierId + "/edit",
           formData,
           {
             headers: {
@@ -828,15 +1177,18 @@ export default {
         console.error(error);
       }
     },
-    async HandleDelete(s) {
+    async HandleDelete() {
       try {
         const response = await axios.delete(
-          "shopOwner/shop-data/suppliers/" + s.supplierId + "/remove/"
+          "shopOwner/shop-data/suppliers/" +
+            this.supModal.supplierId +
+            "/remove/"
         );
         if (response.status === 204) {
           this.modalType = null;
           this.isAlertSuccess = true;
-          this.messageSuccess = "Delete " + s.supplierName + " successful!";
+          this.messageSuccess =
+            "Delete " + this.supModal.supplierName + " successful!";
           setTimeout(() => {
             this.isAlertSuccess = false;
           }, 5000);
@@ -850,6 +1202,31 @@ export default {
         }, 5000);
         console.error(error);
       }
+    },
+    async searchSupplier() {
+      try {
+        const response = await axios.get(
+          "shopOwner/shop-data/suppliers/search?searchString=" + this.keyword
+        );
+        this.searchResults = response.data;
+      } catch (error) {
+        this.isAlertWanning = true;
+        this.messageWanning = this.keyword + " not found";
+        setTimeout(() => {
+          this.isAlertWanning = false;
+        }, 5000);
+      }
+    },
+  },
+  computed: {
+    provinces() {
+      return this.$store.state.provinces;
+    },
+    districts() {
+      return this.$store.state.districts;
+    },
+    ward() {
+      return this.$store.state.wards;
     },
   },
 };
@@ -907,7 +1284,8 @@ td {
 td img {
   margin-top: -18px;
 }
-.form-control {
+.form-control,
+.form-select {
   border: none !important;
   background-color: #cecfd442;
 }
@@ -1109,5 +1487,47 @@ form h1 {
 
 .custum-file-upload input {
   display: none;
+}
+
+.group {
+  display: flex;
+  line-height: 28px;
+  align-items: center;
+  position: relative;
+  max-width: 225px;
+}
+
+.input {
+  width: 100%;
+  height: 40px;
+  line-height: 28px;
+  padding: 0 1rem;
+  padding-left: 2.5rem;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  outline: none;
+  background-color: #f3f3f4;
+  color: #0d0c22;
+  transition: 0.3s ease;
+}
+
+.input::placeholder {
+  color: #9e9ea7;
+}
+
+.input:focus,
+input:hover {
+  outline: none;
+  border-color: rgba(234, 76, 137, 0.4);
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
+}
+
+.icon {
+  position: absolute;
+  left: 1rem;
+  fill: #9e9ea7;
+  width: 1rem;
+  height: 1rem;
 }
 </style>

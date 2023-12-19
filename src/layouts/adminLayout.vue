@@ -27,16 +27,18 @@
           </a>
         </li>
         <li role="presentation" class="w-full">
-          <a
-            href="#furniture"
-            aria-controls="furniture"
-            role="tab"
-            data-toggle="tab"
-            class=""
-          >
-            <i class="bi bi-house"></i>
-            <p>Furniture</p>
-          </a>
+          <router-link to="/urnitureManagementAd">
+            <a
+              href="#furniture"
+              aria-controls="furniture"
+              role="tab"
+              data-toggle="tab"
+              class=""
+            >
+              <i class="bi bi-house"></i>
+              <p>Furniture</p>
+            </a>
+          </router-link>
         </li>
         <li class="w-full">
           <router-link to="/suppliersManager">
@@ -87,10 +89,7 @@
     >
       <div class="tab-content col-span-5 max-sm:hidden max-md:hidden">
         <div role="tabpanel" class="tab-pane active" id="users">
-          <h1 class="font-semibold mb-6 mt-2 text-lg">Management Users</h1>
-          <div>
-            <SearchAdmin />
-          </div>
+          <h1 class="font-semibold mb-6 mt-2 text-lg">Manage Users</h1>
           <div>
             <ul class="task_user leading-10 text-stone-600 mt-4">
               <li class="py-2">

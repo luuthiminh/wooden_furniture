@@ -901,6 +901,8 @@ export default {
       lineProfit: null,
       barDataCate: null,
       lineDataUser: null,
+      categoriesData: {},
+      woodData: {},
       title: "Admin Dashboard",
 
       lineOptionsProfit: {
@@ -1017,6 +1019,13 @@ export default {
       );
       this.spent = responseChart.data.spentInYear;
       this.income = responseChart.data.income;
+      // for (let i = 0; i < this.responseChart.data.categories.length; i++) {
+      //   this.categoriesData = this.responseChart.data.categories[i].data;
+      // }
+      // for (let i = 0; i < this.responseChart.data.woodPercent.length; i++) {
+      //   this.woodData = this.responseChart.data.woodPercent[i].data;
+      // }
+
       //Load data
       this.loaded = true;
       //Expense and Revenue
@@ -1056,7 +1065,7 @@ export default {
         datasets: [
           {
             // label: "My First Dataset",
-            data: responseChart.data.categories,
+            data: this.categoriesData,
             backgroundColor: [
               "rgba(62, 151, 255, 0.85)",
               "rgba(241, 65, 108, 0.85)",
@@ -1114,7 +1123,7 @@ export default {
           datasets: [
             {
               label: "My First Dataset",
-              data: responseChart.data.woodPercent,
+              data: this.woodData,
               backgroundColor: [
                 "rgb(255, 99, 132)",
                 "rgb(54, 162, 235)",

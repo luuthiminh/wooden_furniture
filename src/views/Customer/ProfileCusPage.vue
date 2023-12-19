@@ -1227,34 +1227,33 @@
               <div role="tabpanel" class="tab-pane" id="wishlist">
                 <div class="form bg-white">
                   <div class="flex"></div>
-                  <h1
-                    class="py-3 font-semibold text-base pl-10 text-yellow-950"
-                  >
+                  <h1 class="py-3 font-semibold text-base pl-10 text-yellow-90">
                     All Wishlist
                   </h1>
                 </div>
-                <!-- <div class="form">
-                  <div class="px-6" v-if="wishlist.length">
+                <div class="py-8">
+                  <div v-if="wishlist.length">
                     <all-furniture :furnitures="wishlist"></all-furniture>
                   </div>
-                </div> -->
+                  <loadding v-else />
+                </div>
               </div>
               <div role="tabpanel" class="tab-pane" id="feedback">
                 <div class="form bg-white">
                   <div class="flex">
                     <h1
-                      class="py-3 font-semibold text-base pl-10 text-yellow-950"
+                      class="py-3 font-semibold text-base pl-10 text-yellow-90"
                     >
                       All Feedback
                     </h1>
                     <div class="absolute right-36 flex gap-x-3">
                       <span
-                        class="py-3 font-medium text-sm pl-10 text-yellow-950"
+                        class="py-3 font-medium text-sm pl-10 text-yellow-90"
                       >
                         Total Feefack:
                       </span>
                       <span
-                        class="font-medium flex items-center text-yellow-950"
+                        class="font-medium flex items-center text-yellow-90"
                         >{{ feedbacks.length }}</span
                       >
                     </div>
@@ -1319,9 +1318,9 @@
                   ></div>
 
                   <div class="px-10 py-6">
-                    <div v-for="f in feedbacks" :key="f">
+                    <div v-for="f in feedbacks" :key="f" class="item_feedback">
                       <div>
-                        <div class="text-gl font-semibold">
+                        <div class="text-base text-yellow-800 font-semibold">
                           {{ f.furnitureName }}
                         </div>
                         <div class="absolute left-54 mb-4">
@@ -1411,7 +1410,7 @@
                       :key="w.warrantyId"
                     >
                       <div>
-                        <div class="flex gap-x-10 text-sm leading-7">
+                        <div class="flex gap-x-16 text-sm">
                           <div v-if="w.attacments.images.length" class="w-2/12">
                             <img
                               :src="w.attacments.images[0].path"
@@ -1427,6 +1426,7 @@
                               See More
                             </button>
                           </div>
+                          <loadding v-else />
                           <modal
                             v-if="modalType == 'imgWarranty'"
                             @close="modalType == null"
@@ -1448,29 +1448,193 @@
                               </div>
                             </template>
                           </modal>
-                          <div class="flex gap-x-10 items-center">
-                            <span class="block"
-                              ><b class="text-yellow-900">Order Id:</b>
-                              {{ w.orderId }}</span
+                          <div class="flex gap-x-24 items-center">
+                            <div class="leading-10">
+                              <div class="flex gap-x-3">
+                                <h4 class="font-medium">OrderId:</h4>
+                                <h4 class="block font-semibold text-yellow-900">
+                                  {{ w.orderId }}
+                                </h4>
+                              </div>
+                              <div class="flex gap-x-2 mt-2">
+                                <h4 class="font-medium">Date:</h4>
+                                <h4 class="block font-semibold text-yellow-900">
+                                  {{ w.estimatedTime }}
+                                </h4>
+                              </div>
+                              <div class="flex gap-x-2 mt-2">
+                                <h4 class="font-medium">Status:</h4>
+                                <h4 class="block font-semibold text-yellow-900">
+                                  {{ w.status }}
+                                </h4>
+                              </div>
+                              <div class="flex gap-x-2">
+                                <span class="font-medium">Reason:</span>
+                                <span
+                                  class="block font-semibold text-yellow-900"
+                                >
+                                  {{ w.warrantyReason }}</span
+                                >
+                              </div>
+                            </div>
+                            <div class="absolute right-10 flex gap-x-5">
+                              <button
+                                data-toggle="modal"
+                                data-target="#exampleModalLong"
+                                data-backdrop="false"
+                                @click="opentModal('editWarranty', w)"
+                                class="px-3 py-1 text-white hover:ring-offset-2 hover:ring-2 bg-slate-600 text-sm rounded-md transition duration-700 ease-in-out font-medium"
+                              >
+                                Edit
+                              </button>
+                              <button
+                                data-toggle="modal"
+                                data-target="#exampleModalLong"
+                                data-backdrop="false"
+                                @click="opentModal('DeleteWarranty', w)"
+                                class="px-2 py-1 text-white hover:ring-offset-2 hover:ring-2 bg-red-600 hover:ring-red-200 text-sm rounded-md transition duration-700 ease-in-out font-medium"
+                              >
+                                Delete
+                              </button>
+                            </div>
+                            <modal
+                              v-if="modalType == 'editWarranty'"
+                              @close="modalType == null"
+                              data-target="#myModal"
                             >
-                            <span class="block"
-                              ><b class="text-yellow-900">Date:</b>
-                              {{ w.estimatedTime }}</span
+                              <template v-slot:title>
+                                <div
+                                  class="flex items-center text-lg font-semibold"
+                                >
+                                  Edit Guarantee
+                                </div>
+                              </template>
+                              <template v-slot:body>
+                                <div class="row mb-6">
+                                  <label
+                                    class="col-lg-4 col-form-label fw-medium"
+                                    >Stress</label
+                                  >
+                                  <div class="col-lg-8">
+                                    <input
+                                      v-model="addressModal.street"
+                                      type="text"
+                                      class="form-control border-none bg-neutral-100"
+                                      id="firstname"
+                                      aria-describedby="firstnameHelp"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="row mb-6">
+                                  <label
+                                    class="col-lg-4 col-form-label fw-medium"
+                                    >Ward</label
+                                  >
+                                  <div class="col-lg-8">
+                                    <input
+                                      v-model="addressModal.ward"
+                                      type="text"
+                                      class="form-control border-none bg-neutral-100"
+                                      id="firstname"
+                                      aria-describedby="firstnameHelp"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="row mb-6">
+                                  <label
+                                    class="col-lg-4 col-form-label fw-medium"
+                                    >District</label
+                                  >
+                                  <div class="col-lg-8">
+                                    <input
+                                      v-model="addressModal.district"
+                                      type="text"
+                                      class="form-control border-none bg-neutral-100"
+                                      id="firstname"
+                                      aria-describedby="firstnameHelp"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="row mb-6">
+                                  <label
+                                    class="col-lg-4 col-form-label fw-medium"
+                                    >Province</label
+                                  >
+                                  <div class="col-lg-8">
+                                    <input
+                                      v-model="addressModal.provine"
+                                      type="text"
+                                      class="form-control border-none bg-neutral-100"
+                                      id="firstname"
+                                      aria-describedby="firstnameHelp"
+                                    />
+                                  </div>
+                                </div>
+                                <select
+                                  class="form-select"
+                                  aria-label="Default select example"
+                                  v-model="addressModal.type"
+                                >
+                                  <option disabled value="">
+                                    {{ addressModal.type }}
+                                  </option>
+                                  <option value="DEFAULT">Default</option>
+                                  <option value="HOME">Home</option>
+                                </select>
+                              </template>
+                              <template v-slot:footer
+                                ><div class="bg-yellow-900 rounded-md">
+                                  <span
+                                    type="button"
+                                    class="px-2 py-2 text-white"
+                                    @click.prevent="HandleUpdateAddress()"
+                                  >
+                                    Update
+                                  </span>
+                                </div></template
+                              >
+                            </modal>
+                            <modal
+                              v-if="modalType == 'DeleteWarranty'"
+                              @close="modalType == null"
+                              data-target="#myModal"
                             >
-                            <span class="block"
-                              ><b class="text-yellow-900">Status:</b>
-                              {{ w.status }}</span
-                            >
-                            <span class="block"
-                              ><b class="text-yellow-900">Reason:</b>
-                              {{ w.warrantyReason }}</span
-                            >
+                              <template v-slot:title>
+                                <div
+                                  class="flex items-center text-lg font-semibold"
+                                >
+                                  Delete
+                                </div>
+                              </template>
+                              <template v-slot:body>
+                                <p class="text-base py-3">
+                                  Are you sure detete
+                                  <b>
+                                    {{ addressModal.street }}
+                                    {{ addressModal.ward }}
+                                    {{ addressModal.district }}
+                                    {{ addressModal.provine }} ?</b
+                                  >
+                                </p>
+                              </template>
+                              <template v-slot:footer>
+                                <div class="bg-red-900 rounded-md">
+                                  <span
+                                    type="button"
+                                    class="px-2 py-2 text-white"
+                                    data-dismiss="modal"
+                                    @click="HandleDelete()"
+                                  >
+                                    Delete
+                                  </span>
+                                </div>
+                              </template>
+                            </modal>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <loadding v-else />
                 </div>
               </div>
               <div role="tabpanel" class="tab-pane" id="customize">
@@ -2037,7 +2201,7 @@
 
 <script>
 import axios from "axios";
-// import AllFurniture from "./AllFurniture.vue";
+import AllFurniture from "./AllFurniture.vue";
 import { format } from "date-fns";
 import modal from "@/components/ModalPage.vue";
 import itemOrder from "@/components/itemFurnitureOrder.vue";
@@ -2055,7 +2219,7 @@ export default {
     alertSuccess,
     alertWanning,
     loadding,
-    // AllFurniture,
+    AllFurniture,
     itemCustomOrder,
   },
   data() {
@@ -3486,9 +3650,9 @@ export default {
 h3 {
   font-size: 16px;
 }
-.text-navy {
+/* .text-navy {
   color: #1ab394;
-}
+} */
 .cart-product-imitation {
   text-align: center;
   height: 80px;
@@ -3624,9 +3788,9 @@ h3 {
   box-shadow: 1px 1px 3px #c0c0c0;
   border: 1px solid #6b430c40;
 }
-.text-navy {
+/* .text-navy {
   color: #6c5935;
-}
+} */
 .quantity {
   font-size: 14px;
   margin-top: 3px;
@@ -3713,7 +3877,12 @@ textarea {
   font-size: 24px;
   color: #666;
 }
-
+.item_feedback .rating:not(:checked) > label {
+  float: right;
+  cursor: pointer;
+  font-size: 18px;
+  color: #666;
+}
 .rating:not(:checked) > label:before {
   content: "★";
 }
@@ -3764,7 +3933,8 @@ option {
 .side-bar {
   border: 1px solid #6b430c40;
 }
-.item_warranty {
+.item_warranty,
+.item_feedback {
   border-bottom: 1px solid #dad7d4;
 }
 </style>

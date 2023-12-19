@@ -370,6 +370,7 @@
 </template>
 <script>
 import axios from "axios";
+import { format } from "date-fns";
 import modal from "@/components/ModalPage.vue";
 import alertError from "@/components/AlertError.vue";
 import alertSuccess from "@/components/AlertSuccess.vue";
@@ -404,6 +405,10 @@ export default {
           "assistant/warehouse/repositories/" + this.$route.params.id
         );
         this.repository = response.data;
+        for (let i = 0; i < response.data.length; i++) {
+          const date = new Date(response.data[i].creationDate);
+          response.data[i].creationDate = format(date, "dd/MM/yyyy");
+        }
         console.log(this.repository);
       } catch (error) {
         console.error(error);

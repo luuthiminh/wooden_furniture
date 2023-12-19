@@ -438,9 +438,7 @@
                 <div class="">
                   <div class="h-12/12 px-2">
                     <div class="px-2 pt-9 pb-2 mb-4">
-                      <h3 class="text-center font-medium">
-                        Management Furniture
-                      </h3>
+                      <h3 class="text-center font-medium">Manage Furniture</h3>
 
                       <div class="search mt-4">
                         <div class="container">
@@ -448,7 +446,9 @@
                             type="text"
                             name="text"
                             class="input"
-                            placeholder="Dark Twitch Search"
+                            placeholder="Search"
+                            v-model="keyword"
+                            @change="HandleSearchFurniture"
                           />
                           <button
                             class="search__btn bg-gradient-to-r from-yellow-700 to-orange-800 opacity-90"
@@ -498,7 +498,7 @@
                             type="text"
                             name="text"
                             class="input"
-                            placeholder="Dark Twitch Search"
+                            placeholder="Search material"
                             @keyup.enter="HandleSearchMaterial"
                             v-model="keyword"
                           />
@@ -645,6 +645,16 @@ export default {
           console.error("Search Error:", error);
         });
     },
+    HandleSearchFurniture() {
+      this.$router
+        .push({ name: "FurnitureManage" })
+        .then(() => {
+          this.$store.dispatch("searchFurnitures", { keyword: this.keyword });
+        })
+        .catch((error) => {
+          console.error("Search Error:", error);
+        });
+    },
   },
 };
 </script>
@@ -670,14 +680,6 @@ export default {
   align-items: center;
   height: 70px;
   border-bottom: 1px solid #d5d3d14d;
-  /* background: linear-gradient(
-    to right,
-    #f1e4cc40,
-    #e8d5cd66,
-    #f1e4cc2b,
-    #e8d5cd66
-  ); */
-  /* background: linear-gradient(to right, #f1e4cc, #e8d5cd, #f1e4cc, #e8d5cd); */
   background: linear-gradient(to right, #f5ebda, #ffece4, #f5ebda, #ffece4);
 }
 .col-span-3 {
@@ -703,11 +705,9 @@ i {
   width: 72%;
   margin-left: 6em;
   z-index: 10;
-  /* border-left: 1px solid #e4eaea87; */
 }
 .col-span-7 {
   background-color: #f0f2f5;
-  /* background-color: #f1f1f1; */
   width: 100%;
 }
 nav ul {
@@ -791,16 +791,14 @@ nav i {
   border: 2px solid rgba(255, 255, 255, 0.16);
 }
 
-.input:focus {
+/* .input:focus {
   border: 2px solid #a970ff;
   background-color: #0e0e10;
-}
+} */
 
 .search__btn {
   border: none;
   cursor: pointer;
-  /* background-color: rgb(51, 51, 62); */
-  /* background-color: #89693a; */
   border-top-right-radius: 7px;
   border-bottom-right-radius: 7px;
   height: 100%;

@@ -3,7 +3,7 @@
     <div class="nav">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent text-sm pt-4 ml-4 font-medium">
-          <li class="breadcrumb-item text-sm">
+          <li class="breadcrumb-item text-sm font-semibold">
             <router-link to="/indexAssistant">Home</router-link>
           </li>
           <li class="breadcrumb-item text-sm active" aria-current="page">
@@ -16,6 +16,51 @@
     <div class="content_table pt-6 px-6 scroll">
       <div class="py-4">
         <table
+          v-if="searchResults.length"
+          class="table table-borderless text-yellow-950 font-medium text-center"
+        >
+          <thead class="table-light">
+            <tr class="text-sm text-center">
+              <th scope="col">Furniture</th>
+              <th></th>
+              <th scope="col">Collection</th>
+              <th scope="col">Category</th>
+              <th scope="col">Label</th>
+              <th scope="col">Sold</th>
+              <th scope="col">Appropriate Room</th>
+              <th scope="col">Vote Star</th>
+              <th scope="col">Avaliable</th>
+              <th scope="col">Price</th>
+            </tr>
+          </thead>
+          <tbody v-if="searchResults.length">
+            <tr
+              class="text-sm"
+              v-for="furniture in searchResults"
+              :key="furniture.furnitureId"
+            >
+              <td class="img">
+                <img :src="furniture.image" alt="furniture" class="w-20" />
+              </td>
+              <td class="text-start">
+                <span class="font-semibold block">{{
+                  furniture.furnitureName
+                }}</span>
+                <span class="text-xs">{{ furniture.furnitureId }}</span>
+              </td>
+              <td>{{ furniture.collection }}</td>
+              <td>{{ furniture.category }}</td>
+              <td>{{ furniture.label }}</td>
+              <td>{{ furniture.sold }}</td>
+              <td>{{ furniture.appropriateRoom }}</td>
+              <td>{{ furniture.voteStar }}</td>
+              <td>{{ furniture.available }}</td>
+              <td>{{ furniture.price }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <table
+          v-else
           class="table table-borderless text-yellow-950 font-medium text-center"
         >
           <thead class="table-light">
@@ -71,16 +116,23 @@ export default {
   data() {
     return {
       isShowFurnitureSpecification: false,
-      furnitures: [],
       isEditModal: false,
       furnitureModel: [],
       isAddFurniture: false,
     };
   },
   created() {
-    this.furnitures = this.$store.state.furnitures;
+    this.$store.dispatch("getFurnitures");
   },
   methods: {},
+  computed: {
+    furnitures() {
+      return this.$store.state.furnitures;
+    },
+    searchResults() {
+      return this.$store.state.searchFurniture;
+    },
+  },
 };
 </script>
 <style scoped>

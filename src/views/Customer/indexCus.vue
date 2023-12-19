@@ -254,7 +254,9 @@
               <div class="text-center">
                 <h1>WARDROBE</h1>
                 <div class="button">
-                  <router-link to="" class="btn my-8 text-decoration-none"
+                  <router-link
+                    to="/allproduct"
+                    class="btn my-8 text-decoration-none"
                     >See More</router-link
                   >
                 </div>
@@ -269,7 +271,9 @@
               <div class="text-center">
                 <h1 class="text-red-950">SOFA</h1>
                 <div class="button">
-                  <router-link to="" class="btn my-8 text-decoration-none"
+                  <router-link
+                    to="/allproduct"
+                    class="btn my-8 text-decoration-none"
                     >See More</router-link
                   >
                 </div>
@@ -284,7 +288,9 @@
               <div class="text-center">
                 <h1>CLOCK</h1>
                 <div class="button">
-                  <router-link to="" class="btn my-8 text-decoration-none"
+                  <router-link
+                    to="/allproduct"
+                    class="btn my-8 text-decoration-none"
                     >See More</router-link
                   >
                 </div>
@@ -297,7 +303,9 @@
               <div class="text-center">
                 <h1>BED</h1>
                 <div class="button">
-                  <router-link to="" class="btn my-8 text-decoration-none"
+                  <router-link
+                    to="/allproduct"
+                    class="btn my-8 text-decoration-none"
                     >See More</router-link
                   >
                 </div>
@@ -312,7 +320,9 @@
               <div class="text-center">
                 <h1>Shelves TV</h1>
                 <div class="button">
-                  <router-link to="" class="btn my-8 text-decoration-none"
+                  <router-link
+                    to="/allproduct"
+                    class="btn my-8 text-decoration-none"
                     >See More</router-link
                   >
                 </div>
@@ -329,7 +339,9 @@
               <div class="text-center">
                 <h1>Altar</h1>
                 <div class="button">
-                  <router-link to="" class="btn my-8 text-decoration-none"
+                  <router-link
+                    to="/allproduct"
+                    class="btn my-8 text-decoration-none"
                     >See More</router-link
                   >
                 </div>
@@ -856,9 +868,12 @@
                     >
                       <div v-if="top3Feedbacks.length" class="carousel-inner">
                         <div
-                          v-for="f in top3Feedbacks"
-                          :key="f.feedbackId"
-                          class="carousel-item active"
+                          v-for="(f, index) in top3Feedbacks"
+                          :key="`carouselItem_${index}`"
+                          :class="{
+                            'carousel-item': true,
+                            active: index === 0,
+                          }"
                         >
                           <div class="content_feedback px-2 pt-9 max-sm:pt-2">
                             <div
@@ -1213,7 +1228,7 @@ export default {
     },
     async getFeedback() {
       try {
-        const response = await axios.get("customer/feedbacks");
+        const response = await axios.get("assistant/feedbacks");
         this.feedbacks = response.data;
       } catch (error) {
         console.error(error);

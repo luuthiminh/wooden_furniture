@@ -23,19 +23,10 @@
     </div>
     <div class="float-right flex max-sm:hidden max-md:hidden cursor-pointer">
       <a
-        class="download-btn_download"
+        class="ring-1 ring-yellow-900 rounded-md mr-2 flex items-center text-center px-2"
         href="https://landlstore.azurewebsites.net/api/User/customer-infor/csv"
       >
-        <svg
-          id="download_svg"
-          viewBox="0 0 24 24"
-          data-name="Layer 1"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M14.29,17.29,13,18.59V13a1,1,0,0,0-2,0v5.59l-1.29-1.3a1,1,0,0,0-1.42,1.42l3,3a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l3-3a1,1,0,0,0-1.42-1.42ZM18.42,6.22A7,7,0,0,0,5.06,8.11,4,4,0,0,0,6,16a1,1,0,0,0,0-2,2,2,0,0,1,0-4A1,1,0,0,0,7,9a5,5,0,0,1,9.73-1.61,1,1,0,0,0,.78.67,3,3,0,0,1,.24,5.84,1,1,0,1,0,.5,1.94,5,5,0,0,0,.17-9.62Z"
-          ></path>
-        </svg>
+        <span class="text-sm font-semibold text-yellow-800">Download CSV</span>
       </a>
 
       <div>
@@ -259,7 +250,7 @@
         </div>
       </div>
 
-      <div @click="Logout">
+      <div v-if="isLogin" @click="Logout">
         <button class="Btn">
           <div class="sign">
             <svg viewBox="0 0 512 512">
@@ -269,6 +260,14 @@
             </svg>
           </div>
         </button>
+      </div>
+      <div v-else>
+        <router-link
+          to="/login"
+          class="ring-1 ring-yellow-900 rounded-md mr-2 flex items-center text-center px-2 ml-2 py-2"
+        >
+          <span class="text-sm font-semibold text-yellow-800">Login</span>
+        </router-link>
       </div>
     </div>
   </header>
@@ -360,9 +359,23 @@ export default {
       isShowModal: "",
       isShowPassword: false,
       roleId: 2,
+      isLogin: false,
     };
   },
+  created() {
+    this.checkLogin();
+  },
   methods: {
+    checkLogin() {
+      if (
+        localStorage.getItem("token") !== null
+        // error.response.status === 403
+      ) {
+        this.isLogin = true;
+      } else {
+        this.isLogin = false;
+      }
+    },
     OpenNavBar() {
       this.isNavBar = !this.isNavBar;
     },
@@ -521,59 +534,6 @@ li {
 }
 .success {
   color: green;
-}
-
-.download-btn_download {
-  border: 2px solid rgb(168, 38, 255);
-  background-color: white;
-  width: 50px;
-  height: 50px;
-  border-radius: 10px;
-  position: relative;
-  z-index: 1;
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-.download-btn_download svg {
-  width: 25px;
-  height: 25px;
-  transition: all 0.3s ease;
-}
-.download-btn_download:hover svg {
-  fill: white;
-}
-.download-btn_download:hover {
-  background-color: rgb(168, 38, 255);
-}
-.card_download {
-  max-width: 320px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  border-radius: 0.5rem;
-  background: #606c88;
-  background: -webkit-linear-gradient(to right, #3f4c6b, #606c88);
-  background: linear-gradient(to right top, #3f4c6b, #606c88);
-  padding: 1rem;
-  color: rgb(107, 114, 128);
-  box-shadow: 0px 87px 78px -39px rgba(0, 0, 0, 0.4);
-}
-
-.icon_download {
-  height: 2rem;
-  width: 2rem;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.5rem;
-  background-color: #153586;
-  color: rgb(59, 130, 246);
-}
-
-.icon_download svg {
-  height: 1.25rem;
-  width: 1.25rem;
 }
 
 .card_download .content {

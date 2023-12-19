@@ -582,7 +582,6 @@
       </div>
     </div>
   </div>
-  <!-- </div> -->
 </template>
 <script>
 import { format } from "date-fns";

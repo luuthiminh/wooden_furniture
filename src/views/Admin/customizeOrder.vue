@@ -25,7 +25,7 @@
               type="search"
               class="input"
               v-model="keyword"
-              @input="searchCategory"
+              @change="searchFurniture"
             />
           </div>
         </div>
@@ -69,338 +69,519 @@
       </div>
     </div>
     <div class="content_table pt-6 px-6 scroll">
-      <div class="py-4">
-        <table class="table table-borderless text-yellow-950 font-medium">
-          <thead>
-            <tr class="text-sm text-center">
-              <th scope="col">Id</th>
-              <th scope="col">Furniture</th>
-              <th></th>
-              <th scope="col">Customer Id</th>
-              <th scope="col">Color Id</th>
-              <th scope="col">Heigh</th>
-              <th scope="col">Width</th>
-              <th scope="col">Length</th>
-              <th scope="col">Wood Id</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Completion Date</th>
-              <th scope="col">CreationDate</th>
-              <th scope="col">Status</th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody v-if="allOrders.length">
-            <tr v-for="or in allOrders" :key="or.customizeFurnitureId">
-              <td>{{ or.customizeFurnitureId }}</td>
-              <td class="img">
-                <img :src="or.images" alt="image furniture" />
-              </td>
-              <td class="text-start">
-                <span class="font-semibold block">{{
-                  or.customizeFurnitureName
-                }}</span>
-              </td>
-              <td>{{ or.customerId }}</td>
-              <td>{{ or.colorId }}</td>
-              <td>{{ or.height }}</td>
-              <td>{{ or.width }}</td>
-              <td>{{ or.length }}</td>
-              <td>{{ or.woodId }}</td>
-              <td>{{ or.quantity }}</td>
-              <td>{{ or.desiredCompletionDate }}</td>
-              <td>{{ or.creationDate }}</td>
-              <td v-if="or.status === 'Canceled'">
-                <button class="bg-red-100 text-red-500 px-1 py-1 rounded-md">
-                  Canceled
-                </button>
-              </td>
-              <td v-if="or.status === 'Accepted'">
-                <button
-                  class="bg-green-100 text-green-500 px-1 py-1 rounded-md"
-                >
-                  Accepted
-                </button>
-              </td>
-              <td v-if="or.status === 'Pending'">
-                <button
-                  class="bg-yellow-100 text-yellow-500 px-1 py-1 rounded-md"
-                >
-                  Pending
-                </button>
-              </td>
-
-              <td v-if="or.status === 'Preparing'">
-                <button class="bg-sky-100 text-sky-500 px-1 py-1 rounded-md">
-                  Preparing
-                </button>
-              </td>
-              <td v-if="or.status === 'Processing'">
-                <button class="bg-teal-100 text-teal-500 px-1 py-1 rounded-md">
-                  Processing
-                </button>
-              </td>
-
-              <td v-if="or.status === 'Delivering'">
-                <button
-                  class="bg-orange-100 text-orange-500 px-1 py-1 rounded-md"
-                >
-                  Delivering
-                </button>
-              </td>
-
-              <td v-if="or.status === 'Canceled'">
-                <button class="bg-red-100 text-red-500 px-1 py-1 rounded-md">
-                  Canceled
-                </button>
-              </td>
-              <td v-if="or.status === 'Delivered'">
-                <button
-                  class="bg-green-100 text-green-500 px-1 py-1 rounded-md"
-                >
-                  Delivered
-                </button>
-              </td>
-              <td class="td_action text-sm">
-                <div class="px-2 py-2 bg-orange-50 rounded-md">
-                  <button
-                    class="btn_action"
-                    type="button"
-                    data-toggle="modal"
-                    data-target="#exampleModalLong"
-                    data-backdrop="false"
-                    @click="opentModal('edit', or)"
-                  >
-                    Confirm
+      <div v-if="!searchResults.length || allOrders.length" class="py-4">
+        <div v-if="!searchResults.length">
+          <table
+            v-if="allOrders.length"
+            class="table table-borderless text-yellow-950 font-medium"
+          >
+            <thead>
+              <tr class="text-sm">
+                <th scope="col">Id</th>
+                <th scope="col">Furniture</th>
+                <th></th>
+                <th scope="col">Customer</th>
+                <th scope="col">Color Id</th>
+                <th scope="col">Heigh</th>
+                <th scope="col">Width</th>
+                <th scope="col">Length</th>
+                <th scope="col">Wood Id</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Completion Date</th>
+                <th scope="col">CreationDate</th>
+                <th scope="col">Status</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="or in allOrders" :key="or.customizeFurnitureId">
+                <td>{{ or.customizeFurnitureId }}</td>
+                <td class="img">
+                  <img :src="or.images" alt="image furniture" />
+                </td>
+                <td class="text-start">
+                  <span class="font-semibold block">{{
+                    or.customizeFurnitureName
+                  }}</span>
+                </td>
+                <td>{{ or.customizeFurnitureName }}</td>
+                <td>{{ or.colorId }}</td>
+                <td>{{ or.height }}</td>
+                <td>{{ or.width }}</td>
+                <td>{{ or.length }}</td>
+                <td>{{ or.woodId }}</td>
+                <td>{{ or.quantity }}</td>
+                <td>{{ or.desiredCompletionDate }}</td>
+                <td>{{ or.creationDate }}</td>
+                <td v-if="or.status === 'Canceled'">
+                  <button class="bg-red-100 text-red-500 px-1 py-1 rounded-md">
+                    Canceled
                   </button>
-                </div>
-              </td>
-              <modal
-                v-if="modalType == 'edit'"
-                @close="closeModal"
-                data-target="#myModal"
-              >
-                <template v-slot:title>
-                  <h1 class="flex items-center text-lg font-semibold">
-                    Confirm Customize Order
-                  </h1>
-                </template>
-                <template v-slot:body>
-                  <div class="pb-3 px-2 text-sm text-left">
-                    <p class="pb-4 font-semibold">
-                      Customize Order: {{ or.customizeFurnitureName }}
-                    </p>
-                    <div>
-                      <label
-                        for="exampleInputEmail1"
-                        class="form-label font-medium"
-                        >Actual Completion Date</label
-                      >
-                      <input
-                        v-model="actualCompletionDate"
-                        type="date"
-                        class="form-control"
-                        id="exampleInputEmail1"
-                        aria-describedby="emailHelp"
-                        required
-                      />
-                    </div>
-                    <div class="mt-3">
-                      <label
-                        for="exampleInputEmail1"
-                        class="form-label font-medium"
-                        >Expected Price</label
-                      >
-                      <input
-                        v-model="expectedPrice"
-                        type="text"
-                        class="form-control"
-                        id="exampleInputEmail1"
-                        aria-describedby="emailHelp"
-                        required
-                      />
-                    </div>
-                    <div class="mt-3">
-                      <label
-                        for="exampleInputEmail1"
-                        class="form-label font-medium"
-                        >Status</label
-                      >
-                      <select
-                        class="form-select form-select-sm py-2"
-                        aria-label=".form-select-sm example"
-                        v-model="status"
-                        required
-                      >
-                        <option selected>Choose status</option>
-                        <option value="Accepted">Accepted</option>
-                        <option value="Not accepted">Not accepted</option>
-                      </select>
-                    </div>
-                    <div class="mt-3">
-                      <label
-                        for="exampleInputEmail1"
-                        class="form-label font-medium"
-                        >Reason</label
-                      >
-                      <input
-                        v-model="reason"
-                        type="text"
-                        class="form-control"
-                        id="exampleInputEmail1"
-                        aria-describedby="emailHelp"
-                        required
-                      />
-                    </div>
-                  </div>
-                </template>
-                <template v-slot:footer>
-                  <div class="bg-yellow-900 rounded-md">
-                    <span
+                </td>
+                <td v-if="or.status === 'Accepted'">
+                  <button
+                    class="bg-green-100 text-green-500 px-1 py-1 rounded-md"
+                  >
+                    Accepted
+                  </button>
+                </td>
+                <td v-if="or.status === 'Pending'">
+                  <button
+                    class="bg-yellow-100 text-yellow-500 px-1 py-1 rounded-md"
+                  >
+                    Pending
+                  </button>
+                </td>
+
+                <td v-if="or.status === 'Preparing'">
+                  <button class="bg-sky-100 text-sky-500 px-1 py-1 rounded-md">
+                    Preparing
+                  </button>
+                </td>
+                <td v-if="or.status === 'Processing'">
+                  <button
+                    class="bg-teal-100 text-teal-500 px-1 py-1 rounded-md"
+                  >
+                    Processing
+                  </button>
+                </td>
+
+                <td v-if="or.status === 'Delivering'">
+                  <button
+                    class="bg-orange-100 text-orange-500 px-1 py-1 rounded-md"
+                  >
+                    Delivering
+                  </button>
+                </td>
+
+                <td v-if="or.status === 'Canceled'">
+                  <button class="bg-red-100 text-red-500 px-1 py-1 rounded-md">
+                    Canceled
+                  </button>
+                </td>
+                <td v-if="or.status === 'Delivered'">
+                  <button
+                    class="bg-green-100 text-green-500 px-1 py-1 rounded-md"
+                  >
+                    Delivered
+                  </button>
+                </td>
+                <td class="td_action text-sm">
+                  <div class="px-2 py-2 bg-orange-50 rounded-md">
+                    <button
+                      class="btn_action"
                       type="button"
-                      class="btn text-white"
+                      data-toggle="modal"
+                      data-target="#exampleModalLong"
+                      data-backdrop="false"
+                      @click="opentModal('edit', or)"
+                    >
+                      Confirm
+                    </button>
+                  </div>
+                </td>
+                <modal
+                  v-if="modalType == 'edit'"
+                  @close="closeModal"
+                  data-target="#myModal"
+                >
+                  <template v-slot:title>
+                    <h1 class="flex items-center text-lg font-semibold">
+                      Confirm Customize Order
+                    </h1>
+                  </template>
+                  <template v-slot:body>
+                    <div class="pb-3 px-2 text-sm text-left">
+                      <p class="pb-4 font-semibold">
+                        Customize Order: {{ or.customizeFurnitureName }}
+                      </p>
+                      <div>
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Actual Completion Date</label
+                        >
+                        <input
+                          v-model="actualCompletionDate"
+                          type="date"
+                          class="form-control"
+                          id="exampleInputEmail1"
+                          aria-describedby="emailHelp"
+                          required
+                        />
+                      </div>
+                      <div class="mt-3">
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Expected Price</label
+                        >
+                        <input
+                          v-model="expectedPrice"
+                          type="text"
+                          class="form-control"
+                          id="exampleInputEmail1"
+                          aria-describedby="emailHelp"
+                          required
+                        />
+                      </div>
+                      <div class="mt-3">
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Status</label
+                        >
+                        <select
+                          class="form-select form-select-sm py-2"
+                          aria-label=".form-select-sm example"
+                          v-model="status"
+                          required
+                        >
+                          <option selected>Choose status</option>
+                          <option value="Accepted">Accepted</option>
+                          <option value="Not accepted">Not accepted</option>
+                        </select>
+                      </div>
+                      <div class="mt-3">
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Reason</label
+                        >
+                        <input
+                          v-model="reason"
+                          type="text"
+                          class="form-control"
+                          id="exampleInputEmail1"
+                          aria-describedby="emailHelp"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </template>
+                  <template v-slot:footer>
+                    <div class="bg-yellow-900 rounded-md">
+                      <span
+                        type="button"
+                        class="btn text-white"
+                        data-dismiss="modal"
+                        @click.prevent="HandleConfirm"
+                      >
+                        Set
+                      </span>
+                    </div>
+                  </template>
+                </modal>
+              </tr>
+            </tbody>
+          </table>
+          <table
+            v-else-if="pendingOrders.length"
+            class="table table-borderless text-yellow-950 font-medium"
+          >
+            <thead>
+              <tr class="text-sm">
+                <th scope="col">Id</th>
+                <th scope="col">Furniture</th>
+                <th></th>
+                <th scope="col">Customer</th>
+                <th scope="col">Color Id</th>
+                <th scope="col">Heigh</th>
+                <th scope="col">Width</th>
+                <th scope="col">Length</th>
+                <th scope="col">Wood Id</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Completion Date</th>
+                <th scope="col">CreationDate</th>
+                <th scope="col">Status</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="or in pendingOrders" :key="or.customizeFurnitureId">
+                <td>{{ or.customizeFurnitureId }}</td>
+                <td class="img">
+                  <img :src="or.images" alt="image furniture" />
+                </td>
+                <td class="text-start">
+                  <span class="font-semibold block">{{
+                    or.customizeFurnitureName
+                  }}</span>
+                </td>
+                <td>{{ or.customizeFurnitureName }}</td>
+                <td>{{ or.colorId }}</td>
+                <td>{{ or.height }}</td>
+                <td>{{ or.width }}</td>
+                <td>{{ or.length }}</td>
+                <td>{{ or.woodId }}</td>
+                <td>{{ or.quantity }}</td>
+                <td>{{ or.desiredCompletionDate }}</td>
+                <td>{{ or.creationDate }}</td>
+                <td class="td_action text-sm">
+                  <div class="px-2 py-2 bg-orange-50 rounded-md">
+                    <button
+                      class="btn_action"
+                      type="button"
+                      data-toggle="modal"
+                      data-target="#exampleModalLong"
+                      data-dismiss="modal"
+                      data-backdrop="false"
+                      @click="opentModal('edit', or)"
+                    >
+                      Confirm
+                    </button>
+                  </div>
+                </td>
+                <modal
+                  v-if="modalType == 'edit'"
+                  @close="closeModal"
+                  data-target="#myModal"
+                >
+                  <template v-slot:title>
+                    <h1 class="flex items-center text-lg font-semibold">
+                      Confirm Customize Order
+                    </h1>
+                  </template>
+                  <template v-slot:body>
+                    <div class="pb-3 px-2 text-sm text-left">
+                      <p class="py-4 font-semibold">
+                        Customize Order: {{ or.customizeFurnitureName }}
+                      </p>
+                      <div>
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Actual Completion Date</label
+                        >
+                        <input
+                          v-model="actualCompletionDate"
+                          type="date"
+                          class="form-control"
+                          id="exampleInputEmail1"
+                          aria-describedby="emailHelp"
+                          required
+                        />
+                      </div>
+                      <div class="mt-3">
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Expected Price</label
+                        >
+                        <input
+                          v-model="expectedPrice"
+                          type="text"
+                          class="form-control"
+                          id="exampleInputEmail1"
+                          aria-describedby="emailHelp"
+                          required
+                        />
+                      </div>
+                      <div class="mt-3">
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Status</label
+                        >
+                        <select
+                          class="form-select form-select-sm"
+                          aria-label=".form-select-sm example"
+                          v-model="status"
+                        >
+                          <option selected>Choose status</option>
+                          <option value="Accepted">Accepted</option>
+                          <option value="Not accepted">Not accepted</option>
+                        </select>
+                      </div>
+                      <div class="mt-3">
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Reason</label
+                        >
+                        <input
+                          v-model="reason"
+                          type="text"
+                          class="form-control"
+                          id="exampleInputEmail1"
+                          aria-describedby="emailHelp"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </template>
+                  <template v-slot:footer>
+                    <button
                       data-dismiss="modal"
                       @click.prevent="HandleConfirm"
+                      type="button"
+                      class="button_addfurniture text-white bg-yellow-900 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-black dark:hover:bg-gray-600 dark:focus:ring-gray-600"
                     >
-                      Set
-                    </span>
-                  </div>
-                </template>
-              </modal>
-            </tr>
-          </tbody>
-          <tbody v-else-if="pendingOrders.length">
-            <tr v-for="or in pendingOrders" :key="or.customizeFurnitureId">
-              <td>{{ or.customizeFurnitureId }}</td>
-              <td class="img">
-                <img :src="or.images" alt="image furniture" />
-              </td>
-              <td class="text-start">
-                <span class="font-semibold block">{{
-                  or.customizeFurnitureName
-                }}</span>
-              </td>
-              <td>{{ or.customerId }}</td>
-              <td>{{ or.colorId }}</td>
-              <td>{{ or.height }}</td>
-              <td>{{ or.width }}</td>
-              <td>{{ or.length }}</td>
-              <td>{{ or.woodId }}</td>
-              <td>{{ or.quantity }}</td>
-              <td>{{ or.desiredCompletionDate }}</td>
-              <td>{{ or.creationDate }}</td>
-              <td class="td_action text-sm">
-                <div class="px-2 py-2 bg-orange-50 rounded-md">
-                  <button
-                    class="btn_action"
-                    type="button"
-                    data-toggle="modal"
-                    data-target="#exampleModalLong"
-                    data-dismiss="modal"
-                    data-backdrop="false"
-                    @click="opentModal('edit', or)"
-                  >
-                    Confirm
-                  </button>
-                </div>
-              </td>
-              <modal
-                v-if="modalType == 'edit'"
-                @close="closeModal"
-                data-target="#myModal"
+                      Update
+                    </button>
+                  </template>
+                </modal>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div v-else>
+          <table class="table table-borderless text-yellow-950 font-medium">
+            <thead>
+              <tr class="text-sm">
+                <th scope="col">Id</th>
+                <th scope="col">Furniture</th>
+                <th></th>
+                <th scope="col">Customer</th>
+                <th scope="col">Color Id</th>
+                <th scope="col">Heigh</th>
+                <th scope="col">Width</th>
+                <th scope="col">Length</th>
+                <th scope="col">Wood Id</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Completion Date</th>
+                <th scope="col">CreationDate</th>
+                <th scope="col">Status</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody v-if="searchResults.length.length">
+              <tr
+                v-for="or in searchResults.length"
+                :key="or.customizeFurnitureId"
               >
-                <template v-slot:title>
-                  <h1 class="flex items-center text-lg font-semibold">
-                    Confirm Customize Order
-                  </h1>
-                </template>
-                <template v-slot:body>
-                  <div class="pb-3 px-2 text-sm text-left">
-                    <p class="py-4 font-semibold">
-                      Customize Order: {{ or.customizeFurnitureName }}
-                    </p>
-                    <div>
-                      <label
-                        for="exampleInputEmail1"
-                        class="form-label font-medium"
-                        >Actual Completion Date</label
-                      >
-                      <input
-                        v-model="actualCompletionDate"
-                        type="date"
-                        class="form-control"
-                        id="exampleInputEmail1"
-                        aria-describedby="emailHelp"
-                        required
-                      />
-                    </div>
-                    <div class="mt-3">
-                      <label
-                        for="exampleInputEmail1"
-                        class="form-label font-medium"
-                        >Expected Price</label
-                      >
-                      <input
-                        v-model="expectedPrice"
-                        type="text"
-                        class="form-control"
-                        id="exampleInputEmail1"
-                        aria-describedby="emailHelp"
-                        required
-                      />
-                    </div>
-                    <div class="mt-3">
-                      <label
-                        for="exampleInputEmail1"
-                        class="form-label font-medium"
-                        >Status</label
-                      >
-                      <select
-                        class="form-select form-select-sm"
-                        aria-label=".form-select-sm example"
-                        v-model="status"
-                      >
-                        <option selected>Choose status</option>
-                        <option value="Accepted">Accepted</option>
-                        <option value="Not accepted">Not accepted</option>
-                      </select>
-                    </div>
-                    <div class="mt-3">
-                      <label
-                        for="exampleInputEmail1"
-                        class="form-label font-medium"
-                        >Reason</label
-                      >
-                      <input
-                        v-model="reason"
-                        type="text"
-                        class="form-control"
-                        id="exampleInputEmail1"
-                        aria-describedby="emailHelp"
-                        required
-                      />
-                    </div>
+                <td>{{ or.customizeFurnitureId }}</td>
+                <td class="img">
+                  <img :src="or.images" alt="image furniture" />
+                </td>
+                <td class="text-start">
+                  <span class="font-semibold block">{{
+                    or.customizeFurnitureName
+                  }}</span>
+                </td>
+                <td>{{ or.customizeFurnitureName }}</td>
+                <td>{{ or.colorId }}</td>
+                <td>{{ or.height }}</td>
+                <td>{{ or.width }}</td>
+                <td>{{ or.length }}</td>
+                <td>{{ or.woodId }}</td>
+                <td>{{ or.quantity }}</td>
+                <td>{{ or.desiredCompletionDate }}</td>
+                <td>{{ or.creationDate }}</td>
+                <td class="td_action text-sm">
+                  <div class="px-2 py-2 bg-orange-50 rounded-md">
+                    <button
+                      class="btn_action"
+                      type="button"
+                      data-toggle="modal"
+                      data-target="#exampleModalLong"
+                      data-dismiss="modal"
+                      data-backdrop="false"
+                      @click="opentModal('edit', or)"
+                    >
+                      Confirm
+                    </button>
                   </div>
-                </template>
-                <template v-slot:footer>
-                  <button
-                    data-dismiss="modal"
-                    @click.prevent="HandleConfirm"
-                    type="button"
-                    class="button_addfurniture text-white bg-yellow-900 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-black dark:hover:bg-gray-600 dark:focus:ring-gray-600"
-                  >
-                    Update
-                  </button>
-                </template>
-              </modal>
-            </tr>
-          </tbody>
-        </table>
+                </td>
+                <modal
+                  v-if="modalType == 'edit'"
+                  @close="closeModal"
+                  data-target="#myModal"
+                >
+                  <template v-slot:title>
+                    <h1 class="flex items-center text-lg font-semibold">
+                      Confirm Customize Order
+                    </h1>
+                  </template>
+                  <template v-slot:body>
+                    <div class="pb-3 px-2 text-sm text-left">
+                      <p class="py-4 font-semibold">
+                        Customize Order: {{ or.customizeFurnitureName }}
+                      </p>
+                      <div>
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Actual Completion Date</label
+                        >
+                        <input
+                          v-model="actualCompletionDate"
+                          type="date"
+                          class="form-control"
+                          id="exampleInputEmail1"
+                          aria-describedby="emailHelp"
+                          required
+                        />
+                      </div>
+                      <div class="mt-3">
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Expected Price</label
+                        >
+                        <input
+                          v-model="expectedPrice"
+                          type="text"
+                          class="form-control"
+                          id="exampleInputEmail1"
+                          aria-describedby="emailHelp"
+                          required
+                        />
+                      </div>
+                      <div class="mt-3">
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Status</label
+                        >
+                        <select
+                          class="form-select form-select-sm"
+                          aria-label=".form-select-sm example"
+                          v-model="status"
+                        >
+                          <option selected>Choose status</option>
+                          <option value="Accepted">Accepted</option>
+                          <option value="Not accepted">Not accepted</option>
+                        </select>
+                      </div>
+                      <div class="mt-3">
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Reason</label
+                        >
+                        <input
+                          v-model="reason"
+                          type="text"
+                          class="form-control"
+                          id="exampleInputEmail1"
+                          aria-describedby="emailHelp"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </template>
+                  <template v-slot:footer>
+                    <button
+                      data-dismiss="modal"
+                      @click.prevent="HandleConfirm"
+                      type="button"
+                      class="button_addfurniture text-white bg-yellow-900 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-black dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+                    >
+                      Update
+                    </button>
+                  </template>
+                </modal>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+
+      <div class="loader"></div>
     </div>
   </div>
-  <p class="text-sm font-medium mb-5">Total users: 5</p>
-
-  <!-- <div class="loader"></div> -->
+  <p class="text-sm font-medium mb-5">Total users: {{ allOrders.length }}</p>
 </template>
 <script>
 import axios from "axios";
@@ -425,6 +606,7 @@ export default {
       title: "All Customize Orders",
       status: "All",
       idFurniture: "",
+      searchResults: [],
     };
   },
   created() {
@@ -510,6 +692,21 @@ export default {
           this.isAlertError = false;
         }, 5000);
         console.error(error);
+      }
+    },
+    async searchFurniture() {
+      try {
+        const response = await axios.get(
+          "shopOwner/customer-requests/customize-furniture/search?searchString=" +
+            this.keyword
+        );
+        this.searchResults = response.data;
+      } catch (error) {
+        this.isAlertWanning = true;
+        this.messageWanning = this.keyword + " not found";
+        setTimeout(() => {
+          this.isAlertWanning = false;
+        }, 5000);
       }
     },
   },

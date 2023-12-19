@@ -101,7 +101,7 @@
                   </td>
                   <td class="desc">
                     <h3 class="mb-2 break-all">
-                      <span class="text-navy font-bold">
+                      <span class="text-yellow-800 font-bold">
                         {{ or.customizeFurnitureName }}
                       </span>
                     </h3>

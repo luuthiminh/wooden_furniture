@@ -34,15 +34,14 @@
                 <th>Date of Birth</th>
                 <th>Gender</th>
                 <th>Username</th>
-                <th>Role</th>
                 <th>Phone Number</th>
                 <th>Email</th>
                 <th>Creation Date</th>
                 <th>Is Activated</th>
                 <th>Two Factor Enabled</th>
-                <!-- <th>Debit</th>
+                <th>Debit</th>
                 <th>Spent</th>
-                <th>Point</th> -->
+                <th>Point</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -72,15 +71,14 @@
                 <td>{{ u.doB }}</td>
                 <td>{{ u.gender }}</td>
                 <td>{{ u.userName }}</td>
-                <td>{{ u.role.result }}</td>
                 <td>{{ u.phoneNumber }}</td>
                 <td>{{ u.email }}</td>
                 <td>{{ u.creationDate }}</td>
                 <td>{{ u.isActivated }}</td>
                 <td>{{ u.twoFactorEnabled }}</td>
-                <!-- <td>{{ u.debit }}</td>
+                <td>{{ u.debit }}</td>
                 <td>{{ u.spent }}</td>
-                <td>{{ u.point }}</td> -->
+                <td>{{ u.point }}</td>
                 <td class="td_action w-1/12 text-sm">
                   <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
                     <button
@@ -132,10 +130,10 @@
                           class="form-label font-medium"
                           >Avatar</label
                         >
-                        <div v-if="u.avatar">
+                        <div v-if="userModal.avatar">
                           <img
                             v-if="!url"
-                            :src="u.avatar"
+                            :src="userModal.avatar"
                             alt="image"
                             for="file"
                           />
@@ -198,7 +196,7 @@
                           >First Name</label
                         >
                         <input
-                          v-model="firstNameModal"
+                          v-model="userModal.firstName"
                           type="text"
                           class="form-control"
                           id="exampleInputEmail1"
@@ -206,58 +204,57 @@
                           required
                         />
                       </div>
-                      <div class="addFurniture grid grid-cols-3 gap-x-6 mt-3">
-                        <div>
-                          <label
-                            for="exampleInputEmail1"
-                            class="form-label font-medium"
-                            >Last Name</label
-                          >
-                          <div class="flex gap-x-2">
-                            <input
-                              v-model="lastNameModal"
-                              type="text"
-                              class="form-control"
-                              id="exampleInputEmail1"
-                              aria-describedby="emailHelp"
-                              required
-                            />
-                          </div>
-                        </div>
 
-                        <div>
-                          <label
-                            for="exampleInputEmail1"
-                            class="form-label font-medium"
-                            >Dob</label
-                          >
-                          <div class="flex gap-x-2">
-                            <input
-                              v-model="dobModal"
-                              type="date"
-                              class="form-control"
-                              id="exampleInputEmail1"
-                              aria-describedby="emailHelp"
-                              required
-                            />
-                          </div>
+                      <div class="mt-3">
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Last Name</label
+                        >
+                        <div class="flex gap-x-2">
+                          <input
+                            v-model="userModal.lastName"
+                            type="text"
+                            class="form-control"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            required
+                          />
                         </div>
-                        <div>
-                          <label
-                            for="exampleInputEmail1"
-                            class="form-label font-medium"
-                            >Gender</label
-                          >
-                          <div class="flex gap-x-2">
-                            <input
-                              v-model="genderModal"
-                              type="number"
-                              class="form-control"
-                              id="exampleInputEmail1"
-                              aria-describedby="emailHelp"
-                              required
-                            />
-                          </div>
+                      </div>
+
+                      <div class="mt-3">
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Dob</label
+                        >
+                        <div class="flex gap-x-2">
+                          <input
+                            v-model="userModal.doB"
+                            type="date"
+                            class="form-control"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="mt-3">
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Gender</label
+                        >
+                        <div class="flex gap-x-2">
+                          <input
+                            v-model="userModal.gender"
+                            type="text"
+                            class="form-control"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            required
+                          />
                         </div>
                       </div>
                     </div>
@@ -271,34 +268,6 @@
                     </div>
                   </template>
                 </modal>
-                <!-- <modal
-                  v-if="modalType == 'disable'"
-                  @close="modalType == null"
-                  data-target="#myModal"
-                >
-                  <template v-slot:title>
-                    <div class="flex items-center text-lg font-semibold">
-                      Disable Account
-                    </div>
-                  </template>
-                  <template v-slot:body>
-                    <p class="text-base py-3">
-                      Are you sure dsisable
-                      <b> {{ u.firstName }} {{ u.lastName }} ?</b>
-                    </p>
-                  </template>
-                  <template v-slot:footer>
-                    <div class="bg-red-900 rounded-md">
-                      <span
-                        type="button"
-                        class="btn text-white"
-                        @click="HandleDelete(u)"
-                      >
-                        Delete
-                      </span>
-                    </div>
-                  </template>
-                </modal> -->
               </tr>
             </tbody>
           </table>
@@ -314,10 +283,11 @@ import HeaderAdmin from "@/components/headerAdmin.vue";
 import axios from "axios";
 import { format } from "date-fns";
 import alertError from "@/components/AlertError.vue";
+import modal from "@/components/ModalPage.vue";
 import alertSuccess from "@/components/AlertSuccess.vue";
 
 export default {
-  components: { HeaderAdmin, alertError, alertSuccess },
+  components: { HeaderAdmin, alertError, alertSuccess, modal },
   data() {
     return {
       title: "Customer Account List",
@@ -337,6 +307,7 @@ export default {
       messageError: null,
       messageSuccess: null,
       messageWanning: null,
+      userModal: {},
     };
   },
   created() {
@@ -362,10 +333,7 @@ export default {
     },
     async opentModal(type, u) {
       this.modalType = type;
-      this.firstNameModal = u.firstName;
-      this.lastNameFurModal = u.lastNameModal;
-      this.dobModal = u.doB;
-      this.genderModal = u.gender;
+      this.userModal = u;
     },
     closeModal() {
       this.modalType = null;
@@ -379,13 +347,13 @@ export default {
     },
     async HandleUpdate() {
       const formData = new FormData();
-      formData.append("FirstName ", this.firstNameModal);
-      formData.append("LastName ", this.lastNameFurModal);
-      formData.append("DoB", this.dobModal);
-      formData.append("Gender", this.genderModal);
+      formData.append("FirstName ", this.userModal.firstName);
+      formData.append("LastName ", this.userModal.lastName);
+      formData.append("DoB", this.userModal.doB);
+      formData.append("Gender", this.userModal.gender);
       formData.append("Image", this.file);
       try {
-        await axios.get("user/all/update", formData, {
+        await axios.put("user/all/update", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -398,23 +366,6 @@ export default {
       try {
         await axios.put("shopOwner/accounts/disable", {
           userId: u.userId,
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    async HandleDelete() {
-      const formData = new FormData();
-      formData.append("FirstName ", this.firstNameModal);
-      formData.append("LastName ", this.lastNameFurModal);
-      formData.append("DoB", this.dobModal);
-      formData.append("Gender", this.genderModal);
-      formData.append("Image", this.file);
-      try {
-        await axios.get("user/all/update", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
         });
       } catch (error) {
         console.error(error);

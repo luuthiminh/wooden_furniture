@@ -6,7 +6,7 @@
           <li class="breadcrumb-item font-semibold"><a href="#">Home</a></li>
 
           <li class="breadcrumb-item active font-medium" aria-current="page">
-            Manage Reponsitories
+            Manage Repositories
           </li>
         </ol>
       </nav>
@@ -20,7 +20,11 @@
       </alert-success>
     </div>
     <div class="px-7">
-      <h1 class="font-semibold text-xl py-6">Manage Reponsitories</h1>
+      <h1 class="font-semibold text-xl py-6">Manage Repositories</h1>
+      <span class="font-medium text-xs"
+        >Press the name of the repository to see the details of that
+        repository</span
+      >
       <div class="flex gap-x-40 pt-10">
         <div class="flex items-center gap-x-4 text-sm">
           <p class="gap-x-2 font-semibold">Totally reponsitories:</p>
@@ -54,96 +58,6 @@
           </div>
         </div>
         <div class="absolute right-10 flex gap-x-10">
-          <a
-            style="text-decoration: none"
-            href="https://landlstore.azurewebsites.net/api/assistant/warehouse/repositories/material-repository-history/to-csv"
-            class="download-button"
-          >
-            <div class="docs">
-              <svg
-                viewBox="0 0 24 24"
-                width="20"
-                height="20"
-                stroke="currentColor"
-                stroke-width="2"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="css-i6dzq1"
-              >
-                <path
-                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-                ></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <line x1="16" y1="13" x2="8" y2="13"></line>
-                <line x1="16" y1="17" x2="8" y2="17"></line>
-                <polyline points="10 9 9 9 8 9"></polyline>
-              </svg>
-              CSV Material
-            </div>
-            <div class="download">
-              <svg
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                stroke="currentColor"
-                stroke-width="2"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="css-i6dzq1"
-              >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-              </svg>
-            </div>
-          </a>
-          <a
-            style="text-decoration: none"
-            href="https://landlstore.azurewebsites.net/api/assistant/warehouse/repositories/furniture-repository-history/to-csv"
-            class="download-button"
-          >
-            <div class="docs">
-              <svg
-                viewBox="0 0 24 24"
-                width="20"
-                height="20"
-                stroke="currentColor"
-                stroke-width="2"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="css-i6dzq1"
-              >
-                <path
-                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-                ></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <line x1="16" y1="13" x2="8" y2="13"></line>
-                <line x1="16" y1="17" x2="8" y2="17"></line>
-                <polyline points="10 9 9 9 8 9"></polyline>
-              </svg>
-              CSV Furniture
-            </div>
-            <div class="download">
-              <svg
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                stroke="currentColor"
-                stroke-width="2"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="css-i6dzq1"
-              >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-              </svg>
-            </div>
-          </a>
           <button
             type="button"
             class="button_add ring-offset-2 ring-2 bg-lime-700 ring-lime-300 hover:ring-lime-600 text-sm rounded-md"
@@ -287,17 +201,26 @@
                         </div>
                         <div class="row mb-6">
                           <label class="col-lg-4 col-form-label fw-medium"
-                            >Ward
+                            >Province
                           </label>
                           <div class="col-lg-8">
-                            <input
-                              v-model="ward"
-                              type="text"
-                              class="form-control border-none bg-neutral-100"
-                              id="firstname"
-                              aria-describedby="firstnameHelp"
-                              required
-                            />
+                            <select
+                              v-if="provinces"
+                              v-model="province"
+                              class="form-select text-sm"
+                              aria-label="Default select example"
+                              @change="handleDistrict"
+                            >
+                              <option disabled>Choose Province</option>
+                              <option
+                                v-for="p in provinces.data"
+                                :key="p.ProvinceID"
+                                :value="p.ProvinceID"
+                                required
+                              >
+                                {{ p.ProvinceName }}
+                              </option>
+                            </select>
                           </div>
                         </div>
                         <div class="row mb-6">
@@ -305,32 +228,49 @@
                             >District
                           </label>
                           <div class="col-lg-8">
-                            <input
+                            <select
+                              v-if="districts"
                               v-model="district"
-                              type="text"
-                              class="form-control border-none bg-neutral-100"
-                              id="firstname"
-                              aria-describedby="firstnameHelp"
-                              required
-                            />
+                              class="form-select text-sm"
+                              aria-label="Default select example"
+                              @change="handleWard"
+                            >
+                              <option disabled>Choose District</option>
+                              <option
+                                v-for="d in districts.data"
+                                :key="d.DistrictID"
+                                :value="d.DistrictID"
+                                required
+                              >
+                                {{ d.DistrictName }}
+                              </option>
+                            </select>
                           </div>
                         </div>
                         <div class="row mb-6">
                           <label class="col-lg-4 col-form-label fw-medium"
-                            >Province
+                            >Ward
                           </label>
                           <div class="col-lg-8">
-                            <input
-                              v-model="province"
-                              type="text"
-                              class="form-control border-none bg-neutral-100"
-                              id="firstname"
-                              aria-describedby="firstnameHelp"
-                              required
-                            />
+                            <select
+                              v-if="ward"
+                              v-model="WardCode"
+                              class="form-select text-sm"
+                              aria-label="Default select example"
+                              @change="HandleChooseWard"
+                            >
+                              <option disabled>Choose Ward</option>
+                              <option
+                                v-for="w in ward.data"
+                                :key="w.WardCode"
+                                :value="w.WardCode"
+                                required
+                              >
+                                {{ w.WardName }}
+                              </option>
+                            </select>
                           </div>
                         </div>
-
                         <div class="row mb-6">
                           <label class="col-lg-4 col-form-label fw-medium"
                             >Capacity</label
@@ -770,17 +710,26 @@
                         </div>
                         <div class="row mb-6">
                           <label class="col-lg-4 col-form-label fw-medium"
-                            >Ward
+                            >Province
                           </label>
                           <div class="col-lg-8">
-                            <input
-                              v-model="ward"
-                              type="text"
-                              class="form-control border-none bg-neutral-100"
-                              id="firstname"
-                              aria-describedby="firstnameHelp"
-                              required
-                            />
+                            <select
+                              v-if="provinces"
+                              v-model="province"
+                              class="form-select text-sm"
+                              aria-label="Default select example"
+                              @change="handleDistrict"
+                            >
+                              <option disabled>Choose Province</option>
+                              <option
+                                v-for="p in provinces.data"
+                                :key="p.ProvinceID"
+                                :value="p.ProvinceID"
+                                required
+                              >
+                                {{ p.ProvinceName }}
+                              </option>
+                            </select>
                           </div>
                         </div>
                         <div class="row mb-6">
@@ -788,32 +737,49 @@
                             >District
                           </label>
                           <div class="col-lg-8">
-                            <input
+                            <select
+                              v-if="districts"
                               v-model="district"
-                              type="text"
-                              class="form-control border-none bg-neutral-100"
-                              id="firstname"
-                              aria-describedby="firstnameHelp"
-                              required
-                            />
+                              class="form-select text-sm"
+                              aria-label="Default select example"
+                              @change="handleWard"
+                            >
+                              <option disabled>Choose District</option>
+                              <option
+                                v-for="d in districts.data"
+                                :key="d.DistrictID"
+                                :value="d.DistrictID"
+                                required
+                              >
+                                {{ d.DistrictName }}
+                              </option>
+                            </select>
                           </div>
                         </div>
                         <div class="row mb-6">
                           <label class="col-lg-4 col-form-label fw-medium"
-                            >Province
+                            >Ward
                           </label>
                           <div class="col-lg-8">
-                            <input
-                              v-model="province"
-                              type="text"
-                              class="form-control border-none bg-neutral-100"
-                              id="firstname"
-                              aria-describedby="firstnameHelp"
-                              required
-                            />
+                            <select
+                              v-if="ward"
+                              v-model="WardCode"
+                              class="form-select text-sm"
+                              aria-label="Default select example"
+                              @change="HandleChooseWard"
+                            >
+                              <option disabled>Choose Ward</option>
+                              <option
+                                v-for="w in ward.data"
+                                :key="w.WardCode"
+                                :value="w.WardCode"
+                                required
+                              >
+                                {{ w.WardName }}
+                              </option>
+                            </select>
                           </div>
                         </div>
-
                         <div class="row mb-6">
                           <label class="col-lg-4 col-form-label fw-medium"
                             >Capacity</label
@@ -1183,6 +1149,8 @@ export default {
     this.getAllReponsitory();
     this.getMaterial();
     this.getFurnitures();
+    this.getProvices();
+    console.log("Province", this.$store.state.provinces);
   },
   methods: {
     async getAllReponsitory() {
@@ -1233,9 +1201,9 @@ export default {
       const formData = new FormData();
       formData.append("repositoryName", this.repName);
       formData.append("Street", this.stress);
-      formData.append("ward", this.ward);
-      formData.append("district", this.district);
-      formData.append("province", this.province);
+      formData.append("ward", this.$store.state.valuesWard);
+      formData.append("district", this.$store.state.valuesDistrict);
+      formData.append("province", this.$store.state.valuesProvince);
       formData.append("capacity", this.capacity);
       try {
         const response = await axios.post(
@@ -1354,10 +1322,31 @@ export default {
         keyword: this.keyword,
       });
     },
+    async getProvices() {
+      this.$store.dispatch("getProvices");
+    },
+    async handleDistrict(e) {
+      this.$store.dispatch("handleDistrict", { e, province: this.province });
+    },
+    async handleWard(e) {
+      this.$store.dispatch("handleWard", { e, district: this.district });
+    },
+    HandleChooseWard(e) {
+      this.$store.dispatch("HandleChooseWard", e);
+    },
   },
   computed: {
     searchResults() {
       return this.$store.state.searchRepos;
+    },
+    provinces() {
+      return this.$store.state.provinces;
+    },
+    districts() {
+      return this.$store.state.districts;
+    },
+    ward() {
+      return this.$store.state.wards;
     },
   },
 };
@@ -1377,77 +1366,6 @@ td {
   padding-bottom: 0.7em;
 }
 
-.search {
-  --input-line: #cccccc;
-  --input-text-color: #808080;
-  --input-text-hover-color: transparent;
-  --input-border-color: #808080;
-  --input-border-hover-color: #999999;
-  --border-radius: 5px;
-  --transition-cubic-bezier: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  width: 20em;
-}
-
-.search-box {
-  height: 35px;
-  border: 1px solid var(--input-border-color);
-  border-radius: var(--border-radius);
-  padding: 5px 15px;
-  background: var(--input-bg-color);
-  box-shadow: 0 0 2px rgb(0 0 0 / 26%);
-  transition: var(--transition-cubic-bezier);
-}
-
-.search-box:hover {
-  border-color: var(--input-border-hover-color);
-}
-
-/*Section input*/
-.search-field {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  left: -5px;
-  border: 0;
-}
-
-.input {
-  width: calc(100% - 29px);
-  height: 100%;
-  border: 0;
-  border-color: transparent;
-  font-size: 1rem;
-  padding-right: 0px;
-  color: var(--input-line);
-  background: var(--input-bg-color);
-  border-right: 2px solid var(--input-border-color);
-  outline: none;
-}
-
-.input::-webkit-input-placeholder {
-  color: var(--input-text-color);
-}
-
-.input::-moz-input-placeholder {
-  color: var(--input-text-color);
-}
-
-.input::-ms-input-placeholder {
-  color: var(--input-text-color);
-}
-
-.input:focus::-webkit-input-placeholder {
-  color: var(--input-text-hover-color);
-}
-
-.input:focus::-moz-input-placeholder {
-  color: var(--input-text-hover-color);
-}
-
-.input:focus::-ms-input-placeholder {
-  color: var(--input-text-hover-color);
-}
-
 .form-control,
 .form-select {
   border: none;
@@ -1456,77 +1374,5 @@ td {
 tabel {
   width: 98em;
   overflow: scroll;
-}
-.download-button {
-  position: relative;
-  border-width: 0;
-  color: rgb(19, 19, 19);
-  font-size: 15px;
-  font-weight: 600;
-  border-radius: 4px;
-  z-index: 1;
-}
-
-.download-button .docs {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  min-height: 35px;
-  padding: 0 7px;
-  border-radius: 4px;
-  z-index: 1;
-  background-color: white;
-  border: solid 2px #a157122d;
-  transition: all 0.5s cubic-bezier(0.77, 0, 0.175, 1);
-  font-size: 13px;
-  color: #39230b;
-}
-
-.download-button:hover {
-  box-shadow: rgba(233, 233, 233, 0.555) 0px 54px 55px,
-    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-}
-
-.download {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  max-width: 90%;
-  margin: 0 auto;
-  z-index: -1;
-  border-radius: 0px 0px 4px 4px;
-  transform: translateY(0%);
-  background-color: #0ea20b;
-  border: solid 1px #01e0572d;
-  transition: all 0.5s cubic-bezier(0.77, 0, 0.175, 1);
-  cursor: pointer;
-  color: white;
-}
-
-.download-button:hover .download {
-  transform: translateY(100%);
-}
-
-.download svg polyline,
-.download svg line {
-  animation: docs 1s infinite;
-}
-
-@keyframes docs {
-  0% {
-    transform: translateY(0%);
-  }
-
-  50% {
-    transform: translateY(-15%);
-  }
-
-  100% {
-    transform: translateY(0%);
-  }
 }
 </style>

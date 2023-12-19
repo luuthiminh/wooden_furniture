@@ -625,108 +625,105 @@ export default {
         this.woods = response.data;
         console.log(response.data);
       } catch (error) {
-        if (error.response.status === 403) {
-          this.$router.push({ name: "login" });
-          console.log("Login");
-        }
+        console.log(error);
       }
     },
-    async searchWood() {
-      // Gọi API khi có sự thay đổi trong searchText
-      try {
-        const response = await axios.get(
-          "assistant/shop-data/woods/search?searchString=" + this.keyword
-        );
-        this.searchResults = response.data;
-      } catch (error) {
-        this.isAlertWanning = true;
-        this.messageWanning = this.keyword + " not found";
+  },
+  async searchWood() {
+    // Gọi API khi có sự thay đổi trong searchText
+    try {
+      const response = await axios.get(
+        "assistant/shop-data/woods/search?searchString=" + this.keyword
+      );
+      this.searchResults = response.data;
+    } catch (error) {
+      this.isAlertWanning = true;
+      this.messageWanning = this.keyword + " not found";
+      setTimeout(() => {
+        this.isAlertWanning = false;
+      }, 5000);
+    }
+  },
+  async opentModal(type, w) {
+    this.modalType = type;
+    this.nameWoodModal = w.categoryName;
+    this.idWoodModal = w.categoryId;
+  },
+  closeModal() {
+    this.modalType = null;
+  },
+  async HandleAdd() {
+    try {
+      const response = await axios.post(
+        "Assistant/shop-data/woods/add?woodType=" + this.woodName
+      );
+      if (response.status === 201) {
+        this.modalType = null;
+        this.isAlertSuccess = true;
+        this.messageSuccess = "Add new wood successfully";
         setTimeout(() => {
-          this.isAlertWanning = false;
+          this.isAlertSuccess = false;
         }, 5000);
+        this.getAllWoods();
       }
-    },
-    async opentModal(type, w) {
-      this.modalType = type;
-      this.nameWoodModal = w.categoryName;
-      this.idWoodModal = w.categoryId;
-    },
-    closeModal() {
-      this.modalType = null;
-    },
-    async HandleAdd() {
-      try {
-        const response = await axios.post(
-          "Assistant/shop-data/woods/add?woodType=" + this.woodName
-        );
-        if (response.status === 201) {
-          this.modalType = null;
-          this.isAlertSuccess = true;
-          this.messageSuccess = "Add new wood successfully";
-          setTimeout(() => {
-            this.isAlertSuccess = false;
-          }, 5000);
-          this.getAllWoods();
-        }
-      } catch (error) {
-        this.isAlertError = true;
-        this.messageError = error.response.data.message;
+    } catch (error) {
+      this.isAlertError = true;
+      this.messageError = error.response.data.message;
+      setTimeout(() => {
+        this.isAlertError = false;
+      }, 5000);
+      console.error(error);
+    }
+  },
+  async HandleUpdate() {
+    try {
+      const response = await axios.put(
+        "Assistant/shop-data/woods/update?woodId=" +
+          this.idWoodModal +
+          "&woodType=" +
+          this.nameWoodModal
+      );
+      if (response.status === 200) {
+        this.modalType = null;
+        this.isAlertSuccess = true;
+        this.messageSuccess = "Update " + this.nameWoodModal + " successful!";
         setTimeout(() => {
-          this.isAlertError = false;
+          this.isAlertSuccess = false;
         }, 5000);
-        console.error(error);
+        this.getAllWoods();
       }
-    },
-    async HandleUpdate() {
-      try {
-        const response = await axios.put(
-          "Assistant/shop-data/woods/update?woodId=" +
-            this.idWoodModal +
-            "&woodType=" +
-            this.nameWoodModal
-        );
-        if (response.status === 200) {
-          this.modalType = null;
-          this.isAlertSuccess = true;
-          this.messageSuccess = "Update " + this.nameWoodModal + " successful!";
-          setTimeout(() => {
-            this.isAlertSuccess = false;
-          }, 5000);
-          this.getAllWoods();
-        }
-      } catch (error) {
-        this.isAlertError = true;
-        this.messageError = error.response.data.message;
+    } catch (error) {
+      this.isAlertError = true;
+      this.messageError = error.response.data.message;
+      setTimeout(() => {
+        this.isAlertError = false;
+      }, 5000);
+      console.error(error);
+    }
+  },
+  async HandleDelete() {
+    try {
+      const response = await axios.delete(
+        "Assistant/shop-data/woods/remove/" + this.idWoodModal
+      );
+      if (response.status === 204) {
+        this.modalType = null;
+        this.isSuccess = true;
+        this.isAlertSuccess = true;
+        this.messageSuccess = "Delete " + this.nameWoodModal + " successful!";
         setTimeout(() => {
-          this.isAlertError = false;
-        }, 5000);
-        console.error(error);
-      }
-    },
-    async HandleDelete() {
-      try {
-        const response = await axios.delete(
-          "Assistant/shop-data/woods/remove/" + this.idWoodModal
-        );
-        if (response.status === 204) {
-          this.modalType = null;
-          this.isSuccess = true;
-          this.isAlertSuccess = true;
-          this.messageSuccess = "Delete " + this.nameWoodModal + " successful!";
-          setTimeout(() => {
-            this.isSuccess = false;
-          }, 3000);
-          this.getAllWoods();
-        }
-      } catch (error) {
-        this.isAlertError = true;
-        this.messagerError = error.response.data.message;
-        setTimeout(() => {
-          this.isAlertError = false;
+          this.isSuccess = false;
         }, 3000);
-        console.error(error);
+        this.getAllWoods();
       }
-    },
+    } catch (error) {
+      this.isAlertError = true;
+      this.messagerError = error.response.data.message;
+      setTimeout(() => {
+        this.isAlertError = false;
+      }, 3000);
+      console.error(error);
+    }
   },
 };
 </script>
