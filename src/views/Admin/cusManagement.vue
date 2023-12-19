@@ -247,14 +247,16 @@
                           >Gender</label
                         >
                         <div class="flex gap-x-2">
-                          <input
+                          <select
+                            class="form-select"
+                            aria-label="Default select example"
                             v-model="userModal.gender"
-                            type="text"
-                            class="form-control"
-                            id="exampleInputEmail1"
-                            aria-describedby="emailHelp"
-                            required
-                          />
+                          >
+                            <option disable>Choose gender/option></option>
+                            <option value="MALE">One</option>
+                            <option value="FEMALE">Two</option>
+                            <option value="OTHER">Three</option>
+                          </select>
                         </div>
                       </div>
                     </div>

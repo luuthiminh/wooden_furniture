@@ -1,6 +1,6 @@
 <template>
   <div class="confirmOtp">
-    <form class="form">
+    <form class="form" @submit.prevent="Handle2AF">
       <div class="logo mb-3 pb-4">
         <div class="w-6/12">
           <img
@@ -17,16 +17,10 @@
         We have sent a verification code to your mobile number
       </p>
       <div class="inputs flex">
-        <!-- <input v-model="number1" id="input1" type="text" maxlength="1" />
-        <input v-model="number2" id="input2" type="text" maxlength="1" />
-        <input v-model="number3" id="input3" type="text" maxlength="1" />
-        <input v-model="number4" id="input4" type="text" maxlength="1" />
-        <input v-model="number5" id="input5" type="text" maxlength="1" />
-        <input v-model="number6" id="input6" type="text" maxlength="1" /> -->
         <input v-model="otp" />
       </div>
       <div class="flex gap-x-1 mt-10 mb-2">
-        <button class="action px-4 py-2" @click="Handle2AF">Verify me</button>
+        <button class="action px-4 py-2" type="submit">Verify me</button>
         <router-link to="/login" class="text-decoration-none">
           <div class="bg-yellow-800 rounded-md">
             <span type="button" class="px-4 py-2 text-white"> Cancel </span>
@@ -66,17 +60,15 @@ export default {
         });
         console.log("Otp");
         if (response.status === 200) {
-          console.log("Otp", response.data);
-          console.log("Otp", response.data.token);
-          // localStorage.setItem("token", response.data.token);
-          // localStorage.setItem("expiration", response.data.expiration);
-          // if (response.data.role === "CUSTOMER") {
-          //   this.$router.push({ name: "Customer" });
-          // } else if (response.data.role === "ASSISTANT") {
-          //   this.$router.push({ name: "dashboardAssistant" });
-          // } else if (response.data.role === "SHOP_OWNER") {
-          //   this.$router.push({ name: "DashboardFurniture" });
-          // }
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("expiration", response.data.expiration);
+          if (response.data.role === "CUSTOMER") {
+            this.$router.push({ name: "Customer" });
+          } else if (response.data.role === "ASSISTANT") {
+            this.$router.push({ name: "dashboardAssistant" });
+          } else if (response.data.role === "SHOP_OWNER") {
+            this.$router.push({ name: "DashboardFurniture" });
+          }
         }
       } catch (error) {
         this.message = "OTP is not vaild!";

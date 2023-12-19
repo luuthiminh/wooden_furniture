@@ -876,22 +876,19 @@
                           }"
                         >
                           <div class="content_feedback px-2 pt-9 max-sm:pt-2">
-                            <div
-                              class="avatar"
-                              v-for="img in f.feedbackImages"
-                              :key="img"
-                            >
-                              <img
-                                class="rounded-full w-3/12 cursor-pointer"
-                                :src="img.url"
-                                alt="img"
-                              />
-                            </div>
                             <div class="text_feedback text-center px-14 pt-10">
                               <h1 class="font-semibold text-2xl text-white">
-                                {{ f.furnitureName }}
+                                {{ f.furnitureSpecificationName }}
                               </h1>
                               <span>{{ f.content }}</span>
+                              <div>
+                                <span class="text-sm"
+                                  >Star: {{ f.voteStar
+                                  }}<i
+                                    class="text-yellow-500 fa-solid fa-star pl-1 text-xs"
+                                  ></i
+                                ></span>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -1240,7 +1237,12 @@ export default {
       return this.posts.slice(0, 3);
     },
     top3Feedbacks() {
-      return this.feedbacks.slice(0, 3);
+      return this.feedbacks
+        .filter(
+          (feedback) =>
+            feedback.voteStar >= 4 && !feedback.content.includes("*")
+        )
+        .slice(0, 3);
     },
   },
 };

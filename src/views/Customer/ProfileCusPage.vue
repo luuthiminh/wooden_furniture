@@ -1511,83 +1511,125 @@
                               </template>
                               <template v-slot:body>
                                 <div class="row mb-6">
-                                  <label
-                                    class="col-lg-4 col-form-label fw-medium"
-                                    >Stress</label
-                                  >
-                                  <div class="col-lg-8">
-                                    <input
-                                      v-model="addressModal.street"
-                                      type="text"
-                                      class="form-control border-none bg-neutral-100"
-                                      id="firstname"
-                                      aria-describedby="firstnameHelp"
-                                    />
+                                  <div class="flex gap-x-6 mt-3">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="col-form-label fw-medium"
+                                      >Image</label
+                                    >
+                                    <div
+                                      v-if="
+                                        warrantyModal.attacments.images.length
+                                      "
+                                    >
+                                      <div v-if="!url">
+                                        <div
+                                          v-for="img in warrantyModal.attacments
+                                            .images.length"
+                                          :key="img"
+                                        >
+                                          <img
+                                            :src="img.path"
+                                            alt="image"
+                                            class="w-8/12"
+                                            for="imageUpload"
+                                          />
+                                        </div>
+                                      </div>
+                                      <img
+                                        v-else
+                                        :src="url"
+                                        alt="image"
+                                        class="w-8/12"
+                                      />
+                                    </div>
+                                    <div v-else>
+                                      <img
+                                        v-if="url"
+                                        :src="url"
+                                        alt="image"
+                                        class="w-6/12"
+                                      />
+                                      <label
+                                        v-else
+                                        class="custum-file-upload"
+                                        for="imageUpload"
+                                      >
+                                        <div class="icon">
+                                          <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill=""
+                                            viewBox="0 0 24 24"
+                                          >
+                                            <g
+                                              stroke-width="0"
+                                              id="SVGRepo_bgCarrier"
+                                            ></g>
+                                            <g
+                                              stroke-linejoin="round"
+                                              stroke-linecap="round"
+                                              id="SVGRepo_tracerCarrier"
+                                            ></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                              <path
+                                                fill=""
+                                                d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z"
+                                                clip-rule="evenodd"
+                                                fill-rule="evenodd"
+                                              ></path>
+                                            </g>
+                                          </svg>
+                                        </div>
+                                        <div class="text">
+                                          <span>Click to upload image</span>
+                                        </div>
+                                      </label>
+                                    </div>
+                                    <div class="avatar_edit">
+                                      <div class="hidden">
+                                        <input
+                                          type="file"
+                                          name="avatar"
+                                          id="imageUpload"
+                                          accept=".png, .jpg, .jpeg"
+                                          :maxFileSize="1000000"
+                                          ref="file"
+                                          @change="onFile"
+                                        />
+                                      </div>
+                                      <label
+                                        class="bi bi-pencil text-xs"
+                                        for="imageUpload"
+                                      ></label>
+                                    </div>
                                   </div>
                                 </div>
                                 <div class="row mb-6">
                                   <label
                                     class="col-lg-4 col-form-label fw-medium"
-                                    >Ward</label
-                                  >
+                                    >Warranty Reasons
+                                  </label>
                                   <div class="col-lg-8">
                                     <input
-                                      v-model="addressModal.ward"
+                                      v-model="warrantyModal.WarrantyReasons"
                                       type="text"
                                       class="form-control border-none bg-neutral-100"
                                       id="firstname"
                                       aria-describedby="firstnameHelp"
                                     />
+                                    <span class="text-xs"
+                                      >Reason cannot be less than 2 characters
+                                      or exceed 20 characters</span
+                                    >
                                   </div>
                                 </div>
-                                <div class="row mb-6">
-                                  <label
-                                    class="col-lg-4 col-form-label fw-medium"
-                                    >District</label
-                                  >
-                                  <div class="col-lg-8">
-                                    <input
-                                      v-model="addressModal.district"
-                                      type="text"
-                                      class="form-control border-none bg-neutral-100"
-                                      id="firstname"
-                                      aria-describedby="firstnameHelp"
-                                    />
-                                  </div>
-                                </div>
-                                <div class="row mb-6">
-                                  <label
-                                    class="col-lg-4 col-form-label fw-medium"
-                                    >Province</label
-                                  >
-                                  <div class="col-lg-8">
-                                    <input
-                                      v-model="addressModal.provine"
-                                      type="text"
-                                      class="form-control border-none bg-neutral-100"
-                                      id="firstname"
-                                      aria-describedby="firstnameHelp"
-                                    />
-                                  </div>
-                                </div>
-                                <select
-                                  class="form-select"
-                                  aria-label="Default select example"
-                                  v-model="addressModal.type"
-                                >
-                                  <option disabled value="">
-                                    {{ addressModal.type }}
-                                  </option>
-                                  <option value="DEFAULT">Default</option>
-                                  <option value="HOME">Home</option>
-                                </select>
                               </template>
                               <template v-slot:footer
                                 ><div class="bg-yellow-900 rounded-md">
                                   <span
                                     type="button"
                                     class="px-2 py-2 text-white"
-                                    @click.prevent="HandleUpdateAddress()"
+                                    @click.prevent="HandleUpdateWarranty()"
                                   >
                                     Update
                                   </span>
@@ -1607,23 +1649,20 @@
                                 </div>
                               </template>
                               <template v-slot:body>
-                                <p class="text-base py-3">
-                                  Are you sure detete
-                                  <b>
-                                    {{ addressModal.street }}
-                                    {{ addressModal.ward }}
-                                    {{ addressModal.district }}
-                                    {{ addressModal.provine }} ?</b
-                                  >
+                                <p
+                                  class="text-base py-3 text-center font-medium"
+                                >
+                                  Are you sure detete this warranty
+                                  <b> {{ warrantyModal.warrantyId }}?</b>
                                 </p>
                               </template>
                               <template v-slot:footer>
                                 <div class="bg-red-900 rounded-md">
                                   <span
                                     type="button"
-                                    class="px-2 py-2 text-white"
+                                    class="px-3 py-2 text-white"
                                     data-dismiss="modal"
-                                    @click="HandleDelete()"
+                                    @click="HandleDeleteWar()"
                                   >
                                     Delete
                                   </span>
@@ -2284,6 +2323,7 @@ export default {
       msgErrorPayment: "",
       msgErrorDelivery: "",
       warrantyModal: {},
+      urlWarranty: {},
     };
   },
   created() {
@@ -2918,6 +2958,67 @@ export default {
       } catch (error) {
         this.message = error.response.data.message;
         console.error(error.response.data.message);
+      }
+    },
+    async HandleUpdateWarranty() {
+      const formData = new FormData();
+      formData.append("warrantyId", this.warrantyModal.warrantyId);
+      formData.append("warrantyReasons ", this.warrantyModal.warrantyReason);
+      if (this.arrayFile.length > 0) {
+        for (var i = 0; i < this.arrayFile.length > 0; i++) {
+          formData.append("UploadFiles", this.arrayFile[i]);
+        }
+      }
+      try {
+        const response = await axios.put(
+          "customer/warranties/update",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        if (response.status === 200) {
+          this.modalType = null;
+          this.isAlertSuccess = true;
+          this.messageSuccess = "Update warranty successful!";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 5000);
+        }
+        console.log(response);
+      } catch (error) {
+        this.isAlertError = true;
+        this.messageError = error.response.data.message;
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 5000);
+        console.error(error);
+      }
+    },
+    async HandleDeleteWar() {
+      try {
+        const response = await axios.delete(
+          "customer/warranties/remove/" + this.warrantyModal.warrantyId
+        );
+        if (response.status === 204) {
+          this.modalType = null;
+          this.isSuccess = true;
+          this.isAlertSuccess = true;
+          this.messageSuccess = `Delete this warranty + ${this.warrantyModal.warrantyId} + successful!`;
+          setTimeout(() => {
+            this.isSuccess = false;
+          }, 3000);
+          this.getAddress();
+        }
+      } catch (error) {
+        this.isAlertError = true;
+        this.messagerError = error.response.data.message;
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 3000);
+        console.error(error);
       }
     },
   },
@@ -3936,5 +4037,47 @@ option {
 .item_warranty,
 .item_feedback {
   border-bottom: 1px solid #dad7d4;
+}
+.custum-file-upload {
+  height: 200px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+  gap: 20px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #cacaca;
+  background-color: rgba(255, 255, 255, 1);
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0px 48px 35px -48px rgba(0, 0, 0, 0.1);
+}
+
+.custum-file-upload .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custum-file-upload .icon svg {
+  height: 80px;
+  fill: rgba(75, 85, 99, 1);
+}
+
+.custum-file-upload .text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custum-file-upload .text span {
+  font-weight: 400;
+  color: rgba(75, 85, 99, 1);
+}
+
+.custum-file-upload input {
+  display: none;
 }
 </style>

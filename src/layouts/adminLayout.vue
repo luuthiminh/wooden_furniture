@@ -27,7 +27,7 @@
           </a>
         </li>
         <li role="presentation" class="w-full">
-          <router-link to="/urnitureManagementAd">
+          <router-link to="/furnitureManagementAd">
             <a
               href="#furniture"
               aria-controls="furniture"
@@ -152,6 +152,7 @@ export default {
   },
   created() {
     this.checkLogin();
+    this.checkExpirationDate();
   },
   methods: {
     checkLogin() {
@@ -160,6 +161,16 @@ export default {
         this.$router.push({ name: "login" });
       } else {
         this.isLogin = true;
+      }
+    },
+    checkExpirationDate() {
+      const expirationTime = localStorage.getItem("expiration");
+      const expirationDate = new Date(expirationTime);
+      const currentTime = new Date();
+
+      if (currentTime > expirationDate) {
+        this.isSessionValid = false;
+        this.$router.push({ name: "login" });
       }
     },
   },
