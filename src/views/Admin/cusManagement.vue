@@ -252,10 +252,10 @@
                             aria-label="Default select example"
                             v-model="userModal.gender"
                           >
-                            <option disable>Choose gender/option></option>
-                            <option value="MALE">One</option>
-                            <option value="FEMALE">Two</option>
-                            <option value="OTHER">Three</option>
+                            <option disable>Choose gender option</option>
+                            <option value="MALE">Male</option>
+                            <option value="FEMALE">Female</option>
+                            <option value="OTHER">Other</option>
                           </select>
                         </div>
                       </div>

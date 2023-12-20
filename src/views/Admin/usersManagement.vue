@@ -3,7 +3,7 @@
   <div class="bg-white mb-2 rounded-xl mt-32">
     <div class="pt-6 px-6 scroll">
       <div class="flex items-center justify-between">
-        <div class="">
+        <div class="search">
           <div class="group">
             <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
               <g>
@@ -882,7 +882,7 @@ export default {
 .bar li {
   padding-right: 10px;
 }
-.group {
+.search .group {
   display: flex;
   line-height: 28px;
   align-items: center;
@@ -890,7 +890,7 @@ export default {
   max-width: 225px;
 }
 
-.input {
+.search .input {
   width: 100%;
   height: 40px;
   line-height: 28px;
@@ -904,11 +904,11 @@ export default {
   transition: 0.3s ease;
 }
 
-.input::placeholder {
+.search .input::placeholder {
   color: #9e9ea7;
 }
 
-.input:focus,
+.search .input:focus,
 input:hover {
   outline: none;
   border-color: rgba(234, 76, 137, 0.4);

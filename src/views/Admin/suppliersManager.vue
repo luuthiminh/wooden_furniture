@@ -13,21 +13,23 @@
     <div class="header pt-6 px-6">
       <div class="flex items-center justify-between">
         <div class="flex flex-cols-2 gap-x-3">
-          <div class="group">
-            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-              <g>
-                <path
-                  d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
-                ></path>
-              </g>
-            </svg>
-            <input
-              placeholder="Search"
-              type="search"
-              class="input"
-              v-model="keyword"
-              @change="searchSupplier"
-            />
+          <div class="search">
+            <div class="group">
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <g>
+                  <path
+                    d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
+                  ></path>
+                </g>
+              </svg>
+              <input
+                placeholder="Search"
+                type="search"
+                class="input"
+                v-model="keyword"
+                @change="searchSupplier"
+              />
+            </div>
           </div>
           <div class="absolute right-10">
             <div class="new member">
@@ -123,6 +125,9 @@
                         aria-describedby="emailHelp"
                         required
                       />
+                      <span class="text-xs text-slate-600 font-medium"
+                        >Supplier name is unique</span
+                      >
                     </div>
                     <div class="mt-3">
                       <label
@@ -152,18 +157,32 @@
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
                         required
-                        @input="validatePhone"
+                        @change="validatePhone"
                       />
-                      <span v-if="phoneError" class="error text-xs">{{
-                        phoneError
-                      }}</span>
+                      <span
+                        v-if="!isPhoneError"
+                        class="text-xs text-slate-600 font-medium"
+                        >Phone number length must be equal 10 characters</span
+                      >
+                      <div v-else>
+                        <span
+                          v-if="phoneError"
+                          class="error text-xs font-medium"
+                          >{{ phoneError }}</span
+                        >
+                        <span
+                          v-else
+                          class="success text-xs text-slate-600 font-medium"
+                          >{{ messagePhoneSuccess }}</span
+                        >
+                      </div>
                     </div>
                     <div class="addFurniture grid grid-cols-2 gap-x-4 mt-3">
                       <div>
                         <label
                           for="exampleInputEmail1"
                           class="form-label font-medium"
-                          >Provine</label
+                          >Province</label
                         >
                         <select
                           v-if="provinces"
@@ -436,7 +455,7 @@
                             </label>
                             <img
                               v-else
-                              :src="urlImage"
+                              :src="s.suplierImage"
                               alt="image"
                               class="w-8/12"
                             />
@@ -766,7 +785,7 @@
                             </label>
                             <img
                               v-else
-                              :src="urlImage"
+                              :src="s.suplierImage"
                               alt="image"
                               class="w-8/12"
                             />
@@ -902,14 +921,16 @@
                     </div>
                   </template>
                   <template v-slot:footer>
-                    <button
-                      data-dismiss="modal"
-                      @click.prevent="HandleUpdate"
-                      type="button"
-                      class="button_addfurniture text-white bg-yellow-900 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-black dark:hover:bg-gray-600 dark:focus:ring-gray-600"
-                    >
-                      Update
-                    </button>
+                    <div class="bg-yellow-900 rounded-md">
+                      <span
+                        type="button"
+                        class="btn text-white"
+                        data-dismiss="modal"
+                        @click.prevent="HandleUpdate"
+                      >
+                        Update
+                      </span>
+                    </div>
                   </template>
                 </modal>
                 <modal
@@ -987,6 +1008,9 @@ export default {
       phone: "",
       searchResults: [],
       supModal: {},
+      phoneError: "",
+      isPhoneError: false,
+      messagePhoneSuccess: "",
     };
   },
   created() {
@@ -1040,45 +1064,15 @@ export default {
         console.error(error);
       }
     },
-    // validatePhone() {
-    //   if (this.phone.length === 10) {
-    //     this.phoneError = "Phone number length must be equal 10 characters";
-    //   } else {
-    //     this.phoneError === "";
-    //   }
-    // },
-    // validateStreet() {
-    //   if (this.street.length > 2 || this.street.length < 30) {
-    //     this.streetError =
-    //       "Street cannot be less than 2 characters or exceed 30 characters";
-    //   } else {
-    //     this.streetError === "";
-    //   }
-    // },
-    // validateWard() {
-    //   if (this.ward.length < 2 || this.ward.length > 30) {
-    //     this.wardError =
-    //       "Ward cannot be less than 2 characters or exceed 30 characters";
-    //   } else {
-    //     this.wardError === "";
-    //   }
-    // },
-    // validateDistrict() {
-    //   if (this.district.length > 2 || this.district.length < 20) {
-    //     this.districtError =
-    //       "District cannot be less than 2 characters or exceed 20 characters";
-    //   } else {
-    //     this.districtError === "";
-    //   }
-    // },
-    // validateProvince() {
-    //   if (this.provine.length > 2 || this.provine.length < 20) {
-    //     this.provinceError =
-    //       "Provine cannot be less than 2 characters or exceed 20 characters";
-    //   } else {
-    //     this.provinceError === "";
-    //   }
-    // },
+    validatePhone() {
+      if (this.phone.length === 10) {
+        this.isPhoneError = true;
+        this.phoneError = "Phone number length must be equal 10 characters";
+      } else {
+        this.messagePhoneSuccess === "Phone number is vaild";
+        this.isPhoneError = false;
+      }
+    },
     onFileChange(event) {
       this.file = event.target.files[0];
       if (this.file) {
@@ -1489,7 +1483,7 @@ form h1 {
   display: none;
 }
 
-.group {
+.search .group {
   display: flex;
   line-height: 28px;
   align-items: center;
@@ -1497,7 +1491,7 @@ form h1 {
   max-width: 225px;
 }
 
-.input {
+.search .input {
   width: 100%;
   height: 40px;
   line-height: 28px;
@@ -1511,19 +1505,19 @@ form h1 {
   transition: 0.3s ease;
 }
 
-.input::placeholder {
+.search .input::placeholder {
   color: #9e9ea7;
 }
 
-.input:focus,
-input:hover {
+.search .input:focus,
+.search input:hover {
   outline: none;
   border-color: rgba(234, 76, 137, 0.4);
   background-color: #fff;
   box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
 }
 
-.icon {
+.search .icon {
   position: absolute;
   left: 1rem;
   fill: #9e9ea7;

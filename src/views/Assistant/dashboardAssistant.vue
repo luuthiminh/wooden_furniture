@@ -10,10 +10,6 @@
           >
             <div class="mb-4 px-3">
               <div class="d-flex align-items-center mb-2">
-                <!-- <span
-                  class="text-sm font-semibold text-gray-400 align-self-start me-1>"
-                  >$</span
-                > -->
                 <span class="text-3xl font-semibold text-gray-800 me-2 lh-1">{{
                   dataNumber.materialTotal
                 }}</span>
@@ -24,6 +20,7 @@
                 (in the warehouse)
               </p>
             </div>
+            <i class="bi bi-database"></i>
           </div>
         </div>
       </div>
@@ -35,10 +32,6 @@
         >
           <div class="mb-4 px-3">
             <div class="d-flex align-items-center mb-2">
-              <!-- <span
-                class="text-sm font-semibold text-gray-400 align-self-start me-1>"
-                >$</span
-              > -->
               <span class="text-3xl font-semibold text-gray-800 me-2 lh-1">{{
                 dataNumber.furnitureTotal
               }}</span>
@@ -47,6 +40,7 @@
             <p class="text-sm font-medium text-gray-400">Total Furniture</p>
             <p class="text-xs font-medium text-gray-400">(in the warehouse)</p>
           </div>
+          <i class="bi bi-shop-window"></i>
         </div>
       </div>
       <div
@@ -57,10 +51,6 @@
         >
           <div class="mb-4 px-3">
             <div class="d-flex align-items-center mb-2">
-              <!-- <span
-                class="text-sm font-semibold text-gray-400 align-self-start me-1>"
-                >$</span
-              > -->
               <span class="text-3xl font-semibold text-gray-800 me-2 lh-1">{{
                 dataNumber.spent
               }}</span>
@@ -69,6 +59,7 @@
             <p class="text-sm font-medium text-gray-400">Total Expenses</p>
             <p class="text-xs font-medium text-gray-400">(material)</p>
           </div>
+          <i class="bi bi-cash-coin"></i>
         </div>
       </div>
       <div>
@@ -87,6 +78,11 @@
               <p class="text-sm font-medium text-gray-400">
                 Total Export Material
               </p>
+            </div>
+            <div
+              class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 h-14 items-center flex justify-center"
+            >
+              <i class="bi bi-database-up text-yellow-700 text-2xl"></i>
             </div>
           </div>
         </div>

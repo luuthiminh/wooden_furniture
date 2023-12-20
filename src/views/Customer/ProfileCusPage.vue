@@ -504,13 +504,20 @@
                             </div>
                           </template>
                           <template v-slot:body>
-                            <div class="py-3 pr-36 text-sm">
-                              <span class="text-sm text-gray-700">
-                                {{ messageWanning }}
+                            <div class="px-1 text-sm mx-3">
+                              <span
+                                v-if="!messageOtp"
+                                class="success text-sm text-gray-700"
+                              >
+                                {{ messageOtp }}
                               </span>
+                              <span v-else class="text-sm text-red-800 my-2"
+                                >Enter your new phone, then check Otp on your
+                                phone</span
+                              >
                               <label
                                 for="exampleInputEmail1"
-                                class="col-span-4 form-label text-semibold font-base pt-2 border-none"
+                                class="mt-3 col-span-4 form-label text-semibold font-base pt-2 border-none"
                                 >New Phone</label
                               >
                               <div class="grid grid-cols-2">
@@ -525,11 +532,11 @@
 
                                 <label
                                   for="exampleInputEmail1"
-                                  class="col-span-4 form-label text-semibold font-base pt-2 border-none"
+                                  class="col-span-4 form-label text-semibold font-base pt-2 border-none mt-4"
                                   >Verification Code</label
                                 >
                               </div>
-                              <div class="mt-3">
+                              <div class="mt-3 flex gap-x-3 mb-3">
                                 <input
                                   v-model="otp"
                                   type="text"
@@ -538,7 +545,7 @@
                                   aria-describedby="nameHelp"
                                   required
                                 />
-                                <div class="bg-slate-300 rounded-md">
+                                <div class="bg-slate-400 rounded-md">
                                   <span
                                     type="button"
                                     class="btn text-white"
@@ -1532,17 +1539,12 @@
                                           <img
                                             :src="img.path"
                                             alt="image"
-                                            class="w-8/12"
+                                            class="ml-24 w-8/12"
                                             for="imageUpload"
                                           />
                                         </div>
                                       </div>
-                                      <img
-                                        v-else
-                                        :src="url"
-                                        alt="image"
-                                        class="w-8/12"
-                                      />
+                                      <img v-else :src="url" alt="image" />
                                     </div>
                                     <div v-else>
                                       <img
@@ -2293,7 +2295,7 @@ export default {
       isAlertError: false,
       isAlertWanning: false,
       messageError: null,
-      messageSuccess: null,
+      messageSuccess: "",
       messageWanning: null,
       otp: "",
       url: "",
@@ -2325,6 +2327,7 @@ export default {
       msgErrorDelivery: "",
       warrantyModal: {},
       urlWarranty: {},
+      messageOtp: {},
     };
   },
   created() {
@@ -2574,11 +2577,7 @@ export default {
           "user/individual/enable-account-otp?email=" + this.email
         );
         if (response.status === 200) {
-          this.isAlertSuccess = true;
-          this.messageSuccess = "Please check your email";
-          setTimeout(() => {
-            this.isAlertSuccess = false;
-          }, 5000);
+          this.messageOtp = response.data;
         }
       } catch (error) {
         this.isAlertError = true;

@@ -1467,6 +1467,9 @@ header::before {
   font-size: 17px;
   padding-top: 23%;
 }
+.category.grid h1 {
+  color: #635a5a;
+}
 .crossbar::after {
   content: "";
   display: block;

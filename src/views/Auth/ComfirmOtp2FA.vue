@@ -10,6 +10,7 @@
           />
         </div>
         <p class="font-bold text-2xl text-center text-yellow-900">L & L</p>
+        <p v-if="isLogin2AF" class="text-sm">{{ messageError }}</p>
       </div>
       <div class="title">OTP</div>
       <div class="title">Verification Code</div>
@@ -36,7 +37,7 @@ export default {
   data() {
     return {
       rememberMe: false,
-      message: "",
+      messageError: "",
       token: null,
       isShowPassword: false,
       isLogin2AF: false,
@@ -71,7 +72,7 @@ export default {
           }
         }
       } catch (error) {
-        this.message = "OTP is not vaild!";
+        this.isLogin2AF = false;
         console.error(error);
       }
     },

@@ -2,7 +2,7 @@
   <div class="bg-white mb-2 rounded-xl mt-32">
     <div class="pt-6 px-6 scroll">
       <div class="flex items-center justify-between">
-        <div class="">
+        <div class="search">
           <div class="group">
             <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
               <g>
@@ -140,10 +140,14 @@
                             v-else-if="url"
                             :src="url"
                             alt="image"
-                            for="file"
+                            for="imageUpload"
                           />
                         </div>
-                        <label v-else class="custum-file-upload" for="file">
+                        <label
+                          v-else
+                          class="custum-file-upload"
+                          for="imageUpload"
+                        >
                           <div class="icon">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -252,9 +256,9 @@
                             v-model="userModal.gender"
                           >
                             <option disable>Choose gender/option></option>
-                            <option value="MALE">One</option>
-                            <option value="FEMALE">Two</option>
-                            <option value="OTHER">Three</option>
+                            <option value="MALE">Male</option>
+                            <option value="FEMALE">Female</option>
+                            <option value="OTHER">Other</option>
                           </select>
                         </div>
                       </div>
@@ -291,9 +295,6 @@
                 <th>Creation Date</th>
                 <th>Is Activated</th>
                 <th>Two Factor Enabled</th>
-                <!-- <th>Debit</th>
-                  <th>Spent</th>
-                  <th>Point</th> -->
                 <th>Action</th>
               </tr>
             </thead>
@@ -502,10 +503,10 @@
                               aria-label="Default select example"
                               v-model="genderModal"
                             >
-                              <option disable>Choose gender/option></option>
-                              <option value="MALE">One</option>
-                              <option value="FEMALE">Two</option>
-                              <option value="OTHER">Three</option>
+                              <option disable>Choose gender option</option>
+                              <option value="MALE">Male</option>
+                              <option value="FEMALE">Female</option>
+                              <option value="OTHER">Other</option>
                             </select>
                           </div>
                         </div>
@@ -563,6 +564,7 @@ export default {
       messageWanning: null,
       searchResults: [],
       userModal: {},
+      url: {},
     };
   },
   created() {},
@@ -583,14 +585,15 @@ export default {
     },
     async HandleUpdate() {
       const formData = new FormData();
-      formData.append("UserId ", this.userModal.userId);
-      formData.append("FirstName ", this.userModal.firstName);
-      formData.append("LastName ", this.userModal.lastName);
-      formData.append("DoB", this.userModal.doB);
-      formData.append("Gender", this.userModal.gender);
-      formData.append("Image", this.file);
+      formData.append("userId ", "264072a3-2347-49f2-9406-7460ab9e57fa");
+      formData.append("firstName ", this.userModal.firstName);
+      formData.append("lastName ", this.userModal.lastName);
+      formData.append("doB", this.userModal.doB);
+      formData.append("gender", this.userModal.gender);
+      formData.append("image", this.file);
+      console.log(this.userModal.userId);
       try {
-        await axios.get("user/all/update", formData, {
+        await axios.put("user/all/update", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -658,7 +661,7 @@ export default {
 .bar li {
   padding-right: 10px;
 }
-.group {
+.search .group {
   display: flex;
   line-height: 28px;
   align-items: center;
@@ -666,7 +669,7 @@ export default {
   max-width: 225px;
 }
 
-.input {
+.search .input {
   width: 100%;
   height: 40px;
   line-height: 28px;
@@ -680,11 +683,11 @@ export default {
   transition: 0.3s ease;
 }
 
-.input::placeholder {
+.search .input::placeholder {
   color: #9e9ea7;
 }
 
-.input:focus,
+.search .input:focus,
 input:hover {
   outline: none;
   border-color: rgba(234, 76, 137, 0.4);
