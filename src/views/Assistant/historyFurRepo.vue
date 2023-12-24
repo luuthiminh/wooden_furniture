@@ -12,9 +12,12 @@
         </ol>
       </nav>
     </div>
-    <div class="font-semibold text-lg ml-4 pt-4">
+    <div class="font-semibold text-lg ml-4 pt-4 mb-3">
       History Repositories Furniture
     </div>
+    <span class="font-medium text-xs ml-6"
+      >You can download the entire imported and exported furniture in CSV
+    </span>
     <div class="absolute right-10">
       <alert-Error v-if="isAlertError">
         <template v-slot:message>{{ messageError }}</template></alert-Error
@@ -23,7 +26,7 @@
         <template v-slot:message>{{ messageSuccess }}</template>
       </alert-success>
     </div>
-    <div class="content_table pt-14 px-6 scroll">
+    <div class="content_table pt-10 px-6 scroll">
       <div class="flex mb-4">
         <div class="flex items-center gap-x-4 text-sm">
           <p class="font-semibold">Totally Furniture:</p>
@@ -122,6 +125,7 @@
       </div>
       <div class="py-4">
         <table
+          v-if="historyFurniture.length"
           class="table table-borderless text-yellow-950 font-medium bg-white round-md"
         >
           <thead class="table-light">
@@ -138,7 +142,7 @@
               <th></th>
             </tr>
           </thead>
-          <tbody v-if="historyFurniture.length">
+          <tbody>
             <tr
               class="text-sm"
               v-for="hf in historyFurniture"
@@ -199,7 +203,6 @@
                             v-for="repo in reponsitories"
                             :key="repo.repositoryId"
                             :value="repo.repositoryId"
-                            required
                           >
                             {{ repo.repositoryName }}
                           </option>
@@ -212,15 +215,22 @@
                         class="col-span-4 form-label text-semibold text-sm pt-2 border-none"
                         >Quantity</label
                       >
-                      <input
-                        v-model="quantity"
-                        type="text"
-                        class="col-span-8 form-control"
-                        id="exampleInpuName1"
-                        aria-describedby="nameHelp"
-                        required
-                      />
-                      <span></span>
+                      <div class="col-span-8">
+                        <input
+                          v-model="quantity"
+                          type="number"
+                          class="form-control"
+                          id="exampleInpuName1"
+                          aria-describedby="nameHelp"
+                          required
+                          :min="1"
+                          :max="1000"
+                          @input="validateQuantity"
+                        />
+                        <span class="text-slate-600 text-xs"
+                          >Quantity must between 1 and 1000!</span
+                        >
+                      </div>
                     </div>
                   </div>
                 </template>
@@ -240,10 +250,10 @@
             </tr>
           </tbody>
         </table>
+        <loadding v-else />
       </div>
     </div>
   </div>
-  <!-- </div> -->
 </template>
 <script>
 import axios from "axios";
@@ -251,11 +261,13 @@ import { format } from "date-fns";
 import modal from "@/components/ModalPage.vue";
 import alertError from "@/components/AlertError.vue";
 import alertSuccess from "@/components/AlertSuccess.vue";
+import loadding from "@/components/loaddingAssistant.vue";
 export default {
   components: {
     modal,
     alertError,
     alertSuccess,
+    loadding,
   },
   data() {
     return {

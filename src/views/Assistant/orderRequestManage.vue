@@ -13,6 +13,9 @@
     </div>
     <div class="px-7">
       <h1 class="font-semibold text-xl py-6">Management Request Order</h1>
+      <span class="font-medium text-xs"
+        >You have to set the status of a customer's order
+      </span>
       <div class="flex gap-x-40 pt-10">
         <div class="flex items-center gap-x-4 text-sm">
           <p class="gap-x-2 font-semibold">Total Orders:</p>
@@ -189,6 +192,7 @@
               </tr>
             </tbody>
           </table>
+          <loadding v-else />
         </div>
       </div>
     </div>
@@ -200,11 +204,13 @@ import { format } from "date-fns";
 import modal from "@/components/ModalPage.vue";
 import alertError from "@/components/AlertError.vue";
 import alertSuccess from "@/components/AlertSuccess.vue";
+import loadding from "@/components/loaddingAssistant.vue";
 export default {
   components: {
     modal,
     alertError,
     alertSuccess,
+    loadding,
   },
   data() {
     return {

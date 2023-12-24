@@ -109,7 +109,7 @@
                 <div class="flex justify-center">
                   <a
                     @click="loginGg"
-                    href="https://landlstore.azurewebsites.net/api/authentication/signin-google"
+                    href="https://localhost:44361/api/authentication/signin-google"
                   >
                     <div class="button_gg">
                       <svg

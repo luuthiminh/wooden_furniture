@@ -1677,6 +1677,7 @@
                       </div>
                     </div>
                   </div>
+                  <loadding v-else />
                 </div>
               </div>
               <div role="tabpanel" class="tab-pane" id="customize">
@@ -2555,12 +2556,7 @@ export default {
           "user/individual/disable-account?password=" + this.disablePassword
         );
         if (response.status === 200) {
-          this.modalType = null;
-          this.isAlertSuccess = true;
-          this.messageSuccess = "Disable account successfully";
-          setTimeout(() => {
-            this.isAlertSuccess = false;
-          }, 5000);
+          this.$router.push({ name: "login" });
         }
       } catch (error) {
         this.isAlertError = true;
@@ -2901,7 +2897,7 @@ export default {
     async updateInfor() {
       const formData = new FormData();
       formData.append("Image", this.file);
-      formData.append("FirtName", this.info.firtName);
+      formData.append("FirtName", this.info.firstName);
       formData.append("LastName", this.info.lastName);
       formData.append("Gender", this.info.gender);
       formData.append("DoB", this.DoB);
@@ -2963,7 +2959,7 @@ export default {
     async HandleUpdateWarranty() {
       const formData = new FormData();
       formData.append("warrantyId", this.warrantyModal.warrantyId);
-      formData.append("warrantyReasons ", this.warrantyModal.warrantyReasons);
+      formData.append("WarrantyReasons ", [this.warrantyModal.warrantyReasons]);
       if (this.arrayFile.length > 0) {
         for (var i = 0; i < this.arrayFile.length > 0; i++) {
           formData.append("UploadFiles", this.arrayFile[i]);

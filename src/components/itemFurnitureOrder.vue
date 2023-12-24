@@ -13,7 +13,7 @@
                   v-if="or.status === 'Canceled'"
                   class="ring-1 ring-red-600 px-2 py-1 text-red-600 font-semibold rounded-md text-sm"
                 >
-                  Cancelled
+                  Canceled
                 </div>
                 <div v-if="or.status !== 'Canceled'" class="flex gap-x-3">
                   <div
@@ -47,11 +47,20 @@
                   </div>
                 </div>
               </div>
-              <div
-                v-if="or.status === 'Preparing'"
-                class="ring-1 ring-emerald-600 px-2 py-1 text-emerald-600 font-semibold rounded-md text-sm"
-              >
-                Preparing
+              <div v-if="or.status === 'Preparing'">
+                <div class="flex gap-x-2">
+                  <div
+                    class="ring-1 ring-emerald-600 px-2 py-1 text-emerald-600 font-semibold rounded-md text-sm"
+                  >
+                    Preparing
+                  </div>
+                  <div
+                    @click="HandleCancelOrder(or.orderId)"
+                    class="bg-red-600 px-2 py-1 text-white rounded-md text-sm cursor-pointer"
+                  >
+                    Cancel
+                  </div>
+                </div>
               </div>
               <div
                 v-if="or.status === 'Delivering'"
@@ -684,6 +693,16 @@ export default {
         console.log("This arrayFile", this.arrayFile);
         this.message = error.response.data.message;
         console.error(error.response.data.message);
+      }
+    },
+    async HandleCancelOrder(id) {
+      try {
+        const response = await axios.put("customer/cancel-order?orderId=" + id);
+        if (response.status === 200) {
+          this.isCancel = true;
+        }
+      } catch (error) {
+        console.error(error);
       }
     },
   },

@@ -15,7 +15,10 @@
         </ol>
       </nav>
     </div>
-    <div class="font-semibold text-lg ml-4 pt-4">All Materials</div>
+    <div class="font-semibold text-lg ml-4 pt-4 mb-6">All Materials</div>
+    <span class="font-medium text-xs ml-6"
+      >You can search, update, delete with material!
+    </span>
     <div class="absolute right-0">
       <alert-Error v-if="isAlertError">
         <template v-slot:message>{{ messageError }}</template></alert-Error
@@ -249,6 +252,11 @@
                                   required
                                   @change="onFileChange"
                                 />
+                                <p
+                                  class="text-xs mt-1 font-mediudm ml-1 opacity-90"
+                                >
+                                  You can upload image or video
+                                </p>
                               </div>
                               <label
                                 class="bi bi-pencil text-xs"
@@ -269,8 +277,28 @@
                             class="form-control border-none bg-neutral-100"
                             id="firstname"
                             aria-describedby="firstnameHelp"
+                            @input="validateName"
                             required
                           />
+                          <p
+                            v-if="!messageErrorName"
+                            class="text-xs mt-1 font-mediudm ml-1 opacity-90"
+                          >
+                            Material name cannot be less than
+                            <b>2</b> characters or exceed <b>30</b> characters
+                          </p>
+                          <p
+                            v-else-if="messageSucessName"
+                            class="success text-xs mt-1 font-mediudm ml-1 opacity-90"
+                          >
+                            {{ messageSucessName }}
+                          </p>
+                          <p
+                            v-else
+                            class="error text-xs mt-1 font-mediudm ml-1 opacity-90"
+                          >
+                            {{ messageErrorName }}
+                          </p>
                         </div>
                       </div>
                       <div class="mt-3">
@@ -278,7 +306,7 @@
                         <div class="">
                           <input
                             v-model="materialPrice"
-                            type="text"
+                            type="number"
                             class="form-control border-none bg-neutral-100"
                             id="firstname"
                             aria-describedby="firstnameHelp"
@@ -298,35 +326,30 @@
                             id="firstname"
                             aria-describedby="firstnameHelp"
                             required
+                            @input="validateDescription"
                           />
+                          <p
+                            v-if="!messageErrorDescription"
+                            class="text-xs mt-1 font-mediudm ml-1 opacity-90"
+                          >
+                            Description cannot be less than
+                            <b>2</b> characters or exceed <b>50</b> characters
+                          </p>
+                          <p
+                            v-else-if="messageSucessDescription"
+                            class="success text-xs mt-1 font-mediudm ml-1 opacity-90"
+                          >
+                            {{ messageSucessDescription }}
+                          </p>
+                          <p
+                            v-else
+                            class="error text-xs mt-1 font-mediudm ml-1 opacity-90"
+                          >
+                            {{ messageErrorDescription }}
+                          </p>
                         </div>
                       </div>
-                      <div class="mt-3">
-                        <label class="col-form-label fw-medium">Quantity</label>
-                        <div class="">
-                          <input
-                            v-model="quantities"
-                            type="text"
-                            class="form-control border-none bg-neutral-100"
-                            id="firstname"
-                            aria-describedby="firstnameHelp"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div class="mt-3">
-                        <label class="col-form-label fw-medium">Note</label>
-                        <div class="">
-                          <input
-                            v-model="note"
-                            type="text"
-                            class="form-control border-none bg-neutral-100"
-                            id="firstname"
-                            aria-describedby="firstnameHelp"
-                            required
-                          />
-                        </div>
-                      </div>
+
                       <div class="mt-3">
                         <label
                           for="exampleInputEmail1"
@@ -573,14 +596,36 @@
                       class="col-span-4 form-label text-semibold text-base pt-2 border-none"
                       >Reason</label
                     >
-                    <input
-                      v-model="reason"
-                      type="text"
-                      class="col-span-8 form-control"
-                      id="exampleInpuName1"
-                      aria-describedby="nameHelp"
-                      required
-                    />
+                    <div class="col-span-8">
+                      <input
+                        v-model="reason"
+                        type="text"
+                        class="form-control"
+                        id="exampleInpuName1"
+                        aria-describedby="nameHelp"
+                        required
+                        @input="validateReason"
+                      />
+                      <p
+                        v-if="!messageErrorReason"
+                        class="text-xs mt-1 font-mediudm ml-1 opacity-90"
+                      >
+                        Reason cannot be less than
+                        <b>2</b> characters or exceed <b>300</b> characters
+                      </p>
+                      <p
+                        v-else-if="messageSucessReason"
+                        class="success text-xs mt-1 font-mediudm ml-1 opacity-90"
+                      >
+                        {{ messageSucessReason }}
+                      </p>
+                      <p
+                        v-else
+                        class="error text-xs mt-1 font-mediudm ml-1 opacity-90"
+                      >
+                        {{ messageErrorReason }}
+                      </p>
+                    </div>
                   </div>
                 </template>
                 <template v-slot:footer>
@@ -839,32 +884,7 @@
                           />
                         </div>
                       </div>
-                      <div class="mt-3">
-                        <label class="col-form-label fw-medium">Quantity</label>
-                        <div class="">
-                          <input
-                            v-model="quantities"
-                            type="text"
-                            class="form-control border-none bg-neutral-100"
-                            id="firstname"
-                            aria-describedby="firstnameHelp"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div class="mt-3">
-                        <label class="col-form-label fw-medium">Note</label>
-                        <div class="">
-                          <input
-                            v-model="note"
-                            type="text"
-                            class="form-control border-none bg-neutral-100"
-                            id="firstname"
-                            aria-describedby="firstnameHelp"
-                            required
-                          />
-                        </div>
-                      </div>
+
                       <div class="mt-3">
                         <label
                           for="exampleInputEmail1"
@@ -1098,7 +1118,7 @@
                     >
                     <input
                       v-model="quantity"
-                      type="text"
+                      type="number"
                       class="col-span-8 form-control"
                       id="exampleInpuName1"
                       aria-describedby="nameHelp"
@@ -1118,6 +1138,7 @@
                       id="exampleInpuName1"
                       aria-describedby="nameHelp"
                       required
+                      @input="validateReason"
                     />
                   </div>
                 </template>
@@ -1176,6 +1197,14 @@ export default {
       urlMaterials: "",
       suppliers: [],
       idSupModal: "",
+      messageErrorName: "",
+      messageSucessName: "",
+      messageErrorDescription: "",
+      messageSucessDescription: "",
+      messageErrorReason: "",
+      messageSucessReason: "",
+      isDismissModal: false,
+      isShowMessage: false,
     };
   },
   created() {
@@ -1222,6 +1251,44 @@ export default {
       }
       console.log(event);
     },
+    validateName() {
+      this.isShowMessage = true;
+      if (
+        !this.materialName ||
+        this.materialName.length < 2 ||
+        this.materialName.length > 50
+      ) {
+        this.messageErrorName = "Name Material is invalid.";
+        this.isDismissModal = false;
+      } else {
+        this.messageSucessName = "Name Material is valid.";
+        this.isDismissModal = true;
+      }
+    },
+    validateDescription() {
+      this.isShowMessage = true;
+      if (
+        !this.materialDescription ||
+        this.materialDescription.length < 2 ||
+        this.materialDescription.length > 50
+      ) {
+        this.messageErrorDescription = "Description is invalid.";
+        this.isDismissModal = false;
+      } else {
+        this.messageSucessDescription = "Description is valid";
+        this.isDismissModal = true;
+      }
+    },
+    validateReason() {
+      this.isShowMessage = true;
+      if (!this.reason || this.reason.length < 2 || this.reason.length > 300) {
+        this.messageErrorReason = "Reason is invalid.";
+        this.isDismissModal = false;
+      } else {
+        this.messageSucessReason = "Reason is valid";
+        this.isDismissModal = true;
+      }
+    },
     async AddMaterial() {
       const formData = new FormData();
       formData.append("materialName", this.materialName);
@@ -1252,7 +1319,7 @@ export default {
       } catch (error) {
         this.modalType = null;
         this.isAlertError = true;
-        this.messageError = error.response.data.message;
+        this.messageError = "Add new material error";
         setTimeout(() => {
           this.isAlertError = false;
         }, 5000);

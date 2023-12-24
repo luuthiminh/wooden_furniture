@@ -188,12 +188,6 @@
                         >
                           ADD TO CART
                         </button>
-
-                        <!-- <button
-                          class="px-2 py-1 text-white ring-offset-2 ring-2 bg-red-700 ring-red-300 rounded-md"
-                        >
-                          BUY
-                        </button> -->
                       </div>
                     </div>
                   </div>
@@ -300,11 +294,6 @@
                         >
                           ADD TO CART
                         </button>
-                        <!-- <button
-                          class="px-2 py-1 text-white ring-offset-2 ring-2 bg-red-700 ring-red-300 rounded-md"
-                        >
-                          BUY
-                        </button> -->
                       </div>
                     </div>
                   </div>
@@ -334,6 +323,7 @@
               <template v-slot:footer>
                 <button
                   @click="handleAddToCart"
+                  data-dismiss="modal"
                   class="px-2 py-1 text-white ring-offset-2 ring-2 bg-slate-600 rounded-md"
                 >
                   ADD TO CART
@@ -404,42 +394,9 @@
         <div class="content_item rounded-md px-3 py-3 mt-4">
           <div class="grid grid-cols-2 gap-x-44 w-full">
             <p class="font-semibold">1 feedback</p>
-            <!-- <div class="flex flex-cols-2 float-right pl-96">
-              <span class="pr-3">Filters </span>
-              <div class="dropdown">
-                <button
-                  class="btn btn-primary dropdown-toggle"
-                  type="button"
-                  data-toggle="dropdown"
-                >
-                  <span class="">Filters</span>
-                </button>
-                <ul class="dropdown-menu px-2 py-2 rounded-base">
-                  <li><a href="#">Lastest</a></li>
-                  <li><a href="#">Oldest</a></li>
-                </ul>
-              </div>
-            </div> -->
           </div>
           <div class="h-px w-full bg-slate-200 mt-2"></div>
-          <div class="grid grid-cols-12 mt-3">
-            <!-- <div class="col-span-1 avatar_feeedback py-4">
-            <router-link to="/profileCusPage" style="text-decoration: none"
-              ><img
-                class="rounded-full w-16"
-                src="https://ordinaryofficial.vn/wp-content/uploads/2022/12/con-gai-han-quoc.jpg"
-                alt="avatar"
-            /></router-link>
-          </div> -->
-            <!-- <div class="form-group col-span-11 pt-1">
-            <textarea
-              style="height: 50%"
-              class="form-control mt-4"
-              id="exampleFormControlTextarea1"
-              rows="3"
-            ></textarea>
-          </div> -->
-          </div>
+          <div class="grid grid-cols-12 mt-3"></div>
           <div class="comment flex flex-cols-2">
             <div class="avtar">
               <router-link to="/profileCusPage" style="text-decoration: none"
@@ -449,11 +406,16 @@
                   alt="avatar"
               /></router-link>
             </div>
-            <div class="pl-10">
-              <h1 class="font-semibold">Luu Thi Minh</h1>
-              <span class="text-base">Pretty</span>
-              <br />
-              <span class="text-xs">10:10AM</span>
+            <div v-for="fed in furnitureFirst.feedbacks" :key="fed">
+              <div class="pl-10">
+                <h1 class="font-semibold">{{ fed?.customer }}</h1>
+                <span class="text-base">{{ fed?.content }}</span>
+                <br />
+                <div class="flex gap-x-3">
+                  <i class="bi bi-star-fill text-yellow-500"></i>
+                  <span class="text-xs">{{ fed.voteStar }}</span>
+                </div>
+              </div>
             </div>
           </div>
           <img
@@ -509,12 +471,28 @@ export default {
       isAlertError: false,
       messageError: null,
       messageSuccess: null,
+      info: {},
     };
   },
   created() {
     this.getAllFurnitureDetail();
+    this.getInfor();
   },
   methods: {
+    async getInfor() {
+      try {
+        const response = await axios.get("user/detail");
+        this.info = response.data;
+        const dob = new Date(this.info.doB);
+        this.DoB = dob.toISOString().split("T")[0];
+        const a = this.info.avatar;
+        const url = a.replace(/\\/g, "/");
+        this.avatar = url;
+        this.isEditPhone = true;
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async getAllFurnitureDetail() {
       try {
         const response = await axios.get(
@@ -536,30 +514,34 @@ export default {
       this.isShowQuantity = !this.isShowQuantity;
     },
     async handleAddToCart() {
-      try {
-        const response = await axios.post(
-          "customer/cart/add?furnitureSpecificationId=" +
-            this.isFurnitureIdModal +
-            "&quantity=" +
-            this.quantities
-        );
-        if (response.status === 200) {
-          this.isAlertSuccess = true;
-          this.messageSuccess = "Add to card successfully!";
-          setTimeout(() => {
-            this.isAlertSuccess = false;
-          }, 5000);
-          this.getAllWoods();
+      if (localStorage.getItem("token") == undefined) {
+        this.$router.push({ name: "login" });
+      } else {
+        try {
+          const response = await axios.post(
+            "customer/cart/add?furnitureSpecificationId=" +
+              this.isFurnitureIdModal +
+              "&quantity=" +
+              this.quantities
+          );
+          if (response.status === 200) {
+            this.isAlertSuccess = true;
+            this.messageSuccess = "Add to card successfully!";
+            setTimeout(() => {
+              this.isAlertSuccess = false;
+            }, 5000);
+            this.getAllWoods();
+            this.isShowQuantity = false;
+          }
+        } catch (error) {
           this.isShowQuantity = false;
+          this.isAlertError = true;
+          this.messageError = "Add to card error!";
+          setTimeout(() => {
+            this.isAlertError = false;
+          }, 5000);
+          console.error(error);
         }
-      } catch (error) {
-        this.isShowQuantity = false;
-        this.isAlertError = true;
-        this.messageError = "Add to card error!";
-        setTimeout(() => {
-          this.isAlertError = false;
-        }, 5000);
-        console.error(error);
       }
     },
     closeModal() {

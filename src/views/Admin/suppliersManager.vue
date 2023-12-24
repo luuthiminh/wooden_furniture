@@ -110,6 +110,27 @@
                         </div>
                         <input type="file" id="file" @change="onFileChange" />
                       </label>
+                      <div class="avatar_edit">
+                        <div class="hidden">
+                          <input
+                            type="file"
+                            name="avatar"
+                            id="imageUpload"
+                            accept=".png, .jpg, .jpeg"
+                            :maxFileSize="1000000"
+                            ref="file"
+                            required
+                            @change="onFileChange"
+                          />
+                          <p class="text-xs mt-1 font-mediudm ml-1 opacity-90">
+                            You can upload image
+                          </p>
+                        </div>
+                        <label
+                          class="bi bi-pencil text-xs"
+                          for="imageUpload"
+                        ></label>
+                      </div>
                     </div>
                     <div class="mt-3">
                       <label
@@ -373,7 +394,7 @@
                       data-target="#exampleModalLong"
                       data-dismiss="modal"
                       data-backdrop="false"
-                      @click="opentModal('delete')"
+                      @click="opentModal('delete', s)"
                     >
                       <i class="bi bi-trash3 text-base"></i>
                       <span>Delete</span>
@@ -406,53 +427,46 @@
                               alt="image"
                               class="w-8/12"
                             />
-                            <img
-                              v-else-if="url"
-                              :src="url"
-                              alt="image"
-                              class="w-8/12"
-                            />
+                            <img v-else :src="url" alt="image" class="w-8/12" />
                           </div>
                           <div v-else>
-                            <label
-                              v-if="!url"
-                              class="custum-file-upload"
-                              for="imageUpload"
-                            >
-                              <div class="icon">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill=""
-                                  viewBox="0 0 24 24"
-                                >
-                                  <g
-                                    stroke-width="0"
-                                    id="SVGRepo_bgCarrier"
-                                  ></g>
-                                  <g
-                                    stroke-linejoin="round"
-                                    stroke-linecap="round"
-                                    id="SVGRepo_tracerCarrier"
-                                  ></g>
-                                  <g id="SVGRepo_iconCarrier">
-                                    <path
-                                      fill=""
-                                      d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z"
-                                      clip-rule="evenodd"
-                                      fill-rule="evenodd"
-                                    ></path>
-                                  </g>
-                                </svg>
-                              </div>
-                              <div class="text">
-                                <span>Click to upload image</span>
-                              </div>
-                              <input
-                                type="file"
-                                id="file"
-                                @change="onFileChange"
-                              />
-                            </label>
+                            <div v-if="!url">
+                              <label class="custum-file-upload" for="file">
+                                <div class="icon">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill=""
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <g
+                                      stroke-width="0"
+                                      id="SVGRepo_bgCarrier"
+                                    ></g>
+                                    <g
+                                      stroke-linejoin="round"
+                                      stroke-linecap="round"
+                                      id="SVGRepo_tracerCarrier"
+                                    ></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                      <path
+                                        fill=""
+                                        d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z"
+                                        clip-rule="evenodd"
+                                        fill-rule="evenodd"
+                                      ></path>
+                                    </g>
+                                  </svg>
+                                </div>
+                                <div class="text">
+                                  <span>Click to upload image</span>
+                                </div>
+                                <input
+                                  type="file"
+                                  id="file"
+                                  @change="onFileChange"
+                                />
+                              </label>
+                            </div>
                             <img
                               v-else
                               :src="s.suplierImage"
@@ -703,7 +717,7 @@
                       data-target="#exampleModalLong"
                       data-dismiss="modal"
                       data-backdrop="false"
-                      @click="opentModal('delete')"
+                      @click="opentModal('delete', s)"
                     >
                       <i class="bi bi-trash3 text-base"></i>
                       <span>Delete</span>
@@ -730,12 +744,30 @@
                             >Image</label
                           >
                           <div v-if="s.suplierImage">
-                            <img
-                              v-if="!url"
-                              :src="s.suplierImage"
-                              alt="image"
-                              class="w-8/12"
-                            />
+                            <div v-if="!url">
+                              <img
+                                :src="s.suplierImage"
+                                alt="image"
+                                class="w-8/12"
+                              />
+                              <div class="avatar_edit">
+                                <div class="hidden">
+                                  <input
+                                    type="file"
+                                    name="avatar"
+                                    id="imageUpload"
+                                    accept=".png, .jpg, .jpeg"
+                                    :maxFileSize="1000000"
+                                    ref="file"
+                                    @change="onFileChange"
+                                  />
+                                </div>
+                                <label
+                                  class="bi bi-pencil text-xs"
+                                  for="imageUpload"
+                                ></label>
+                              </div>
+                            </div>
                             <img
                               v-else-if="url"
                               :src="url"
@@ -969,7 +1001,9 @@
     </div>
     <div v-else class="loader"></div>
   </div>
-  <p class="text-base font-medium mb-5">Total users: {{ suppliers.length }}</p>
+  <p class="text-sm font-medium mb-5">
+    Total suppliers: {{ suppliers.length }}
+  </p>
 </template>
 <script>
 import axios from "axios";
@@ -1140,8 +1174,8 @@ export default {
       formData.append("suplierEmail", this.email);
       formData.append("suplierPhoneNums", this.phone);
       if (this.file != null) {
-        formData.append("SupplierImage", this.file);
-      } else formData.append("SupplierImage", this.s.suplierImage);
+        formData.append("supplierImage", this.file);
+      } else formData.append("supplierImage", this.s.suplierImage);
       try {
         const response = await axios.put(
           "shopOwner/shop-data/suppliers/" + this.supModal.supplierId + "/edit",

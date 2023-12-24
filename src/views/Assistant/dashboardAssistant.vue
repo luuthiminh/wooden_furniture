@@ -3,7 +3,7 @@
     <div class="grid grid-cols-5 gap-x-8 px-10">
       <div>
         <div
-          class="card overflow-hidden h-md-50 mb-4 mb-xl-10 border-none bg-white shadow-md rounded-xl"
+          class="card overflow-hidden h-md-50 mb-4 mb-xl-10 ring-1 ring-yellow-800/30 bg-white shadow- rounded-xl"
         >
           <div
             class="card-body flex justify-content-between flex-column px-0 pb-0 bg-white h-44"
@@ -15,17 +15,21 @@
                 }}</span>
               </div>
 
-              <p class="text-sm font-medium text-gray-400">Totally Materials</p>
-              <p class="text-xs font-medium text-gray-400">
+              <p class="text-sm font-medium text-gray-500">Totally Materials</p>
+              <p class="text-xs font-medium text-gray-500">
                 (in the warehouse)
               </p>
             </div>
-            <i class="bi bi-database"></i>
+            <div
+              class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 h-14 items-center flex justify-center"
+            >
+              <i class="bi bi-database text-yellow-700 text-2xl"></i>
+            </div>
           </div>
         </div>
       </div>
       <div
-        class="card overflow-hidden h-md-50 mb-4 mb-xl-10 border-none bg-white shadow-md rounded-xl"
+        class="card overflow-hidden h-md-50 mb-4 mb-xl-10 ring-1 ring-yellow-800/30 bg-white shadow- rounded-xl"
       >
         <div
           class="card-body flex justify-content-between flex-column px-0 pb-0 bg-white h-44"
@@ -37,14 +41,18 @@
               }}</span>
             </div>
 
-            <p class="text-sm font-medium text-gray-400">Total Furniture</p>
-            <p class="text-xs font-medium text-gray-400">(in the warehouse)</p>
+            <p class="text-sm font-medium text-gray-500">Total Furniture</p>
+            <p class="text-xs font-medium text-gray-500">(in the warehouse)</p>
           </div>
-          <i class="bi bi-shop-window"></i>
+          <div
+            class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 h-14 items-center flex justify-center"
+          >
+            <i class="bi bi-shop-window text-yellow-700 text-2xl"></i>
+          </div>
         </div>
       </div>
       <div
-        class="card overflow-hidden h-md-50 mb-4 mb-xl-10 border-none bg-white shadow-md rounded-xl"
+        class="card overflow-hidden h-md-50 mb-4 mb-xl-10 ring-1 ring-yellow-800/30 bg-white shadow- rounded-xl"
       >
         <div
           class="card-body flex justify-content-between flex-column px-0 pb-0 bg-white h-44"
@@ -56,15 +64,19 @@
               }}</span>
             </div>
 
-            <p class="text-sm font-medium text-gray-400">Total Expenses</p>
-            <p class="text-xs font-medium text-gray-400">(material)</p>
+            <p class="text-sm font-medium text-gray-500">Total Expenses</p>
+            <p class="text-xs font-medium text-gray-500">(material)</p>
           </div>
-          <i class="bi bi-cash-coin"></i>
+          <div
+            class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 h-14 items-center flex justify-center"
+          >
+            <i class="bi bi-cash-coin text-yellow-700 text-2xl"></i>
+          </div>
         </div>
       </div>
       <div>
         <div
-          class="card overflow-hidden h-md-50 mb-4 mb-xl-10 border-none bg-white shadow-md rounded-xl"
+          class="card overflow-hidden h-md-50 mb-4 mb-xl-10 ring-1 ring-yellow-800/30 bg-white shadow- rounded-xl"
         >
           <div
             class="card-body flex justify-content-between flex-column px-0 pb-0 bg-white h-44"
@@ -75,20 +87,20 @@
                   dataNumber.materialExportTime
                 }}</span>
               </div>
-              <p class="text-sm font-medium text-gray-400">
+              <p class="text-sm font-medium text-gray-500">
                 Total Export Material
               </p>
             </div>
             <div
-              class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 h-14 items-center flex justify-center"
+              class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 h-11 items-center flex justify-center"
             >
-              <i class="bi bi-database-up text-yellow-700 text-2xl"></i>
+              <i class="bi bi-database-down text-yellow-700 text-2xl"></i>
             </div>
           </div>
         </div>
       </div>
       <div
-        class="card overflow-hidden h-md-50 mb-4 mb-xl-10 border-none bg-white shadow-md rounded-xl"
+        class="card overflow-hidden h-md-50 mb-4 mb-xl-10 ring-1 ring-yellow-800/30 bg-white shadow- rounded-xl"
       >
         <div
           class="card-body flex justify-content-between flex-column px-0 pb-0 bg-white h-44"
@@ -98,15 +110,16 @@
               <span class="text-3xl font-semibold text-gray-800 me-2 lh-1">{{
                 dataNumber.furnitureExportTime
               }}</span>
-              <!-- <div class="badge badge-light-success fs-base">
-                <i class="bi bi-arrow-up"></i>
-                2.2%
-              </div> -->
             </div>
 
-            <p class="text-sm font-medium text-gray-400">
+            <p class="text-sm font-medium text-gray-500">
               Total Export Furniture
             </p>
+          </div>
+          <div
+            class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 h-14 items-center flex justify-center"
+          >
+            <i class="bi bi-database-down text-yellow-700 text-2xl"></i>
           </div>
         </div>
       </div>
@@ -123,6 +136,7 @@
         </div>
         <div class="px-9 py-2">
           <Bar v-if="loaded" :data="barDataOrder" :options="barOptionsOrder" />
+          <loadding v-else />
         </div>
       </div>
       <div class="mb-5 mb-xl-10 border-none bg-white shadow-md rounded-xl">
@@ -137,6 +151,7 @@
               :data="lineDataFurniture"
               :options="lineOptionsFurnitrue"
             />
+            <loadding v-else />
           </div>
         </div>
       </div>
@@ -147,15 +162,14 @@
           <span class="card-label font-semibold text-dark text-lg block"
             >Material Imported Static</span
           >
-          <p class="text-gray-400 pt-2 font-medium text-sm">
-            Users from all channels
-          </p>
+          <p class="text-gray-400 pt-2 font-medium text-sm">this year</p>
           <div class="line_static mt-10">
             <Line
               v-if="loaded"
               :data="lineDataMaterial"
               :options="lineOptionsMaterial"
             />
+            <loadding v-else />
           </div>
         </div>
       </div>
@@ -165,6 +179,7 @@
 <script>
 import axios from "axios";
 import * as signalR from "@microsoft/signalr";
+import loadding from "@/components/loaddingAssistant.vue";
 import {
   Chart as ChartJS,
   Title,
@@ -195,6 +210,7 @@ export default {
   components: {
     Bar,
     Line,
+    loadding,
   },
   data() {
     return {

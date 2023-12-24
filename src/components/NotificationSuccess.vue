@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="card">
-      <button type="button" class="dismiss">×</button>
+      <!-- <button type="button" class="dismiss">×</button> -->
       <div class="header">
         <div class="image">
           <svg
@@ -43,18 +43,16 @@
 </template>
 
 <style scoped>
+.layout {
+  background: #000000c9;
+}
 .modal.fade {
   background: #000000a6;
 }
 .card {
-  overflow: hidden;
-  position: relative;
-  text-align: left;
-  border-radius: 0.5rem;
-  max-width: 290px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  background-color: #fff;
+  float: right;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 23%),
+    0 10px 10px -5px rgb(0 0 0 / 21%);
 }
 
 .dismiss {

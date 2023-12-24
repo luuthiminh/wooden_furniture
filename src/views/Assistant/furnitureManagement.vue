@@ -14,9 +14,8 @@
     </div>
     <div class="font-semibold text-lg ml-4 pt-4">All Furniture</div>
     <div class="content_table pt-6 px-6 scroll">
-      <div class="py-4">
+      <div v-if="searchResults.length || furnitures.length" class="py-4">
         <table
-          v-if="searchResults.length"
           class="table table-borderless text-yellow-950 font-medium text-center"
         >
           <thead class="table-light">
@@ -58,26 +57,7 @@
               <td>{{ furniture.price }}</td>
             </tr>
           </tbody>
-        </table>
-        <table
-          v-else
-          class="table table-borderless text-yellow-950 font-medium text-center"
-        >
-          <thead class="table-light">
-            <tr class="text-sm text-center">
-              <th scope="col">Furniture</th>
-              <th></th>
-              <th scope="col">Collection</th>
-              <th scope="col">Category</th>
-              <th scope="col">Label</th>
-              <th scope="col">Sold</th>
-              <th scope="col">Appropriate Room</th>
-              <th scope="col">Vote Star</th>
-              <th scope="col">Avaliable</th>
-              <th scope="col">Price</th>
-            </tr>
-          </thead>
-          <tbody v-if="furnitures.length">
+          <tbody v-else>
             <tr
               class="text-sm"
               v-for="furniture in furnitures"
@@ -104,14 +84,18 @@
           </tbody>
         </table>
       </div>
+      <loadding v-else />
     </div>
   </div>
   <!-- </div> -->
 </template>
+
 <script>
+import loadding from "@/components/loaddingAssistant.vue";
 export default {
   components: {
     // modal,
+    loadding,
   },
   data() {
     return {

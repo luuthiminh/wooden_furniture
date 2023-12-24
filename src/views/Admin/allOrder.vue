@@ -16,10 +16,10 @@
         <div class="py-4">
           <table
             v-if="orders.length"
-            class="table table-borderless text-yellow-950 font-medium text-center"
+            class="table table-borderless text-yellow-950 font-medium"
           >
             <thead>
-              <tr class="text-sm text-center">
+              <tr class="text-sm">
                 <th scope="col">Order ID</th>
                 <th scope="col">Customer</th>
                 <th scope="col">Payment Method</th>
@@ -86,11 +86,38 @@
                 </td>
                 <td>{{ or.totalCost }}</td>
                 <td>{{ or.orderDate }}</td>
-                <td>
-                  <div v-for="fur in or.furnitureOrderItems" :key="fur">
-                    <span>{{ fur.furnitureSpecificationId }}</span>
-                    <span>{{ fur.quantity }}</span>
-                    <span>{{ fur.cost }}</span>
+
+                <td
+                  class="text-sm"
+                  v-if="!or.customizeFurnitureOrderItems.length"
+                >
+                  <div
+                    v-for="fur in or.furnitureOrderItems"
+                    :key="fur"
+                    class="mb-3"
+                  >
+                    <span>
+                      {{ fur.furnitureSpecificationId }}
+                    </span>
+                    <br />
+                    <div class="pt-2">
+                      <b class="text-gray-600">Quantity: </b>{{ fur.quantity }}
+                    </div>
+                    <div class="pt-2">
+                      <b class="mr-2 text-gray-600">Cost:</b>
+                      <span class="text-red-500">{{ fur.cost }} VND</span>
+                    </div>
+                  </div>
+                </td>
+                <td v-else class="text-sm">
+                  <div
+                    v-for="fur in or.customizeFurnitureOrderItems"
+                    :key="fur"
+                    class="mb-3"
+                  >
+                    <span>
+                      {{ fur.customizeFunitureId }}
+                    </span>
                   </div>
                 </td>
                 <td>{{ or.isPaid }}</td>
@@ -109,6 +136,7 @@ import axios from "axios";
 import HeaderAdmin from "@/components/headerAdmin.vue";
 import alertError from "@/components/AlertError.vue";
 import alertSuccess from "@/components/AlertSuccess.vue";
+import { format } from "date-fns";
 export default {
   components: {
     HeaderAdmin,
@@ -131,6 +159,10 @@ export default {
       try {
         const response = await axios.get("shopOwner/customer-requests/orders");
         this.orders = response.data;
+        for (let i = 0; i < this.orders.length; i++) {
+          const date = new Date(this.orders[i].orderDate);
+          this.orders[i].orderDate = format(date, "dd/MM/yyyy");
+        }
       } catch (error) {
         console.error(error);
       }

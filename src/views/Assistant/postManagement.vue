@@ -14,27 +14,13 @@
     <div class="px-7">
       <h1 class="font-semibold text-xl py-6">Managet Post</h1>
       <span class="font-medium text-xs"
-        >You can search, update, delete width post!
+        >You can search, update, delete with post!
       </span>
       <div class="flex gap-x-40 pt-10">
         <div class="flex items-center gap-x-4 text-sm">
           <p class="gap-x-2 font-semibold">Totally Posts:</p>
           {{ posts.length }}
         </div>
-        <!-- <div class="search">
-            <div class="search-box">
-              <div class="search-field">
-                <input placeholder="Search..." class="input" type="text" />
-                <div class="search-box-icon">
-                  <button class="btn-icon-content">
-                    <i class="search-icon">
-                      <i class="bi bi-search"></i>
-                    </i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div> -->
         <div class="absolute right-0">
           <alert-Error v-if="isAlertError">
             <template v-slot:message>{{ messageError }}</template></alert-Error
@@ -491,6 +477,7 @@
               </tr>
             </tbody>
           </table>
+          <loadding v-else />
         </div>
       </div>
     </div>
@@ -503,12 +490,14 @@ import alertError from "@/components/AlertError.vue";
 import alertSuccess from "@/components/AlertSuccess.vue";
 import alertWanning from "@/components/AlertWanning.vue";
 import { format } from "date-fns";
+import loadding from "@/components/loaddingAssistant.vue";
 export default {
   components: {
     modal,
     alertError,
     alertSuccess,
     alertWanning,
+    loadding,
   },
   data() {
     return {

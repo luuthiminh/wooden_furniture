@@ -16,6 +16,7 @@
     <div class="content_table pt-6 px-6 scroll">
       <div class="py-4">
         <table
+          v-if="warranties.length"
           class="table table-borderless text-yellow-950 font-medium text-center"
         >
           <thead class="table-light">
@@ -27,7 +28,7 @@
               <th scope="col">Reasons</th>
             </tr>
           </thead>
-          <tbody v-if="warranties.length">
+          <tbody>
             <tr class="text-sm" v-for="w in warranties" :key="w.warrantyId">
               <td class="img">
                 <div v-for="img in w.images" :key="img">
@@ -46,6 +47,7 @@
             </tr>
           </tbody>
         </table>
+        <loadding v-else />
       </div>
     </div>
   </div>
@@ -53,8 +55,11 @@
 <script>
 import axios from "axios";
 import { format } from "date-fns";
+import loadding from "@/components/loaddingAssistant.vue";
 export default {
-  components: {},
+  components: {
+    loadding,
+  },
   data() {
     return {
       isShowFurnitureSpecification: false,

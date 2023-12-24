@@ -3,9 +3,11 @@
     <div class="nav mt-14">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent text-sm pt-4 px-4">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item font-semibold"><a href="#">Home</a></li>
 
-          <li class="breadcrumb-item active" aria-current="page">Wood</li>
+          <li class="breadcrumb-item active font-medium" aria-current="page">
+            Label
+          </li>
         </ol>
       </nav>
     </div>
@@ -22,6 +24,9 @@
     </div>
     <div class="px-7">
       <h1 class="font-semibold text-xl py-6">Manage Label</h1>
+      <span class="font-medium text-xs"
+        >You can search, update, delete width label!
+      </span>
       <div class="flex gap-x-40 pt-10">
         <div class="flex items-center gap-x-4 text-sm">
           <p class="gap-x-2 font-semibold">Total Labels:</p>
@@ -87,6 +92,7 @@
       <div class="content_table scroll">
         <div v-if="searchResults.length" class="pt-10">
           <table
+            v-if="searchResults.length"
             class="table table-borderless text-yellow-950 font-medium text-center bg-white round-md"
           >
             <thead class="table-light">
@@ -228,20 +234,49 @@
                           class="col-span-4 form-label text-semibold text-base pt-2 border-none"
                           >Name Label</label
                         >
-                        <input
-                          v-model="labelName"
-                          type="text"
-                          class="col-span-8 form-control"
-                          id="exampleInpuName1"
-                          aria-describedby="nameHelp"
-                          required
-                        />
+                        <div class="col-span-8">
+                          <input
+                            v-model="labelName"
+                            type="text"
+                            class="form-control"
+                            id="exampleInpuName1"
+                            aria-describedby="nameHelp"
+                            required
+                            @input="ValidationAddLabel"
+                          />
+                          <div v-if="!isShowMessage">
+                            <span class="text-slate-600 text-xs"
+                              >Label name must be greater than 1
+                              character!</span
+                            >
+                          </div>
+                          <div v-else>
+                            <span
+                              v-if="!isDismissModal"
+                              class="error text-xs"
+                              >{{ messageError }}</span
+                            >
+                            <span v-else class="success text-xs">{{
+                              message
+                            }}</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </template>
                   <template v-slot:footer>
                     <div class="bg-yellow-900 rounded-md">
                       <span
+                        v-if="!isDismissModal"
+                        type="button"
+                        class="btn text-white"
+                        @click="HandleAdd"
+                      >
+                        Add
+                      </span>
+                      <span
+                        v-else
+                        data-dismiss="modal"
                         type="button"
                         class="btn text-white"
                         @click="HandleAdd"
@@ -336,6 +371,7 @@
               </tr>
             </tbody>
           </table>
+          <loadding v-else />
         </div>
         <div v-else class="pt-10">
           <table
@@ -481,14 +517,33 @@
                           class="col-span-4 form-label text-semibold text-base pt-2 border-none"
                           >Name Label</label
                         >
-                        <input
-                          v-model="labelName"
-                          type="text"
-                          class="col-span-8 form-control"
-                          id="exampleInpuName1"
-                          aria-describedby="nameHelp"
-                          required
-                        />
+                        <div class="col-span-8">
+                          <input
+                            v-model="labelName"
+                            type="text"
+                            class="form-control"
+                            id="exampleInpuName1"
+                            aria-describedby="nameHelp"
+                            required
+                            @input="ValidationAddLabel"
+                          />
+                          <div v-if="!isShowMessage">
+                            <span class="text-slate-600 text-xs"
+                              >Label name must be greater than 1
+                              character!</span
+                            >
+                          </div>
+                          <div v-else>
+                            <span
+                              v-if="!isDismissModal"
+                              class="error text-xs"
+                              >{{ messageError }}</span
+                            >
+                            <span v-else class="success text-xs">{{
+                              message
+                            }}</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </template>
@@ -578,6 +633,7 @@
               </tr>
             </tbody>
           </table>
+          <loadding v-else />
         </div>
       </div>
     </div>
@@ -589,12 +645,14 @@ import modal from "@/components/ModalPage.vue";
 import alertError from "@/components/AlertError.vue";
 import alertSuccess from "@/components/AlertSuccess.vue";
 import alertWanning from "@/components/AlertWanning.vue";
+import loadding from "@/components/loaddingAssistant.vue";
 export default {
   components: {
     modal,
     alertError,
     alertSuccess,
     alertWanning,
+    loadding,
   },
   data() {
     return {
@@ -611,6 +669,10 @@ export default {
       messageWanning: null,
       searchResults: [],
       keyword: "",
+      isDismissModal: false,
+      isShowMessage: false,
+      message: "",
+      messageError: "",
     };
   },
   created() {
@@ -648,29 +710,48 @@ export default {
     closeModal() {
       this.modalType = null;
     },
+    ValidationAddLabel() {
+      this.isShowMessage = true;
+      if (!this.labelName) {
+        this.messageError = "Name Label required!";
+        this.isDismissModal = false;
+      } else if (this.labelName.length < 2) {
+        this.messageError = "Color name must be greater than 1 character!";
+        this.isDismissModal = false;
+      } else {
+        this.message = "Color name valid";
+        this.isDismissModal = true;
+      }
+    },
     async HandleAdd() {
-      try {
-        const response = await axios.post(
-          "assistant/shop-data/labels/add?labelName=" + this.labelName
-        );
-        if (response.status === 201) {
+      if (this.labelName === undefined) {
+        this.ValidationAddLabel();
+        this.isDismissModal = false;
+      } else {
+        this.isDismissModal = true;
+        try {
+          const response = await axios.post(
+            "assistant/shop-data/labels/add?labelName=" + this.labelName
+          );
+          if (response.status === 201) {
+            this.modalType = null;
+            this.isAlertSuccess = true;
+            this.messageSuccess = "Add " + this.labelName + " successfully";
+            setTimeout(() => {
+              this.isAlertSuccess = false;
+            }, 5000);
+            this.getAllLabels();
+          }
+          console.log(response.data);
+        } catch (error) {
           this.modalType = null;
-          this.isAlertSuccess = true;
-          this.messageSuccess = "Add " + this.labelName + " successfully";
+          this.isAlertError = true;
+          this.messageError = error.response.data.message;
           setTimeout(() => {
-            this.isAlertSuccess = false;
+            this.isAlertError = false;
           }, 5000);
-          this.getAllLabels();
+          console.error(error);
         }
-        console.log(response.data);
-      } catch (error) {
-        this.modalType = null;
-        this.isAlertError = true;
-        this.messageError = error.response.data.message;
-        setTimeout(() => {
-          this.isAlertError = false;
-        }, 5000);
-        console.error(error);
       }
     },
     async HandleUpdate() {

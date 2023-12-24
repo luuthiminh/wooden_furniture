@@ -113,9 +113,6 @@
                     :min="minPrice"
                     @change="ValidateCost"
                   />
-                  <!-- <span class="text-xs text-slate-500"
-                    >Enter cost > {{ maxPrice }} and {{ this.minPrice }}</span
-                  > -->
                 </div>
               </div>
               <div class="">
@@ -134,9 +131,6 @@
                     aria-describedby="addon-wrapping"
                     @change="ValidateCost"
                   />
-                  <!-- <span class="text-xs text-slate-500"
-                    >Enter cost > {{ maxPrice }} and {{ this.minPrice }}</span
-                  > -->
                 </div>
               </div>
             </div>
@@ -313,13 +307,15 @@
       <div class="col-span-4 mb-5">
         <div v-if="selectedFurPrice.length || filteredFurnitures.length">
           <all-furniture
-            v-if="selectedFurPrice.length > 0"
+            v-if="selectedFurPrice?.length"
             :furnitures="filterFurnitures"
           ></all-furniture>
+
           <all-furniture
             v-else-if="filteredFurnitures.length > 0"
             :furnitures="filteredFurnitures"
-          ></all-furniture>
+          >
+          </all-furniture>
         </div>
         <div v-else>
           <all-furniture :furnitures="furnitures"></all-furniture>
@@ -381,19 +377,7 @@ export default {
         console.error(error);
       }
     },
-    async toggleWishlist(furniture) {
-      try {
-        const response = await axios.put("customer/wishlist/toggle", {
-          params: { furnitureId: furniture.furnitureId },
-        });
-
-        console.log(response.data);
-      } catch (error) {
-        console.error("Error toggling wishlist:", error);
-      }
-    },
     async filterFurs() {
-      console.log("Hi");
       try {
         const response = await axios.get("customer/furnitures/filter", {
           params: {
@@ -406,23 +390,19 @@ export default {
           },
         });
         if (response.status === 200) {
-          this.filteredFurnitures = response.data;
-        }
-        if (response.data.length === 0) {
-          this.modalType = null;
-          this.isAlertWanning = true;
-          this.messageWanning = "Furniture not found";
-          setTimeout(() => {
-            this.isAlertWanning = false;
-          }, 5000);
-          this.getFurnitures();
+          if (response.data && response.data.length > 0) {
+            this.filteredFurnitures = response.data;
+          } else {
+            this.modalType = null;
+            this.isAlertWanning = true;
+            this.messageWanning = "Furniture not found";
+            setTimeout(() => {
+              this.isAlertWanning = false;
+            }, 5000);
+            this.getFurnitures();
+          }
         }
       } catch (error) {
-        this.isAlertError = true;
-        this.messageError = error.response.data.message;
-        setTimeout(() => {
-          this.isAlertError = false;
-        }, 5000);
         console.error(error);
       }
     },
@@ -430,7 +410,6 @@ export default {
       this.$store.dispatch("getFurnitures");
     },
     handleFilterFurniture(ro) {
-      console.log("Xin chao");
       this.filteredFurnitures = this.furnitures.filter(
         (furniture) => furniture.appropriateRoom === ro
       );
@@ -461,16 +440,6 @@ export default {
         .map((furniture) => furniture.appropriateRoom)
         .filter((value, index, furs) => furs.indexOf(value) === index);
     },
-    // filterCollection() {
-    //   return this.furnitures
-    //     .map((furniture) => furniture.collection)
-    //     .filter((value, index, furs) => furs.indexOf(value) === index);
-    // },
-    // filteredFurs() {
-    //   return this.furnitures.filter(
-    //     (fur) => fur.price >= this.minPrice && fur.price <= this.maxPrice
-    //   );
-    // },
   },
 };
 </script>

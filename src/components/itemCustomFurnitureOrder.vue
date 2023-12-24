@@ -60,11 +60,11 @@
                   <td width="90">
                     <div class="cart-product-imitation mt-3">
                       <div v-for="img in or.images" :key="img">
-                        <img :src="img.path" alt="" />
+                        <img :src="img[0].path" alt="" />
                       </div>
                       <div v-for="vid in or.videos" :key="vid">
                         <video controls="control" width="200" height="200">
-                          <source :src="vid.path" type="video/mp4" />
+                          <source :src="vid[0].path" type="video/mp4" />
                         </video>
                       </div>
                       <button

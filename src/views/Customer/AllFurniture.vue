@@ -775,7 +775,7 @@ export default {
   },
   methods: {
     checkLogin() {
-      if (localStorage.getItem("token") !== "") {
+      if (localStorage.getItem("token") == undefined) {
         this.isLogin = true;
       } else {
         this.isLogin = false;
@@ -804,7 +804,7 @@ export default {
       }
     },
     async toggleWishlist(furniture) {
-      if (localStorage.getItem("token") === "") {
+      if (localStorage.getItem("token") == undefined) {
         this.$router.push({ name: "login" });
       } else {
         furniture.isLike = !furniture.isLike;

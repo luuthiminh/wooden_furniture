@@ -47,7 +47,7 @@
             </thead>
             <tbody>
               <tr v-for="u in users" :key="u.userId">
-                <td>{{ u.userId }}</td>
+                <td class="w-3">{{ u.userId }}</td>
                 <td>
                   <div class="user flex gap-x-2">
                     <div class="avatar">
@@ -275,7 +275,7 @@
           </table>
         </div>
       </div>
-      <div v-else class="loader"></div>
+      <loadding v-else />
     </div>
   </div>
   <p class="text-sm font-medium my-5 ml-2">Total users: {{ users.length }}</p>
@@ -287,9 +287,10 @@ import { format } from "date-fns";
 import alertError from "@/components/AlertError.vue";
 import modal from "@/components/ModalPage.vue";
 import alertSuccess from "@/components/AlertSuccess.vue";
+import loadding from "@/components/loaddingAdmin.vue";
 
 export default {
-  components: { HeaderAdmin, alertError, alertSuccess, modal },
+  components: { HeaderAdmin, alertError, alertSuccess, modal, loadding },
   data() {
     return {
       title: "Customer Account List",

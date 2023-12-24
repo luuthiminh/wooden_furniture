@@ -107,7 +107,7 @@
               <div
                 class="flex items-center text-base font-semibold text-yellow-950"
               >
-                Add New Color
+                Add New Category
               </div>
             </template>
             <template v-slot:body>
@@ -118,23 +118,46 @@
                     class="col-span-5 form-label text-semibold text-base pt-2 border-none"
                     >Name Category</label
                   >
-                  <input
-                    v-model="cateName"
-                    type="text"
-                    class="col-span-7 form-control"
-                    id="exampleInpuName1"
-                    aria-describedby="nameHelp"
-                    required
-                  />
+                  <div class="col-span-7">
+                    <input
+                      v-model="cateName"
+                      type="text"
+                      class="form-control"
+                      id="exampleInpuName1"
+                      aria-describedby="nameHelp"
+                      @input="ValidationAddCate"
+                      required
+                    />
+                    <div v-if="!isShowMessage">
+                      <span class="text-slate-600 text-xs"
+                        >Color name must be greater than 1 character!</span
+                      >
+                    </div>
+                    <div v-else>
+                      <span v-if="!isDismissModal" class="error text-xs">{{
+                        messageError
+                      }}</span>
+                      <span v-else class="success text-xs">{{ message }}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </template>
             <template v-slot:footer>
               <div class="bg-yellow-900 rounded-md">
                 <span
+                  v-if="!isDismissModal"
                   type="button"
                   class="btn text-white"
+                  @click="HandleAdd"
+                >
+                  Add
+                </span>
+                <span
+                  v-else
                   data-dismiss="modal"
+                  type="button"
+                  class="btn text-white"
                   @click="HandleAdd"
                 >
                   Add
@@ -620,6 +643,9 @@ export default {
       messageSuccess: null,
       messageError: null,
       title: "All Categories",
+      message: "",
+      isDismissModal: false,
+      isShowMessage: false,
     };
   },
   created() {
@@ -657,27 +683,43 @@ export default {
     closeModal() {
       this.modalType = null;
     },
+    ValidationAddCate() {
+      this.isShowMessage = true;
+      if (!this.cateName) {
+        this.messageError = "Name Category required!";
+        this.isDismissModal = false;
+      } else if (this.cateName.length < 2) {
+        this.messageError = "Category name must be greater than 1 character!";
+        this.isDismissModal = false;
+      } else {
+        this.message = "Category name valid";
+        this.isDismissModal = true;
+      }
+    },
     async HandleAdd() {
-      try {
-        const response = await axios.post(
-          "shopOwner/shop-data/categories/add?categoryName=" + this.cateName
-        );
-        if (response.status === 201) {
-          this.modalType = null;
-          this.isAlertSuccess = true;
-          this.messageSuccess = "Add new category successfully";
-          setTimeout(() => {
-            this.isAlertSuccess = false;
-          }, 5000);
-          this.getAllCategories();
+      if (this.colorName === undefined) {
+        this.ValidationAddColor();
+        this.isDismissModal = false;
+      } else {
+        this.isDismissModal = true;
+        try {
+          const response = await axios.post(
+            "shopOwner/shop-data/categories/add?categoryName=" + this.cateName
+          );
+          if (response.status === 201) {
+            this.modalType = null;
+            this.isAlertSuccess = true;
+            this.messageSuccess = "Add new category successfully";
+            setTimeout(() => {
+              this.isAlertSuccess = false;
+            }, 5000);
+            this.getAllCategories();
+          }
+        } catch (error) {
+          this.isDismissModal = false;
+          this.messageError = error.response.data.message;
+          console.log(error);
         }
-      } catch (error) {
-        this.isAlertError = true;
-        this.messageError = error.response.data.message;
-        setTimeout(() => {
-          this.isAlertError = false;
-        }, 5000);
-        console.error(error);
       }
     },
     async HandleUpdate() {

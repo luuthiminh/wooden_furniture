@@ -15,7 +15,7 @@ import "./assets/styles/global.css";
 
 import { registerGlobalComponents } from "./utils/import";
 
-axios.defaults.baseURL = "https://landlstore.azurewebsites.net/api/";
+axios.defaults.baseURL = "https://localhost:44361/api/";
 axios.defaults.headers.common["Authorization"] =
   "Bearer " + localStorage.getItem("token");
 

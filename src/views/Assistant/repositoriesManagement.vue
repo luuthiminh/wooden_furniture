@@ -596,6 +596,7 @@
               </tr>
             </tbody>
           </table>
+          <loadding v-else />
         </div>
         <div v-else class="pt-10">
           <table
@@ -1116,12 +1117,14 @@ import axios from "axios";
 import modal from "@/components/ModalPage.vue";
 import alertError from "@/components/AlertError.vue";
 import alertSuccess from "@/components/AlertSuccess.vue";
+import loadding from "@/components/loaddingAssistant.vue";
 
 export default {
   components: {
     modal,
     alertError,
     alertSuccess,
+    loadding,
   },
   data() {
     return {

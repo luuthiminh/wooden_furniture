@@ -3,9 +3,11 @@
     <div class="nav mt-14">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent text-sm pt-4 px-4">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item font-semibold"><a href="#">Home</a></li>
 
-          <li class="breadcrumb-item active" aria-current="page">Wood</li>
+          <li class="breadcrumb-item active font-medium" aria-current="page">
+            Wood
+          </li>
         </ol>
       </nav>
     </div>
@@ -22,11 +24,15 @@
     </div>
     <div class="px-7">
       <h1 class="font-semibold text-xl py-6">Wood Manage</h1>
-      <div class="flex gap-x-40 pt-10 bg-white my-10 px-6 rounded-md">
+      <span class="font-medium text-xs"
+        >You can search, update, delete with wood!
+      </span>
+      <div class="flex gap-x-40 bg-white my-10 rounded-md">
         <div class="flex items-center gap-x-4 text-sm">
           <p class="font-semibold gap-x-4s">Total Woods:</p>
           {{ woods.length }}
         </div>
+
         <div class="search_assistant">
           <div class="container">
             <input
@@ -84,13 +90,6 @@
           </button>
         </div>
       </div>
-      <!-- <div v-show="isSuccess">
-        <div>
-          <notification-modal>
-            <template v-slot:title>Delete this category Successful </template>
-          </notification-modal>
-        </div>
-      </div> -->
       <div class="content_table scroll">
         <div v-if="searchResults.length" class="pt-10">
           <table
@@ -335,6 +334,7 @@
               </tr>
             </tbody>
           </table>
+          <loadding v-else />
         </div>
         <div v-else class="pt-10">
           <table
@@ -579,6 +579,7 @@
               </tr>
             </tbody>
           </table>
+          <loadding v-else />
         </div>
       </div>
     </div>
@@ -590,12 +591,14 @@ import modal from "@/components/ModalPage.vue";
 import alertError from "@/components/AlertError.vue";
 import alertSuccess from "@/components/AlertSuccess.vue";
 import alertWanning from "@/components/AlertWanning.vue";
+import loadding from "@/components/loaddingAssistant.vue";
 export default {
   components: {
     modal,
     alertError,
     alertSuccess,
     alertWanning,
+    loadding,
   },
   data() {
     return {

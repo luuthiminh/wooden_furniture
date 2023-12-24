@@ -793,10 +793,14 @@ export default {
       this.opentModal("order");
     },
     async HandleCheckout() {
-      this.opentModal("order");
-      this.furnitureOrder = this.$store.state.furnitureOrder;
-      this.$store.dispatch("HandleCheckoutCart");
-      this.furnitureOrder = this.$store.state.furnitureOrder;
+      if (localStorage.getItem("token") == undefined) {
+        this.$router.push({ name: "login" });
+      } else {
+        this.opentModal("order");
+        this.furnitureOrder = this.$store.state.furnitureOrder;
+        this.$store.dispatch("HandleCheckoutCart");
+        this.furnitureOrder = this.$store.state.furnitureOrder;
+      }
     },
     async removeCart(furniture) {
       try {
@@ -830,38 +834,6 @@ export default {
     confirmChangeAddress() {
       this.opentModal("order");
     },
-    // async HandleOrder(order) {
-    //   //Chang idAddress if have change
-    //   const id = this.addressId || order.deliveryAddressId;
-    //   const itemsArray = order.items.map((item) => ({
-    //     itemId: item.furnitureSpecificationId,
-    //     quantity: item.quantity,
-    //   }));
-    //   try {
-    //     const response = await axios.post("customer/order", {
-    //       addressId: id,
-    //       paymentId: this.paymentId,
-    //       usedPoint: this.userpoint,
-    //       note: this.note,
-    //       items: itemsArray,
-    //       deliveryCost: 0,
-    //     });
-    //     if (response.status === 200) {
-    //       if (
-    //         response.data !== null &&
-    //         response.data !== "Order successfully"
-    //       ) {
-    //         this.paymentOline = response.data;
-    //         window.location.href = this.paymentOline;
-    //       }
-    //       for (let i = 0; i < order.items.length; i++) {
-    //         this.removeCart(order.items[i]);
-    //       }
-    //     }
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // },
     handleCheckOutOtherAdress() {
       this.furnitureOrder = this.$store.state.furnitureOrder;
       this.$store.dispatch("handleCheckOutOtherAddress", {

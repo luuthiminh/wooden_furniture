@@ -461,8 +461,15 @@
                       </button>
                     </div>
                   </div>
-                  <div class="">
+                  <div>
                     <div class="">
+                      <Noti v-if="isShowSuccess">
+                        <template v-slot:title>Order Custom Furniture</template>
+                        <template v-slot:body
+                          >Order Custom Furniture Success!</template
+                        >
+                        <template v-slot:footer></template>
+                      </Noti>
                       <form
                         class="px-10 max-sm:px-3 mt-3"
                         @submit.prevent="customizeOrder"
@@ -481,7 +488,6 @@
                               required
                               class="bg-slate-100 h-10 w-full rounded-md border border-input px-2 py-1 text-sm file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium"
                             />
-                            <i class="bi bi-exclamation text-yellow-400"></i>
                           </div>
                           <p class="text-xs mt-1 font-mediudm ml-1 opacity-90">
                             You can upload image or video
@@ -712,7 +718,10 @@
                             @input="validateDescription"
                           />
                           <p
-                            v-if="!messageErrorDescription"
+                            v-if="
+                              !messageErrorDescription &&
+                              !messageSucessDescription
+                            "
                             class="text-xs mt-1 font-mediudm ml-1 opacity-90"
                           >
                             Description cannot be less than <b>2</b> characters
@@ -721,10 +730,10 @@
                             characters
                           </p>
                           <p
-                            v-else-if="messageErrorDescription"
+                            v-else-if="messageSucessDescription"
                             class="successCustom text-xs mt-1 font-mediudm ml-1 opacity-90"
                           >
-                            {{ messageErrorDescription }}
+                            {{ messageSucessDescription }}
                           </p>
                           <p
                             v-else
@@ -736,7 +745,13 @@
                         <div
                           class="button_order rounded-md mt-4 text-center float-right mb-2"
                         >
-                          <button type="submit" class="btn text-white">
+                          <button
+                            type="submit"
+                            class="btn text-white"
+                            data-toggle="modal"
+                            data-target="#exampleModalLong"
+                            data-backdrop="false"
+                          >
                             Order
                           </button>
                         </div>
@@ -946,11 +961,13 @@
 import axios from "axios";
 import { format } from "date-fns";
 import Navigation from "@/components/NavCustomer.vue";
+import Noti from "@/components/NotificationSuccess.vue";
 import AllFurniture from "./AllFurniture.vue";
 export default {
   components: {
     Navigation,
     AllFurniture,
+    Noti,
   },
   data() {
     return {
@@ -980,6 +997,9 @@ export default {
       isMsgError: false,
       posts: [],
       message: "",
+      isShowSuccess: false,
+      arrayUrl: [],
+      url: "",
     };
   },
   created() {
@@ -1095,6 +1115,15 @@ export default {
     },
     onFile(event) {
       this.arrayFile = event.target.files;
+      if (this.arrayFile) {
+        for (let i = 0; i < event.target.files.length; i++) {
+          this.url = URL.createObjectURL(event.target.files[i]);
+          this.arrayUrl.push(this.url);
+        }
+      }
+    },
+    HandleRemoveImage(url) {
+      this.arrayUrl = this.arrayUrl.filter((item) => item !== url);
     },
     validateName() {
       if (
@@ -1133,7 +1162,6 @@ export default {
     },
     async customizeOrder() {
       const formData = new FormData();
-      // formData.append("Attachmens", this.arrayFile);
       if (this.arrayFile.length > 0) {
         for (var i = 0; i < this.arrayFile.length > 0; i++) {
           formData.append("attachments", this.arrayFile[i]);
@@ -1160,10 +1188,13 @@ export default {
           }
         );
         if (response.status === 200) {
-          alert("Order success");
+          this.isShowSuccess = true;
+          setTimeout(() => {
+            this.isShowSuccess = false;
+          }, 3000);
         }
       } catch (error) {
-        // this.message = error.response.data.message;
+        this.message = error.response.data.message;
         console.error(error.response.data.message);
       }
     },
@@ -1878,7 +1909,7 @@ header::before {
   height: 70%;
 }
 .customize_furniture .form-control {
-  height: 50%;
+  height: 34%;
 }
 .customize_furniture button {
   background-color: #7c5434;

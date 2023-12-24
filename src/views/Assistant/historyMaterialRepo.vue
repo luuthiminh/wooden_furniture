@@ -12,13 +12,18 @@
         </ol>
       </nav>
     </div>
-    <div class="content_table pt-14 px-10 scroll">
-      <div class="flex mb-4">
+    <div class="content_table pt-4 px-10 scroll">
+      <div class="font-semibold text-lg pb-3">
+        History Repositories Material
+      </div>
+      <span class="font-medium text-xs"
+        >You can download the entire imported material in CSV
+      </span>
+      <div class="flex mb-4 mt-3">
         <div class="flex items-center gap-x-4 text-sm">
           <p class="font-semibold">Totally Materials:</p>
           {{ historyMaterial.length }}
         </div>
-
         <div class="absolute right-10 flex gap-x-10">
           <a
             style="text-decoration: none"
@@ -112,6 +117,7 @@
       </div>
       <div class="py-4">
         <table
+          v-if="historyMaterial.length"
           class="table table-borderless text-yellow-950 font-medium bg-white round-md"
         >
           <thead class="table-light">
@@ -126,7 +132,7 @@
               <th scope="col">CreationDate</th>
             </tr>
           </thead>
-          <tbody v-if="historyMaterial.length">
+          <tbody>
             <tr
               class="text-sm"
               v-for="hm in historyMaterial"
@@ -143,6 +149,7 @@
             </tr>
           </tbody>
         </table>
+        <loadding v-else />
       </div>
     </div>
   </div>
@@ -151,7 +158,11 @@
 <script>
 import axios from "axios";
 import { format } from "date-fns";
+import loadding from "@/components/loaddingAssistant.vue";
 export default {
+  components: {
+    loadding,
+  },
   data() {
     return {
       historyMaterial: [],

@@ -171,6 +171,7 @@
               </tr>
             </tbody>
           </table>
+          <loadding v-else />
         </div>
       </div>
     </div>
@@ -180,9 +181,11 @@
 import axios from "axios";
 import modal from "@/components/ModalPage.vue";
 import { format } from "date-fns";
+import loadding from "@/components/loaddingAssistant.vue";
 export default {
   components: {
     modal,
+    loadding,
   },
   data() {
     return {

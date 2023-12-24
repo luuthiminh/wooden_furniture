@@ -507,6 +507,7 @@
               </modal>
             </tr>
           </tbody>
+          <loadding v-else />
         </table>
       </div>
     </div>
@@ -516,9 +517,11 @@
 <script>
 import axios from "axios";
 import modal from "@/components/ModalPage.vue";
+import loadding from "@/components/loaddingAssistant.vue";
 export default {
   components: {
     modal,
+    loadding,
   },
   data() {
     return {

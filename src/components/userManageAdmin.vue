@@ -134,7 +134,7 @@
                             v-if="!url"
                             :src="userModal.avatar"
                             alt="image"
-                            for="file"
+                            for="imageUpload"
                           />
                           <img
                             v-else-if="url"
@@ -277,7 +277,7 @@
             </tbody>
           </table>
         </div>
-        <div v-else class="loader"></div>
+        <loadding v-else />
       </div>
       <div v-else>
         <div class="py-4" v-if="searchResults.length">
@@ -381,10 +381,10 @@
                           class="form-label font-medium"
                           >Avatar</label
                         >
-                        <div v-if="u.avatar">
+                        <div v-if="userModal.avatar">
                           <img
                             v-if="!url"
-                            :src="u.avatar"
+                            :src="userModal.avatar"
                             alt="image"
                             for="file"
                           />
@@ -392,10 +392,14 @@
                             v-else-if="url"
                             :src="url"
                             alt="image"
-                            for="file"
+                            for="imageUpload"
                           />
                         </div>
-                        <label v-else class="custum-file-upload" for="file">
+                        <label
+                          v-else
+                          class="custum-file-upload"
+                          for="imageUpload"
+                        >
                           <div class="icon">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -447,7 +451,7 @@
                           >First Name</label
                         >
                         <input
-                          v-model="firstNameModal"
+                          v-model="userModal.firstName"
                           type="text"
                           class="form-control"
                           id="exampleInputEmail1"
@@ -455,60 +459,59 @@
                           required
                         />
                       </div>
-                      <div class="addFurniture grid grid-cols-3 gap-x-6 mt-3">
-                        <div>
-                          <label
-                            for="exampleInputEmail1"
-                            class="form-label font-medium"
-                            >Last Name</label
-                          >
-                          <div class="flex gap-x-2">
-                            <input
-                              v-model="lastNameModal"
-                              type="text"
-                              class="form-control"
-                              id="exampleInputEmail1"
-                              aria-describedby="emailHelp"
-                              required
-                            />
-                          </div>
-                        </div>
 
-                        <div>
-                          <label
-                            for="exampleInputEmail1"
-                            class="form-label font-medium"
-                            >Dob</label
-                          >
-                          <div class="flex gap-x-2">
-                            <input
-                              v-model="dobModal"
-                              type="date"
-                              class="form-control"
-                              id="exampleInputEmail1"
-                              aria-describedby="emailHelp"
-                              required
-                            />
-                          </div>
+                      <div class="mt-3">
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Last Name</label
+                        >
+                        <div class="flex gap-x-2">
+                          <input
+                            v-model="userModal.lastName"
+                            type="text"
+                            class="form-control"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            required
+                          />
                         </div>
-                        <div>
-                          <label
-                            for="exampleInputEmail1"
-                            class="form-label font-medium"
-                            >Gender</label
+                      </div>
+
+                      <div class="mt-3">
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Dob</label
+                        >
+                        <div class="flex gap-x-2">
+                          <input
+                            v-model="userModal.doB"
+                            type="date"
+                            class="form-control"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="mt-3">
+                        <label
+                          for="exampleInputEmail1"
+                          class="form-label font-medium"
+                          >Gender</label
+                        >
+                        <div class="flex gap-x-2">
+                          <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            v-model="userModal.gender"
                           >
-                          <div class="flex gap-x-2">
-                            <select
-                              class="form-select"
-                              aria-label="Default select example"
-                              v-model="genderModal"
-                            >
-                              <option disable>Choose gender option</option>
-                              <option value="MALE">Male</option>
-                              <option value="FEMALE">Female</option>
-                              <option value="OTHER">Other</option>
-                            </select>
-                          </div>
+                            <option disabled>Choose gender option></option>
+                            <option value="MALE">Male</option>
+                            <option value="FEMALE">Female</option>
+                            <option value="OTHER">Other</option>
+                          </select>
                         </div>
                       </div>
                     </div>
@@ -526,7 +529,7 @@
             </tbody>
           </table>
         </div>
-        <div v-else class="loader"></div>
+        <loadding v-else />
       </div>
     </div>
   </div>
@@ -537,13 +540,14 @@ import axios from "axios";
 import modal from "@/components/ModalPage.vue";
 import alertError from "@/components/AlertError.vue";
 import alertSuccess from "@/components/AlertSuccess.vue";
+import loadding from "@/components/loaddingAdmin.vue";
 import { format } from "date-fns";
 
 export default {
   props: {
     users: Array,
   },
-  components: { alertError, alertSuccess, modal },
+  components: { alertError, alertSuccess, modal, loadding },
   data() {
     return {
       title: "Customer Account List",

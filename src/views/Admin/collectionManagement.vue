@@ -79,24 +79,47 @@
                     class="col-span-5 form-label text-semibold text-base pt-2 border-none"
                     >Name Collection</label
                   >
-                  <input
-                    v-model="colName"
-                    type="text"
-                    class="col-span-7 form-control"
-                    id="exampleInpuName1"
-                    aria-describedby="nameHelp"
-                    required
-                  />
+                  <div class="col-span-7">
+                    <input
+                      v-model="colName"
+                      type="text"
+                      class="form-control"
+                      id="exampleInpuName1"
+                      aria-describedby="nameHelp"
+                      required
+                      @input="validationAddCollection"
+                    />
+                    <div v-if="!isShowMessage">
+                      <span class="text-slate-600 text-xs"
+                        >Collection name must be greater than 1 character!</span
+                      >
+                    </div>
+                    <div v-else>
+                      <span v-if="!isDismissModal" class="error text-xs">{{
+                        messageError
+                      }}</span>
+                      <span v-else class="success text-xs">{{ message }}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </template>
             <template v-slot:footer>
               <div class="bg-yellow-900 rounded-md">
                 <span
+                  v-if="!isDismissModal"
                   type="button"
                   class="btn text-white"
                   @click="HandleAdd"
+                >
+                  Add
+                </span>
+                <span
+                  v-else
                   data-dismiss="modal"
+                  type="button"
+                  class="btn text-white"
+                  @click="HandleAdd"
                 >
                   Add
                 </span>
@@ -107,7 +130,7 @@
       </div>
     </div>
     <div class="content_table pt-6 px-6 scroll">
-      <div class="py-4">
+      <div class="py-4" v-if="searchResults.length">
         <table
           v-if="searchResults.length"
           class="table table-borderless text-yellow-950 font-medium text-center"
@@ -357,8 +380,11 @@
             </tr>
           </tbody>
         </table>
+        <div v-else class="loader"></div>
+      </div>
+      <div v-else class="py-4">
         <table
-          v-else
+          v-if="searchResults.length"
           class="table table-borderless text-yellow-950 font-medium text-center"
         >
           <thead>
@@ -552,24 +578,13 @@
                         Delete
                       </span>
                     </div>
-                    <!-- <button
-                        type="button"
-                        class="btn btn-primary my-8"
-                        data-bs-target="#exampleModalToggle2"
-                        data-bs-toggle="modal"
-                        data-bs-dismiss="modal"
-                        @click="opentModal('notification', w)"
-                        @click.prevent="HandleDelete"
-                      >
-                        Yes
-                      </button> -->
                   </template>
                 </modal>
               </td>
             </tr>
           </tbody>
         </table>
-        <!-- <div v-else class="loader"></div> -->
+        <div v-else class="loader"></div>
       </div>
     </div>
   </div>
@@ -602,6 +617,9 @@ export default {
       messageWanning: null,
       messageSuccess: null,
       messageError: null,
+      message: "",
+      isDismissModal: false,
+      isShowMessage: false,
     };
   },
   created() {
@@ -639,27 +657,42 @@ export default {
     closeModal() {
       this.modalType = null;
     },
+    validationAddCollection() {
+      this.isShowMessage = true;
+      if (!this.colName) {
+        this.messageError = "Name Collection required!";
+        this.isDismissModal = false;
+      } else if (this.colName.length < 2) {
+        this.messageError = "Collection name must be greater than 1 character!";
+        this.isDismissModal = false;
+      } else {
+        this.message = "Collection name valid";
+        this.isDismissModal = true;
+      }
+    },
     async HandleAdd() {
-      try {
-        const response = await axios.post(
-          "shopOwner/shop-data/collections/add?collectionName=" + this.colName
-        );
-        if (response.status === 201) {
-          this.modalType = null;
-          this.isAlertSuccess = true;
-          this.messageSuccess = "Add new category successfully";
-          setTimeout(() => {
-            this.isAlertSuccess = false;
-          }, 5000);
-          this.getAllCollections();
+      if (this.colName === undefined) {
+        this.ValidationAddColor();
+        this.isDismissModal = false;
+      } else {
+        this.isDismissModal = true;
+        try {
+          const response = await axios.post(
+            "shopOwner/shop-data/collections/add?collectionName=" + this.colName
+          );
+          if (response.status === 201) {
+            this.modalType = null;
+            this.isAlertSuccess = true;
+            this.messageSuccess = "Add new category successfully";
+            setTimeout(() => {
+              this.isAlertSuccess = false;
+            }, 5000);
+            this.getAllCollections();
+          }
+        } catch (error) {
+          this.isDismissModal = false;
+          this.messageError = error.response.data.message;
         }
-      } catch (error) {
-        this.isAlertError = true;
-        this.messageError = error.response.data.message;
-        setTimeout(() => {
-          this.isAlertError = false;
-        }, 5000);
-        console.error(error);
       }
     },
     async HandleUpdate() {

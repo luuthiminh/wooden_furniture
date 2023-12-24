@@ -10,7 +10,6 @@
             class="card-body flex justify-content-between flex-column px-0 p-0 bg-white h-32"
           >
             <div class="mb-4 px-7">
-              <!-- <div class="text-blue-500 bg-blue-400 h-1"></div> -->
               <div class="bg-yellow-700 h-1"></div>
               <p class="text-base font-medium text-gray-400 py-6">
                 Profit this month
@@ -36,7 +35,6 @@
           >
             <div class="mb-4 px-7">
               <div class="bg-slate-600 h-1"></div>
-              <!-- <div class="bg-yellow-700 h-1"></div> -->
               <p class="text-base font-medium text-gray-400 py-6">
                 Total Furniture
               </p>
@@ -59,7 +57,6 @@
           >
             <div class="mb-4 px-7">
               <div class="bg-slate-600 h-1"></div>
-              <!-- <div class="bg-yellow-700 h-1"></div> -->
               <p class="text-base font-medium text-gray-400 py-6">
                 Order this month
               </p>
@@ -126,6 +123,7 @@
         </div>
         <div class="line_static mt-32">
           <Line v-if="loaded" :data="lineProfit" :options="lineOptionsProfit" />
+          <loadding v-else />
         </div>
       </div>
     </div>
@@ -140,6 +138,7 @@
 
       <div class="px-9 py-2">
         <Bar v-if="loaded" :data="barDataCate" :options="barOptionsCate" />
+        <loadding v-else />
       </div>
     </div>
   </div>
@@ -153,11 +152,13 @@
 
     <div class="line_static mt-10 px-20 h-96 pb-10">
       <Line v-if="loaded" :data="lineDataUser" :options="lineOptionsUser" />
+      <loadding v-else />
     </div>
   </div>
 </template>
 <script>
 import HeaderAdmin from "@/components/headerAdmin.vue";
+import loadding from "@/components/loaddingAdmin.vue";
 import axios from "axios";
 import {
   Chart as ChartJS,
@@ -190,6 +191,7 @@ export default {
     HeaderAdmin,
     Bar,
     Line,
+    loadding,
   },
   data() {
     return {

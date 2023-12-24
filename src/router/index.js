@@ -630,17 +630,6 @@ const routes = [
   },
 
   {
-    path: "/userManaegment",
-    name: "UserManagement",
-    meta: {
-      layout: "adminLayout",
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "register" */ "../views/Admin/usersManagement.vue"
-      ),
-  },
-  {
     path: "/profileManagement",
     name: "ProfileManagement",
     meta: {

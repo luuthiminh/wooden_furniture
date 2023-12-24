@@ -89,16 +89,10 @@
           </button>
         </div>
       </div>
-      <!-- <div v-show="isSuccess">
-          <div>
-            <notification-modal>
-              <template v-slot:title>Delete this category Successful </template>
-            </notification-modal>
-          </div>
-        </div> -->
       <div class="content_table scroll">
         <div v-if="searchResults.length" class="pt-10">
           <table
+            v-if="searchResults.length"
             class="table table-borderless text-yellow-950 font-medium text-center bg-white round-md"
           >
             <thead class="table-light">
@@ -339,7 +333,9 @@
               </tr>
             </tbody>
           </table>
+          <loadding v-else />
         </div>
+
         <div v-else class="pt-10">
           <table
             v-if="colors.length"
@@ -492,7 +488,7 @@
                             id="exampleInpuName1"
                             aria-describedby="nameHelp"
                             required
-                            @change="ValidationAddColor"
+                            @input="ValidationAddColor"
                           />
                           <div v-if="!isShowMessage">
                             <span class="text-slate-600 text-xs"
@@ -607,22 +603,12 @@
                         Delete
                       </span>
                     </div>
-                    <!-- <button
-                        type="button"
-                        class="btn btn-primary my-8"
-                        data-bs-target="#exampleModalToggle2"
-                        data-bs-toggle="modal"
-                        data-bs-dismiss="modal"
-                        @click="opentModal('notification', w)"
-                        @click.prevent="HandleDelete"
-                      >
-                        Yes
-                      </button> -->
                   </template>
                 </modal>
               </tr>
             </tbody>
           </table>
+          <loadding v-else />
         </div>
       </div>
     </div>
@@ -634,6 +620,7 @@ import modal from "@/components/ModalPage.vue";
 import alertError from "@/components/AlertError.vue";
 import alertSuccess from "@/components/AlertSuccess.vue";
 import alertWanning from "@/components/AlertWanning.vue";
+import loadding from "@/components/loaddingAssistant.vue";
 
 export default {
   components: {
@@ -641,6 +628,7 @@ export default {
     alertError,
     alertSuccess,
     alertWanning,
+    loadding,
   },
   data() {
     return {
@@ -709,7 +697,6 @@ export default {
       }
     },
     async HandleAdd() {
-      console.log(this.colorName);
       if (this.colorName === undefined) {
         this.ValidationAddColor();
         this.isDismissModal = false;
@@ -788,14 +775,6 @@ export default {
       }
     },
   },
-  // computed: {
-  //   isColorNameUnique() {
-  //     console.log(this.colorName);
-  //     return !this.colors.findIndex(
-  //       (color) => color.colorName === this.colorName
-  //     );
-  //   },
-  // },
 };
 </script>
 <style scoped>

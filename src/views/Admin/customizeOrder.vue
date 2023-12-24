@@ -97,7 +97,23 @@
               <tr v-for="or in allOrders" :key="or.customizeFurnitureId">
                 <td>{{ or.customizeFurnitureId }}</td>
                 <td class="img">
-                  <img :src="or.images" alt="image furniture" />
+                  <div v-for="img in or.images" :key="img">
+                    <img :src="img[0].path" alt="" />
+                  </div>
+                  <div v-for="vid in or.videos" :key="vid">
+                    <video controls="control" width="200" height="200">
+                      <source :src="vid[0].path" type="video/mp4" />
+                    </video>
+                  </div>
+                  <button
+                    data-toggle="modal"
+                    data-target="#exampleModalLong"
+                    data-backdrop="false"
+                    class="font-medium ring-1 ring-yellow-900 rounded-md px-2 text-xs py-1 mt-3"
+                    @click="opentModal('allImg', or)"
+                  >
+                    See More
+                  </button>
                 </td>
                 <td class="text-start">
                   <span class="font-semibold block">{{
@@ -275,6 +291,27 @@
               </tr>
             </tbody>
           </table>
+          <modal
+            v-if="modalType == 'allImg'"
+            @close="modalType == null"
+            data-target="#myModal"
+          >
+            <template v-slot:title>
+              <div class="flex items-center text-lg font-semibold">
+                All Image
+              </div>
+            </template>
+            <template v-slot:body>
+              <div v-for="im in customizeModal.images" :key="im">
+                <img :src="im.path" alt="images" />
+              </div>
+              <div v-for="vid in customizeModal.videos" :key="vid">
+                <video controls="control" width="200" height="200">
+                  <source :src="vid.path" type="video/mp4" />
+                </video>
+              </div>
+            </template>
+          </modal>
           <table
             v-else-if="pendingOrders.length"
             class="table table-borderless text-yellow-950 font-medium"
@@ -424,6 +461,7 @@
               </tr>
             </tbody>
           </table>
+          <div v-else class="loader"></div>
         </div>
         <div v-else>
           <table class="table table-borderless text-yellow-950 font-medium">
@@ -445,11 +483,8 @@
                 <th scope="col"></th>
               </tr>
             </thead>
-            <tbody v-if="searchResults.length.length">
-              <tr
-                v-for="or in searchResults.length"
-                :key="or.customizeFurnitureId"
-              >
+            <tbody v-if="searchResults.length">
+              <tr v-for="or in searchResults" :key="or.customizeFurnitureId">
                 <td>{{ or.customizeFurnitureId }}</td>
                 <td class="img">
                   <img :src="or.images" alt="image furniture" />
@@ -574,11 +609,10 @@
                 </modal>
               </tr>
             </tbody>
+            <div v-else class="loader"></div>
           </table>
         </div>
       </div>
-
-      <div class="loader"></div>
     </div>
   </div>
   <p class="text-sm font-medium mb-5">Total users: {{ allOrders.length }}</p>
@@ -607,6 +641,10 @@ export default {
       status: "All",
       idFurniture: "",
       searchResults: [],
+      messageWanning: null,
+      messageSuccess: null,
+      messageError: null,
+      customizeModal: [],
     };
   },
   created() {
@@ -652,6 +690,7 @@ export default {
     opentModal(type, or) {
       this.modalType = type;
       this.idFurniture = or.customizeFurnitureId;
+      this.customizeModal = or;
     },
     closeModal() {
       this.modalType = null;
@@ -701,6 +740,14 @@ export default {
             this.keyword
         );
         this.searchResults = response.data;
+        for (let i = 0; i < this.searchResults.length; i++) {
+          const date = new Date(this.searchResults[i].creationDate);
+          this.searchResults[i].creationDate = format(date, "dd/MM/yyyy");
+          this.searchResults[i].desiredCompletionDate = format(
+            date,
+            "dd/MM/yyyy"
+          );
+        }
       } catch (error) {
         this.isAlertWanning = true;
         this.messageWanning = this.keyword + " not found";
