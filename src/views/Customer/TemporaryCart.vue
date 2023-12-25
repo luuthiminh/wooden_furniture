@@ -118,7 +118,7 @@
                               >
                                 <span class="font-medium">Total Cost:</span>
                                 <span class="font-bold text-red-600"
-                                  >${{ furniture.cost }}</span
+                                  >{{ furniture.cost }} VND</span
                                 >
                               </td>
                             </tr>
@@ -189,11 +189,7 @@
               class="row"
               style="border-top: 1px solid rgba(0, 0, 0, 0.1); padding: 2vh 0"
             >
-              <div class="col font-semibold mt-3">TOTAL PRICE</div>
-
-              <div class="col font-medium text-right text-sm mt-3">
-                ${{ order.totalCost }}
-              </div>
+              <div class="font-semibold mt-3 ml-20">You can order here!</div>
             </div>
             <button
               data-toggle="modal"
@@ -387,12 +383,7 @@
                     </div>
                   </div>
                 </div>
-                <!-- <div class="d-flex justify-content-between mt-7 px-4">
-                  <p class="font-semibold text-base">Total Cost</p>
-                  <p class="font-bold text-base text-red-600">
-                    ${{ order.totalCost }}
-                  </p>
-                </div> -->
+
                 <div class="mx-3 mt-4 text-sm">
                   <span class="font-semibold">TOTAL ORDER </span>
                   <span class="font-medium"

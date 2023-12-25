@@ -1017,7 +1017,9 @@ export default {
     getCheckToken() {
       if (this.$route.query.token !== undefined) {
         const token = this.$route.query.token.trim().split(" ").join("+");
+        const expiration = this.$route.query.expiration;
         localStorage.setItem("token", token);
+        localStorage.setItem("expiration", expiration);
       }
     },
     async getFurnitureAll() {

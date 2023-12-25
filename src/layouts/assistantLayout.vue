@@ -608,6 +608,8 @@ export default {
     },
     async getAnnouncements() {
       try {
+        axios.defaults.headers.common["Authorization"] =
+          "Bearer " + localStorage.getItem("token");
         const response = await axios.get("assistant/announcements");
         this.notifications = response.data;
         if (response.status === 200) {
@@ -647,17 +649,6 @@ export default {
 };
 </script>
 <style scoped>
-/* .header {
-  background-color: #302924;
-  position: fixed;
-  z-index: 99;
-  color: wheat;
-  display: flex;
-  align-items: center;
-  height: 70px;
-  border: 1px solid #d3c2ae;
-} */
-
 .header {
   background-color: #ffffff;
   position: fixed;
@@ -736,7 +727,6 @@ nav i {
   width: 48px;
 }
 .user_name {
-  /* color: #343a40; */
   display: block;
   font-weight: 600;
   font-size: 15px;

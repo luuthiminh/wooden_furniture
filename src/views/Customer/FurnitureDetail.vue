@@ -335,7 +335,7 @@
           <div class="grid grid-cols-12 mt-3"></div>
           <div class="comment flex flex-cols-2">
             <div v-if="!furnitureIndex">
-              <div v-for="fed in feedbacks" :key="fed">
+              <div v-for="fed in feedbacks" :key="fed" class="pb-3 ml-4 mb-3">
                 <div class="">
                   <h1 class="font-semibold">{{ fed?.customer }}</h1>
                   <div class="flex gap-x-2 mt-2">
@@ -359,7 +359,7 @@
               </div>
             </div>
             <div v-else>
-              <div v-for="fed in feedbacks" :key="fed">
+              <div v-for="fed in feedbacks" :key="fed" class="pb-3 ml-4 mb-3">
                 <div class="">
                   <h1 class="font-semibold">{{ fed?.customer }}</h1>
                   <div class="flex gap-x-2 mt-2">
@@ -761,5 +761,9 @@ hr {
 }
 .img_fur {
   background: #f0e8d9;
+}
+.pb-3.ml-4.mb-3 {
+  border-bottom: 1px dashed #c5c4c4;
+  width: 259%;
 }
 </style>

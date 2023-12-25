@@ -513,6 +513,8 @@ export default {
     },
     async getCart() {
       try {
+        axios.defaults.headers.common["Authorization"] =
+          "Bearer " + localStorage.getItem("token");
         const response = await axios.get("customer/cart");
         this.cart = response.data;
       } catch (error) {

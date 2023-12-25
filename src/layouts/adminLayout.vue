@@ -140,6 +140,7 @@
 </template>
 <script>
 import SearchAdmin from "@/components/searchAdmin.vue";
+import axios from "axios";
 
 export default {
   components: {
@@ -164,13 +165,14 @@ export default {
         this.$router.push({ name: "login" });
       } else {
         this.isLogin = true;
+        axios.defaults.headers.common["Authorization"] =
+          "Bearer " + localStorage.getItem("token");
       }
     },
     checkExpirationDate() {
       const expirationTime = localStorage.getItem("expiration");
       const expirationDate = new Date(expirationTime);
       const currentTime = new Date();
-
       if (currentTime > expirationDate) {
         this.isSessionValid = false;
         this.$router.push({ name: "login" });

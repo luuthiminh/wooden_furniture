@@ -346,7 +346,7 @@
                 <td>{{ f.length }}</td>
                 <td>{{ f.color }}</td>
                 <td>{{ f.wood }}</td>
-                <td>${{ f.price }}</td>
+                <td>{{ f.price }}VND</td>
                 <td class="des">{{ f.description }}</td>
                 <td>{{ f.feedbacks }}</td>
                 <td class="td_action w-1/12 text-sm">
@@ -695,6 +695,10 @@ export default {
       file: null,
       urlFur: null,
       furModal: {},
+      isAlertSuccess: false,
+      isAlertError: false,
+      messageSuccess: "",
+      messageError: "",
     };
   },
   created() {

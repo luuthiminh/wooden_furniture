@@ -1313,7 +1313,7 @@ export default {
           this.messageSuccess = "Add new material successfully";
           setTimeout(() => {
             this.isAlertSuccess = false;
-          }, 5000);
+          }, 3000);
           this.getMaterial();
         }
       } catch (error) {
@@ -1322,7 +1322,7 @@ export default {
         this.messageError = "Add new material error";
         setTimeout(() => {
           this.isAlertError = false;
-        }, 5000);
+        }, 3000);
         console.error(error);
       }
     },
