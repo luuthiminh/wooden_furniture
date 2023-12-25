@@ -59,14 +59,17 @@
                   </td>
                   <td width="90">
                     <div class="cart-product-imitation mt-3">
-                      <div v-for="img in or.images" :key="img">
-                        <img :src="img[0].path" alt="" />
-                      </div>
-                      <div v-for="vid in or.videos" :key="vid">
+                      <div v-if="or.images?.length && or.videos?.length">
+                        <img :src="or.images[0].path" alt="" />
                         <video controls="control" width="200" height="200">
-                          <source :src="vid[0].path" type="video/mp4" />
+                          <source :src="or.videos[0].path" type="video/mp4" />
                         </video>
                       </div>
+                      <img
+                        v-else
+                        src="@/assets/images/assistant/image_default.jpeg"
+                        alt="Avatar"
+                      />
                       <button
                         data-toggle="modal"
                         data-target="#exampleModalLong"
@@ -88,14 +91,26 @@
                         </div>
                       </template>
                       <template v-slot:body>
-                        <div v-for="im in customizeModal.images" :key="im">
-                          <img :src="im.path" alt="images" />
+                        <div
+                          v-if="
+                            customizeModal.images.length ||
+                            customizeModal.videos.length
+                          "
+                        >
+                          <div v-for="im in customizeModal.images" :key="im">
+                            <img :src="im.path" alt="images" />
+                          </div>
+                          <div v-for="vid in customizeModal.videos" :key="vid">
+                            <video controls="control" width="200" height="200">
+                              <source :src="vid.path" type="video/mp4" />
+                            </video>
+                          </div>
                         </div>
-                        <div v-for="vid in customizeModal.videos" :key="vid">
-                          <video controls="control" width="200" height="200">
-                            <source :src="vid.path" type="video/mp4" />
-                          </video>
-                        </div>
+                        <img
+                          v-else
+                          src="@/assets/images/assistant/image_default.jpeg"
+                          alt="Avatar"
+                        />
                       </template>
                     </modal>
                   </td>
@@ -265,6 +280,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 import modal from "@/components/ModalPage.vue";
 export default {
   name: "itemOrder",
@@ -277,6 +293,7 @@ export default {
       modalType: "",
       customizeFurnitureIdList: [],
       furnitureOrder: [],
+      id: "",
     };
   },
   methods: {
@@ -284,9 +301,21 @@ export default {
       this.modalType = type;
       this.customizeModal = or;
       this.orderModel = or;
+      this.id = or.orderId;
     },
     handleCartId(or) {
       this.$store.commit("handleCartId", or);
+    },
+
+    async handleDelete(or) {
+      try {
+        await axios.delete(
+          "customer/customize-furnitures/remove?id=" + or.customizeFurnitureId
+        );
+        console.log(or.orderId);
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };

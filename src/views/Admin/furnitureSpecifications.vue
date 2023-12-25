@@ -254,7 +254,7 @@
                       class="form-select text-sm"
                       aria-label="Default select example"
                     >
-                      <option selected>Choose label</option>
+                      <option disabled>Choose label</option>
                       <option
                         v-for="co in colors"
                         :key="co.colorsId"
@@ -276,7 +276,7 @@
                       class="form-select text-sm"
                       aria-label="Default select example"
                     >
-                      <option selected>Choose Wood</option>
+                      <option disabled>Choose Wood</option>
                       <option
                         v-for="w in woods"
                         :key="w.woodId"
@@ -329,6 +329,11 @@
                   <div v-for="im in f.images" :key="im">
                     <img :src="im.path" alt="furniture" class="w-20" />
                   </div>
+                  <div v-for="vid in f.videos" :key="vid">
+                    <video controls="control" class="w-20">
+                      <source :src="vid.path" type="video/mp4" />
+                    </video>
+                  </div>
                 </td>
                 <td class="text-start">
                   <p class="font-semibold">
@@ -342,8 +347,7 @@
                 <td>{{ f.color }}</td>
                 <td>{{ f.wood }}</td>
                 <td>${{ f.price }}</td>
-                <td>{{ f.description }}</td>
-                <td>{{ f.videos }}</td>
+                <td class="des">{{ f.description }}</td>
                 <td>{{ f.feedbacks }}</td>
                 <td class="td_action w-1/12 text-sm">
                   <div class="dropdown px-2 py-2 bg-orange-50 w-20 rounded-md">
@@ -385,174 +389,7 @@
                     </ul>
                   </div>
                 </td>
-                <modal
-                  v-if="modalType == 'furSpecification'"
-                  @close="modalType == null"
-                  data-target="#myModal"
-                >
-                  <template v-slot:title>
-                    <h1 class="flex items-center text-lg font-medium">
-                      Furniture Specification
-                    </h1>
-                  </template>
-                  <template v-slot:body>
-                    <div class="py-3 px-4 text-sm">
-                      <!-- <div class="flex gap-x-6 mt-3">
-                          <label
-                            for="exampleInputEmail1"
-                            class="form-label font-medium"
-                            >Image</label
-                          >
-                          <img v-if="url" :src="url" alt="image" class="w-6/12" />
-                          <label v-else class="custum-file-upload" for="file">
-                            <div class="icon">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill=""
-                                viewBox="0 0 24 24"
-                              >
-                                <g stroke-width="0" id="SVGRepo_bgCarrier"></g>
-                                <g
-                                  stroke-linejoin="round"
-                                  stroke-linecap="round"
-                                  id="SVGRepo_tracerCarrier"
-                                ></g>
-                                <g id="SVGRepo_iconCarrier">
-                                  <path
-                                    fill=""
-                                    d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z"
-                                    clip-rule="evenodd"
-                                    fill-rule="evenodd"
-                                  ></path>
-                                </g>
-                              </svg>
-                            </div>
-                            <div class="text">
-                              <span>Click to upload image</span>
-                            </div>
-                            <input type="file" id="file" @change="onFileChange" />
-                          </label>
-                        </div> -->
-                      <div class="addFurniture grid grid-cols-2 gap-x-4">
-                        <div>
-                          <label
-                            for="exampleInputEmail1"
-                            class="form-label font-medium"
-                            >Name Furniture</label
-                          >
-                          <input
-                            v-model="furNameModal"
-                            type="email"
-                            class="form-control"
-                            id="exampleInputEmail1"
-                            aria-describedby="emailHelp"
-                            required
-                          />
-                        </div>
-                        <div>
-                          <label
-                            for="exampleInputEmail1"
-                            class="form-label font-medium"
-                            >Height</label
-                          >
-                          <input
-                            v-model="f.height"
-                            type="text"
-                            class="form-control"
-                            id="exampleInputEmail1"
-                            aria-describedby="emailHelp"
-                            required
-                          />
-                        </div>
-                        <div>
-                          <label
-                            for="exampleInputEmail1"
-                            class="form-label font-medium"
-                            >Width</label
-                          >
-                          <input
-                            v-model="width"
-                            type="text"
-                            class="form-control"
-                            id="exampleInputEmail1"
-                            aria-describedby="emailHelp"
-                            required
-                          />
-                        </div>
-                        <div>
-                          <label
-                            for="exampleInputEmail1"
-                            class="form-label font-medium"
-                            >Length</label
-                          >
-                          <input
-                            v-model="lengthModal"
-                            type="text"
-                            class="form-control"
-                            id="exampleInputEmail1"
-                            aria-describedby="emailHelp"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div class="grid grid-cols-2 gap-x-4 mt-3">
-                        <div>
-                          <label
-                            for="exampleInputEmail1"
-                            class="form-label font-medium"
-                            >Wood</label
-                          >
-                          <select
-                            v-if="woods.length"
-                            v-model="woodModal"
-                            class="form-select text-sm"
-                            aria-label="Default select example"
-                          >
-                            <option selected>{{ woodModal }}</option>
-                            <option
-                              v-for="w in woods"
-                              :key="w.woodId"
-                              :value="w.woodId"
-                            >
-                              {{ w.woodType }}
-                            </option>
-                          </select>
-                        </div>
-                        <div>
-                          <label
-                            for="exampleInputEmail1"
-                            class="form-label font-medium"
-                            >Label</label
-                          >
-                          <select
-                            v-if="labels.length"
-                            v-model="labelModal"
-                            class="form-select text-sm"
-                            aria-label="Default select example"
-                          >
-                            <option selected>{{ labelModal }}</option>
-                            <option
-                              v-for="l in labels"
-                              :key="l.labelId"
-                              :value="l.labelId"
-                            >
-                              {{ l.labelName }}
-                            </option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  </template>
-                  <template v-slot:footer>
-                    <div
-                      class="bg-yellow-900 rounded-md"
-                      data-dismiss="modal"
-                      @click.prevent="HandleUpdate"
-                    >
-                      <span type="button" class="btn text-white"> Update </span>
-                    </div>
-                  </template>
-                </modal>
+
                 <modal
                   v-if="modalType == 'edit'"
                   @close="modalType == null"
@@ -571,13 +408,12 @@
                           class="form-label font-medium"
                           >Image</label
                         >
-                        <div v-if="f.images">
-                          <img
-                            v-if="!url"
-                            :src="f.images"
-                            alt="image"
-                            for="file"
-                          />
+                        <div v-if="furModal.images">
+                          <div v-if="!url">
+                            <div v-for="img in furModal.images" :key="img">
+                              <img :src="img.path" alt="image" for="file" />
+                            </div>
+                          </div>
                           <img
                             v-else-if="url"
                             :src="url"
@@ -637,7 +473,7 @@
                           >Name Furniture</label
                         >
                         <input
-                          v-model="f.furnitureName"
+                          v-model="furModal.furnitureName"
                           type="email"
                           class="form-control"
                           id="exampleInputEmail1"
@@ -654,7 +490,7 @@
                           >
                           <div class="flex gap-x-2">
                             <input
-                              v-model="f.height"
+                              v-model="furModal.height"
                               type="number"
                               class="form-control"
                               id="exampleInputEmail1"
@@ -673,7 +509,7 @@
                           >
                           <div class="flex gap-x-2">
                             <input
-                              v-model="f.width"
+                              v-model="furModal.width"
                               type="number"
                               class="form-control"
                               id="exampleInputEmail1"
@@ -691,7 +527,7 @@
                           >
                           <div class="flex gap-x-2">
                             <input
-                              v-model="f.length"
+                              v-model="furModal.length"
                               type="number"
                               class="form-control"
                               id="exampleInputEmail1"
@@ -709,7 +545,7 @@
                           >Price</label
                         >
                         <input
-                          v-model="f.price"
+                          v-model="furModal.price"
                           type="number"
                           class="form-control"
                           id="exampleInputEmail1"
@@ -724,7 +560,7 @@
                           >Description</label
                         >
                         <input
-                          v-model="f.description"
+                          v-model="furModal.description"
                           type="text"
                           class="form-control"
                           id="exampleInputEmail1"
@@ -745,7 +581,7 @@
                             class="form-select text-sm"
                             aria-label="Default select example"
                           >
-                            <option selected>
+                            <option disabled>
                               Choose Color ({{ f.color }})
                             </option>
                             <option
@@ -769,7 +605,7 @@
                             class="form-select text-sm"
                             aria-label="Default select example"
                           >
-                            <option selected>Choose Wood{{ woodModal }}</option>
+                            <option disabled>Choose Wood{{ woodModal }}</option>
                             <option
                               v-for="w in woods"
                               :key="w.woodId"
@@ -805,7 +641,7 @@
                   <template v-slot:body>
                     <p class="text-base py-3">
                       Are you sure detete
-                      <b> {{ f.furnitureSpecificationName }} ?</b>
+                      <b> {{ furModal.furnitureSpecificationName }} ?</b>
                     </p>
                   </template>
                   <template v-slot:footer>
@@ -858,6 +694,7 @@ export default {
       url: null,
       file: null,
       urlFur: null,
+      furModal: {},
     };
   },
   created() {
@@ -869,8 +706,9 @@ export default {
     closeModal() {
       this.modalType = null;
     },
-    async opentModal(type) {
+    async opentModal(type, f) {
       this.modalType = type;
+      this.furModal = f;
     },
     async getFurnitureSpecification() {
       try {
@@ -947,7 +785,11 @@ export default {
     },
     async HandleUpdate(f) {
       const formData = new FormData();
-      formData.append("FurnitureSpecificationId", f.furnitureSpecificationId);
+      // let array = [];
+      formData.append(
+        "FurnitureSpecificationId",
+        this.furModal.furnitureSpecificationId
+      );
       formData.append("FurnitureSpecificationName", f.furnitureName);
       formData.append("Height", f.height);
       formData.append("Width", f.width);
@@ -957,6 +799,22 @@ export default {
       formData.append("Price", f.price);
       formData.append("Description", f.description);
       formData.append("UploadFiles", this.file);
+      // if (this.file != null) {
+      //   formData.append("UploadFiles", this.file);
+      // } else
+      //   for (let i = 0; i < f.images.length; i++) {
+      //     const img = f.images[i].path;
+      //     array.push(img);
+      //   }
+      // for (let i = 0; i < f.videos.length; i++) {
+      //   const vid = f.videos[i].path;
+      //   array.push(vid);
+      // }
+      // if (array.length > 0) {
+      //   for (var i = 0; i < array.length > 0; i++) {
+      //     formData.append("UploadFiles", array[i]);
+      //   }
+      // }
       try {
         const response = await axios.put(
           "shopOwner/shop-data/furnitures/" + this.$route.params.id + "/edit",
@@ -985,19 +843,20 @@ export default {
         console.error(error);
       }
     },
-    async HandleDelete(f) {
+    async HandleDelete() {
       try {
         const response = await axios.delete(
           "shopOwner/shop-data/furnitures/" +
             this.$route.params.id +
             "/delete/" +
-            f.furnitureSpecificationId
+            this.furModal.furnitureSpecificationId
         );
         if (response.status === 204) {
           this.modalType = null;
           this.isSuccess = true;
           this.isAlertSuccess = true;
-          this.messageSuccess = "Delete " + f.furnitureName + " successful!";
+          this.messageSuccess =
+            "Delete " + this.furModal.furnitureName + " successful!";
           setTimeout(() => {
             this.isAlertSuccess = false;
           }, 5000);
@@ -1273,5 +1132,14 @@ form h1 {
 }
 .form-select {
   background-color: #cecfd442;
+}
+.des {
+  text-align: justify;
+  word-wrap: break-word;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  height: 10.7em;
 }
 </style>

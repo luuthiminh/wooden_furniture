@@ -545,7 +545,7 @@
                   </div>
                 </template>
                 <template v-slot:body>
-                  <p class="text-base py-3">
+                  <p class="text-base py-3 ml-32">
                     Are you sure detete <b> {{ materialNameModal }} ?</b>
                   </p>
                 </template>
@@ -1080,7 +1080,7 @@
                   </div>
                 </template>
                 <template v-slot:body>
-                  <p class="text-base py-3">
+                  <p class="text-base py-3 ml-32">
                     Are you sure detete <b> {{ materialNameModal }} ?</b>
                   </p>
                 </template>
@@ -1409,18 +1409,13 @@ export default {
         if (response.status === 201) {
           this.modalType = null;
           this.isAlertSuccess = true;
-          this.messageSuccess = "Add new repository successfully";
+          this.messageSuccess = "Export successfully";
           setTimeout(() => {
             this.isAlertSuccess = false;
           }, 5000);
           this.getAllReponsitory();
         }
       } catch (error) {
-        this.isAlertError = true;
-        this.messageError = error.response.data.message;
-        setTimeout(() => {
-          this.isAlertError = false;
-        }, 5000);
         console.error(error);
       }
     },

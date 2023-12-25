@@ -1171,14 +1171,14 @@
                         </li>
                         <li
                           role="presentation"
-                          @click="selectStatusOrder('Cancel')"
+                          @click="selectStatusOrder('Canceled')"
                         >
                           <a
                             href="#cancel"
                             aria-controls="cancel"
                             role="tab"
                             data-toggle="tab"
-                            >Cancelled</a
+                            >Canceled</a
                           >
                         </li>
                       </ul>
@@ -1245,7 +1245,7 @@
                   <loadding v-else />
                 </div>
               </div>
-              <div role="tabpanel" class="tab-pane" id="feedback">
+              <div role="tabpanel" class="tab-pane active" id="feedback">
                 <div class="form bg-white">
                   <div class="flex">
                     <h1
@@ -1265,151 +1265,205 @@
                       >
                     </div>
                   </div>
-                  <!-- <div class="feedbacks.length">
-                    <div v-for="fb in feedbacks" :key="fb" class="py-3">
-                      <div class="text-xl font-bold">
-                        {{ fb.furnitureName }}
-                      </div>
-                      <div class="">
-                        <div class="rating">
-                          <input
-                            value="5"
-                            name="rate"
-                            id="star5"
-                            type="radio"
-                          />
-                          <label title="text" for="star5"></label>
-                          <input
-                            value="4"
-                            name="rate"
-                            id="star4"
-                            type="radio"
-                          />
-                          <label title="text" for="star4"></label>
-                          <input
-                            value="3"
-                            name="rate"
-                            id="star3"
-                            type="radio"
-                            checked=""
-                          />
-                          <label title="text" for="star3"></label>
-                          <input
-                            value="2"
-                            name="rate"
-                            id="star2"
-                            type="radio"
-                          />
-                          <label title="text" for="star2"></label>
-                          <input
-                            value="1"
-                            name="rate"
-                            id="star1"
-                            type="radio"
-                          />
-                          <label title="text" for="star1"></label>
-                        </div>
-                      </div>
-                      <div class="">{{ fb.content }}</div>
-                      <div
-                        class=""
-                        v-for="urlFeed in fb.feedbackImages"
-                        :key="urlFeed"
-                      >
-                        <img :src="url" />
-                      </div>
-                    </div>
-                  </div> -->
-                  <div
-                    class="border-dotted border-1 border-indigo-gray opacity-20"
-                  ></div>
-
-                  <div class="px-10 py-6">
-                    <div v-for="f in feedbacks" :key="f" class="item_feedback">
+                </div>
+                <div class="form bg-white card mb-5 mb-xl-10 mt-10">
+                  <div v-if="feedbacks.length">
+                    <div
+                      class="item_warranty flex px-6 py-6 mt-3"
+                      v-for="f in feedbacks"
+                      :key="f"
+                    >
                       <div>
-                        <div class="text-base text-yellow-800 font-semibold">
-                          {{ f.furnitureName }}
-                        </div>
-                        <div class="absolute left-54 mb-4">
-                          <div class="rating">
-                            <!-- <input
-                              :id="'star' + f.voteStar"
-                              name="rate"
-                              type="radio"
-                              :value="f.voteStar"
+                        <div class="flex gap-x-5 text-sm">
+                          <div
+                            class="mt-3 w-40"
+                            v-for="img in f.feedbackImages"
+                            :key="img"
+                          >
+                            <img
+                              class="rounded-md w-12/12 cursor-pointer bg-slate-200"
+                              :src="img.url"
+                              alt="img"
                             />
-                            <label
-                              :for="'star' + f.voteStar"
-                              class="star-label"
-                            ></label> -->
-                            <div class="rating">
-                              <input
-                                value="5"
-                                name="rate"
-                                id="star5"
-                                type="radio"
-                              />
-                              <label title="text" for="star5"></label>
-                              <input
-                                value="4"
-                                name="rate"
-                                id="star4"
-                                type="radio"
-                              />
-                              <label title="text" for="star4"></label>
-                              <input
-                                value="3"
-                                name="rate"
-                                id="star3"
-                                type="radio"
-                                checked=""
-                              />
-                              <label title="text" for="star3"></label>
-                              <input
-                                value="2"
-                                name="rate"
-                                id="star2"
-                                type="radio"
-                              />
-                              <label title="text" for="star2"></label>
-                              <input
-                                value="1"
-                                name="rate"
-                                id="star1"
-                                type="radio"
-                              />
-                              <label title="text" for="star1"></label>
-                            </div>
                           </div>
-                        </div>
-                        <div class="font-medium text-sm mt-10">
-                          {{ f.content }}
-                        </div>
-                        <div
-                          class="grid grid-cols-5 gap-x-5 mt-3"
-                          v-for="img in f.feedbackImages"
-                          :key="img"
-                        >
-                          <img
-                            class="rounded-full w-3/12 cursor-pointer"
-                            :src="img.url"
-                            alt="img"
-                          />
+                          <div class="flex gap-x-24 items-center">
+                            <div class="leading-10">
+                              <div class="flex gap-x-3">
+                                <h4 class="font-semibold">Furniture Name:</h4>
+                                <h4 class="block font-medium">
+                                  {{ f.furnitureName }}
+                                </h4>
+                              </div>
+                              <div class="flex gap-x-2 mt-3">
+                                <h4 class="block font-medium text-yellow-950">
+                                  {{ f.content }}
+                                </h4>
+                              </div>
+                              <div class="flex gap-x-2 mt-3">
+                                <h4 class="block font-semibold text-yellow-950">
+                                  Vote Star:
+                                </h4>
+                                <div class="flex gap-x-1">
+                                  <h4
+                                    class="block font-semibold text-yellow-950"
+                                  >
+                                    {{ f.voteStar }}
+                                  </h4>
+                                  <i
+                                    class="bi bi-star-fill text-yellow-500 flex items-top mt-px"
+                                  ></i>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="absolute right-10 flex gap-x-5">
+                              <button
+                                data-toggle="modal"
+                                data-target="#exampleModalLong"
+                                data-backdrop="false"
+                                @click="opentModal('editFeedback', f)"
+                                class="px-3 py-1 text-white hover:ring-offset-2 hover:ring-2 bg-slate-600 text-sm rounded-md transition duration-700 ease-in-out font-medium"
+                              >
+                                Edit
+                              </button>
+                            </div>
+                            <modal
+                              v-if="modalType == 'editFeedback'"
+                              @close="modalType == null"
+                              data-target="#myModal"
+                            >
+                              <template v-slot:title>
+                                <div
+                                  class="flex items-center text-lg font-semibold"
+                                >
+                                  Edit Feedback
+                                </div>
+                              </template>
+                              <template v-slot:body>
+                                <div
+                                  class="bg-white grid grid-cols-6 gap-2 rounded-xl p-2 text-sm"
+                                >
+                                  <label
+                                    class="text-sm font-semibold text-yellow-950"
+                                    >Content</label
+                                  >
+                                  <textarea
+                                    v-model="feedbackModal.content"
+                                    placeholder="Your feedback..."
+                                    class="bg-slate-100 text-slate-600 h-28 placeholder:text-slate-600 placeholder:opacity-50 border border-slate-200 col-span-6 resize-none outline-none rounded-lg p-2 duration-300 focus:border-slate-600"
+                                  ></textarea>
+                                </div>
+                                <div
+                                  class="bg-white flex gap-2 rounded-xl p-2 text-sm mt-3"
+                                >
+                                  <label
+                                    class="font-semibold text-yellow-950 text-sm"
+                                    >Vote Star</label
+                                  >
+                                  <div class="rating">
+                                    <input
+                                      v-model="star"
+                                      value="5"
+                                      name="rate"
+                                      id="star5"
+                                      type="radio"
+                                      required
+                                    />
+                                    <label title="text" for="star5"></label>
+                                    <input
+                                      value="4"
+                                      name="rate"
+                                      v-model="star"
+                                      id="star4"
+                                      type="radio"
+                                      required
+                                    />
+                                    <label title="text" for="star4"></label>
+                                    <input
+                                      value="3"
+                                      name="rate"
+                                      v-model="star"
+                                      id="star3"
+                                      type="radio"
+                                      checked=""
+                                      required
+                                    />
+                                    <label title="text" for="star3"></label>
+                                    <input
+                                      value="2"
+                                      name="rate"
+                                      v-model="star"
+                                      id="star2"
+                                      type="radio"
+                                      required
+                                    />
+                                    <label title="text" for="star2"></label>
+                                    <input
+                                      value="1"
+                                      name="rate"
+                                      v-model="star"
+                                      id="star1"
+                                      type="radio"
+                                      required
+                                    />
+                                    <label title="text" for="star1"></label>
+                                  </div>
+                                </div>
+                                <div class="ml-2 py-3">
+                                  <label class="font-medium">
+                                    <input
+                                      v-model="anonymous"
+                                      type="checkbox"
+                                      class="accent-pink-500 font-semibold text-yellow-950"
+                                    />
+                                    Anonymous
+                                  </label>
+                                </div>
+                              </template>
+                              <template v-slot:footer
+                                ><div class="bg-yellow-900 rounded-md">
+                                  <span
+                                    type="button"
+                                    data-dissmis="modal"
+                                    class="px-2 py-2 text-white"
+                                    @click.prevent="
+                                      HandleUpdateFeedback(f.feedbackId)
+                                    "
+                                  >
+                                    Update
+                                  </span>
+                                </div>
+                              </template>
+                            </modal>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                  <loadding v-else />
                 </div>
               </div>
-              <div role="tabpanel" class="tab-pane active" id="warranty">
+              <div role="tabpanel" class="tab-pane" id="warranty">
                 <div class="form bg-white">
-                  <h1
-                    class="py-3 font-semibold text-base pl-10 text-yellow-950"
-                  >
-                    All Guarantee
-                  </h1>
+                  <div class="flex">
+                    <h1
+                      class="py-3 font-semibold text-base pl-10 text-yellow-950"
+                    >
+                      All Guarantee
+                    </h1>
+                    <div class="absolute right-36 flex gap-x-3">
+                      <span
+                        class="py-3 font-medium text-sm pl-10 text-yellow-90"
+                      >
+                        Total Guarantee:
+                      </span>
+                      <span
+                        class="font-medium flex items-center text-yellow-90"
+                        >{{ warranties.length }}</span
+                      >
+                    </div>
+                  </div>
                 </div>
-                <div class="fform bg-white card mb-5 mb-xl-10 mt-10">
+                <div class="form bg-white card mb-5 mb-xl-10 mt-10">
                   <div v-if="warranties.length">
                     <div
                       class="item_warranty flex px-6 py-6 mt-3"
@@ -1418,7 +1472,12 @@
                     >
                       <div>
                         <div class="flex gap-x-16 text-sm">
-                          <div v-if="w.attacments.images.length" class="w-2/12">
+                          <div
+                            v-if="
+                              w.attacments.images && w.attacments.images.length
+                            "
+                            class="w-2/12"
+                          >
                             <img
                               :src="w.attacments.images[0].path"
                               alt="images"
@@ -1459,7 +1518,7 @@
                             <div class="leading-10">
                               <div class="flex gap-x-3">
                                 <h4 class="font-medium">OrderId:</h4>
-                                <h4 class="block font-semibold text-yellow-900">
+                                <h4 class="block font-semibold">
                                   {{ w.orderId }}
                                 </h4>
                               </div>
@@ -1532,14 +1591,14 @@
                                       <div v-if="!url">
                                         <div
                                           v-for="img in warrantyModal.attacments
-                                            .images.length"
+                                            .images"
                                           :key="img"
-                                          class="ml-40"
+                                          class="ml-6"
                                         >
                                           <img
-                                            :src="img.path"
+                                            :src="img?.path"
                                             alt="image"
-                                            class="ml-24 w-8/12"
+                                            class=""
                                             for="imageUpload"
                                           />
                                         </div>
@@ -1632,6 +1691,7 @@
                                   <span
                                     type="button"
                                     class="px-2 py-2 text-white"
+                                    data-dissmis="modal"
                                     @click.prevent="HandleUpdateWarranty()"
                                   >
                                     Update
@@ -2211,21 +2271,21 @@
                     <div class="tab-content col-span-3 max-md:col-span-3">
                       <div role="tabpanel" class="tab-pane active" id="all">
                         <itemCustom-order
-                          v-if="orderCustomAll"
+                          v-if="orderCustomAll.length"
                           :customizeOders="orderCustomAll"
                         ></itemCustom-order>
                         <loadding v-else />
                       </div>
                       <div role="tabpanel" class="tab-pane" id="accepted">
                         <itemCustom-order
-                          v-if="orderAccepted"
+                          v-if="orderAccepted.length"
                           :customizeOders="orderAccepted"
                         ></itemCustom-order>
                         <loadding v-else />
                       </div>
                       <div role="tabpanel" class="tab-pane" id="rejected">
                         <itemCustom-order
-                          v-if="orderRejected"
+                          v-if="orderRejected.length"
                           :customizeOders="orderRejected"
                         ></itemCustom-order>
                         <loadding v-else />
@@ -2329,6 +2389,7 @@ export default {
       warrantyModal: {},
       urlWarranty: {},
       messageOtp: {},
+      feedbackModal: {},
     };
   },
   created() {
@@ -2724,6 +2785,7 @@ export default {
       this.modalType = type;
       this.addressModal = ad;
       this.warrantyModal = ad;
+      this.feedbackModal = ad;
     },
     closeModal() {
       this.modalType = null;
@@ -2940,7 +3002,6 @@ export default {
     HandleRemoveImage(url) {
       this.arrayUrl = this.arrayUrl.filter((item) => item !== url);
     },
-
     async HandleToggole2fa() {
       try {
         const response = await axios.put("user/individual/toggle-2fa");
@@ -3002,15 +3063,47 @@ export default {
           this.modalType = null;
           this.isSuccess = true;
           this.isAlertSuccess = true;
-          this.messageSuccess = `Delete this warranty + ${this.warrantyModal.warrantyId} + successful!`;
+          this.messageSuccess = `Delete this warranty ${this.warrantyModal.warrantyId}  successful!`;
           setTimeout(() => {
             this.isSuccess = false;
           }, 3000);
-          this.getAddress();
         }
       } catch (error) {
         this.isAlertError = true;
         this.messagerError = error.response.data.message;
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 3000);
+        console.error(error);
+      }
+    },
+    async HandleUpdateFeedback(id) {
+      const formData = new FormData();
+      formData.append("Content", this.feedbackModal.content);
+      formData.append("VoteStar", this.star);
+      formData.append("Anonymous", this.anonymous);
+      try {
+        const response = await axios.put(
+          "customer/edit-feedback/" + id,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        if (response.status === 200) {
+          this.modalType = null;
+          this.isAlertSuccess = true;
+          this.messageSuccess = "Update feedback successful!";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 3000);
+        }
+        console.log(response);
+      } catch (error) {
+        this.isAlertError = true;
+        this.messageError = error.response.data.message;
         setTimeout(() => {
           this.isAlertError = false;
         }, 3000);
@@ -4030,8 +4123,7 @@ option {
 .side-bar {
   border: 1px solid #6b430c40;
 }
-.item_warranty,
-.item_feedback {
+.item_warranty {
   border-bottom: 1px solid #dad7d4;
 }
 .custum-file-upload {

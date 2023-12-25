@@ -27,11 +27,6 @@
         <div class="furniture detail mt-3 rounded-lg">
           <div class="img grid grid-cols-2 gap-x-4 max-sm:block">
             <div class="img_product w-10/12">
-              <!-- <img
-                :src="furnitureFirst.images[0].path"
-                alt="furniture"
-                class="img_fur"
-              /> -->
               <div
                 v-if="
                   furnitureFirst &&
@@ -47,7 +42,6 @@
               </div>
               <loadding v-else />
 
-              <!-- <loadding v-else /> -->
               <div class="image_all px-3 py-3">
                 <div
                   class="h-32 scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100 snap-y"
@@ -69,7 +63,7 @@
                                   <img
                                     :src="im.path"
                                     alt="furniture"
-                                    class="w-20"
+                                    class="w-20 cursor-pointer"
                                   />
                                 </div>
                               </div>
@@ -89,60 +83,27 @@
                   <div class="product">
                     <div class="furniture_infor pt-2">
                       <div>
-                        <h1 class="text-xl font-bold">
+                        <h1 class="text-xl font-bold text-yellow-900">
                           {{ furnitureFirst.furnitureSpecificationName }}
                         </h1>
-                        <!-- <div class="rating">
-                          <input
-                            value="5"
-                            name="rate"
-                            id="star5"
-                            type="radio"
-                          />
-                          <label title="text" for="star5"></label>
-                          <input
-                            value="4"
-                            name="rate"
-                            id="star4"
-                            type="radio"
-                          />
-                          <label title="text" for="star4"></label>
-                          <input
-                            value="3"
-                            name="rate"
-                            id="star3"
-                            type="radio"
-                            checked=""
-                          />
-                          <label title="text" for="star3"></label>
-                          <input
-                            value="2"
-                            name="rate"
-                            id="star2"
-                            type="radio"
-                          />
-                          <label title="text" for="star2"></label>
-                          <input
-                            value="1"
-                            name="rate"
-                            id="star1"
-                            type="radio"
-                          />
-                          <label title="text" for="star1"></label>
-                        </div> -->
                       </div>
                       <div>
-                        <span class="text-xs"
+                        <span
+                          class="text-xs font-medium text-yellow-900 opacity-90"
                           >ID Furniture:
                           {{ furnitureFirst.furnitureSpecificationId }}</span
                         >
                       </div>
                       <div class="mt-3">
-                        <span class="font-semibold">Available: </span>
+                        <span class="font-semibold text-yellow-950"
+                          >Available:
+                        </span>
                         <span>{{ furnitureFirst.available }} </span>
                       </div>
                       <div class="mt-3">
-                        <span class="font-semibold">Category: </span>
+                        <span class="font-semibold text-yellow-950"
+                          >Category:
+                        </span>
                         <span>Table and Chair</span>
                       </div>
                       <div class="my-3">
@@ -150,30 +111,40 @@
                         <hr />
                         <span class="flex gap-x-3 price text-3xl font-medium"
                           >{{ furnitureFirst.price }}
-                          <p class="font-semibold">VND</p>
+                          <p class="font-semibold text-red-800">VND</p>
                           <p></p
                         ></span>
 
                         <hr />
                       </div>
                       <div class="mt-3">
-                        <span class="font-semibold">Wood: </span>
+                        <span class="font-semibold text-yellow-950"
+                          >Wood:
+                        </span>
                         <span>{{ furnitureFirst.wood }}</span>
                       </div>
                       <div class="mt-3">
-                        <span class="font-semibold">Color: </span>
+                        <span class="font-semibold text-yellow-950"
+                          >Color:
+                        </span>
                         <span>{{ furnitureFirst.color }}</span>
                       </div>
                       <div class="mt-3">
-                        <span class="font-semibold">Height: </span>
+                        <span class="font-semibold text-yellow-950"
+                          >Height:
+                        </span>
                         <span>{{ furnitureFirst.height }}m</span>
                       </div>
                       <div class="mt-3">
-                        <span class="font-semibold">Width: </span>
+                        <span class="font-semibold text-yellow-950"
+                          >Width:
+                        </span>
                         <span>{{ furnitureFirst.width }}m</span>
                       </div>
                       <div class="mt-3">
-                        <span class="font-semibold">Lenght: </span>
+                        <span class="font-semibold text-yellow-950"
+                          >Lenght:
+                        </span>
                         <span>{{ furnitureFirst.length }}m</span>
                       </div>
                       <div></div>
@@ -203,44 +174,6 @@
                         <h1 class="text-lg font-bold">
                           {{ furnitureIndex.furnitureSpecificationName }}
                         </h1>
-                        <!-- <div class="rating">
-                          <input
-                            value="5"
-                            name="rate"
-                            id="star5"
-                            type="radio"
-                          />
-                          <label title="text" for="star5"></label>
-                          <input
-                            value="4"
-                            name="rate"
-                            id="star4"
-                            type="radio"
-                          />
-                          <label title="text" for="star4"></label>
-                          <input
-                            value="3"
-                            name="rate"
-                            id="star3"
-                            type="radio"
-                            checked=""
-                          />
-                          <label title="text" for="star3"></label>
-                          <input
-                            value="2"
-                            name="rate"
-                            id="star2"
-                            type="radio"
-                          />
-                          <label title="text" for="star2"></label>
-                          <input
-                            value="1"
-                            name="rate"
-                            id="star1"
-                            type="radio"
-                          />
-                          <label title="text" for="star1"></label>
-                        </div> -->
                       </div>
                       <div>
                         <span class="text-xs"
@@ -303,7 +236,7 @@
             <modal v-show="isShowQuantity" @close="closeModal">
               <template v-slot:title>
                 <div class="flex items-center text-lg font-medium">
-                  ALL Furniture
+                  Add To Cart
                 </div>
               </template>
               <template v-slot:body>
@@ -324,7 +257,7 @@
                 <button
                   @click="handleAddToCart"
                   data-dismiss="modal"
-                  class="px-2 py-1 text-white ring-offset-2 ring-2 bg-slate-600 rounded-md"
+                  class="px-2 py-2 text-white ring-offset-2 ring-2 bg-slate-600 rounded-md text-sm"
                 >
                   ADD TO CART
                 </button>
@@ -387,59 +320,73 @@
           </div>
           <div class="h-px w-full bg-slate-200 mt-2"></div>
           <div class="content mt-3 leading-7 text-sm">
-            <span>{{ furnitureFirst.description }}</span>
+            <span v-if="furnitureIndex">{{ furnitureFirst.description }}</span>
+            <span v-else>{{ furnitureIndex.description }}</span>
           </div>
         </div>
 
         <div class="content_item rounded-md px-3 py-3 mt-4">
           <div class="grid grid-cols-2 gap-x-44 w-full">
-            <p class="font-semibold">1 feedback</p>
+            <p class="font-semibold text-yellow-900">
+              Total Feedbacks: {{ feedbacks?.length }}
+            </p>
           </div>
           <div class="h-px w-full bg-slate-200 mt-2"></div>
           <div class="grid grid-cols-12 mt-3"></div>
           <div class="comment flex flex-cols-2">
-            <div class="avtar">
-              <router-link to="/profileCusPage" style="text-decoration: none"
-                ><img
-                  class="rounded-full w-14"
-                  src="@/assets/images/avatar.jpg"
-                  alt="avatar"
-              /></router-link>
+            <div v-if="!furnitureIndex">
+              <div v-for="fed in feedbacks" :key="fed">
+                <div class="">
+                  <h1 class="font-semibold">{{ fed?.customer }}</h1>
+                  <div class="flex gap-x-2 mt-2">
+                    <i
+                      class="bi bi-calendar-check text-slate-600 text-xs mt-1"
+                    ></i>
+                    <span class="text-sm block text-slate-500 mb-2">{{
+                      fed?.creationDate
+                    }}</span>
+                  </div>
+                  <span class="text-sm">{{ fed?.content }}</span>
+                  <br />
+                  <div class="flex gap-x-1 mt-2">
+                    <span class="text-sm font-medium text-yellow-900"
+                      >Vote Star:
+                    </span>
+                    <span class="text-sm">{{ fed.voteStar }}</span>
+                    <i class="bi bi-star-fill text-yellow-500 text-sm"></i>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div v-for="fed in furnitureFirst.feedbacks" :key="fed">
-              <div class="pl-10">
-                <h1 class="font-semibold">{{ fed?.customer }}</h1>
-                <span class="text-base">{{ fed?.content }}</span>
-                <br />
-                <div class="flex gap-x-3">
-                  <i class="bi bi-star-fill text-yellow-500"></i>
-                  <span class="text-xs">{{ fed.voteStar }}</span>
+            <div v-else>
+              <div v-for="fed in feedbacks" :key="fed">
+                <div class="">
+                  <h1 class="font-semibold">{{ fed?.customer }}</h1>
+                  <div class="flex gap-x-2 mt-2">
+                    <i
+                      class="bi bi-calendar-check text-slate-600 text-xs mt-1"
+                    ></i>
+                    <span class="text-sm block text-slate-500 mb-2">{{
+                      fed?.creationDate
+                    }}</span>
+                  </div>
+                  <span class="text-sm">{{ fed?.content }}</span>
+                  <br />
+                  <div class="flex gap-x-1 mt-2">
+                    <span class="text-sm font-medium text-yellow-900"
+                      >Vote Star:
+                    </span>
+                    <span class="text-sm">{{ fed.voteStar }}</span>
+                    <i class="bi bi-star-fill text-yellow-500 text-sm"></i>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <img
-            class="rounded-md w-24 ml-24"
-            src="@/assets/images/category/bed/bed_8.png"
-            alt="avatar"
-          />
           <div class="h-px w-full bg-slate-200 mt-2"></div>
         </div>
       </div>
     </div>
-    <!-- <div class="more product mt-14 mx-32 max-sm:mx-3">
-      <h1 class="text-center font-semibold text-2xl mb-4 max-sm:text-xl">
-        More Product
-      </h1>
-      <hr class="w-1/12 mb-14" />
-      <div
-        class="scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100 snap-x overflow-y-hidden"
-      >
-        <div>
-          <all-furniture :furnitures="furnitures"></all-furniture>
-        </div>
-      </div>
-    </div> -->
   </div>
 </template>
 <script>
@@ -448,6 +395,7 @@ import loadding from "@/components/LoadingComponent.vue";
 import modal from "@/components/ModalPage.vue";
 import alertError from "@/components/AlertError.vue";
 import alertSuccess from "@/components/AlertSuccess.vue";
+import { format } from "date-fns";
 
 export default {
   components: {
@@ -472,27 +420,14 @@ export default {
       messageError: null,
       messageSuccess: null,
       info: {},
+      id: {},
     };
   },
   created() {
     this.getAllFurnitureDetail();
-    this.getInfor();
+    this.getFeedback();
   },
   methods: {
-    async getInfor() {
-      try {
-        const response = await axios.get("user/detail");
-        this.info = response.data;
-        const dob = new Date(this.info.doB);
-        this.DoB = dob.toISOString().split("T")[0];
-        const a = this.info.avatar;
-        const url = a.replace(/\\/g, "/");
-        this.avatar = url;
-        this.isEditPhone = true;
-      } catch (error) {
-        console.error(error);
-      }
-    },
     async getAllFurnitureDetail() {
       try {
         const response = await axios.get(
@@ -500,7 +435,24 @@ export default {
         );
         this.furnitures = response.data;
         this.furnitureFirst = this.furnitures[0];
+        this.getFeedback(this.furnitureFirst);
         this.isShow = false;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getFeedback(furnitureFirst) {
+      try {
+        const response = await axios.get(
+          "customer/furnitures/" +
+            furnitureFirst.furnitureSpecificationId +
+            "/feedbacks"
+        );
+        this.feedbacks = response.data;
+        for (let i = 0; i < this.feedbacks.length; i++) {
+          const date = new Date(this.feedbacks[i].creationDate);
+          this.feedbacks[i].creationDate = format(date, "dd/MM/yyyy");
+        }
       } catch (error) {
         console.error(error);
       }
@@ -508,6 +460,7 @@ export default {
     async InforFurniture(furniture) {
       this.furnitureIndex = furniture;
       this.isShow = true;
+      this.getFeedback(this.furnitureIndex);
     },
     showModal(furniture) {
       this.isFurnitureIdModal = furniture.furnitureSpecificationId;

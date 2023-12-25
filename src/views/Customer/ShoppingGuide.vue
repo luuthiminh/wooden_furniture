@@ -2,9 +2,9 @@
   <div class="all">
     <div class="nav pt-36 pb-3 mb-2 max-md:pt-24">
       <nav aria-label="breadcrumb">
-        <ol class="flex bg-none ml-28 max-sm:ml-3 max-md:ml-4">
+        <ol class="breadcrumb-item flex bg-none ml-28 max-sm:ml-3 max-md:ml-4">
           <li class="breadcrumb-item">
-            <router-link to="customerIndex" class="text-gray-500"
+            <router-link to="customerIndex" class="font-semibold"
               >Home
             </router-link>
           </li>
@@ -16,7 +16,7 @@
     </div>
     <div class="content px-28 max-md:px-4">
       <div>
-        <h1 class="font-semibold py-3 text-xl">
+        <h1 class="font-semibold py-3 text-xl text-yellow-900">
           Instructions for purchasing, shipping, and payment
         </h1>
         <span class="text-base">
@@ -24,7 +24,7 @@
           forms:
         </span>
         <div class="py-3">
-          <h2 class="py-3 font-semibold">
+          <h2 class="py-3 font-semibold text-yellow-800">
             1. Go directly to the Luan Len Furniture store to view and purchase:
           </h2>
           <ul class="text-base list-outside list-disc px-3">
@@ -65,7 +65,7 @@
         </div>
       </div>
       <div class="py-3">
-        <h2 class="font-medium py-3 font-semibold">
+        <h2 class="py-3 font-semibold text-yellow-800">
           2. Buy Online on website, phone
         </h2>
         <ul class="leading-9 text-base list-outside list-disc px-3">
@@ -92,7 +92,7 @@
         </ul>
       </div>
       <div class="pt-3">
-        <h2 class="font-medium py-3 font-semibold">
+        <h2 class="py-3 font-semibold text-yellow-800">
           3. Transportation and Installation
         </h2>
         <ul class="list-outside list-disc px-3">
@@ -124,7 +124,7 @@
         </ul>
       </div>
       <div class="pt-3">
-        <h3 class="pt-3 font-semibold">4. Flexible Payment</h3>
+        <h3 class="pt-3 font-semibold text-yellow-800">4. Flexible Payment</h3>
         <span>
           Customers can pay in cash, bank transfer or e-wallets. Cash payment is
           applicable when purchasing at the store or delivering and installing
@@ -147,7 +147,7 @@
         <span>Thank you!</span>
       </div>
       <div class="py-3">
-        <h3 class="pt-3 font-semibold">5. Guarantee</h3>
+        <h3 class="pt-3 font-semibold text-yellow-800">5. Guarantee</h3>
         <span>
           A three-year product warranty is offered by L&L following the date of
           purchase. If termites infest the wood, or if the paint ages or cracks

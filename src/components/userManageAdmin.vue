@@ -49,17 +49,22 @@
             </thead>
             <tbody>
               <tr v-for="u in users" :key="u.userId">
-                <td class="w-10">{{ u.userId }}</td>
                 <td>
                   <div class="user flex gap-x-2">
                     <div class="avatar">
-                      <router-link to="/profileManagement">
+                      <router-link to="/profileManagement" v-if="u.avatar">
                         <img
                           class="rounded-md cursor-pointer"
                           :src="u.avatar"
                           alt="avatar"
                         />
                       </router-link>
+                      <img
+                        v-else
+                        class="rounded-md cursor-pointer"
+                        src="@/assets/images/avatar_default.jpg"
+                        alt="avatar"
+                      />
                     </div>
                     <div>
                       <span
@@ -235,7 +240,7 @@
                         <div class="flex gap-x-2">
                           <input
                             v-model="userModal.doB"
-                            type="date"
+                            type="text"
                             class="form-control"
                             id="exampleInputEmail1"
                             aria-describedby="emailHelp"
@@ -255,7 +260,7 @@
                             aria-label="Default select example"
                             v-model="userModal.gender"
                           >
-                            <option disable>Choose gender/option></option>
+                            <option disabled>Choose gender option</option>
                             <option value="MALE">Male</option>
                             <option value="FEMALE">Female</option>
                             <option value="OTHER">Other</option>
@@ -284,7 +289,6 @@
           <table class="table table-borderless text-yellow-950 font-medium">
             <thead>
               <tr>
-                <th>Id</th>
                 <th>User</th>
                 <th>Role</th>
                 <th>Date of Birth</th>
@@ -300,17 +304,22 @@
             </thead>
             <tbody>
               <tr v-for="u in searchResults" :key="u.userId">
-                <td class="w-10">{{ u.userId }}</td>
                 <td>
                   <div class="user flex gap-x-2">
                     <div class="avatar">
-                      <router-link to="/profileManagement">
+                      <router-link to="/profileManagement" v-if="u.avatar">
                         <img
                           class="rounded-md cursor-pointer"
                           :src="u.avatar"
                           alt="avatar"
                         />
                       </router-link>
+                      <img
+                        v-else
+                        class="rounded-md cursor-pointer"
+                        src="@/assets/images/avatar_default.jpg"
+                        alt="avatar"
+                      />
                     </div>
                     <div>
                       <span
@@ -383,10 +392,10 @@
                         >
                         <div v-if="userModal.avatar">
                           <img
-                            v-if="!url"
+                            v-if="userModal.avatar"
                             :src="userModal.avatar"
                             alt="image"
-                            for="file"
+                            for="imageUpload"
                           />
                           <img
                             v-else-if="url"
@@ -487,7 +496,7 @@
                         <div class="flex gap-x-2">
                           <input
                             v-model="userModal.doB"
-                            type="date"
+                            type="text"
                             class="form-control"
                             id="exampleInputEmail1"
                             aria-describedby="emailHelp"
@@ -507,7 +516,7 @@
                             aria-label="Default select example"
                             v-model="userModal.gender"
                           >
-                            <option disabled>Choose gender option></option>
+                            <option disabled>Choose gender option</option>
                             <option value="MALE">Male</option>
                             <option value="FEMALE">Female</option>
                             <option value="OTHER">Other</option>
@@ -589,19 +598,27 @@ export default {
     },
     async HandleUpdate() {
       const formData = new FormData();
-      formData.append("userId ", "264072a3-2347-49f2-9406-7460ab9e57fa");
-      formData.append("firstName ", this.userModal.firstName);
-      formData.append("lastName ", this.userModal.lastName);
+      formData.append("UserId", this.userModal.userId);
+      formData.append("firstName", this.userModal.firstName);
+      formData.append("lastName", this.userModal.lastName);
       formData.append("doB", this.userModal.doB);
       formData.append("gender", this.userModal.gender);
       formData.append("image", this.file);
       console.log(this.userModal.userId);
       try {
-        await axios.put("user/all/update", formData, {
+        const response = await axios.put("user/all/update", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
+        if (response.status === 200) {
+          this.modalType = null;
+          this.isAlertSuccess = true;
+          this.messageSuccess = "Update user successfully";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 3000);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -739,6 +756,6 @@ td {
 }
 table {
   overflow: scroll;
-  width: 174em;
+  width: 123em;
 }
 </style>

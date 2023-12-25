@@ -603,7 +603,7 @@ export default {
             },
           }
         );
-        if (response.status === 201) {
+        if (response.status === 200) {
           this.modalType = null;
           this.messageSuccess = "Edit post successful!";
           setTimeout(() => {
@@ -621,23 +621,6 @@ export default {
         console.error(error);
       }
     },
-    // async HandleUpdate() {
-    //   try {
-    //     const response = await axios.put(
-    //       "Assistant/shop-data/posts?labelId=" +
-    //         this.idLabelModal +
-    //         "&labelName=" +
-    //         this.nameLabelModal +
-    //         "/edit"
-    //     );
-    //     if (response.status === 200) {
-    //       this.modalType = null;
-    //       alert("Update was successful!");
-    //     }
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // },
     async HandleDelete(id) {
       try {
         const response = await axios.delete(

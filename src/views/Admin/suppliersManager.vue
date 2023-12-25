@@ -335,7 +335,7 @@
           <thead>
             <tr class="text-sm text-center">
               <th scope="col">Supplier</th>
-              <!-- <th></th> -->
+              <th></th>
               <th scope="col">Address</th>
               <th scope="col">Email</th>
               <th scope="col">Phone</th>

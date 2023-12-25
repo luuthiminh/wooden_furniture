@@ -5,8 +5,8 @@
         <ol class="breadcrumb bg-transparent text-sm pt-4 px-4">
           <li class="breadcrumb-item font-semibold"><a href="#">Home</a></li>
 
-          <li class="breadcrumb-item active font-medium" aria-current="page">
-            Wood
+          <li class="breadcrumb-item active" aria-current="page">
+            Manage Woods
           </li>
         </ol>
       </nav>
@@ -23,16 +23,15 @@
       </alert-wanning>
     </div>
     <div class="px-7">
-      <h1 class="font-semibold text-xl py-6">Wood Manage</h1>
+      <h1 class="font-semibold text-xl py-6">Management Woods</h1>
       <span class="font-medium text-xs"
-        >You can search, update, delete with wood!
+        >You can search, update, delete width wood!
       </span>
-      <div class="flex gap-x-40 bg-white my-10 rounded-md">
+      <div class="flex gap-x-40 pt-10">
         <div class="flex items-center gap-x-4 text-sm">
-          <p class="font-semibold gap-x-4s">Total Woods:</p>
+          <p class="gap-x-2 font-semibold">Totally woods:</p>
           {{ woods.length }}
         </div>
-
         <div class="search_assistant">
           <div class="container">
             <input
@@ -68,7 +67,7 @@
             data-target="#exampleModalLong"
             data-dismiss="modal"
             data-backdrop="false"
-            @click="opentModal('add', 'null')"
+            @click="openModal('add', 'null')"
           >
             <span class="button__text text-sm">Add</span>
             <span class="button__icon"
@@ -88,6 +87,50 @@
                 <line y2="12" y1="12" x2="19" x1="5"></line></svg
             ></span>
           </button>
+          <modal
+            v-if="modalType == 'add'"
+            @close="modalType == 'null'"
+            data-target="#myModal"
+          >
+            <template v-slot:title>
+              <div
+                class="flex items-center text-base font-semibold text-yellow-950"
+              >
+                Add New Wood
+              </div>
+            </template>
+            <template v-slot:body>
+              <div class="py-3 pr-36 text-sm">
+                <div class="grid grid-cols-12 gap-x-10">
+                  <label
+                    for="exampleInputEmail1"
+                    class="col-span-4 form-label text-semibold text-base pt-2 border-none"
+                    >Name Wood</label
+                  >
+                  <input
+                    v-model="woodName"
+                    type="text"
+                    class="col-span-8 form-control"
+                    id="exampleInpuName1"
+                    aria-describedby="nameHelp"
+                    required
+                  />
+                </div>
+              </div>
+            </template>
+            <template v-slot:footer>
+              <div class="bg-yellow-900 rounded-md">
+                <span
+                  type="button"
+                  class="btn text-white"
+                  data-dismiss="modal"
+                  @click="HandleAdd"
+                >
+                  Add
+                </span>
+              </div>
+            </template>
+          </modal>
         </div>
       </div>
       <div class="content_table scroll">
@@ -98,16 +141,16 @@
           >
             <thead class="table-light">
               <tr class="text-sm text-center">
-                <th scope="col">ID</th>
-                <th scope="col">WOOD NAME</th>
+                <th scope="col">Wood ID</th>
+                <th scope="col">Wood Name</th>
                 <th></th>
                 <th></th>
               </tr>
             </thead>
-            <tbody v-for="w in searchResults" :key="w.woodId">
+            <tbody v-for="s in searchResults" :key="s.woodId">
               <tr class="text-sm">
-                <th scope="row">{{ w.woodId }}</th>
-                <td>{{ w.woodType }}</td>
+                <th scope="row">{{ s.woodId }}</th>
+                <td>{{ s.woodType }}</td>
                 <td class="flex gap-x-4">
                   <button
                     class="button_edit ring-offset-2 ring-2 ring-blue-300 hover:ring-blue-600 rounded-md"
@@ -116,7 +159,7 @@
                     data-target="#exampleModalLong"
                     data-dismiss="modal"
                     data-backdrop="false"
-                    @click="opentModal('edit', sr)"
+                    @click="openModal('edit', s)"
                   >
                     <span class="button__text text-xs">Edit</span>
                     <span class="button__icon bi bi-pencil text-white"></span>
@@ -129,7 +172,7 @@
                     data-target="#exampleModalLong"
                     data-dismiss="modal"
                     data-backdrop="false"
-                    @click="opentModal('delete', sr)"
+                    @click="openModal('delete', s)"
                   >
                     <span class="button__text text-xs">Delete</span>
                     <span class="button__icon"
@@ -280,7 +323,7 @@
                           >Name Wood</label
                         >
                         <input
-                          v-model="nameWoodModal"
+                          v-model="woodModal.woodType"
                           type="text"
                           class="col-span-8 form-control"
                           id="exampleInpuName1"
@@ -315,7 +358,7 @@
                   </template>
                   <template v-slot:body>
                     <p class="text-base py-3">
-                      Are you sure detete <b> {{ nameWoodModal }}</b>
+                      Are you sure detete <b> {{ woodModal.woodType }}</b>
                     </p>
                   </template>
                   <template v-slot:footer>
@@ -336,6 +379,7 @@
           </table>
           <loadding v-else />
         </div>
+
         <div v-else class="pt-10">
           <table
             v-if="woods.length"
@@ -344,15 +388,15 @@
             <thead class="table-light">
               <tr class="text-sm text-center">
                 <th scope="col">ID</th>
-                <th scope="col">WOOD NAME</th>
+                <th scope="col">Color NAME</th>
                 <th></th>
                 <th></th>
               </tr>
             </thead>
             <tbody v-for="w in woods" :key="w.woodId">
               <tr class="text-sm">
-                <th scope="row">{{ w.categoryId }}</th>
-                <td>{{ w.categoryName }}</td>
+                <th scope="row">{{ w.woodId }}</th>
+                <td>{{ w.woodType }}</td>
                 <td class="flex gap-x-4">
                   <button
                     class="button_edit ring-offset-2 ring-2 ring-blue-300 hover:ring-blue-600 rounded-md"
@@ -361,7 +405,7 @@
                     data-target="#exampleModalLong"
                     data-dismiss="modal"
                     data-backdrop="false"
-                    @click="opentModal('edit', w)"
+                    @click="openModal('edit', w)"
                   >
                     <span class="button__text text-xs">Edit</span>
                     <span class="button__icon bi bi-pencil text-white"></span>
@@ -374,7 +418,7 @@
                     data-target="#exampleModalLong"
                     data-dismiss="modal"
                     data-backdrop="false"
-                    @click="opentModal('delete', w)"
+                    @click="openModal('delete', w)"
                   >
                     <span class="button__text text-xs">Delete</span>
                     <span class="button__icon"
@@ -525,7 +569,7 @@
                           >Name Wood</label
                         >
                         <input
-                          v-model="nameWoodModal"
+                          v-model="woodModal.woodType"
                           type="text"
                           class="col-span-8 form-control"
                           id="exampleInpuName1"
@@ -560,7 +604,7 @@
                   </template>
                   <template v-slot:body>
                     <p class="text-base py-3">
-                      Are you sure detete <b> {{ nameWoodModal }}</b>
+                      Are you sure detete <b> {{ woodModal.woodType }}</b>
                     </p>
                   </template>
                   <template v-slot:footer>
@@ -592,6 +636,7 @@ import alertError from "@/components/AlertError.vue";
 import alertSuccess from "@/components/AlertSuccess.vue";
 import alertWanning from "@/components/AlertWanning.vue";
 import loadding from "@/components/loaddingAssistant.vue";
+
 export default {
   components: {
     modal,
@@ -604,18 +649,19 @@ export default {
     return {
       modalType: null,
       woods: [],
-      newWood: "",
-      nameWoodModal: null,
-      idWoodModal: null,
+      woodModal: null,
+      idColorModal: null,
       isSuccess: false,
       isAlertSuccess: false,
       isAlertError: false,
-      isAlertWanning: false,
-      messageError: null,
-      messageSuccess: null,
+      messageError: "",
+      messageSuccess: "",
       messageWanning: null,
       searchResults: [],
       keyword: "",
+      message: "",
+      isDismissModal: false,
+      isShowMessage: false,
     };
   },
   created() {
@@ -631,102 +677,115 @@ export default {
         console.log(error);
       }
     },
-  },
-  async searchWood() {
-    // Gọi API khi có sự thay đổi trong searchText
-    try {
-      const response = await axios.get(
-        "assistant/shop-data/woods/search?searchString=" + this.keyword
-      );
-      this.searchResults = response.data;
-    } catch (error) {
-      this.isAlertWanning = true;
-      this.messageWanning = this.keyword + " not found";
-      setTimeout(() => {
-        this.isAlertWanning = false;
-      }, 5000);
-    }
-  },
-  async opentModal(type, w) {
-    this.modalType = type;
-    this.nameWoodModal = w.categoryName;
-    this.idWoodModal = w.categoryId;
-  },
-  closeModal() {
-    this.modalType = null;
-  },
-  async HandleAdd() {
-    try {
-      const response = await axios.post(
-        "Assistant/shop-data/woods/add?woodType=" + this.woodName
-      );
-      if (response.status === 201) {
-        this.modalType = null;
-        this.isAlertSuccess = true;
-        this.messageSuccess = "Add new wood successfully";
+    async searchWood() {
+      try {
+        const response = await axios.get(
+          "assistant/shop-data/woods/search?searchString=" + this.keyword
+        );
+        this.searchResults = response.data;
+      } catch (error) {
+        this.isAlertWanning = true;
+        this.messageWanning = this.keyword + " not found";
         setTimeout(() => {
-          this.isAlertSuccess = false;
+          this.isAlertWanning = false;
         }, 5000);
-        this.getAllWoods();
       }
-    } catch (error) {
-      this.isAlertError = true;
-      this.messageError = error.response.data.message;
-      setTimeout(() => {
-        this.isAlertError = false;
-      }, 5000);
-      console.error(error);
-    }
-  },
-  async HandleUpdate() {
-    try {
-      const response = await axios.put(
-        "Assistant/shop-data/woods/update?woodId=" +
-          this.idWoodModal +
-          "&woodType=" +
-          this.nameWoodModal
-      );
-      if (response.status === 200) {
-        this.modalType = null;
-        this.isAlertSuccess = true;
-        this.messageSuccess = "Update " + this.nameWoodModal + " successful!";
+    },
+    async openModal(type, w) {
+      this.modalType = type;
+      this.woodModal = w;
+    },
+    closeModal() {
+      this.modalType = null;
+    },
+    ValidationAddWood() {
+      this.isShowMessage = true;
+      if (!this.woodName) {
+        this.messageError = "Name Wood required!";
+        this.isDismissModal = false;
+      } else if (this.woodName.length < 2) {
+        this.messageError = "Wood name must be greater than 1 character!";
+        this.isDismissModal = false;
+      } else {
+        this.message = "Color name valid";
+        this.isDismissModal = true;
+      }
+    },
+    async HandleAdd() {
+      try {
+        const response = await axios.post(
+          "assistant/shop-data/woods/add?woodType=" + this.woodName
+        );
+        if (response.status === 201) {
+          this.modalType = null;
+          this.isAlertSuccess = true;
+          this.messageSuccess = "Add new wood successfully";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 3000);
+          this.getAllWoods();
+        }
+      } catch (error) {
+        this.isAlertError = true;
+        this.messageError = error.response.data.message;
         setTimeout(() => {
-          this.isAlertSuccess = false;
+          this.isAlertError = false;
         }, 5000);
-        this.getAllWoods();
+        console.error(error);
       }
-    } catch (error) {
-      this.isAlertError = true;
-      this.messageError = error.response.data.message;
-      setTimeout(() => {
-        this.isAlertError = false;
-      }, 5000);
-      console.error(error);
-    }
-  },
-  async HandleDelete() {
-    try {
-      const response = await axios.delete(
-        "Assistant/shop-data/woods/remove/" + this.idWoodModal
-      );
-      if (response.status === 204) {
-        this.modalType = null;
-        this.isSuccess = true;
-        this.isAlertSuccess = true;
-        this.messageSuccess = "Delete " + this.nameWoodModal + " successful!";
+    },
+    async HandleUpdate() {
+      try {
+        const response = await axios.put(
+          "Assistant/shop-data/woods/update?woodId=" +
+            this.woodModal.woodId +
+            "&woodType=" +
+            this.woodModal.woodType
+        );
+        if (response.status === 200) {
+          this.modalType = null;
+          this.isAlertSuccess = true;
+          this.messageSuccess =
+            "Update " + this.woodModal.woodType + " successful!";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 3000);
+          this.getAllWoods();
+        }
+      } catch (error) {
+        this.isAlertError = true;
+        this.messageError = error.response.data.message;
         setTimeout(() => {
-          this.isSuccess = false;
+          this.isAlertError = false;
         }, 3000);
-        this.getAllWoods();
+        console.error(error);
       }
-    } catch (error) {
-      this.isAlertError = true;
-      this.messagerError = error.response.data.message;
-      setTimeout(() => {
-        this.isAlertError = false;
-      }, 3000);
-      console.error(error);
-    }
+    },
+    async HandleDelete() {
+      try {
+        const response = await axios.delete(
+          "Assistant/shop-data/woods/remove/" + this.woodModal.woodId
+        );
+        if (response.status === 204) {
+          this.modalType = null;
+          this.isSuccess = true;
+          this.isAlertSuccess = true;
+          this.messageSuccess =
+            "Delete " + this.woodModal.woodType + " successful!";
+          setTimeout(() => {
+            this.isSuccess = false;
+          }, 3000);
+          this.getAllWoods();
+        }
+      } catch (error) {
+        this.isAlertError = true;
+        this.messagerError = error.response.data.message;
+        setTimeout(() => {
+          this.isAlertError = false;
+        }, 3000);
+        console.error(error);
+      }
+    },
   },
 };
 </script>
@@ -744,10 +803,10 @@ td {
   padding-top: 0.7em;
   padding-bottom: 0.7em;
 }
-
-.form-control,
-.form-select {
-  border: none;
-  background-color: #dde4e794;
+.error {
+  color: #c10606;
+}
+.success {
+  color: green;
 }
 </style>

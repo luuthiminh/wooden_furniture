@@ -28,8 +28,8 @@ export default {
           for (let i = 0; i < this.users.length; i++) {
             const date = new Date(this.users[i].creationDate);
             const dob = new Date(this.users[i].doB);
-            this.users[i].creationDate = format(date, "dd/MM/yyyy");
-            this.users[i].doB = format(dob, "dd/MM/yyyy");
+            this.users[i].creationDate = format(date, "yyyy-MM-dd");
+            this.users[i].doB = format(dob, "yyyy-MM-dd");
           }
         }
         console.log(this.dob);

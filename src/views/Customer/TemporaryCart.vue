@@ -148,7 +148,7 @@
                                 <div class="bg-red-900 rounded-md">
                                   <span
                                     type="button"
-                                    class="btn text-white"
+                                    class="text-white px-2 py-2"
                                     data-dismiss="modal"
                                     @click="removeCart(furniture)"
                                   >
@@ -200,7 +200,7 @@
               data-target="#exampleModalLong"
               data-backdrop="false"
               @click="HandleCheckout"
-              class="ml-2 my-4 text-center px-28 py-2 text-white hover:ring-offset-2 hover:ring-2 bg-slate-600 text-sm rounded-md transition duration-700 ease-in-out font-medium"
+              class="ml-4 my-4 text-center px-24 py-2 text-white hover:ring-offset-2 hover:ring-2 bg-slate-600 text-sm rounded-md transition duration-700 ease-in-out font-medium"
             >
               Check Out
             </button>
@@ -613,7 +613,10 @@
               data-target="#myModal"
             >
               <template v-slot:title>
-                <div class="flex items-center text-lg font-semibold">
+                <div
+                  class="flex items-center text-lg font-semibold"
+                  data-dismiss="modal"
+                >
                   Delete
                 </div>
               </template>
@@ -808,12 +811,11 @@ export default {
           "customer/cart/remove/" + furniture.furnitureSpecificationId
         );
         if (response.status === 200) {
-          // this.isShow = false;
           this.isAlertSuccess = true;
           this.messageSuccess = "Delete successfull";
           setTimeout(() => {
             this.isAlertSuccess = false;
-          }, 5000);
+          }, 3000);
           this.getCart();
         }
       } catch (error) {
@@ -822,7 +824,7 @@ export default {
         this.messageError = "Delete Error";
         setTimeout(() => {
           this.isAlertError = false;
-        }, 5000);
+        }, 3000);
         console.error(error);
       }
     },

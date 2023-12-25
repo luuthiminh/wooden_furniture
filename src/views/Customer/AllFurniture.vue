@@ -1227,4 +1227,7 @@ textarea {
     rgba(200, 149, 81, 0.15)
   );
 }
+i {
+  font-size: 12px;
+}
 </style>

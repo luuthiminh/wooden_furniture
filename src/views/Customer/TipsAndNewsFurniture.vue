@@ -21,18 +21,6 @@
         </div>
       </div>
       <div class="some_post col-span-5 rounded-md px-6">
-        <!-- <h1
-          v-if="post.posType === 'TIP'"
-          class="font-semibold text-xl pb-3 text-slate-800"
-        >
-          Tip
-        </h1>
-        <h1
-          v-if="post.posType === 'NEWS'"
-          class="font-semibold text-xl pb-3 text-slate-800"
-        >
-          News
-        </h1> -->
         <div v-if="post" class="post bg-white rounded-md py-2 px-4">
           <div>
             <div>
@@ -43,7 +31,7 @@
                 <span class="font-semibold">Author:</span>
                 <span class="font-medium">{{ post.author }}</span>
               </div>
-              <span class="text-sm block"
+              <span class="text-sm block text-slate-700 ml-1"
                 ><i class="fa-regular fa-calendar-days"></i>
                 {{ post.creationDate }}</span
               >

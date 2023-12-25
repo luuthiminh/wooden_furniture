@@ -29,7 +29,6 @@
           <table class="table table-borderless text-yellow-950 font-medium">
             <thead>
               <tr>
-                <th>Id</th>
                 <th>User</th>
                 <th>Date of Birth</th>
                 <th>Gender</th>
@@ -47,14 +46,20 @@
             </thead>
             <tbody>
               <tr v-for="u in users" :key="u.userId">
-                <td class="w-3">{{ u.userId }}</td>
                 <td>
                   <div class="user flex gap-x-2">
                     <div class="avatar">
                       <router-link to="/profileManagement">
                         <img
+                          v-if="u.avatar"
                           class="rounded-md cursor-pointer"
                           :src="u.avatar"
+                          alt="avatar"
+                        />
+                        <img
+                          v-else
+                          class="rounded-md cursor-pointer"
+                          src="@/assets/images/avatar_default.jpg"
                           alt="avatar"
                         />
                       </router-link>
@@ -232,7 +237,7 @@
                         <div class="flex gap-x-2">
                           <input
                             v-model="userModal.doB"
-                            type="date"
+                            type="text"
                             class="form-control"
                             id="exampleInputEmail1"
                             aria-describedby="emailHelp"
@@ -325,8 +330,8 @@ export default {
           for (let i = 0; i < this.users.length; i++) {
             const date = new Date(this.users[i].creationDate);
             const dob = new Date(this.users[i].doB);
-            this.users[i].creationDate = format(date, "dd/MM/yyyy");
-            this.users[i].doB = format(dob, "dd/MM/yyyy");
+            this.users[i].creationDate = format(date, "yyyy-MM-dd");
+            this.users[i].doB = format(dob, "yyyy-MM-dd");
           }
         }
         console.log(this.dob);
@@ -350,17 +355,27 @@ export default {
     },
     async HandleUpdate() {
       const formData = new FormData();
-      formData.append("FirstName ", this.userModal.firstName);
-      formData.append("LastName ", this.userModal.lastName);
-      formData.append("DoB", this.userModal.doB);
-      formData.append("Gender", this.userModal.gender);
-      formData.append("Image", this.file);
+      formData.append("UserId", this.userModal.userId);
+      formData.append("firstName", this.userModal.firstName);
+      formData.append("lastName", this.userModal.lastName);
+      formData.append("doB", this.userModal.doB);
+      formData.append("gender", this.userModal.gender);
+      formData.append("image", this.file);
+      console.log(this.userModal.userId);
       try {
-        await axios.put("user/all/update", formData, {
+        const response = await axios.put("user/all/update", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
+        if (response.status === 200) {
+          this.modalType = null;
+          this.isAlertSuccess = true;
+          this.messageSuccess = "Update user successfully";
+          setTimeout(() => {
+            this.isAlertSuccess = false;
+          }, 3000);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -478,6 +493,6 @@ td {
 }
 table {
   overflow: scroll;
-  width: 174em;
+  width: 157em;
 }
 </style>

@@ -77,7 +77,6 @@
           >
             <thead>
               <tr class="text-sm">
-                <th scope="col">Id</th>
                 <th scope="col">Furniture</th>
                 <th></th>
                 <th scope="col">Customer</th>
@@ -95,21 +94,33 @@
             </thead>
             <tbody>
               <tr v-for="or in allOrders" :key="or.customizeFurnitureId">
-                <td>{{ or.customizeFurnitureId }}</td>
                 <td class="img">
-                  <div v-for="img in or.images" :key="img">
-                    <img :src="img[0].path" alt="" />
-                  </div>
-                  <div v-for="vid in or.videos" :key="vid">
-                    <video controls="control" width="200" height="200">
-                      <source :src="vid[0].path" type="video/mp4" />
+                  <div v-if="or.images?.length && or.videos?.length">
+                    <img
+                      :src="or.images[0].path"
+                      alt=""
+                      class="rounded-md cursor-pointer"
+                    />
+                    <video
+                      controls="control"
+                      width="200"
+                      height="200"
+                      class="rounded-md cursor-pointer"
+                    >
+                      <source :src="or.videos[0].path" type="video/mp4" />
                     </video>
                   </div>
+                  <img
+                    v-else
+                    class="rounded-md cursor-pointer"
+                    src="@/assets/images/assistant/image_default.jpeg"
+                    alt="Avatar"
+                  />
                   <button
                     data-toggle="modal"
                     data-target="#exampleModalLong"
                     data-backdrop="false"
-                    class="font-medium ring-1 ring-yellow-900 rounded-md px-2 text-xs py-1 mt-3"
+                    class="font-medium ring-1 ring-yellow-900 rounded-md px-2 text-xs py-1 mt-3 ml-14"
                     @click="opentModal('allImg', or)"
                   >
                     See More
@@ -302,14 +313,27 @@
               </div>
             </template>
             <template v-slot:body>
-              <div v-for="im in customizeModal.images" :key="im">
-                <img :src="im.path" alt="images" />
+              <div
+                class="ml-20"
+                v-if="
+                  customizeModal.images.length || customizeModal.videos.length
+                "
+              >
+                <div v-for="im in customizeModal.images" :key="im">
+                  <img :src="im.path" alt="images" />
+                </div>
+                <div v-for="vid in customizeModal.videos" :key="vid">
+                  <video controls="control" width="200" height="200">
+                    <source :src="vid.path" type="video/mp4" />
+                  </video>
+                </div>
               </div>
-              <div v-for="vid in customizeModal.videos" :key="vid">
-                <video controls="control" width="200" height="200">
-                  <source :src="vid.path" type="video/mp4" />
-                </video>
-              </div>
+              <img
+                v-else
+                class="ml-20"
+                src="@/assets/images/assistant/image_default.jpeg"
+                alt="Avatar"
+              />
             </template>
           </modal>
           <table
@@ -336,7 +360,7 @@
             </thead>
             <tbody>
               <tr v-for="or in pendingOrders" :key="or.customizeFurnitureId">
-                <td>{{ or.customizeFurnitureId }}</td>
+                <td class="w-3">{{ or.customizeFurnitureId }}</td>
                 <td class="img">
                   <img :src="or.images" alt="image furniture" />
                 </td>
@@ -461,7 +485,6 @@
               </tr>
             </tbody>
           </table>
-          <div v-else class="loader"></div>
         </div>
         <div v-else>
           <table class="table table-borderless text-yellow-950 font-medium">
@@ -1005,6 +1028,10 @@ form h1 {
   display: none;
 }
 table {
-  width: 128em;
+  width: 136em;
+}
+.img {
+  width: 200px;
+  margin-top: -8px;
 }
 </style>

@@ -3,7 +3,7 @@
     <div class="nav pt-36 pb-3 mb-2 max-md:pt-24">
       <nav aria-label="breadcrumb">
         <ol class="flex bg-none ml-28 max-sm:ml-3 max-md:ml-4">
-          <li class="breadcrumb-item">
+          <li class="breadcrumb-item font-semibold">
             <router-link to="customerIndex">Home </router-link>
           </li>
           <li class="breadcrumb-item">
@@ -13,17 +13,18 @@
       </nav>
     </div>
     <div class="mx-28 max-md:mx-4">
-      <h1 class="font-semibold text-2xl pt-2 pb-4">
+      <h1 class="font-semibold text-2xl pt-2 pb-4 text-yellow-900">
         Welcome to Luan Len Furniture Store
       </h1>
       <span
-        ><strong>Luan Len Furniture Store</strong> is proud to be the cheapest
-        furniture factory in the North. With a modern equipped factory system, a
-        team of experienced and creative architects and dedicated skilled
-        workers. We always strive to create high quality, beautiful, unique,
-        impressive interior products with leading prices.</span
+        ><strong class="text-yellow-950">Luan Len Furniture Store</strong> is
+        proud to be the cheapest furniture factory in the North. With a modern
+        equipped factory system, a team of experienced and creative architects
+        and dedicated skilled workers. We always strive to create high quality,
+        beautiful, unique, impressive interior products with leading
+        prices.</span
       >
-      <h3 class="font-semibold text-base my-4">Contact Us</h3>
+      <h3 class="font-semibold text-base my-4 text-yellow-900">Contact Us</h3>
       <div class="leading-10">
         <div>
           <span>1. Phone Number:</span>

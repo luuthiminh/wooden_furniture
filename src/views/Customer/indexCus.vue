@@ -14,7 +14,7 @@
                 <small>Mon - Fri : 09.00 AM - 09.00 PM</small>
               </div>
             </div>
-            <div class="flex col-lg-5 pl-14 text-end gap-x-4">
+            <div class="flex col-lg-5 pl-48 text-end gap-x-4">
               <div class="h-100 d-inline-flex align-items-center py-3 me-4">
                 <small class="fa-solid fa-phone me-2"></small>
                 <small>
@@ -65,7 +65,7 @@
                 </div>
                 <small>Theme styles</small>
               </div>
-              <div class="flex gap-x-3 items-center pl-2">
+              <!-- <div class="flex gap-x-3 items-center pl-2">
                 <div @click.prevent="handelBell">
                   <div class="bi bi-bell cursor-pointer text-base">
                     <sup class="px-1 bg-red-600 rounded-full text-white"
@@ -74,7 +74,7 @@
                   </div>
                 </div>
                 <small>Notifications</small>
-              </div>
+              </div> -->
 
               <div class="h-100 d-inline-flex align-items-center">
                 <a href="" class="btn btn-sm-square"
@@ -1000,6 +1000,7 @@ export default {
       isShowSuccess: false,
       arrayUrl: [],
       url: "",
+      hasReloaded: false,
     };
   },
   created() {
