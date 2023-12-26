@@ -842,7 +842,7 @@
                           }"
                         >
                           <div class="content_feedback px-2 pt-9 max-sm:pt-2">
-                            <div class="text_feedback text-center px-14 pt-10">
+                            <div class="text_feedback text-center px-14 pt-20">
                               <h1 class="font-semibold text-2xl text-white">
                                 {{ f.furnitureSpecificationName }}
                               </h1>
@@ -2164,5 +2164,8 @@ select {
 }
 .successCustom {
   color: green;
+}
+.moon .hot_news span {
+  color: wheat;
 }
 </style>

@@ -489,4 +489,11 @@ export default {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: #cdc0aa;
 }
+.moon .text-yellow-900,
+.moon .font-medium.text-sm.text-yellow-950 {
+  color: wheat;
+}
+.appearance-none {
+  color: rgb(85, 56, 7);
+}
 </style>

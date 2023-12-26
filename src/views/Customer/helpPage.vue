@@ -177,4 +177,9 @@ span {
   font-size: 15px;
   line-height: 28px;
 }
+.moon .font-bold.text-lg.text-yellow-950.my-4,
+.moon .font-semibold.text-yellow-950.mt-10,
+.moon .font-semibold.text-yellow-900 {
+  color: wheat;
+}
 </style>

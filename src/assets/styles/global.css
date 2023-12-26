@@ -400,7 +400,10 @@ router-link {
 ol li {
   font-size: 0.8125rem;
 }
-
+.moon ol li a,
+.moon .breadcrumb-item.active.font-medium {
+  color: #f2f0e9;
+}
 /* search_admin */
 .search_admin .group {
   display: flex;

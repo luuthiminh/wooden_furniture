@@ -44,11 +44,11 @@
                       :key="furniture.furnitureSpecificationId"
                     >
                       <div class="table-responsive">
-                        <table class="table shoping-cart-table">
+                        <table class="shoping-cart-table">
                           <tbody>
                             <tr>
                               <td>
-                                <div class="mt-14">
+                                <div class="mt-14 mr-6">
                                   <input
                                     type="checkbox"
                                     id="checkbox"
@@ -1207,5 +1207,13 @@ textarea {
   align-items: center;
   justify-content: center;
   height: 5vh;
+}
+.moon .bg-neutral-100,
+.moon .ibox {
+  background-color: transparent;
+}
+.moon .font-semibold.pb-3.text-lg,
+.moon .text-yellow-900 {
+  color: wheat;
 }
 </style>

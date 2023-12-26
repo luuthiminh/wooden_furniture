@@ -74,4 +74,8 @@ p {
 .moon p {
   color: #f1ebe4;
 }
+.moon .text-yellow-900,
+.moon .font-medium.text-sm.text-yellow-950 {
+  color: wheat;
+}
 </style>

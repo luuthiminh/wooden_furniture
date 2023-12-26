@@ -259,4 +259,10 @@ p,
 span {
   font-size: 13px;
 }
+.moon .font-semibold.text-xl.pb-3.text-slate-800 {
+  color: wheat;
+}
+.moon .sort.leading-9.text-sm li {
+  color: rgb(107, 62, 11);
+}
 </style>

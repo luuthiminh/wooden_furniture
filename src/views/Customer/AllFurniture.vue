@@ -206,26 +206,14 @@
                                   <input
                                     v-model="quantities"
                                     type="email"
-                                    class="form-control h-1/12 w-2/12"
+                                    class="form-control h-1/12 w-8/12"
                                   />
                                   <button
-                                    v-if="isLogin"
                                     @click="handleCheckOut(fur)"
                                     data-toggle="modal"
                                     data-target="#exampleModalLong"
                                     data-backdrop="false"
                                     class="px-2 text-white ring-offset-2 ring-2 bg-red-700 ring-red-300 rounded-md h-7 mt-1"
-                                  >
-                                    BUY
-                                  </button>
-                                  <button
-                                    v-else
-                                    @click="handleCheckOut(fur)"
-                                    data-toggle="modal"
-                                    data-target="#exampleModalLong"
-                                    data-backdrop="false"
-                                    class="px-2 text-white ring-offset-2 ring-2 bg-red-700 ring-red-300 rounded-md h-7 mt-1"
-                                    disabled
                                   >
                                     BUY
                                   </button>
@@ -844,7 +832,7 @@ export default {
       }
     },
     async handleCheckOut(fur) {
-      if (localStorage.getItem("token") == "") {
+      if (localStorage.getItem("token") == undefined) {
         this.$router.push({ name: "login" });
       } else {
         this.opentModal("order", "null");
@@ -923,7 +911,6 @@ export default {
     confirmChangeAddress() {
       this.opentModal("order");
     },
-
     async HandleUpdateAddress() {
       const formData = new FormData();
       formData.append("AddressId", this.addressModal.id);
