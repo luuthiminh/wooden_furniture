@@ -384,7 +384,7 @@
       </div>
       <div v-else class="py-4">
         <table
-          v-if="searchResults.length"
+          v-if="collections.length"
           class="table table-borderless text-yellow-950 font-medium text-center"
         >
           <thead>
@@ -588,7 +588,9 @@
       </div>
     </div>
   </div>
-  <p class="text-sm font-medium mb-5">Total users: {{ collections.length }}</p>
+  <p class="text-sm font-medium mb-5">
+    Total collections: {{ collections.length }}
+  </p>
 </template>
 <script>
 import axios from "axios";

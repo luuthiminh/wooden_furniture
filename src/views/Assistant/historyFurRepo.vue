@@ -134,7 +134,7 @@
               <th scope="col">Furnitrue Name</th>
               <th scope="col">Repository ID</th>
               <th scope="col">Type</th>
-              <th scope="col">Assistant Id</th>
+              <th scope="col">Assistant</th>
               <th scope="col">Quantity</th>
               <th scope="col">Descrition</th>
               <th scope="col">CreationDate</th>
@@ -152,7 +152,7 @@
               <td>{{ hf.furnitureSpecificationName }}</td>
               <td>{{ hf.repositoryId }}</td>
               <td>{{ hf.type }}</td>
-              <td>{{ hf.assistantId }}</td>
+              <td>{{ hf.assistantName }}</td>
               <td>{{ hf.quantity }}</td>
               <td>{{ hf.descrition }}</td>
               <td>{{ hf.creationDate }}</td>

@@ -414,7 +414,7 @@
                   <template v-slot:body>
                     <div class="py-3 px-4 text-sm text-left">
                       <form @submit.prevent="" class="">
-                        <div class="flex gap-x-6 mt-3">
+                        <!-- <div class="flex gap-x-6 mt-3">
                           <label
                             for="exampleInputEmail1"
                             class="form-label font-medium"
@@ -492,7 +492,7 @@
                               for="imageUpload"
                             ></label>
                           </div>
-                        </div>
+                        </div> -->
                         <div class="mt-3">
                           <label
                             for="exampleInputEmail1"

@@ -1099,7 +1099,7 @@
                   </div>
                 </div>
               </div>
-              <div role="tabpanel" class="tab-pane" id="order">
+              <div role="tabpanel" class="tab-pane active" id="order">
                 <div class="">
                   <div class="group-tabs ml-2">
                     <!-- Nav tabs -->
@@ -1245,7 +1245,7 @@
                   <loadding v-else />
                 </div>
               </div>
-              <div role="tabpanel" class="tab-pane active" id="feedback">
+              <div role="tabpanel" class="tab-pane" id="feedback">
                 <div class="form bg-white">
                   <div class="flex">
                     <h1
@@ -2964,11 +2964,14 @@ export default {
       formData.append("Gender", this.info.gender);
       formData.append("DoB", this.DoB);
       try {
-        await axios.put("user/individual/update", formData, {
+        const response = await axios.put("user/individual/update", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
+        if (response.status === 200) {
+          alert("Update information success!");
+        }
         console.log(this.avatar);
       } catch (error) {
         console.error(error);

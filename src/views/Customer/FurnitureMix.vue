@@ -493,7 +493,4 @@ export default {
 .moon .font-medium.text-sm.text-yellow-950 {
   color: wheat;
 }
-.appearance-none {
-  color: rgb(85, 56, 7);
-}
 </style>

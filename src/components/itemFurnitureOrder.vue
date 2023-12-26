@@ -362,7 +362,7 @@
           <div class="table-responsive">
             <table class="table shoping-cart-table my-4">
               <tbody v-for="fur in or.furniture" :key="fur.furnitureId">
-                <tr>
+                <tr v-if="fur.furnitureId">
                   <td width="90">
                     <div class="cart-product-imitation">
                       <img
@@ -384,6 +384,55 @@
                         </span>
                         <span class="font-medium info_customizeOrder text-sm">
                           {{ fur.furnitureSpecificationname }}
+                        </span>
+                      </div>
+                    </h3>
+                  </td>
+                  <td width="65" class="font-semibold text-center">
+                    <div class="flex gap-x-4 mt-3 text-sm">
+                      <label
+                        class="quantity font-meidum info_customizeOrder mt-1"
+                        >Quantity:</label
+                      >
+                      <span class="font-medium info_customizeOrder mr-10 mt-1"
+                        >x{{ fur.quantity }}</span
+                      >
+                    </div>
+                  </td>
+                  <td width="65" class="font-semibold text-center text-sm">
+                    <div class="flex gap-x-4 mt-3 mr-2">
+                      <label
+                        class="quantity font-meidum info_customizeOrder mt-1"
+                        >Cost:</label
+                      >
+                      <h4 class="font-medium text-red-500 mt-2">
+                        ${{ fur.cost }}
+                      </h4>
+                    </div>
+                  </td>
+                </tr>
+                <tr v-else>
+                  <td width="90">
+                    <div class="cart-product-imitation">
+                      <img
+                        src="@/assets/images/category/shelves_tv/shelves_11.png"
+                        alt=""
+                      />
+                    </div>
+                  </td>
+                  <td class="desc">
+                    <h3 class="mb-2 break-all mt-3">
+                      <span class="text-yellow-800 font-bold text-sm">
+                        {{ fur.customFurnitureName }}
+                      </span>
+                    </h3>
+                    <h3>
+                      <div class="specificationname">
+                        <span class="font-semibold info_customizeOrder text-sm">
+                          Specification name:
+                        </span>
+                        <span class="font-medium info_customizeOrder text-sm">
+                          {{ fur.customFurniture }}
                         </span>
                       </div>
                     </h3>
