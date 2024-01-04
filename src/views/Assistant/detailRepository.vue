@@ -353,6 +353,7 @@
                       <span
                         type="button"
                         class="btn text-white"
+                        data-dismiss="modal"
                         @click="HandleDelete(repository)"
                       >
                         Delete
@@ -405,11 +406,8 @@ export default {
           "assistant/warehouse/repositories/" + this.$route.params.id
         );
         this.repository = response.data;
-        for (let i = 0; i < response.data.length; i++) {
-          const date = new Date(response.data[i].creationDate);
-          response.data[i].creationDate = format(date, "dd/MM/yyyy");
-        }
-        console.log(this.repository);
+        const date = new Date(this.repository.creationDate);
+        this.repository.creationDate = format(date, "dd/MM/yyyy");
       } catch (error) {
         console.error(error);
       }
@@ -476,7 +474,7 @@ export default {
             "?password=" +
             this.passwordAs
         );
-        if (response.status === 204) {
+        if (response.status === 200) {
           this.modalType = null;
           this.isSuccess = true;
           this.isAlertSuccess = true;

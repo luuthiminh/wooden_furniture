@@ -54,7 +54,7 @@
                     data-target="#exampleModalLong"
                     data-dismiss="modal"
                     data-backdrop="false"
-                    @click="opentModal('delete', l)"
+                    @click="opentModal('delete', f)"
                   >
                     <span class="button__text text-xs">Delete</span>
                     <span class="button__icon"
@@ -152,7 +152,8 @@
                   </template>
                   <template v-slot:body>
                     <p class="text-base py-3">
-                      Are you sure detete <b> {{ nameLabelModal }}</b
+                      Are you sure detete feedback
+                      <b> {{ feedbackModal.feedbackId }}</b
                       >?
                     </p>
                   </template>
@@ -160,6 +161,7 @@
                     <div class="bg-red-900 rounded-md">
                       <span
                         type="button"
+                        data-dismis="modal"
                         class="btn text-white"
                         @click="HandleDelete"
                       >
@@ -194,6 +196,7 @@ export default {
       nameLabelModal: null,
       idLabelModal: null,
       isSuccess: false,
+      feedbackModal: {},
     };
   },
   created() {
@@ -213,8 +216,9 @@ export default {
         console.error(error);
       }
     },
-    async opentModal(type) {
+    async opentModal(type, f) {
       this.modalType = type;
+      this.feedbackModal = f;
     },
     closeModal() {
       this.modalType = null;
@@ -222,12 +226,13 @@ export default {
     async HandleDelete() {
       try {
         const response = await axios.delete(
-          "Assistant/shop-data/labels/remove/" + this.idLabelModal
+          "Assistant/feedbacks/remove/" + this.feedbackModal.feedbackId
         );
         if (response.status === 204) {
           this.modalType = null;
           this.isSuccess = true;
           alert("Delete was successful!");
+          this.getAllFeedback();
         } else {
           this.isSuccess = false;
         }

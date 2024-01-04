@@ -859,12 +859,12 @@ export default {
           this.modalType = null;
           this.isSuccess = true;
           this.isAlertSuccess = true;
+          this.getFurnitureSpecification();
           this.messageSuccess =
             "Delete " + this.furModal.furnitureName + " successful!";
           setTimeout(() => {
             this.isAlertSuccess = false;
           }, 5000);
-          this.getFurnitureSpecification();
         }
       } catch (error) {
         this.isAlertError = true;

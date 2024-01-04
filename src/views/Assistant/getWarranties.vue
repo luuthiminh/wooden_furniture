@@ -21,8 +21,8 @@
         >
           <thead class="table-light">
             <tr class="text-sm text-center">
+              <th>ID</th>
               <th scope="col">Warranty</th>
-              <th></th>
               <th scope="col">CustomerName</th>
               <th scope="col">OrderId</th>
               <th scope="col">Reasons</th>
@@ -30,6 +30,7 @@
           </thead>
           <tbody>
             <tr class="text-sm" v-for="w in warranties" :key="w.warrantyId">
+              <td>{{ w.warrantyId }}</td>
               <td class="img">
                 <div v-for="img in w.images" :key="img">
                   <img :src="img.path" alt="furniture" class="w-20" />
@@ -38,9 +39,7 @@
                   <img :src="img.path" alt="furniture" class="w-20" />
                 </div>
               </td>
-              <td class="text-start">
-                <span class="text-xs">{{ w.warrantyId }}</span>
-              </td>
+
               <td>{{ w.customerName }}</td>
               <td>{{ w.orderId }}</td>
               <td>{{ w.warrantyReasons }}</td>

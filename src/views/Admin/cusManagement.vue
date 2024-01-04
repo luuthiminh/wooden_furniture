@@ -137,16 +137,16 @@
                         >
                         <div v-if="userModal.avatar">
                           <img
-                            v-if="!url"
+                            v-if="userModal.avatar"
                             :src="userModal.avatar"
                             alt="image"
-                            for="file"
+                            for="imageUpload"
                           />
                           <img
                             v-else-if="url"
                             :src="url"
                             alt="image"
-                            for="file"
+                            for="imageUpload"
                           />
                         </div>
                         <label v-else class="custum-file-upload" for="file">

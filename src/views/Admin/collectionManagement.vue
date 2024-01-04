@@ -674,7 +674,6 @@ export default {
     },
     async HandleAdd() {
       if (this.colName === undefined) {
-        this.ValidationAddColor();
         this.isDismissModal = false;
       } else {
         this.isDismissModal = true;
@@ -684,12 +683,12 @@ export default {
           );
           if (response.status === 201) {
             this.modalType = null;
+            this.getAllCollections();
             this.isAlertSuccess = true;
             this.messageSuccess = "Add new category successfully";
             setTimeout(() => {
               this.isAlertSuccess = false;
             }, 5000);
-            this.getAllCollections();
           }
         } catch (error) {
           this.isDismissModal = false;
@@ -742,7 +741,8 @@ export default {
         }
       } catch (error) {
         this.isAlertError = true;
-        this.messagerError = error.response.data.message;
+        this.messagerError =
+          "The collection cannot be deleted because there is furniture using this category";
         setTimeout(() => {
           this.isAlertError = false;
         }, 5000);

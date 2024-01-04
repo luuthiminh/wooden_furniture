@@ -76,7 +76,7 @@
                 <span class="font-semibold block">{{ ma.materialName }}</span>
                 <span class="text-xs">{{ ma.materialId }}</span>
               </td>
-              <td>${{ ma.materialPrice }}</td>
+              <td>{{ ma.materialPrice }} VND</td>
               <td>{{ ma.description }}</td>
               <td>{{ ma.defaultSuplierId }}</td>
               <td>
@@ -1390,16 +1390,16 @@ export default {
         }, 5000);
       }
     },
-    async HandleExportMaterial(ma) {
+    async HandleExportMaterial() {
       try {
         const response = await axios.post(
           "assistant/warehouse/repositories/" +
-            ma.materialId +
+            this.materialIdModal +
             "/export-material",
           {
             Items: [
               {
-                Id: ma.materialId,
+                Id: this.materialIdModal,
                 Quantity: this.quantity,
               },
             ],

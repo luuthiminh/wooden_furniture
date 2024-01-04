@@ -59,14 +59,31 @@
                   </td>
                   <td width="90">
                     <div class="cart-product-imitation mt-3">
-                      <div v-if="or.images?.length && or.videos?.length">
-                        <img :src="or.images[0].path" alt="" />
-                        <video controls="control" width="200" height="200">
-                          <source :src="or.videos[0].path" type="video/mp4" />
-                        </video>
-                      </div>
+                      <img
+                        v-if="or.images?.length"
+                        :src="or.images[0].path"
+                        alt=""
+                        class="rounded-md cursor-pointer"
+                      />
                       <img
                         v-else
+                        class="rounded-md cursor-pointer"
+                        src="@/assets/images/assistant/image_default.jpeg"
+                        alt="Avatar"
+                      />
+
+                      <video
+                        v-if="or.videos?.length"
+                        controls="control"
+                        width="200"
+                        height="200"
+                        class="rounded-md cursor-pointer"
+                      >
+                        <source :src="or.videos[0].path" type="video/mp4" />
+                      </video>
+                      <img
+                        v-else
+                        class="rounded-md cursor-pointer"
                         src="@/assets/images/assistant/image_default.jpeg"
                         alt="Avatar"
                       />

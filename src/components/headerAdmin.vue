@@ -394,7 +394,10 @@ export default {
         );
 
         if (response.status === 201) {
-          alert("Please confirm the code in your email!");
+          alert("Register successful");
+        }
+        if (response.status === 406) {
+          alert(response.data.message);
         }
       } catch (error) {
         this.message = error.response.data.message;

@@ -3,10 +3,10 @@
     <div class="nav mt-14">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent text-sm pt-4 px-5 font-medium">
-          <li class="breadcrumb-item text-base">
+          <li class="breadcrumb-item text-sm">
             <router-link to="/indexAssistant">Home</router-link>
           </li>
-          <li class="breadcrumb-item text-base active" aria-current="page">
+          <li class="breadcrumb-item text-sm active" aria-current="page">
             Manage Material
           </li>
         </ol>

@@ -1776,7 +1776,7 @@
                         </li>
                         <li
                           role="presentation"
-                          @click="selectStatus('Rejected')"
+                          @click="selectStatus('Not accepted')"
                         >
                           <a
                             href="#rejected"

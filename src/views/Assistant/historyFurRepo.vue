@@ -165,7 +165,7 @@
                     data-target="#exampleModalLong"
                     data-dismiss="modal"
                     data-backdrop="false"
-                    @click="opentModal('transfer')"
+                    @click="opentModal('transfer', hf)"
                   >
                     Transfer
                   </button>
@@ -279,6 +279,7 @@ export default {
       isAlertError: false,
       messageError: null,
       messageSuccess: null,
+      furModal: {},
     };
   },
   created() {
@@ -316,8 +317,9 @@ export default {
       this.repositoryId = st;
       this.getHistoryFurniture();
     },
-    async opentModal(type) {
+    async opentModal(type, f) {
       this.modalType = type;
+      this.furModal = f;
     },
     async HandleExportFurniture(hf) {
       try {
@@ -361,8 +363,12 @@ export default {
             "/furniture/transfer/" +
             this.repositoryId,
           {
-            id: this.repositoryId,
-            quantity: this.quantity,
+            tranferItemList: [
+              {
+                id: this.furModal.furitureRepositoryHistoryId,
+                quantity: this.quantity,
+              },
+            ],
           }
         );
         console.log(response.data);

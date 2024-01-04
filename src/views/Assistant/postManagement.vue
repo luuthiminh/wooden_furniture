@@ -608,7 +608,7 @@ export default {
           this.messageSuccess = "Edit post successful!";
           setTimeout(() => {
             this.isAlertSuccess = false;
-          }, 1000);
+          }, 3000);
           this.getAllPosts();
         }
         console.log(response.data);

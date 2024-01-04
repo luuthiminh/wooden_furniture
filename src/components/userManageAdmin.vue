@@ -34,7 +34,6 @@
           <table class="table table-borderless text-yellow-950 font-medium">
             <thead>
               <tr>
-                <th>Id</th>
                 <th>User</th>
                 <th>Date of Birth</th>
                 <th>Gender</th>
@@ -136,7 +135,7 @@
                         >
                         <div v-if="userModal.avatar">
                           <img
-                            v-if="!url"
+                            v-if="userModal.avatar"
                             :src="userModal.avatar"
                             alt="image"
                             for="imageUpload"

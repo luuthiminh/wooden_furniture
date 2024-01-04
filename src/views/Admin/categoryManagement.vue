@@ -697,8 +697,7 @@ export default {
       }
     },
     async HandleAdd() {
-      if (this.colorName === undefined) {
-        this.ValidationAddColor();
+      if (this.cateName === undefined) {
         this.isDismissModal = false;
       } else {
         this.isDismissModal = true;
@@ -765,7 +764,8 @@ export default {
         }
       } catch (error) {
         this.isAlertError = true;
-        this.messagerError = error.response.data.message;
+        this.messagerError =
+          "The category cannot be deleted because there is furniture using this category";
         setTimeout(() => {
           this.isAlertError = false;
         }, 5000);

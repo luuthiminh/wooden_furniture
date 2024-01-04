@@ -369,20 +369,6 @@
                             />
                           </div>
                         </div>
-                        <div class="row mb-6">
-                          <label class="col-lg-4 col-form-label fw-medium"
-                            >Creation Date
-                          </label>
-                          <div class="col-lg-8">
-                            <input
-                              v-model="creationDate"
-                              type="date"
-                              class="form-control border-none bg-neutral-100"
-                              id="firstname"
-                              aria-describedby="firstnameHelp"
-                            />
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </template>
@@ -448,7 +434,7 @@
                               v-if="furnitures.length"
                               class="form-select"
                               aria-label="Default select example"
-                              v-model="furId"
+                              v-model="furSpeId"
                             >
                               <option selected class="font-medium">
                                 Choose Furniture Specification
@@ -485,20 +471,6 @@
                             <input
                               v-model="reason"
                               type="text"
-                              class="form-control border-none bg-neutral-100"
-                              id="firstname"
-                              aria-describedby="firstnameHelp"
-                            />
-                          </div>
-                        </div>
-                        <div class="row mb-6">
-                          <label class="col-lg-4 col-form-label fw-medium"
-                            >Creation Date
-                          </label>
-                          <div class="col-lg-8">
-                            <input
-                              v-model="creationDate"
-                              type="date"
                               class="form-control border-none bg-neutral-100"
                               id="firstname"
                               aria-describedby="firstnameHelp"
@@ -606,7 +578,6 @@
               <tr class="text-sm text-center">
                 <th scope="col">Id</th>
                 <th scope="col">Name</th>
-                <th scope="col">Address Id</th>
                 <th scope="col">Capacity</th>
                 <th scope="col">IsFull</th>
                 <th scope="col">Creation Date</th>
@@ -627,7 +598,7 @@
                     {{ re.repositoryName }}
                   </router-link>
                 </td>
-                <td>{{ re.addressId }}</td>
+
                 <td>{{ re.capacity }}</td>
                 <td>{{ re.isFull }}</td>
                 <td>{{ re.creationDate }}</td>
@@ -1254,7 +1225,7 @@ export default {
             ImportReason: this.reason,
           }
         );
-        if (response.status === 201) {
+        if (response.status === 200) {
           this.modalType = null;
           this.isAlertSuccess = true;
           this.messageSuccess = "Add new repository successfully";
@@ -1281,7 +1252,7 @@ export default {
           {
             Items: [
               {
-                Id: "FS-AF1D4CA5-2C20-400D-8C9C-F86C1FB5D878",
+                Id: this.furSpeId,
                 FurnituresId: this.furId,
                 Quantity: this.quantities,
               },
@@ -1294,7 +1265,7 @@ export default {
             ImportReason: this.reason,
           }
         );
-        if (response.status === 201) {
+        if (response.status === 200) {
           this.modalType = null;
           this.isAlertSuccess = true;
           this.messageSuccess = "Import furniture successfully";

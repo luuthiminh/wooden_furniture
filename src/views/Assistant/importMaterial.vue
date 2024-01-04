@@ -271,7 +271,7 @@
                     data-target="#exampleModalLong"
                     data-dismiss="modal"
                     data-backdrop="false"
-                    @click="opentModal('transfer')"
+                    @click="opentModal('transfer', i)"
                   >
                     Transfer
                   </button>
@@ -286,7 +286,7 @@
                     data-target="#exampleModalLong"
                     data-dismiss="modal"
                     data-backdrop="false"
-                    @click="opentModal('confirm')"
+                    @click="opentModal('confirm', i)"
                   >
                     Confirm
                   </button>
@@ -300,7 +300,7 @@
                   data-target="#exampleModalLong"
                   data-dismiss="modal"
                   data-backdrop="false"
-                  @click="opentModal('delete')"
+                  @click="opentModal('delete', i)"
                 >
                   <span class="button__text text-xs">Delete</span>
                   <span class="button__icon"
@@ -510,7 +510,7 @@
                         <div class="col-lg-8">
                           <input
                             v-model="deliveryDate"
-                            type="text"
+                            type="date"
                             class="form-control border-none bg-neutral-100"
                             id="firstname"
                             aria-describedby="firstnameHelp"
@@ -527,7 +527,7 @@
                       type="button"
                       class="btn text-white"
                       data-dismiss="modal"
-                      @click.prevent="HandleConfirmImport(i)"
+                      @click.prevent="HandleConfirmImport"
                     >
                       Confirm
                     </span>
@@ -546,7 +546,7 @@
                 </template>
                 <template v-slot:body>
                   <p class="text-center py-3 text-base">
-                    Are you sure detete this import??
+                    Are you sure detete this import?
                   </p>
                 </template>
                 <template v-slot:footer>
@@ -604,6 +604,7 @@ export default {
       materialSuplierModal: null,
       messageSucessNote: null,
       messageErrorNote: null,
+      maModal: {},
     };
   },
   created() {
@@ -649,8 +650,9 @@ export default {
         console.error(error);
       }
     },
-    async opentModal(type) {
+    async opentModal(type, i) {
       this.modalType = type;
+      this.maModal = i;
     },
     closeModal() {
       this.modalType = null;
@@ -708,13 +710,14 @@ export default {
       }
       console.log(event);
     },
-    async HandleConfirmImport(i) {
+    async HandleConfirmImport() {
       const formData = new FormData();
       formData.append("DeliveryDate", this.deliveryDate);
       formData.append("BillImage", this.file);
       try {
         const response = await axios.put(
-          "assistant/warehouse/material/imports/confirm/" + i.importId,
+          "assistant/warehouse/material/imports/confirm/" +
+            this.maModal.importId,
           formData,
           {
             headers: {
@@ -725,7 +728,7 @@ export default {
         if (response.status === 200) {
           this.modalType = null;
           this.isAlertSuccess = true;
-          this.messageSuccess = "Update successful!";
+          this.messageSuccess = "Confirm successful!";
           setTimeout(() => {
             this.isAlertSuccess = false;
           }, 5000);
@@ -733,20 +736,16 @@ export default {
         }
         console.log(this.avatar);
       } catch (error) {
-        this.isAlertError = true;
-        this.messageError = error.response.data.message;
-        setTimeout(() => {
-          this.isAlertError = false;
-        }, 5000);
         console.error(error);
       }
     },
-    async HandleDelete(i) {
+    async HandleDelete() {
       try {
         const response = await axios.delete(
-          "assistant/warehouse/material/imports/remove/" + i.importId
+          "assistant/warehouse/material/imports/remove/" + this.maModal.importId
         );
-        if (response.status === 204) {
+        console.log(this.maModal.importId);
+        if (response.status === 200) {
           this.modalType = null;
           this.isSuccess = true;
           setTimeout(() => {
@@ -766,7 +765,15 @@ export default {
           "assistant/warehouse/repositories/" +
             i.repositoryId +
             "/material/transfer/" +
-            this.repositoryId
+            this.repositoryId,
+          {
+            tranferItemList: [
+              {
+                materialId: this.maModal.id,
+                quantity: this.quantity,
+              },
+            ],
+          }
         );
         if (response.status === 200) {
           this.modalType = null;

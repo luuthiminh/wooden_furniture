@@ -178,25 +178,10 @@
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
                         required
-                        @change="validatePhone"
                       />
-                      <span
-                        v-if="!isPhoneError"
-                        class="text-xs text-slate-600 font-medium"
+                      <span class="text-xs text-slate-600 font-medium"
                         >Phone number length must be equal 10 characters</span
                       >
-                      <div v-else>
-                        <span
-                          v-if="phoneError"
-                          class="error text-xs font-medium"
-                          >{{ phoneError }}</span
-                        >
-                        <span
-                          v-else
-                          class="success text-xs text-slate-600 font-medium"
-                          >{{ messagePhoneSuccess }}</span
-                        >
-                      </div>
                     </div>
                     <div class="addFurniture grid grid-cols-2 gap-x-4 mt-3">
                       <div>
@@ -414,7 +399,7 @@
                   <template v-slot:body>
                     <div class="py-3 px-4 text-sm text-left">
                       <form @submit.prevent="" class="">
-                        <!-- <div class="flex gap-x-6 mt-3">
+                        <div class="flex gap-x-6 mt-3">
                           <label
                             for="exampleInputEmail1"
                             class="form-label font-medium"
@@ -492,7 +477,7 @@
                               for="imageUpload"
                             ></label>
                           </div>
-                        </div> -->
+                        </div>
                         <div class="mt-3">
                           <label
                             for="exampleInputEmail1"
@@ -1098,15 +1083,15 @@ export default {
         console.error(error);
       }
     },
-    validatePhone() {
-      if (this.phone.length === 10) {
-        this.isPhoneError = true;
-        this.phoneError = "Phone number length must be equal 10 characters";
-      } else {
-        this.messagePhoneSuccess === "Phone number is vaild";
-        this.isPhoneError = false;
-      }
-    },
+    // validatePhone() {
+    //   if (this.phone.length === 10) {
+    //     this.isPhoneError = true;
+    //     this.phoneError = "Phone number length must be equal 10 characters";
+    //   } else {
+    //     this.messagePhoneSuccess === "Phone number is vaild";
+    //     this.isPhoneError = false;
+    //   }
+    // },
     onFileChange(event) {
       this.file = event.target.files[0];
       if (this.file) {

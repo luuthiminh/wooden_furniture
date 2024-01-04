@@ -237,7 +237,9 @@
               </div>
             </div>
           </div>
-          <div class="grid grid-rows-2 justify-center">
+          <div
+            class="grid grid-rows-2 justify-center max-sm:hidden max-lg:hidden"
+          >
             <div
               class="category grid grid-cols-6 max-sm:grid max-sm:grid-cols-2"
             >
